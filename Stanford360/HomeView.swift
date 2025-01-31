@@ -7,6 +7,7 @@
 //
 
 @_spi(TestingSupport) import SpeziAccount
+import class SpeziScheduler.Scheduler
 import SwiftUI
 
 
@@ -14,6 +15,7 @@ struct HomeView: View {
     enum Tabs: String {
         case schedule
         case contact
+        case activity
     }
 
 
@@ -29,6 +31,11 @@ struct HomeView: View {
                 ScheduleView(presentingAccount: $presentingAccount)
             }
                 .customizationID("home.schedule")
+            /// **Activity Tracking Tab (NEW)**
+            Tab("Activity", systemImage: "figure.walk", value: .activity) {
+                ActivityView() // 👈 Added the ActivityView here
+            }
+            .customizationID("home.activity")
             Tab("Contacts", systemImage: "person.fill", value: .contact) {
                 Contacts(presentingAccount: $presentingAccount)
             }
@@ -55,6 +62,7 @@ struct HomeView: View {
     return HomeView()
         .previewWith(standard: Stanford360Standard()) {
             Stanford360Scheduler()
+            Scheduler()
             AccountConfiguration(service: InMemoryAccountService(), activeDetails: details)
         }
 }
