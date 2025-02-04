@@ -11,6 +11,7 @@ import SpeziFirebaseAccount
 import SpeziHealthKit
 import SpeziNotifications
 import SpeziOnboarding
+import class SpeziScheduler.Scheduler
 import SwiftUI
 
 
@@ -80,6 +81,7 @@ struct OnboardingFlow: View {
             AccountConfiguration(service: InMemoryAccountService())
 
             Stanford360Scheduler()
+            Scheduler()
         }
 }
 #endif
