@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%.2f g" : {
+
+    },
     "ACCOUNT_SETUP_DESCRIPTION" : {
       "localizations" : {
         "en" : {
@@ -30,6 +33,12 @@
           }
         }
       }
+    },
+    "Add a Meal" : {
+
+    },
+    "Add Meal" : {
+
     },
     "Allow Notifications" : {
       "localizations" : {
@@ -231,6 +240,12 @@
         }
       }
     },
+    "Meal" : {
+
+    },
+    "Meal Name" : {
+
+    },
     "Next" : {
       "localizations" : {
         "en" : {
@@ -280,6 +295,15 @@
           }
         }
       }
+    },
+    "Protein (g)" : {
+
+    },
+    "Protein Tracker" : {
+
+    },
+    "Save" : {
+
     },
     "Schedule" : {
       "localizations" : {
@@ -370,6 +394,9 @@
           }
         }
       }
+    },
+    "Total Protein Intake" : {
+
     },
     "Unsupported Event" : {
       "localizations" : {
