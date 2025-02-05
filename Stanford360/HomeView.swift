@@ -7,6 +7,7 @@
 //
 
 @_spi(TestingSupport) import SpeziAccount
+import class SpeziScheduler.Scheduler
 import SwiftUI
 
 
@@ -14,6 +15,7 @@ struct HomeView: View {
     enum Tabs: String {
         case schedule
         case contact
+        case hydration
     }
 
 
@@ -33,6 +35,10 @@ struct HomeView: View {
                 Contacts(presentingAccount: $presentingAccount)
             }
                 .customizationID("home.contacts")
+            Tab("Hydration", systemImage: "drop.fill", value: .hydration) {
+                HydrationTrackerView()
+            }
+                .customizationID("home.hydration")
         }
             .tabViewStyle(.sidebarAdaptable)
             .tabViewCustomization($tabViewCustomization)
@@ -55,6 +61,7 @@ struct HomeView: View {
     return HomeView()
         .previewWith(standard: Stanford360Standard()) {
             Stanford360Scheduler()
+            Scheduler()
             AccountConfiguration(service: InMemoryAccountService(), activeDetails: details)
         }
 }
