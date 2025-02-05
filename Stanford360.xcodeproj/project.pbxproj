@@ -50,6 +50,7 @@
 		2FE5DC9C29EDD9EF004B9AB4 /* XCTHealthKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE5DC9B29EDD9EF004B9AB4 /* XCTHealthKit */; };
 		2FE5DCB129EE6107004B9AB4 /* AccountOnboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5DCAC29EE6107004B9AB4 /* AccountOnboarding.swift */; };
 		2FF53D8D2A8729D600042B76 /* Stanford360Standard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF53D8C2A8729D600042B76 /* Stanford360Standard.swift */; };
+		45E038232D503C0F009D07E2 /* HydrationTrackerViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E038222D503BFA009D07E2 /* HydrationTrackerViewTests.swift */; };
 		5680DD3E2AB8CD84004E6D4A /* ContributionsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5680DD3D2AB8CD84004E6D4A /* ContributionsTest.swift */; };
 		56E708352BB06B7100B08F0A /* SpeziLicense in Frameworks */ = {isa = PBXBuildFile; productRef = 56E708342BB06B7100B08F0A /* SpeziLicense */; };
 		56E7083B2BB06F6F00B08F0A /* SwiftPackageList in Frameworks */ = {isa = PBXBuildFile; productRef = 56E7083A2BB06F6F00B08F0A /* SwiftPackageList */; };
@@ -117,6 +118,7 @@
 		2FE5DC5529EDD811004B9AB4 /* SocialSupportQuestionnaire.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SocialSupportQuestionnaire.json; sourceTree = "<group>"; };
 		2FE5DCAC29EE6107004B9AB4 /* AccountOnboarding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountOnboarding.swift; sourceTree = "<group>"; };
 		2FF53D8C2A8729D600042B76 /* Stanford360Standard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stanford360Standard.swift; sourceTree = "<group>"; };
+		45E038222D503BFA009D07E2 /* HydrationTrackerViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydrationTrackerViewTests.swift; sourceTree = "<group>"; };
 		5680DD3D2AB8CD84004E6D4A /* ContributionsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributionsTest.swift; sourceTree = "<group>"; };
 		653A254D283387FE005D4D48 /* Stanford360.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stanford360.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		653A2550283387FE005D4D48 /* Stanford360.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stanford360.swift; sourceTree = "<group>"; };
@@ -134,7 +136,10 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		4DB080162D50EABF007E44AA /* Protein */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Protein; sourceTree = "<group>"; };
+		4D191FAE2D5711A900538084 /* ProteinTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ProteinTests; sourceTree = "<group>"; };
+		C1EFB0572D52F8E8008A6669 /* Hydration */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Hydration; sourceTree = "<group>"; };
+		C1EFB0682D52FA2C008A6669 /* Protein */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Protein; sourceTree = "<group>"; };
+		C1EFB0732D52FAFB008A6669 /* HydrationTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = HydrationTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -280,7 +285,8 @@
 		653A254F283387FE005D4D48 /* Stanford360 */ = {
 			isa = PBXGroup;
 			children = (
-				4DB080162D50EABF007E44AA /* Protein */,
+				C1EFB0682D52FA2C008A6669 /* Protein */,
+				C1EFB0572D52F8E8008A6669 /* Hydration */,
 				2FC975A72978F11A00BA99FE /* HomeView.swift */,
 				653A2550283387FE005D4D48 /* Stanford360.swift */,
 				2F5E32BC297E05EA003432F8 /* Stanford360Delegate.swift */,
@@ -301,6 +307,8 @@
 		653A256028338800005D4D48 /* Stanford360Tests */ = {
 			isa = PBXGroup;
 			children = (
+				4D191FAE2D5711A900538084 /* ProteinTests */,
+				C1EFB0732D52FAFB008A6669 /* HydrationTests */,
 				653A256128338800005D4D48 /* Stanford360Tests.swift */,
 			);
 			path = Stanford360Tests;
@@ -360,7 +368,8 @@
 				56E7083D2BB06FCA00B08F0A /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				4DB080162D50EABF007E44AA /* Protein */,
+				C1EFB0572D52F8E8008A6669 /* Hydration */,
+				C1EFB0682D52FA2C008A6669 /* Protein */,
 			);
 			name = Stanford360;
 			packageProductDependencies = (
@@ -406,6 +415,10 @@
 			dependencies = (
 				A9E1D3462C67B0A300CED217 /* PBXTargetDependency */,
 				653A255F28338800005D4D48 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				4D191FAE2D5711A900538084 /* ProteinTests */,
+				C1EFB0732D52FAFB008A6669 /* HydrationTests */,
 			);
 			name = Stanford360Tests;
 			productName = Stanford360Tests;

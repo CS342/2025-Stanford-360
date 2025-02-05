@@ -6,11 +6,21 @@
 // SPDX-License-Identifier: MIT
 //
 
+import Combine
 import Foundation
-struct Meal {
-    // V0: user update the name of the meal
-    var name: String // Name of the meal, e.g., "Chicken breast" or "Protein shake"
-    var proteinGrams: Double // Amount of protein in the meal (in grams)
-    var imageURL: String? // Optional URL of the meal's image
-    var timestamp: Date // Time when the meal was consumed
+
+class Meal: ObservableObject, Identifiable {// for each
+    let id = UUID() // Unique identifier for each meal, useful for lists
+    @Published var name: String // Name of the meal, e.g., "Chicken breast" or "Protein shake"
+    @Published var proteinGrams: Double // Amount of protein in the meal (in grams)
+    @Published var imageURL: String? // Optional URL of the meal's image
+    @Published var timestamp: Date // Time when the meal was consumed
+
+    // Initializer
+    init(name: String, proteinGrams: Double, imageURL: String? = nil, timestamp: Date = Date()) {
+        self.name = name
+        self.proteinGrams = proteinGrams
+        self.imageURL = imageURL
+        self.timestamp = timestamp
+    }
 }

@@ -15,6 +15,8 @@ struct HomeView: View {
     enum Tabs: String {
         case schedule
         case contact
+        case hydration
+        case protein
     }
 
 
@@ -34,6 +36,18 @@ struct HomeView: View {
                 Contacts(presentingAccount: $presentingAccount)
             }
                 .customizationID("home.contacts")
+            Tab("Hydration", systemImage: "drop.fill", value: .hydration) {
+                HydrationTrackerView()
+            }
+                .customizationID("home.hydration")
+            Tab("Protein", systemImage: "fork.knife", value: .protein) {
+                ProteinContentView(proteinData: ProteinIntakeModel(
+                    userID: "defaultUser",
+                    date: Date(),
+                    meals: []
+                ))
+            }
+                .customizationID("home.protein")
         }
             .tabViewStyle(.sidebarAdaptable)
             .tabViewCustomization($tabViewCustomization)
