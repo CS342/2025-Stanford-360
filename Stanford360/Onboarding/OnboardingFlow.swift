@@ -7,6 +7,7 @@
 //
 
 @_spi(TestingSupport) import SpeziAccount
+import class SpeziScheduler.Scheduler
 import SpeziFirebaseAccount
 import SpeziHealthKit
 import SpeziNotifications
@@ -80,6 +81,7 @@ struct OnboardingFlow: View {
             AccountConfiguration(service: InMemoryAccountService())
 
             Stanford360Scheduler()
+			Scheduler()
         }
 }
 #endif

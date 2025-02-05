@@ -7,6 +7,7 @@
 //
 
 @_spi(TestingSupport) import SpeziAccount
+import class SpeziScheduler.Scheduler
 import SwiftUI
 
 
@@ -55,6 +56,7 @@ struct HomeView: View {
     return HomeView()
         .previewWith(standard: Stanford360Standard()) {
             Stanford360Scheduler()
+			Scheduler()
             AccountConfiguration(service: InMemoryAccountService(), activeDetails: details)
         }
 }
