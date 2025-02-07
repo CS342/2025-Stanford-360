@@ -1,6 +1,21 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@" : {
+
+    },
+    "⏳ Minutes: %lld" : {
+
+    },
+    "🏃 Activity: %@" : {
+
+    },
+    "🔥 Calories: %lld" : {
+
+    },
+    "🚶 Steps: %lld" : {
+
+    },
     "ACCOUNT_SETUP_DESCRIPTION" : {
       "localizations" : {
         "en" : {
@@ -30,6 +45,12 @@
           }
         }
       }
+    },
+    "Activity" : {
+
+    },
+    "Activity Type" : {
+
     },
     "Allow Notifications" : {
       "localizations" : {
@@ -201,6 +222,9 @@
         }
       }
     },
+    "Kids' Activity Tracker" : {
+
+    },
     "Learn More" : {
       "localizations" : {
         "en" : {
@@ -230,6 +254,9 @@
           }
         }
       }
+    },
+    "Log Activity" : {
+
     },
     "Next" : {
       "localizations" : {
@@ -340,6 +367,9 @@
           }
         }
       }
+    },
+    "Steps" : {
+
     },
     "Swift Package Manager" : {
       "localizations" : {

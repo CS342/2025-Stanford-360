@@ -27,7 +27,7 @@ struct ActivityRowView: View {
 }
 
 #Preview {
-    var activity = Activity(
+    let activity = Activity(
         id: UUID(),
         userID: UUID(),
         date: Date(),
