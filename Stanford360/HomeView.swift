@@ -16,6 +16,7 @@ struct HomeView: View {
         case schedule
         case contact
         case activity
+        case hydration
     }
 
 
@@ -40,6 +41,10 @@ struct HomeView: View {
                 Contacts(presentingAccount: $presentingAccount)
             }
                 .customizationID("home.contacts")
+            Tab("Hydration", systemImage: "drop.fill", value: .hydration) {
+                HydrationTrackerView()
+            }
+                .customizationID("home.hydration")
         }
             .tabViewStyle(.sidebarAdaptable)
             .tabViewCustomization($tabViewCustomization)
