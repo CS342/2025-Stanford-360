@@ -25,14 +25,12 @@ final class ActivityManagerTests: XCTestCase {
     }
 
     /// **Test: Logging a new activity**
-    func testLogActivity() {
+    func testLogActivityToView() {
         guard let manager = activityManager else {
                 XCTFail("Activity Manager not initialized")
                 return
         }
         let activity = Activity(
-            id: UUID(),
-            userID: UUID(),
             date: Date(),
             steps: 5000,
             activeMinutes: 50,
@@ -40,7 +38,7 @@ final class ActivityManagerTests: XCTestCase {
             activityType: "Running"
         )
 
-        manager.logActivity(activity)
+        manager.logActivityToView(activity)
         XCTAssertEqual(manager.activities.count, 1, "Activity should be logged in the manager.")
         XCTAssertEqual(manager.activities.first?.steps, 5000, "Steps count should be correct.")
     }
@@ -62,8 +60,6 @@ final class ActivityManagerTests: XCTestCase {
            let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -2, to: today) {
             let activities = [
                 Activity(
-                    id: UUID(),
-                    userID: UUID(),
                     date: today,
                     steps: 6000,
                     activeMinutes: 60,
@@ -71,8 +67,6 @@ final class ActivityManagerTests: XCTestCase {
                     activityType: "Running"
                 ),
                 Activity(
-                    id: UUID(),
-                    userID: UUID(),
                     date: yesterday,
                     steps: 7000,
                     activeMinutes: 70,
@@ -80,8 +74,6 @@ final class ActivityManagerTests: XCTestCase {
                     activityType: "Cycling"
                 ),
                 Activity(
-                    id: UUID(),
-                    userID: UUID(),
                     date: twoDaysAgo,
                     steps: 9000,
                     activeMinutes: 90,
@@ -105,8 +97,6 @@ final class ActivityManagerTests: XCTestCase {
                 return
         }
         let activity = Activity(
-            id: UUID(),
-            userID: UUID(),
             date: today,
             steps: 4000,
             activeMinutes: 40,
@@ -128,8 +118,6 @@ final class ActivityManagerTests: XCTestCase {
                 return
         }
         let activity = Activity(
-            id: UUID(),
-            userID: UUID(),
             date: Date(),
             steps: 5000,
             activeMinutes: 50,

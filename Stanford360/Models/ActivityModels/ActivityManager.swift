@@ -7,21 +7,25 @@
 // SPDX-FileCopyrightText: 2025 Stanford University
 //
 // SPDX-License-Identifier: MIT
-
+import FirebaseCore
+import FirebaseFirestore
 import Foundation
 
 /// Manages storing and retrieving kids' activity data.
-class ActivityManager: ObservableObject {
-    @Published var activities: [Activity] = []
-
+@Observable
+class ActivityManager {
+    var activities: [Activity] = []
+   
     private let storageKey = "activities"
+    
+//    private var db = Firestore.firestore()
 
     /// Logs a new activity session.
-    func logActivity(_ activity: Activity) {
+    func logActivityToView(_ activity: Activity) {
         activities.append(activity)
-        saveToStorage()
+        saveToStorage() // Local storage backup, if needed.
     }
-
+    
     /// Retrieves today's activity.
     func getTodayActivity() -> Activity? {
         let today = Calendar.current.startOfDay(for: Date())
@@ -36,7 +40,6 @@ class ActivityManager: ObservableObject {
         }
         return activities.filter { $0.date >= oneWeekAgo }
     }
-
 
     /// Checks the current streak of consecutive days meeting the 60-minute goal.
     func checkStreak() -> Int {
@@ -60,13 +63,17 @@ class ActivityManager: ObservableObject {
 
     /// Provides motivational feedback based on activity progress.
     func triggerMotivation() -> String {
-        if let todayActivity = getTodayActivity() {
-            if todayActivity.activeMinutes >= 60 {
-                return "🎉 Amazing! You've reached your daily goal of 60 minutes!"
-            } else {
-                let remainingMinutes = 60 - todayActivity.activeMinutes
-                return "Keep going! Only \(remainingMinutes) more minutes to reach today's goal! 🚀"
-            }
+        // Get today's date and filter all activities logged today.
+        let today = Date()
+        let totalActiveMinutes = activities
+            .filter { Calendar.current.isDate($0.date, inSameDayAs: today) }
+            .reduce(0) { $0 + $1.activeMinutes }
+
+        if totalActiveMinutes >= 60 {
+            return "🎉 Amazing! You've reached your daily goal of 60 minutes!"
+        } else if totalActiveMinutes > 0 {
+            let remainingMinutes = 60 - totalActiveMinutes
+            return "Keep going! Only \(remainingMinutes) more minutes to reach today's goal! 🚀"
         } else {
             return "Start your activity today and move towards your goal! 💪"
         }

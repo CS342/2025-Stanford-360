@@ -6,17 +6,16 @@
 // SPDX-License-Identifier: MIT
 //
 
+import FirebaseCore
 import Spezi
 import SpeziFirebaseAccount
 import SpeziViews
 import SwiftUI
 
-
 @main
 struct Stanford360: App {
     @UIApplicationDelegateAdaptor(Stanford360Delegate.self) var appDelegate
     @AppStorage(StorageKeys.onboardingFlowComplete) var completedOnboardingFlow = false
-
     
     var body: some Scene {
         WindowGroup {

@@ -8,19 +8,30 @@
 //
 // SPDX-License-Identifier: MIT
 
+import FirebaseAuth
 import SwiftUI
 
 /// Simple UI for tracking kids' activity.
 struct ActivityView: View {
-    @StateObject private var activityManager = ActivityManager()
+    @State private var activityManager = ActivityManager()
     @State private var steps: String = ""
     @State private var activityType: String = ""
+    private var motivationMessage: String {
+        activityManager.triggerMotivation()
+    }
+    @Environment(Stanford360Standard.self) private var standard
+
 
     var body: some View {
         NavigationView {
             VStack {
                 activityListView
                 activityFormView
+                
+                Text(motivationMessage)
+                    .font(.headline)
+                    .foregroundColor(.blue)
+                    .padding()
             }
         }
     }
@@ -47,27 +58,31 @@ struct ActivityView: View {
             TextField("Activity Type", text: $activityType)
 
             Button("Log Activity") {
-                logNewActivity()
+                Task {
+                    await logActivityToFirestore()
+                }
             }
         }
-        .padding()
     }
 
     /// Function to handle logging a new activity
-    private func logNewActivity() {
+    private func logActivityToFirestore() async {
         let stepsInt = Int(steps) ?? 0
-        let newActivity = Activity(
-            id: UUID(),
-            userID: UUID(),
-            date: Date(),
-            steps: stepsInt,
-            activeMinutes: Activity.convertStepsToMinutes(steps: stepsInt),
-            caloriesBurned: stepsInt / 10, // Approximate formula
-            activityType: activityType
-        )
-        activityManager.logActivity(newActivity)
-        steps = ""
-        activityType = ""
+        do {
+            let newActivity = Activity(
+                date: Date(),
+                steps: stepsInt,
+                activeMinutes: Activity.convertStepsToMinutes(steps: stepsInt),
+                caloriesBurned: stepsInt / 10,
+                activityType: activityType
+            )
+            activityManager.logActivityToView(newActivity)
+            try await standard.store(activity: newActivity)
+            steps = ""
+            activityType = ""
+        } catch {
+            print("Error logging activity—user may not be authenticated: \(error)")
+        }
     }
 }
 
@@ -77,8 +92,6 @@ struct ActivityView_Previews: PreviewProvider {
         let mockManager = ActivityManager()
         mockManager.activities = [
             Activity(
-                id: UUID(),
-                userID: UUID(),
                 date: Date(),
                 steps: 3000,
                 activeMinutes: 30,
@@ -86,8 +99,6 @@ struct ActivityView_Previews: PreviewProvider {
                 activityType: "Running"
             ),
             Activity(
-                id: UUID(),
-                userID: UUID(),
                 date: Date(),
                 steps: 5000,
                 activeMinutes: 50,
