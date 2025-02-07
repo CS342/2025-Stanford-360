@@ -15,6 +15,7 @@ struct HomeView: View {
     enum Tabs: String {
         case schedule
         case contact
+        case activity
         case hydration
     }
 
@@ -31,6 +32,11 @@ struct HomeView: View {
                 ScheduleView(presentingAccount: $presentingAccount)
             }
                 .customizationID("home.schedule")
+            /// **Activity Tracking Tab (NEW)**
+            Tab("Activity", systemImage: "figure.walk", value: .activity) {
+                ActivityView() // 👈 Added the ActivityView here
+            }
+            .customizationID("home.activity")
             Tab("Contacts", systemImage: "person.fill", value: .contact) {
                 Contacts(presentingAccount: $presentingAccount)
             }

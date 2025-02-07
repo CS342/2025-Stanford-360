@@ -1,6 +1,21 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@" : {
+
+    },
+    "⏳ Minutes: %lld" : {
+
+    },
+    "🏃 Activity: %@" : {
+
+    },
+    "🔥 Calories: %lld" : {
+
+    },
+    "🚶 Steps: %lld" : {
+    
+    },
     "" : {
 
     },
@@ -42,6 +57,12 @@
           }
         }
       }
+    },
+    "Activity" : {
+
+    },
+    "Activity Type" : {
+
     },
     "Allow Notifications" : {
       "localizations" : {
@@ -222,6 +243,9 @@
         }
       }
     },
+    "Kids' Activity Tracker" : {
+
+    },
     "Learn More" : {
       "localizations" : {
         "en" : {
@@ -251,6 +275,9 @@
           }
         }
       }
+    },
+    "Log Activity" : {
+    
     },
     "Log Water Intake" : {
 
@@ -367,6 +394,9 @@
           }
         }
       }
+    },
+    "Steps" : {
+
     },
     "Swift Package Manager" : {
       "localizations" : {
