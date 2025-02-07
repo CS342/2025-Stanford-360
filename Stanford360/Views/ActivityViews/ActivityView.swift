@@ -86,26 +86,7 @@ struct ActivityView: View {
     }
 }
 
-/// **Preview Provider with Fake Data**
-struct ActivityView_Previews: PreviewProvider {
-    static var previews: some View {
-        let mockManager = ActivityManager()
-        mockManager.activities = [
-            Activity(
-                date: Date(),
-                steps: 3000,
-                activeMinutes: 30,
-                caloriesBurned: 100,
-                activityType: "Running"
-            ),
-            Activity(
-                date: Date(),
-                steps: 5000,
-                activeMinutes: 50,
-                caloriesBurned: 234,
-                activityType: "Biking"
-            )
-        ]
-        return ActivityView()
-    }
+#Preview {
+//	@Previewable @State var activityManager = ActivityManager()
+	ActivityView()
 }

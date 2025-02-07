@@ -104,7 +104,7 @@ final class ActivityManagerTests: XCTestCase {
             activityType: "Jogging"
         )
 
-        manager.logActivity(activity)
+        manager.logActivityToView(activity)
         let todayActivity = manager.getTodayActivity()
 
         XCTAssertNotNil(todayActivity, "Today's activity should be found.")
@@ -124,7 +124,7 @@ final class ActivityManagerTests: XCTestCase {
             caloriesBurned: 200,
             activityType: "Running"
         )
-        manager.logActivity(activity)
+        manager.logActivityToView(activity)
 
         let message = manager.triggerMotivation()
         XCTAssertTrue(message.contains("Keep going!"), "Message should encourage user to complete 60 minutes.")
