@@ -28,8 +28,6 @@ struct ActivityRowView: View {
 
 #Preview {
     let activity = Activity(
-        id: UUID(),
-        userID: UUID(),
         date: Date(),
         steps: 5000,
         activeMinutes: 50,

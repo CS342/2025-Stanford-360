@@ -13,16 +13,16 @@ import Foundation
 /// Represents a child's daily physical activity session.
 struct Activity: Identifiable, Codable {
     var id: UUID
-    var userID: UUID
+//    var userID: UUID
     var date: Date
     var steps: Int
     var activeMinutes: Int
     var caloriesBurned: Int
     var activityType: String
     
-    init(id: UUID, userID: UUID, date: Date, steps: Int, activeMinutes: Int, caloriesBurned: Int, activityType: String) {
+    init(date: Date, steps: Int, activeMinutes: Int, caloriesBurned: Int, activityType: String) {
         self.id = UUID()
-        self.userID = userID
+//        self.userID = UUID() // In the future, will be passed in as the patient's id
         self.date = date
         self.steps = steps
         self.activeMinutes = activeMinutes
@@ -34,15 +34,4 @@ struct Activity: Identifiable, Codable {
     static func convertStepsToMinutes(steps: Int) -> Int {
         steps / 1000 * 10
     }
-    
-    /// Converts `Activity` to Firebase Dictionary format.
-    func toDictionary() -> [String: Any] {[
-            "id": id.uuidString,
-            "userID": userID.uuidString,
-            "date": date.timeIntervalSince1970,
-            "steps": steps,
-            "activeMinutes": activeMinutes,
-            "caloriesBurned": caloriesBurned,
-            "activityType": activityType
-    ]}
 }

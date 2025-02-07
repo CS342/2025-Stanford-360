@@ -11,8 +11,9 @@
 import Foundation
 
 /// Manages storing and retrieving kids' activity data.
-class ActivityManager: ObservableObject {
-    @Published var activities: [Activity] = []
+@Observable
+class ActivityManager {
+    var activities: [Activity] = []
 
     private let storageKey = "activities"
 
@@ -27,16 +28,6 @@ class ActivityManager: ObservableObject {
         let today = Calendar.current.startOfDay(for: Date())
         return activities.first { Calendar.current.startOfDay(for: $0.date) == today }
     }
-
-    /// Fetches weekly summary of activities.
-    func getWeeklySummary() -> [Activity] {
-        let calendar = Calendar.current
-        guard let oneWeekAgo = calendar.date(byAdding: .day, value: -7, to: Date()) else {
-            return [] // Return an empty array if the date calculation fails
-        }
-        return activities.filter { $0.date >= oneWeekAgo }
-    }
-
 
     /// Checks the current streak of consecutive days meeting the 60-minute goal.
     func checkStreak() -> Int {
