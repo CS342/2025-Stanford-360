@@ -136,6 +136,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		4D191FAE2D5711A900538084 /* ProteinTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ProteinTests; sourceTree = "<group>"; };
 		C1EFB0572D52F8E8008A6669 /* Hydration */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Hydration; sourceTree = "<group>"; };
 		C1EFB0642D52FA1A008A6669 /* Patient */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Patient; sourceTree = "<group>"; };
 		C1EFB0662D52FA22008A6669 /* Activity */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Activity; sourceTree = "<group>"; };
@@ -310,6 +311,7 @@
 		653A256028338800005D4D48 /* Stanford360Tests */ = {
 			isa = PBXGroup;
 			children = (
+				4D191FAE2D5711A900538084 /* ProteinTests */,
 				C1EFB0732D52FAFB008A6669 /* HydrationTests */,
 				653A256128338800005D4D48 /* Stanford360Tests.swift */,
 			);
@@ -422,6 +424,7 @@
 				653A255F28338800005D4D48 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
+				4D191FAE2D5711A900538084 /* ProteinTests */,
 				C1EFB0732D52FAFB008A6669 /* HydrationTests */,
 			);
 			name = Stanford360Tests;
