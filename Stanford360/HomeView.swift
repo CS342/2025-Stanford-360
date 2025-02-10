@@ -17,6 +17,7 @@ struct HomeView: View {
         case contact
         case activity
         case hydration
+        case protein
     }
 
 
@@ -45,6 +46,14 @@ struct HomeView: View {
                 HydrationTrackerView()
             }
                 .customizationID("home.hydration")
+            Tab("Protein", systemImage: "fork.knife", value: .protein) {
+                ProteinContentView(proteinData: ProteinIntakeModel(
+//                    userID: "defaultUser",
+//                    date: Date(),
+                    meals: []
+                ))
+            }
+                .customizationID("home.protein")
         }
             .tabViewStyle(.sidebarAdaptable)
             .tabViewCustomization($tabViewCustomization)

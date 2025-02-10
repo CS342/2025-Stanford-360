@@ -148,4 +148,86 @@ actor Stanford360Standard: Standard,
             await logger.debug("Activity stored successfully for user \(userDocRef.documentID)")
         }
     }
+                                     
+    // store a protein document under the current user's subcollection "activities"
+    @MainActor
+    func storeMeal(meal: Meal) async throws {
+        if FeatureFlags.disableFirebase {
+            await logger.debug("Store meal locally:\(meal.name)")
+            return
+        }
+        do {
+            // create a meal document to store
+            let mealDocument: [String: Any] = [
+                "name": meal.name,
+                "proteinGrams": meal.proteinGrams,
+                "imageURL": meal.imageURL as Any,
+                "timestamp": meal.timestamp
+            ]
+            try await configuration.userDocumentReference
+                .collection("meals")
+                .document(UUID().uuidString)
+                .setData(mealDocument)
+            
+            await logger.debug("Meal stored successfully")
+        } catch {
+            await logger.error("Could not store meal:\(error)")
+            throw error
+        }
+    }
+    
+//    // retrieves all meals for the current user
+//    @MainActor
+//    func fetchMeals() async throws -> [Meal] {
+//        if FeatureFlags.disableFirebase {
+//            return []
+//        }
+//        do {
+//            let snapshot = try await configuration.userDocumentReference
+//                .collection("meals")
+//                .getDocuments()
+//            
+//            return snapshot.documents.compactMap { document in
+//                guard let name = document.data()["name"] as? String,
+//                      let proteinGrams = document.data()["protein"] as? Double,
+//                      let timestamp = document.data()["timestamp"] as? Date else {
+//                    return nil
+//                }
+//                
+//                return Meal(
+//                    name: name,
+//                    proteinGrams: proteinGrams,
+//                    imageURL: document.data()["imageURL"] as? String,
+//                    timestamp: timestamp
+//                )
+//            }
+//        } catch {
+//            await logger.error("Could not fetch meals:\(error)")
+//            throw error
+//        }
+//    }
+    
+    // Delete a meal from Firebase
+    @MainActor
+    func deleteMeal(withName name: String, timestamp: Date) async throws {
+        if FeatureFlags.disableFirebase {
+            await logger.debug("Deleting meal locally:\(name)")
+            return
+        }
+        do {
+            let snapshot = try await configuration.userDocumentReference
+                .collection("meals")
+                .whereField("name", isEqualTo: name)
+                .whereField("timestamp", isEqualTo: timestamp)
+                .getDocuments()
+            
+            for document in snapshot.documents {
+                try await document.reference.delete()
+            }
+            await logger.debug("Meal deleted successfully")
+        } catch {
+            await logger.error("Could not delete meal:\(error)")
+            throw error
+        }
+    }
 }

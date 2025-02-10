@@ -19,6 +19,9 @@
     "" : {
 
     },
+    "%.2f g" : {
+
+    },
     "🎉 Goal Reached! Stay Hydrated! 🎉" : {
 
     },
@@ -62,6 +65,12 @@
 
     },
     "Activity Type" : {
+    
+    },
+    "Add Meal" : {
+
+    },
+    "Add New Meal" : {
 
     },
     "Allow Notifications" : {
@@ -73,6 +82,9 @@
           }
         }
       }
+    },
+    "Base" : {
+
     },
     "Close" : {
       "localizations" : {
@@ -279,6 +291,18 @@
     "Log Activity" : {
     
     },
+    "Meal" : {
+
+    },
+    "Meal Name" : {
+
+    },
+    "Meal" : {
+
+    },
+    "Meal Name" : {
+    
+    },
     "Log Water Intake" : {
 
     },
@@ -294,6 +318,9 @@
           }
         }
       }
+    },
+    "No meals added yet" : {
+
     },
     "NOTIFICATION_PERMISSIONS_DESCRIPTION" : {
       "localizations" : {
@@ -334,6 +361,18 @@
           }
         }
       }
+    },
+    "Protein" : {
+
+    },
+    "Protein (g)" : {
+
+    },
+    "Protein Tracker" : {
+
+    },
+    "Save" : {
+
     },
     "Schedule" : {
       "localizations" : {
@@ -427,6 +466,12 @@
           }
         }
       }
+    },
+    "Total Protein Intake" : {
+
+    },
+    "Total Protein Intake" : {
+    
     },
     "Total Intake: %@ oz" : {
 
