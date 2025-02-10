@@ -138,6 +138,8 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		4D191FAE2D5711A900538084 /* ProteinTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ProteinTests; sourceTree = "<group>"; };
 		C1EFB0572D52F8E8008A6669 /* Hydration */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Hydration; sourceTree = "<group>"; };
+		C1EFB0642D52FA1A008A6669 /* Patient */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Patient; sourceTree = "<group>"; };
+		C1EFB0662D52FA22008A6669 /* Activity */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Activity; sourceTree = "<group>"; };
 		C1EFB0682D52FA2C008A6669 /* Protein */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Protein; sourceTree = "<group>"; };
 		C1EFB0732D52FAFB008A6669 /* HydrationTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = HydrationTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -286,6 +288,8 @@
 			isa = PBXGroup;
 			children = (
 				C1EFB0682D52FA2C008A6669 /* Protein */,
+				C1EFB0662D52FA22008A6669 /* Activity */,
+				C1EFB0642D52FA1A008A6669 /* Patient */,
 				C1EFB0572D52F8E8008A6669 /* Hydration */,
 				2FC975A72978F11A00BA99FE /* HomeView.swift */,
 				653A2550283387FE005D4D48 /* Stanford360.swift */,
@@ -317,6 +321,7 @@
 		653A256A28338800005D4D48 /* Stanford360UITests */ = {
 			isa = PBXGroup;
 			children = (
+				45E038222D503BFA009D07E2 /* HydrationTrackerViewTests.swift */,
 				2F4E237D2989A2FE0013F3D9 /* OnboardingTests.swift */,
 				653A256B28338800005D4D48 /* SchedulerTests.swift */,
 				2F4E23862989DB360013F3D9 /* ContactsTests.swift */,
@@ -369,6 +374,8 @@
 			);
 			fileSystemSynchronizedGroups = (
 				C1EFB0572D52F8E8008A6669 /* Hydration */,
+				C1EFB0642D52FA1A008A6669 /* Patient */,
+				C1EFB0662D52FA22008A6669 /* Activity */,
 				C1EFB0682D52FA2C008A6669 /* Protein */,
 			);
 			name = Stanford360;
@@ -589,6 +596,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5680DD3E2AB8CD84004E6D4A /* ContributionsTest.swift in Sources */,
+				45E038232D503C0F009D07E2 /* HydrationTrackerViewTests.swift in Sources */,
 				2F4E23872989DB360013F3D9 /* ContactsTests.swift in Sources */,
 				2F4E237E2989A2FE0013F3D9 /* OnboardingTests.swift in Sources */,
 				653A256C28338800005D4D48 /* SchedulerTests.swift in Sources */,

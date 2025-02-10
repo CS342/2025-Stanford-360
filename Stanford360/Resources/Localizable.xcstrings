@@ -105,6 +105,9 @@
         }
       }
     },
+    "Enter intake (oz)" : {
+
+    },
     "Grant Access" : {
       "localizations" : {
         "en" : {
@@ -164,6 +167,12 @@
           }
         }
       }
+    },
+    "Hydration" : {
+
+    },
+    "Hydration Tracker Header" : {
+
     },
     "Interesting Modules" : {
       "localizations" : {
@@ -265,6 +274,12 @@
 
     },
     "Meal Name" : {
+    
+    },
+    "Log Water Intake" : {
+
+    },
+    "Log your water intake" : {
 
     },
     "Next" : {
@@ -426,6 +441,9 @@
 
     },
     "Total Protein Intake" : {
+    
+    },
+    "Total Intake: %@ oz" : {
 
     },
     "Unsupported Event" : {
@@ -477,6 +495,9 @@
           }
         }
       }
+    },
+    "You need %@ oz more to reach your goal!" : {
+
     },
     "Your Account" : {
       "localizations" : {
