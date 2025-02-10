@@ -42,8 +42,8 @@ struct HomeView: View {
                 .customizationID("home.hydration")
             Tab("Protein", systemImage: "fork.knife", value: .protein) {
                 ProteinContentView(proteinData: ProteinIntakeModel(
-                    userID: "defaultUser",
-                    date: Date(),
+//                    userID: "defaultUser",
+//                    date: Date(),
                     meals: []
                 ))
             }

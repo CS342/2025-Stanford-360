@@ -82,7 +82,6 @@ struct ProteinContentView: View {
                 .keyboardType(.decimalPad)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             }
-
         }
         .navigationTitle("Add New Meal")
         .navigationBarItems(
@@ -124,11 +123,11 @@ struct ProteinContentView: View {
         proteinData.addMeal(name: name, proteinGrams: proteinGrams)
         updateTotalProtein()
         // Then store in Firebase
-        Task{
-            do{
-                let meal = Meal(name:name, proteinGrams: proteinGrams)
+        Task {
+            do {
+                let meal = Meal(name: name, proteinGrams: proteinGrams)
                 try await standard.storeMeal(meal: meal)
-            }catch{
+            } catch {
                 print("Error storing meal to Firebase:\(error)")
                 // add UI to deal with exception error catching
             }
@@ -142,17 +141,16 @@ struct ProteinContentView: View {
             proteinData.deleteMeal(byName: meal.name)
             updateTotalProtein()
             
-            //delete from firebase
-            Task{
-                do{
+            // delete from firebase
+            Task {
+                do {
                     try await standard.deleteMeal(withName: meal.name, timestamp: meal.timestamp)
-                }catch{
+                } catch {
                     print("Error deleting meal from Firebase:\(error)")
                     // add UI to deal with exception error catching
                 }
             }
         }
-        
     }
 
     // loading data when the dataUI first load

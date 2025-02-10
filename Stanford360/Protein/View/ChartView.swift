@@ -43,7 +43,7 @@ struct ChartView: View {
             }
         }
         .chartYAxis {
-            AxisMarks(position: .leading) { value in
+            AxisMarks(position: .leading) {
                 AxisValueLabel()
                 AxisGridLine()
             }

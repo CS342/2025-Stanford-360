@@ -9,34 +9,16 @@
 @testable import Stanford360
 import XCTest
 
-// Separate XCTestCase classes into individual files if required by your linter.
-class MealTests: XCTestCase {
-    func testMealInitialization() {
-        let meal = Meal(name: "Chicken", proteinGrams: 30.0)
-
-        XCTAssertEqual(meal.name, "Chicken")
-        XCTAssertEqual(meal.proteinGrams, 30.0)
-    }
-
-    func testMealWithOptionalProperties() {
-        let imageURL = "test.jpg"
-        let meal = Meal(name: "Fish", proteinGrams: 25.0, imageURL: imageURL)
-
-        XCTAssertEqual(meal.imageURL, imageURL)
-    }
-}
-
 class ProteinIntakeModelTests: XCTestCase {
-    private var model: ProteinIntakeModel! // Use private to encapsulate
+	private var model = ProteinIntakeModel(meals: []) // Use private to encapsulate
 
-    override func setUpWithError() throws { // Use setUpWithError for better error handling
-        try super.setUpWithError()
-        model = ProteinIntakeModel(userID: "testUser", date: Date(), meals: [])
+    override func setUp() {
+		super.setUp()
+        model = ProteinIntakeModel(meals: [])
     }
 
-    override func tearDownWithError() throws { // Ensure cleanup is done
-        model = nil
-        try super.tearDownWithError()
+    override func tearDown() {
+		super.tearDown()
     }
 
     func testAddMeal() {

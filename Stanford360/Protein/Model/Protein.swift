@@ -11,8 +11,9 @@ import Foundation
 
 // Protein Intake Model
 class ProteinIntakeModel: ObservableObject {
-    @Published var userID: String // Unique identifier for the user
-    @Published var date: Date // The date of the intake record
+	// will be used in the future
+//    @Published var userID: String // Unique identifier for the user
+//    @Published var date: Date // The date of the intake record
     @Published var meals: [Meal] // List of meals consumed by the user
 
 
@@ -21,11 +22,9 @@ class ProteinIntakeModel: ObservableObject {
         meals.reduce(0) { $0 + $1.proteinGrams }
     }
 
-    init(userID: String, date: Date, meals: [Meal]) {
-        self.userID = userID
-        self.date = date
+    init(meals: [Meal]) {
         self.meals = meals
-    }
+	}
     
     // add a new meal to the list
     func addMeal(name: String, proteinGrams: Double, imageURL: String? = nil, timestamp: Date = Date()) {
@@ -45,8 +44,8 @@ class ProteinIntakeModel: ObservableObject {
         }
     }
 
-    // filter meals by a specific date
-    func filterMeals(byDate targetDate: Date) -> [Meal] {
-        meals.filter { Calendar.current.isDate($0.timestamp, inSameDayAs: targetDate) }
-    }
+//    // filter meals by a specific date
+//    func filterMeals(byDate targetDate: Date) -> [Meal] {
+//        meals.filter { Calendar.current.isDate($0.timestamp, inSameDayAs: targetDate) }
+//    }
 }
