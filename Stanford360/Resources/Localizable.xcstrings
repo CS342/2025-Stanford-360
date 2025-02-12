@@ -64,6 +64,9 @@
     "Activity" : {
 
     },
+    "Activity Tracker" : {
+
+    },
     "Activity Type" : {
     
     },
@@ -254,9 +257,6 @@
           }
         }
       }
-    },
-    "Kids' Activity Tracker" : {
-
     },
     "Learn More" : {
       "localizations" : {

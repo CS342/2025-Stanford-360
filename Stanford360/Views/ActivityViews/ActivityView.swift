@@ -9,6 +9,7 @@
 // SPDX-License-Identifier: MIT
 
 import FirebaseAuth
+// import SpeziHealthKit
 import SwiftUI
 
 /// Simple UI for tracking kids' activity.
@@ -20,7 +21,6 @@ struct ActivityView: View {
         activityManager.triggerMotivation()
     }
     @Environment(Stanford360Standard.self) private var standard
-
 
     var body: some View {
         NavigationView {
@@ -46,7 +46,7 @@ struct ActivityView: View {
                 activityManager.activities.remove(atOffsets: indexSet)
             }
         }
-        .navigationTitle("Kids' Activity Tracker")
+        .navigationTitle("Activity Tracker")
     }
 
     /// Extracted View for input form
@@ -54,14 +54,16 @@ struct ActivityView: View {
         Form {
             TextField("Steps", text: $steps)
                 .keyboardType(.numberPad)
+                .accessibilityIdentifier("Steps")
 
             TextField("Activity Type", text: $activityType)
+                .accessibilityIdentifier("Activity Type")
 
             Button("Log Activity") {
                 Task {
                     await logActivityToFirestore()
                 }
-            }
+            }.accessibilityIdentifier("Log Activity")
         }
     }
 
