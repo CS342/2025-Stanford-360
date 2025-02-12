@@ -7,9 +7,11 @@
 // SPDX-FileCopyrightText: 2025 Stanford University
 //
 // SPDX-License-Identifier: MIT
+import BackgroundTasks
 import FirebaseCore
 import FirebaseFirestore
 import Foundation
+import UserNotifications
 
 /// Manages storing and retrieving kids' activity data.
 @Observable
@@ -23,6 +25,7 @@ class ActivityManager {
     /// Logs a new activity session.
     func logActivityToView(_ activity: Activity) {
         activities.append(activity)
+        sendActivityReminder()
         saveToStorage() // Local storage backup, if needed.
     }
     
@@ -76,6 +79,50 @@ class ActivityManager {
             return "Keep going! Only \(remainingMinutes) more minutes to reach today's goal! 🚀"
         } else {
             return "Start your activity today and move towards your goal! 💪"
+        }
+    }
+    
+//    /// Schedules a background task to check activity progress
+//    func scheduleBackgroundActivityCheck() {
+//        let request = BGAppRefreshTaskRequest(identifier: "com.Stanford360.activityReminder")
+//        request.earliestBeginDate = Date(timeIntervalSinceNow: 5 * 60 * 60) // Run in 5 hours
+//        
+//        do {
+//            try BGTaskScheduler.shared.submit(request)
+//        } catch {
+//            print("Failed to schedule background task: \(error)")
+//        }
+//    }
+//
+//    /// Handles the background task execution
+//    func handleBackgroundActivityCheck(task: BGAppRefreshTask) {
+//        sendActivityReminder()
+//        task.setTaskCompleted(success: true)
+//        scheduleBackgroundActivityCheck() // Reschedule for continuous monitoring
+//    }
+
+    /// Sends a notification reminder based on activity progress.
+    func sendActivityReminder() {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["activityReminder"])
+        
+        let today = Date()
+        let totalActiveMinutes = activities
+            .filter { Calendar.current.isDate($0.date, inSameDayAs: today) }
+            .reduce(0) { $0 + $1.activeMinutes }
+        
+        let content = UNMutableNotificationContent()
+        content.title = "🏃 Keep Moving!"
+        
+        if totalActiveMinutes >= 60 {
+            content.body = "🎉 Amazing! You've reached your daily goal of 60 minutes! Keep up the great work!"
+        } else {
+            let remainingMinutes = 60 - totalActiveMinutes
+            content.body = "You're only \(remainingMinutes) minutes away from your daily goal! Keep going! 🚀"
+            
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5 * 60 * 60, repeats: false)
+            let request = UNNotificationRequest(identifier: "activityReminder", content: content, trigger: trigger)
+            
+            UNUserNotificationCenter.current().add(request)
         }
     }
 
