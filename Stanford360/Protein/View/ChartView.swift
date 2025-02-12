@@ -18,7 +18,7 @@ struct ChartView: View {
                     y: .value("Base", 0)
                 )
                 .foregroundStyle(.clear)
-                .annotation(position: .overlay) {
+                .annotation(position: .automatic) {//.overlay
                     Text("No meals added yet")
                         .foregroundStyle(.secondary)
                 }
