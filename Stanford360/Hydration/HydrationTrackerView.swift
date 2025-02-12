@@ -26,7 +26,8 @@ struct HydrationTrackerView: View {
             suggestionDisplay()
             milestoneMessageView()
         }
-        .padding()
+        .frame(maxHeight: .infinity, alignment: .top)
+        .padding(.top, 50)
         .onAppear {
             Task {
                 await fetchHydrationData()
@@ -183,7 +184,6 @@ struct HydrationTrackerView: View {
             scheduleHydrationReminder()
             
             displayMilestoneMessage(newTotalIntake: updatedLog.amountOz, lastMilestone: fetchedLog?.lastTriggeredMilestone ?? 0)
-
         } catch {
             print("❌ Error updating hydration log: \(error)")
         }

@@ -153,7 +153,6 @@ actor Stanford360Standard: Standard,
 
             // Update or create the document
             try await hydrationDocRef.setData(from: hydrationLog, merge: true)
-
         } catch {
             print("❌ Error updating hydration log: \(error)")
         }
@@ -205,19 +204,21 @@ actor Stanford360Standard: Standard,
             let today = calendar.startOfDay(for: Date())
             let yesterday = calendar.date(byAdding: .day, value: -1, to: today) ?? today
             let hydrationDocRef = try await hydrationDocument(date: yesterday)
-
+            
             let document = try await hydrationDocRef.getDocument()
-
+            
             if document.exists, let data = document.data() {
                 let yesterdayStreak = data["streak"] as? Int ?? 0
                 let yesterdayIntake = data["amountOz"] as? Double ?? 0.0
-
+                
                 return yesterdayIntake >= 60 ? yesterdayStreak : 0
             } else {
                 return 0
             }
         } catch {
             return 0
+        }
+    }
           
     // store a protein document under the current user's subcollection "activities"
     @MainActor
