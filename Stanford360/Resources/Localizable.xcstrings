@@ -1,6 +1,21 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@" : {
+
+    },
+    "⏳ Minutes: %lld" : {
+
+    },
+    "🏃 Activity: %@" : {
+
+    },
+    "🔥 Calories: %lld" : {
+
+    },
+    "🚶 Steps: %lld" : {
+    
+    },
     "" : {
 
     },
@@ -45,6 +60,15 @@
           }
         }
       }
+    },
+    "Activity" : {
+
+    },
+    "Activity Tracker" : {
+
+    },
+    "Activity Type" : {
+    
     },
     "Add Meal" : {
 
@@ -264,6 +288,9 @@
         }
       }
     },
+    "Log Activity" : {
+    
+    },
     "Meal" : {
 
     },
@@ -406,6 +433,9 @@
           }
         }
       }
+    },
+    "Steps" : {
+
     },
     "Swift Package Manager" : {
       "localizations" : {

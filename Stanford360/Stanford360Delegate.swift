@@ -87,6 +87,14 @@ class Stanford360Delegate: SpeziAppDelegate {
                 HKQuantityType(.stepCount),
                 deliverySetting: .anchorQuery(.automatic)
             )
+            CollectSample(
+                HKQuantityType(.distanceWalkingRunning),
+                deliverySetting: .anchorQuery(.automatic)
+            )
+            CollectSample(
+                HKQuantityType(.activeEnergyBurned),
+                deliverySetting: .anchorQuery(.automatic)
+            )
         }
     }
 }

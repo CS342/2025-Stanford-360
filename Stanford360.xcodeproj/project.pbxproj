@@ -50,7 +50,11 @@
 		2FE5DC9C29EDD9EF004B9AB4 /* XCTHealthKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE5DC9B29EDD9EF004B9AB4 /* XCTHealthKit */; };
 		2FE5DCB129EE6107004B9AB4 /* AccountOnboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5DCAC29EE6107004B9AB4 /* AccountOnboarding.swift */; };
 		2FF53D8D2A8729D600042B76 /* Stanford360Standard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF53D8C2A8729D600042B76 /* Stanford360Standard.swift */; };
+		4FA061BC2D4AF1F9008DE21A /* ActivityManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA061BB2D4AF1F9008DE21A /* ActivityManagerTest.swift */; };
+		4FA061BE2D4AF594008DE21A /* HealthKitOnFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 4FA061BD2D4AF594008DE21A /* HealthKitOnFHIR */; };
+		4FA061C02D4AF59C008DE21A /* ResearchKitOnFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 4FA061BF2D4AF59C008DE21A /* ResearchKitOnFHIR */; };
 		45E038232D503C0F009D07E2 /* HydrationTrackerViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E038222D503BFA009D07E2 /* HydrationTrackerViewTests.swift */; };
+		4FCAD0592D5AAD20007324A6 /* ActivityViewUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCAD0582D5AAD20007324A6 /* ActivityViewUITest.swift */; };
 		5680DD3E2AB8CD84004E6D4A /* ContributionsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5680DD3D2AB8CD84004E6D4A /* ContributionsTest.swift */; };
 		56E708352BB06B7100B08F0A /* SpeziLicense in Frameworks */ = {isa = PBXBuildFile; productRef = 56E708342BB06B7100B08F0A /* SpeziLicense */; };
 		56E7083B2BB06F6F00B08F0A /* SwiftPackageList in Frameworks */ = {isa = PBXBuildFile; productRef = 56E7083A2BB06F6F00B08F0A /* SwiftPackageList */; };
@@ -118,7 +122,9 @@
 		2FE5DC5529EDD811004B9AB4 /* SocialSupportQuestionnaire.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SocialSupportQuestionnaire.json; sourceTree = "<group>"; };
 		2FE5DCAC29EE6107004B9AB4 /* AccountOnboarding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountOnboarding.swift; sourceTree = "<group>"; };
 		2FF53D8C2A8729D600042B76 /* Stanford360Standard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stanford360Standard.swift; sourceTree = "<group>"; };
+		4FA061BB2D4AF1F9008DE21A /* ActivityManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityManagerTest.swift; sourceTree = "<group>"; };
 		45E038222D503BFA009D07E2 /* HydrationTrackerViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydrationTrackerViewTests.swift; sourceTree = "<group>"; };
+		4FCAD0582D5AAD20007324A6 /* ActivityViewUITest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewUITest.swift; sourceTree = "<group>"; };
 		5680DD3D2AB8CD84004E6D4A /* ContributionsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributionsTest.swift; sourceTree = "<group>"; };
 		653A254D283387FE005D4D48 /* Stanford360.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stanford360.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		653A2550283387FE005D4D48 /* Stanford360.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stanford360.swift; sourceTree = "<group>"; };
@@ -135,7 +141,20 @@
 		A9FE7ACF2AA39BAB0077B045 /* AccountSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		4FA061B62D4AA824008DE21A /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ActivityModels/Activity.swift,
+				ActivityModels/ActivityManager.swift,
+			);
+			target = 653A254C283387FE005D4D48 /* Stanford360 */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		4FA061B12D4AA806008DE21A /* Models */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (4FA061B62D4AA824008DE21A /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Models; sourceTree = "<group>"; };
+		4FA061CF2D4C4468008DE21A /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
 		4D191FAE2D5711A900538084 /* ProteinTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ProteinTests; sourceTree = "<group>"; };
 		C1EFB0572D52F8E8008A6669 /* Hydration */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Hydration; sourceTree = "<group>"; };
 		C1EFB0642D52FA1A008A6669 /* Patient */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Patient; sourceTree = "<group>"; };
@@ -180,6 +199,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FA061C02D4AF59C008DE21A /* ResearchKitOnFHIR in Frameworks */,
+				4FA061BE2D4AF594008DE21A /* HealthKitOnFHIR in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,6 +308,7 @@
 		653A254F283387FE005D4D48 /* Stanford360 */ = {
 			isa = PBXGroup;
 			children = (
+				4FA061CF2D4C4468008DE21A /* Views */,
 				C1EFB0682D52FA2C008A6669 /* Protein */,
 				C1EFB0662D52FA22008A6669 /* Activity */,
 				C1EFB0642D52FA1A008A6669 /* Patient */,
@@ -304,6 +326,7 @@
 				2FE5DC3B29EDD7D0004B9AB4 /* Schedule */,
 				2FE5DC3C29EDD7DA004B9AB4 /* SharedContext */,
 				2FC9759D2978E30800BA99FE /* Supporting Files */,
+				4FA061B12D4AA806008DE21A /* Models */,
 			);
 			path = Stanford360;
 			sourceTree = "<group>";
@@ -314,6 +337,7 @@
 				4D191FAE2D5711A900538084 /* ProteinTests */,
 				C1EFB0732D52FAFB008A6669 /* HydrationTests */,
 				653A256128338800005D4D48 /* Stanford360Tests.swift */,
+				4FA061BB2D4AF1F9008DE21A /* ActivityManagerTest.swift */,
 			);
 			path = Stanford360Tests;
 			sourceTree = "<group>";
@@ -326,6 +350,7 @@
 				653A256B28338800005D4D48 /* SchedulerTests.swift */,
 				2F4E23862989DB360013F3D9 /* ContactsTests.swift */,
 				5680DD3D2AB8CD84004E6D4A /* ContributionsTest.swift */,
+				4FCAD0582D5AAD20007324A6 /* ActivityViewUITest.swift */,
 			);
 			path = Stanford360UITests;
 			sourceTree = "<group>";
@@ -373,6 +398,7 @@
 				56E7083D2BB06FCA00B08F0A /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
+				4FA061CF2D4C4468008DE21A /* Views */,
 				C1EFB0572D52F8E8008A6669 /* Hydration */,
 				C1EFB0642D52FA1A008A6669 /* Patient */,
 				C1EFB0662D52FA22008A6669 /* Activity */,
@@ -587,6 +613,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FA061BC2D4AF1F9008DE21A /* ActivityManagerTest.swift in Sources */,
 				653A256228338800005D4D48 /* Stanford360Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -600,6 +627,7 @@
 				2F4E23872989DB360013F3D9 /* ContactsTests.swift in Sources */,
 				2F4E237E2989A2FE0013F3D9 /* OnboardingTests.swift in Sources */,
 				653A256C28338800005D4D48 /* SchedulerTests.swift in Sources */,
+				4FCAD0592D5AAD20007324A6 /* ActivityViewUITest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1361,6 +1389,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2FE5DC9A29EDD9EF004B9AB4 /* XCRemoteSwiftPackageReference "XCTHealthKit" */;
 			productName = XCTHealthKit;
+		};
+		4FA061BD2D4AF594008DE21A /* HealthKitOnFHIR */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2FB099B42A875E2B00B20952 /* XCRemoteSwiftPackageReference "HealthKitOnFHIR" */;
+			productName = HealthKitOnFHIR;
+		};
+		4FA061BF2D4AF59C008DE21A /* ResearchKitOnFHIR */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A945FCD32C9C6BFA00B9EBC7 /* XCRemoteSwiftPackageReference "ResearchKitOnFHIR" */;
+			productName = ResearchKitOnFHIR;
 		};
 		56E708342BB06B7100B08F0A /* SpeziLicense */ = {
 			isa = XCSwiftPackageProductDependency;
