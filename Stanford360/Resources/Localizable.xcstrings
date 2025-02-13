@@ -7,6 +7,9 @@
     "%.2f g" : {
 
     },
+    "🍗 Protein Tracker" : {
+
+    },
     "🎉 Goal Reached! Stay Hydrated! 🎉" : {
 
     },
@@ -74,6 +77,9 @@
           }
         }
       }
+    },
+    "Congratulations! You've reached your protein intake goal! 🎉" : {
+
     },
     "CONSENT_LOADING_ERROR" : {
       "localizations" : {
@@ -234,6 +240,9 @@
         }
       }
     },
+    "Keep going! You're doing great! 💪" : {
+
+    },
     "Learn More" : {
       "localizations" : {
         "en" : {
@@ -333,9 +342,6 @@
 
     },
     "Protein (g)" : {
-
-    },
-    "Protein Tracker" : {
 
     },
     "Save" : {

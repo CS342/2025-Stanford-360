@@ -133,28 +133,31 @@ actor Stanford360Standard: Standard,
             await logger.error("Could not store consent form: \(error)")
         }
     }
-    // store a protein document under the current user's subcollection "activities"
+    
+    // store a protein document under the current user's subcollection "meal"
     @MainActor
-    func storeMeal(meal:Meal) async throws{
-        if FeatureFlags.disableFirebase{
+    func storeMeal(meal: Meal) async throws {
+        if FeatureFlags.disableFirebase {
             await logger.debug("Store meal locally:\(meal.name)")
             return
         }
-        do{
-            //create a meal document to store
+        
+        do {
+            // create a meal document to store
             let mealDocument: [String: Any] = [
-                "name":meal.name,
-                "proteinGrams":meal.proteinGrams,
-                "imageURL":meal.imageURL as Any,
-                "timestamp":meal.timestamp
+                "name": meal.name,
+                "proteinGrams": meal.proteinGrams,
+                "imageURL": meal.imageURL as Any,
+                "timestamp": meal.timestamp
             ]
+            
             try await configuration.userDocumentReference
                 .collection("meals")
                 .document(UUID().uuidString)
                 .setData(mealDocument)
-            
+                
             await logger.debug("Meal stored successfully")
-        }catch{
+        } catch {
             await logger.error("Could not store meal:\(error)")
             throw error
         }
@@ -162,16 +165,16 @@ actor Stanford360Standard: Standard,
     
     // retrieves all meals for the current user
     @MainActor
-    func fetchMeals() async throws -> [Meal]{
-        if FeatureFlags.disableFirebase{
+    func fetchMeals() async throws -> [Meal] {
+        if FeatureFlags.disableFirebase {
             return []
         }
-        do{
+        do {
             let snapshot = try await configuration.userDocumentReference
                 .collection("meals")
                 .getDocuments()
             
-            return snapshot.documents.compactMap{ document in
+            return snapshot.documents.compactMap { document in
                 guard let name = document.data()["name"] as? String,
                       let proteinGrams = document.data()["protein"] as? Double,
                       let timestamp = document.data()["timestamp"] as? Date else{
@@ -185,7 +188,7 @@ actor Stanford360Standard: Standard,
                     timestamp: timestamp
                 )
             }
-        }catch{
+        }catch {
             await logger.error("Could not fetch meals:\(error)")
             throw error
         }
@@ -193,23 +196,23 @@ actor Stanford360Standard: Standard,
     
     // Delete a meal from Firebase
     @MainActor
-    func deleteMeal(withName name:String, timestamp:Date) async throws{
+    func deleteMeal(withName name:String, timestamp:Date) async throws {
         if FeatureFlags.disableFirebase{
             await logger.debug("Deleting meal locally:\(name)")
             return
         }
-        do{
+        do {
             let snapshot = try await configuration.userDocumentReference
                 .collection("meals")
                 .whereField("name", isEqualTo: name)
                 .whereField("timestamp", isEqualTo: timestamp)
                 .getDocuments()
             
-            for document in snapshot.documents{
+            for document in snapshot.documents {
                 try await document.reference.delete()
             }
             await logger.debug("Meal deleted successfully")
-        }catch{
+        }catch {
             await logger.error("Could not delete meal:\(error)")
             throw error
         }

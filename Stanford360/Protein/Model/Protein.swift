@@ -11,10 +11,10 @@ import Foundation
 
 // Protein Intake Model
 class ProteinIntakeModel: ObservableObject {
+    // Do I need a variable to record the protein intake each day?
     @Published var userID: String // Unique identifier for the user
     @Published var date: Date // The date of the intake record
     @Published var meals: [Meal] // List of meals consumed by the user
-
 
     // Computed property to calculate the total protein intake for the day
     var totalProteinGrams: Double {
@@ -39,9 +39,20 @@ class ProteinIntakeModel: ObservableObject {
     }
 
     // update an existing meal's details
-    func updateMeal(oldName: String, newName: String, newProteinGrams: Double, newImageURL: String? = nil, newTimestamp: Date = Date()) {
+    func updateMeal(
+        oldName: String,
+        newName: String,
+        newProteinGrams: Double,
+        newImageURL: String? = nil,
+        newTimestamp: Date = Date()
+    ) {
         if let index = meals.firstIndex(where: { $0.name == oldName }) {
-            meals[index] = Meal(name: newName, proteinGrams: newProteinGrams, imageURL: newImageURL, timestamp: newTimestamp)
+            meals[index] = Meal(
+                name: newName,
+                proteinGrams: newProteinGrams,
+                imageURL: newImageURL,
+                timestamp: newTimestamp
+            )
         }
     }
 
