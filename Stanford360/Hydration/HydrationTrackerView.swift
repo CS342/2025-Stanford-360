@@ -33,6 +33,10 @@ struct HydrationTrackerView: View {
                 await fetchHydrationData()
             }
         }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
     }
 
     /// **Header View**
