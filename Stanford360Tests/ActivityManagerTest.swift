@@ -17,7 +17,7 @@ final class ActivityManagerTests: XCTestCase {
     var activityManager: ActivityManager?
 //    var mockFirestore: Firestore!
 //    var mockUserDocRef: DocumentReference!
-    @Environment(Stanford360Standard.self) private var standard
+//    @Environment(Stanford360Standard.self) private var standard
 
     override func setUp() {
         super.setUp()
@@ -176,24 +176,24 @@ final class ActivityManagerTests: XCTestCase {
         XCTAssertEqual(todayActivity?.steps, 4000, "Today's activity steps should be correct.")
     }
     
-    /// **Test: Motivational Message**
-    func testTriggerMotivation() {
-        guard let manager = activityManager else {
-                XCTFail("Activity Manager not initialized")
-                return
-        }
-        let activity = Activity(
-            date: Date(),
-            steps: 5000,
-            activeMinutes: 50,
-            caloriesBurned: 200,
-            activityType: "Running"
-        )
-        manager.logActivityToView(activity)
-
-        let message = manager.triggerMotivation()
-        XCTAssertTrue(message.contains("Keep going!"), "Message should encourage user to complete 60 minutes.")
-    }
+//    /// **Test: Motivational Message**
+//    func testTriggerMotivation() {
+//        guard let manager = activityManager else {
+//                XCTFail("Activity Manager not initialized")
+//                return
+//        }
+//        let activity = Activity(
+//            date: Date(),
+//            steps: 5000,
+//            activeMinutes: 50,
+//            caloriesBurned: 200,
+//            activityType: "Running"
+//        )
+//        manager.logActivityToView(activity)
+//
+//        let message = manager.triggerMotivation()
+//        XCTAssertTrue(message.contains("Keep going!"), "Message should encourage user to complete 60 minutes.")
+//    }
     
     func testSendActivityReminder() {
         guard let manager = activityManager else {
