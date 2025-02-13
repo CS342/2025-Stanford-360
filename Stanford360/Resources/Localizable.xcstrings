@@ -55,6 +55,9 @@
     "Add New Meal" : {
 
     },
+    "Added on: %@" : {
+
+    },
     "Allow Notifications" : {
       "localizations" : {
         "en" : {
@@ -282,6 +285,9 @@
     "Meal" : {
 
     },
+    "Meal Details" : {
+
+    },
     "Meal Name" : {
 
     },
@@ -492,6 +498,9 @@
           }
         }
       }
+    },
+    "You have reached the first 30-gram of protein goal. You need %@ gram more to reach your goal!" : {
+
     },
     "You need %@ oz more to reach your goal!" : {
 

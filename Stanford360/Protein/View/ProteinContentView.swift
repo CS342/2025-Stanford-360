@@ -13,7 +13,7 @@ struct ProteinContentView: View {
 
     @Environment(Stanford360Standard.self) private var standard
     @ObservedObject var proteinData: ProteinIntakeModel
-    @State private var totalProtein: Double // consider the design
+    @State private var totalProtein: Double // consider this design
     @State private var mealName: String = ""
     @State private var proteinAmount: Double = 0.0
     @State private var showingAddMeal = false
@@ -118,25 +118,30 @@ struct ProteinContentView: View {
     }
 
     // List view of all meals
+    // List view of all meals
     func mealList() -> some View {
         List {
+            // ForEach(proteinData.meals, id: \.id) { meal in -> modify the only one? Is there a need?
             ForEach(proteinData.meals, id: \.name) { meal in
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text(meal.name)
-                            .font(.headline)
-                        Text(meal.timestamp, style: .date)
-                            .font(.caption)
-                            .foregroundColor(.gray)
+                NavigationLink(destination: MealDetailView(meal: meal)) {
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(meal.name)
+                                .font(.headline)
+                            Text(meal.timestamp, style: .date)
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                        }
+                        Spacer()
+                        Text("\(meal.proteinGrams, specifier: "%.2f") g")
+                            .foregroundColor(.secondary)
                     }
-                    Spacer()
-                    Text("\(meal.proteinGrams, specifier: "%.2f") g")
-                        .foregroundColor(.secondary)
                 }
             }
             .onDelete(perform: deleteMeal)
         }
     }
+
     
     // Save a new meal to both local state and Firebase
     func saveMeal() async {
