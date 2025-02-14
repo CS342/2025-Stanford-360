@@ -114,6 +114,9 @@
         }
       }
     },
+    "Do not forget to take in protein everyday! You're doing great!🤩" : {
+
+    },
     "Enter intake (oz)" : {
 
     },
@@ -242,9 +245,6 @@
           }
         }
       }
-    },
-    "Keep going! You're doing great! 💪" : {
-
     },
     "Learn More" : {
       "localizations" : {
@@ -499,7 +499,7 @@
         }
       }
     },
-    "You have reached the first 30-gram of protein goal. You need %@ gram more to reach your goal!" : {
+    "You have reached the first 30-gram of protein goal🎉. You need %@ gram more to reach your goal!💪" : {
 
     },
     "You need %@ oz more to reach your goal!" : {

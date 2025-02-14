@@ -180,7 +180,7 @@ actor Stanford360Standard: Standard,
                       let timestamp = document.data()["timestamp"] as? Date else{
                     return nil
                 }
-                
+                print("doing the fetch things")
                 return Meal(
                     name: name,
                     proteinGrams: proteinGrams,

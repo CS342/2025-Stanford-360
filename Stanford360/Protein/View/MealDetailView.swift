@@ -67,4 +67,3 @@ struct MealDetailView: View {
             .foregroundColor(.gray)
     }
 }
-

@@ -191,7 +191,7 @@ struct ProteinContentView: View {
         isLoading = true
         do {
             let meals = try await standard.fetchMeals()
-            
+            print("feteching meals.....", meals)
             // Update UI on main thread
             await MainActor.run {
                 // Clear existing meals before adding new ones
@@ -224,20 +224,26 @@ struct ProteinContentView: View {
     func congratulatoryDisplay() -> some View {
         Group {
             if totalProtein >= 30 && totalProtein < 60 {
-                Text("You have reached the first 30-gram of protein goal. You need \(String(format: "%.1f", 60 - totalProtein)) gram more to reach your goal!")
+                Text("You have reached the first 30-gram of protein goal🎉. You need \(String(format: "%.1f", 60 - totalProtein)) gram more to reach your goal!💪")
                     .font(.subheadline)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.green)
             } else if totalProtein >= 60 {
                 Text("Congratulations! You've reached your protein intake goal! 🎉")
                     .font(.subheadline)
                     .foregroundColor(.green)
             } else {
-                Text("Keep going! You're doing great! 💪")
+                Text("Do not forget to take in protein everyday! You're doing great!🤩")
                     .font(.subheadline)
-                    .foregroundColor(.primary)
+                    .foregroundColor(.blue)
             }
         }
     }
+    // make proteinData var
+//    func saveToStorage() {
+//        if let data = try? JSONEncoder().encode(proteinData) {
+//            UserDefaults.standard.set(data, forKey: proteinData)
+//        }
+//    }
 }
     
     // send notifications
