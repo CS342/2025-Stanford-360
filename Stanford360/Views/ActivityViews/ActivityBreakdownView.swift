@@ -2,17 +2,87 @@
 //  ActivityBreakdownView.swift
 //  Stanford360
 //
-//  Created by Annabel Bismuth on 13/02/2025.
+//  Created by Elsa Bismuth on 13/02/2025.
 //
+// SPDX-FileCopyrightText: 2025 Stanford University
+//
+// SPDX-License-Identifier: MIT
 
 import SwiftUI
 
 struct ActivityBreakdownView: View {
+    let activities: [Activity]
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading, spacing: 15) {
+            Text("Activity Breakdown")
+                .font(.headline)
+                .padding(.horizontal)
+            
+            ForEach(calculateBreakdown().sorted(by: { $0.value > $1.value }), id: \.key) { activity, minutes in
+                HStack {
+                    Text(activity)
+                        .font(.subheadline)
+                    Spacer()
+                    Text("\(minutes) min")
+                        .font(.subheadline.bold())
+                        .foregroundStyle(.blue)
+                }
+                .padding(.horizontal)
+            }
+        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 15)
+                .fill(Color.white)
+                .shadow(radius: 2)
+        )
+        .padding(.horizontal)
+    }
+    
+    private func calculateBreakdown() -> [String: Int] {
+        var breakdown: [String: Int] = [:]
+        for activity in activities {
+            breakdown[activity.activityType, default: 0] += activity.activeMinutes
+        }
+        return breakdown
     }
 }
 
 #Preview {
-    ActivityBreakdownView()
+    let sampleActivities: [Activity] = [
+        Activity(
+            date: Date(),
+            steps: 8000,
+            activeMinutes: 45,
+            caloriesBurned: 300,
+            activityType: "Running"
+        ),
+        {
+            guard let date = Calendar.current.date(byAdding: .day, value: -1, to: Date()) else {
+                fatalError("Failed to generate date")
+            }
+            return Activity(
+                date: date,
+                steps: 6000,
+                activeMinutes: 30,
+                caloriesBurned: 200,
+                activityType: "Walking"
+            )
+        }(),
+        {
+            guard let date = Calendar.current.date(byAdding: .day, value: -3, to: Date()) else {
+                fatalError("Failed to generate date")
+            }
+            return Activity(
+                date: date,
+                steps: 7500,
+                activeMinutes: 40,
+                caloriesBurned: 250,
+                activityType: "Soccer"
+            )
+        }()
+    ]
+    
+    return ActivityBreakdownView(activities: sampleActivities)
 }

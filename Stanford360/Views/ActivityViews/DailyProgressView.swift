@@ -4,6 +4,9 @@
 //
 //  Created by Elsa Bismuth on 13/02/2025.
 //
+// SPDX-FileCopyrightText: 2025 Stanford University
+//
+// SPDX-License-Identifier: MIT
 
 import SwiftUI
 
@@ -40,5 +43,5 @@ struct DailyProgressView: View {
 }
 
 #Preview {
-    DailyProgressView()
+    DailyProgressView(activeMinutes: 45)  // Shows progress towards 60-minute goal
 }

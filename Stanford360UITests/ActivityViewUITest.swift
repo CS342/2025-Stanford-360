@@ -12,15 +12,15 @@
 import XCTest
 import XCTestExtensions
 
-class ActivityViewUITests: XCTestCase {
-    @MainActor
-    override func setUp() async throws {
-        continueAfterFailure = false
-        
-        let app = XCUIApplication()
-        app.launchArguments = ["--skipOnboarding"]
-        app.deleteAndLaunch(withSpringboardAppName: "Stanford360")
-    }
+ class ActivityViewUITests: XCTestCase {
+//    @MainActor
+//    override func setUp() async throws {
+//        continueAfterFailure = false
+//        
+//        let app = XCUIApplication()
+//        app.launchArguments = ["--skipOnboarding"]
+//        app.deleteAndLaunch(withSpringboardAppName: "Stanford360")
+//    }
 //
 //    @MainActor
 //    func testActivityLoggingFlow() throws {
@@ -66,7 +66,7 @@ class ActivityViewUITests: XCTestCase {
 //        XCTAssertTrue(firstActivity.exists)
 //
 //        firstActivity.swipeLeft()
-//        app.buttons["Delete"].tap()
+////        app.buttons["Delete"].tap()
 //
 //        // Ensure activity is removed
 //        XCTAssertFalse(firstActivity.exists)

@@ -8,87 +8,99 @@
 //
 // SPDX-License-Identifier: MIT
 
+import Charts
 import FirebaseAuth
-// import SpeziHealthKit
 import SwiftUI
 
 /// Simple UI for tracking kids' activity.
 struct ActivityView: View {
+    // Enum moved to the top of the type contents
+    enum TimeFrame {
+        case today, week, month
+    }
+    
+    // State properties grouped together
     @State private var activityManager = ActivityManager()
-    @State private var steps: String = ""
-    @State private var activityType: String = ""
-    private var motivationMessage: String {
-        activityManager.triggerMotivation()
-    }
+    @State private var showingAddActivity = false
+    @State private var selectedTimeFrame: TimeFrame = .today
+    
     @Environment(Stanford360Standard.self) private var standard
-
+    
     var body: some View {
-        NavigationView {
-            VStack {
-                activityListView
-                activityFormView
-                
-                Text(motivationMessage)
-                    .font(.headline)
-                    .foregroundColor(.blue)
-                    .padding()
-            }
+        NavigationStack {
+            content
         }
     }
-
-    /// Extracted View for displaying logged activities
-    private var activityListView: some View {
-        List {
-            ForEach(activityManager.activities) { activity in
-                ActivityRowView(activity: activity)
-            }
-            .onDelete { indexSet in
-                activityManager.activities.remove(atOffsets: indexSet)
-            }
+    
+    // Extracted content to reduce body closure length
+    private var content: some View {
+        ZStack {
+            mainActivityContent
+            addActivityButton
         }
-        .navigationTitle("Activity Tracker")
-    }
-
-    /// Extracted View for input form
-    private var activityFormView: some View {
-        Form {
-            TextField("Steps", text: $steps)
-                .keyboardType(.numberPad)
-                .accessibilityIdentifier("Steps")
-
-            TextField("Activity Type", text: $activityType)
-                .accessibilityIdentifier("Activity Type")
-
-            Button("Log Activity") {
-                Task {
-                    await logActivityToFirestore()
-                }
-            }.accessibilityIdentifier("Log Activity")
+        .navigationTitle("My Active Journey 🏃‍♂️")
+        .sheet(isPresented: $showingAddActivity) {
+            AddActivitySheet(activityManager: activityManager)
         }
     }
-
-    /// Function to handle logging a new activity
-    private func logActivityToFirestore() async {
-        let stepsInt = Int(steps) ?? 0
-        do {
-            let newActivity = Activity(
-                date: Date(),
-                steps: stepsInt,
-                activeMinutes: Activity.convertStepsToMinutes(steps: stepsInt),
-                caloriesBurned: stepsInt / 10,
-                activityType: activityType
+    
+    // Extracted main activity content
+    private var mainActivityContent: some View {
+        VStack(spacing: 20) {
+            timeFramePicker
+            motivationText
+            
+            ActivityTimeFrameView(
+                timeFrame: selectedTimeFrame,
+                activityManager: activityManager
             )
-            activityManager.logActivityToView(newActivity)
-            try await standard.store(activity: newActivity)
-            steps = ""
-            activityType = ""
-        } catch {
-            print("Error logging activity—user may not be authenticated: \(error)")
+        }
+    }
+    
+    // Extracted time frame picker
+    private var timeFramePicker: some View {
+        Picker("Time Frame", selection: $selectedTimeFrame) {
+            Text("Today").tag(TimeFrame.today)
+            Text("This Week").tag(TimeFrame.week)
+            Text("This Month").tag(TimeFrame.month)
+        }
+        .pickerStyle(SegmentedPickerStyle())
+        .padding(.horizontal)
+    }
+    
+    // Extracted motivation text
+    private var motivationText: some View {
+        Text(activityManager.triggerMotivation())
+            .font(.headline)
+            .foregroundColor(.blue)
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 15)
+                    .fill(Color.blue.opacity(0.1))
+            )
+    }
+    
+    // Extracted add activity button
+    private var addActivityButton: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                Button(action: { showingAddActivity = true }) {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.system(size: 56))
+                        .foregroundColor(.blue)
+                        .shadow(radius: 3)
+                        .background(Circle().fill(.white))
+                        .accessibilityLabel("Add Activity Button")
+                }
+                .padding([.trailing, .bottom], 25)
+            }
         }
     }
 }
 
 #Preview {
-//	@Previewable @State var activityManager = ActivityManager()
-	ActivityView()
+    ActivityView()
+        .environment(Stanford360Standard())
 }

@@ -10,8 +10,8 @@
 
 @testable import Stanford360
 import FirebaseFirestore
-import XCTest
 import SwiftUICore
+import XCTest
 
 final class ActivityManagerTests: XCTestCase {
     var activityManager: ActivityManager?

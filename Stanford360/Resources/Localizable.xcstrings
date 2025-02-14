@@ -1,25 +1,16 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%@" : {
-
-    },
-    "⏳ Minutes: %lld" : {
-
-    },
-    "🏃 Activity: %@" : {
-
-    },
-    "🔥 Calories: %lld" : {
-
-    },
-    "🚶 Steps: %lld" : {
-    
-    },
     "" : {
 
     },
     "%.2f g" : {
+
+    },
+    "%lld" : {
+
+    },
+    "%lld min" : {
 
     },
     "🎉 Goal Reached! Stay Hydrated! 🎉" : {
@@ -64,16 +55,22 @@
     "Activity" : {
 
     },
-    "Activity Tracker" : {
+    "Activity Breakdown" : {
 
     },
-    "Activity Type" : {
-    
+    "Activity Time" : {
+
+    },
+    "Add Activity Button" : {
+
     },
     "Add Meal" : {
 
     },
     "Add New Meal" : {
+
+    },
+    "Add Your Activity! 🎯" : {
 
     },
     "Allow Notifications" : {
@@ -87,6 +84,9 @@
       }
     },
     "Base" : {
+
+    },
+    "Cancel" : {
 
     },
     "Close" : {
@@ -129,7 +129,16 @@
         }
       }
     },
+    "Date" : {
+
+    },
     "Enter intake (oz)" : {
+
+    },
+    "Goal" : {
+
+    },
+    "Goal: 60 minutes per day" : {
 
     },
     "Grant Access" : {
@@ -191,6 +200,9 @@
           }
         }
       }
+    },
+    "How many minutes?" : {
+
     },
     "Hydration" : {
 
@@ -258,6 +270,9 @@
         }
       }
     },
+    "Invalid Date" : {
+
+    },
     "Learn More" : {
       "localizations" : {
         "en" : {
@@ -288,25 +303,25 @@
         }
       }
     },
-    "Log Activity" : {
-    
-    },
-    "Meal" : {
-
-    },
-    "Meal Name" : {
-
-    },
-    "Meal" : {
-
-    },
-    "Meal Name" : {
-    
-    },
     "Log Water Intake" : {
 
     },
     "Log your water intake" : {
+
+    },
+    "Meal" : {
+
+    },
+    "Meal Name" : {
+
+    },
+    "minutes" : {
+
+    },
+    "Minutes" : {
+
+    },
+    "My Active Journey 🏃‍♂️" : {
 
     },
     "Next" : {
@@ -318,6 +333,9 @@
           }
         }
       }
+    },
+    "No activities logged today" : {
+
     },
     "No meals added yet" : {
 
@@ -342,6 +360,9 @@
         }
       }
     },
+    "OK" : {
+
+    },
     "Onboarding" : {
       "localizations" : {
         "en" : {
@@ -362,6 +383,9 @@
         }
       }
     },
+    "Please select a date and time that isn't in the future." : {
+
+    },
     "Protein" : {
 
     },
@@ -372,6 +396,9 @@
 
     },
     "Save" : {
+
+    },
+    "Save My Activity! 🌟" : {
 
     },
     "Schedule" : {
@@ -434,9 +461,6 @@
         }
       }
     },
-    "Steps" : {
-
-    },
     "Swift Package Manager" : {
       "localizations" : {
         "en" : {
@@ -457,6 +481,9 @@
         }
       }
     },
+    "This Month" : {
+
+    },
     "This type of event is currently unsupported. Please contact the developer of this app." : {
       "localizations" : {
         "en" : {
@@ -467,13 +494,22 @@
         }
       }
     },
-    "Total Protein Intake" : {
+    "This Week" : {
+
+    },
+    "Time Frame" : {
+
+    },
+    "Today" : {
+
+    },
+    "Today's Activities" : {
+
+    },
+    "Total Intake: %@ oz" : {
 
     },
     "Total Protein Intake" : {
-    
-    },
-    "Total Intake: %@ oz" : {
 
     },
     "Unsupported Event" : {
@@ -525,6 +561,12 @@
           }
         }
       }
+    },
+    "What did you do?" : {
+
+    },
+    "When did you do it?" : {
+
     },
     "You need %@ oz more to reach your goal!" : {
 
