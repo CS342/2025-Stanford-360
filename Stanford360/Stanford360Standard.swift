@@ -86,6 +86,32 @@ actor Stanford360Standard: Standard,
             .collection("HealthKit") // Add all HealthKit sources in a /HealthKit collection.
             .document(uuid.uuidString) // Set the document identifier to the UUID of the document.
     }
+	
+	// watch out for if threw an error while getting the patient document and/or if fields missing from firebase
+	func getPatient() async throws -> Patient? {
+		var patient: Patient?
+		print("getting patient")
+		
+		let docRef = try await configuration.userDocumentReference
+		let document = try await docRef.getDocument()
+		if document.exists {
+//			if let accountId = document.get("accountId") as? String,
+//			   let firstName = document.get("firstName") as? String,
+//			   let lastName = document.get("lastName") as? String,
+//			   let dateOfBirth = document.get("dateOfBirth") as? Date
+			if let genderIdentity = document.get("genderIdentity") as? String {
+				print("gender identity: \(genderIdentity)")
+				patient = Patient(
+					firstName: "John",  // firstName,
+					lastName: "Doe",  // lastName,
+					dateOfBirth: Date(),  // dateOfBirth
+					genderIdentity: genderIdentity
+				)
+			}
+		}
+		
+		return patient
+	}
 
     func respondToEvent(_ event: AccountNotifications.Event) async {
         if case let .deletingAccount(accountId) = event {
