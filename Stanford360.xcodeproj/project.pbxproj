@@ -51,7 +51,6 @@
 		2FF53D8D2A8729D600042B76 /* Stanford360Standard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF53D8C2A8729D600042B76 /* Stanford360Standard.swift */; };
 		45E038232D503C0F009D07E2 /* HydrationTrackerViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E038222D503BFA009D07E2 /* HydrationTrackerViewTests.swift */; };
 		4F331D212D5C34B000CCC8AA /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 4F331D202D5C34B000CCC8AA /* FirebaseAuth */; };
-		4FA061BC2D4AF1F9008DE21A /* ActivityManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA061BB2D4AF1F9008DE21A /* ActivityManagerTest.swift */; };
 		4FA061BE2D4AF594008DE21A /* HealthKitOnFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 4FA061BD2D4AF594008DE21A /* HealthKitOnFHIR */; };
 		4FA061C02D4AF59C008DE21A /* ResearchKitOnFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 4FA061BF2D4AF59C008DE21A /* ResearchKitOnFHIR */; };
 		4FCAD0592D5AAD20007324A6 /* ActivityViewUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCAD0582D5AAD20007324A6 /* ActivityViewUITest.swift */; };
@@ -123,7 +122,6 @@
 		2FE5DCAC29EE6107004B9AB4 /* AccountOnboarding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountOnboarding.swift; sourceTree = "<group>"; };
 		2FF53D8C2A8729D600042B76 /* Stanford360Standard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stanford360Standard.swift; sourceTree = "<group>"; };
 		45E038222D503BFA009D07E2 /* HydrationTrackerViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydrationTrackerViewTests.swift; sourceTree = "<group>"; };
-		4FA061BB2D4AF1F9008DE21A /* ActivityManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityManagerTest.swift; sourceTree = "<group>"; };
 		4FCAD0582D5AAD20007324A6 /* ActivityViewUITest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewUITest.swift; sourceTree = "<group>"; };
 		5680DD3D2AB8CD84004E6D4A /* ContributionsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributionsTest.swift; sourceTree = "<group>"; };
 		653A254D283387FE005D4D48 /* Stanford360.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stanford360.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -158,6 +156,7 @@
 		4D191FAE2D5711A900538084 /* ProteinTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ProteinTests; sourceTree = "<group>"; };
 		4FA061B12D4AA806008DE21A /* Models */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (4FA061B62D4AA824008DE21A /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Models; sourceTree = "<group>"; };
 		4FA061CF2D4C4468008DE21A /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
+		4FF18DDD2D5FAB5E00E13832 /* ActivityTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ActivityTests; sourceTree = "<group>"; };
 		C1EFB0572D52F8E8008A6669 /* Hydration */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Hydration; sourceTree = "<group>"; };
 		C1EFB0642D52FA1A008A6669 /* Patient */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Patient; sourceTree = "<group>"; };
 		C1EFB0662D52FA22008A6669 /* Activity */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Activity; sourceTree = "<group>"; };
@@ -336,10 +335,10 @@
 		653A256028338800005D4D48 /* Stanford360Tests */ = {
 			isa = PBXGroup;
 			children = (
+				4FF18DDD2D5FAB5E00E13832 /* ActivityTests */,
 				4D191FAE2D5711A900538084 /* ProteinTests */,
 				C1EFB0732D52FAFB008A6669 /* HydrationTests */,
 				653A256128338800005D4D48 /* Stanford360Tests.swift */,
-				4FA061BB2D4AF1F9008DE21A /* ActivityManagerTest.swift */,
 			);
 			path = Stanford360Tests;
 			sourceTree = "<group>";
@@ -453,6 +452,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				4D191FAE2D5711A900538084 /* ProteinTests */,
+				4FF18DDD2D5FAB5E00E13832 /* ActivityTests */,
 				C1EFB0732D52FAFB008A6669 /* HydrationTests */,
 			);
 			name = Stanford360Tests;
@@ -615,7 +615,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4FA061BC2D4AF1F9008DE21A /* ActivityManagerTest.swift in Sources */,
 				653A256228338800005D4D48 /* Stanford360Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

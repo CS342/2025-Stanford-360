@@ -64,7 +64,7 @@ class ActivityManager {
             print("Failed to sync HealthKit data: \(error)")
         }
     }
-    
+
     func logActivityToView(_ activity: Activity) {
         activities.append(activity)
         saveToStorage()

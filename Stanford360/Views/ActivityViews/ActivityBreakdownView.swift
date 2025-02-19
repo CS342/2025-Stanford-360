@@ -14,30 +14,32 @@ struct ActivityBreakdownView: View {
     let activities: [Activity]
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 15) {
-            Text("Activity Breakdown")
-                .font(.headline)
-                .padding(.horizontal)
-            
-            ForEach(calculateBreakdown().sorted(by: { $0.value > $1.value }), id: \.key) { activity, minutes in
-                HStack {
-                    Text(activity)
-                        .font(.subheadline)
-                    Spacer()
-                    Text("\(minutes) min")
-                        .font(.subheadline.bold())
-                        .foregroundStyle(.blue)
-                }
-                .padding(.horizontal)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 5) {
+               Text("Activity Breakdown")
+                   .font(.headline)
+                   .padding(.horizontal)
+               
+               ForEach(calculateBreakdown().sorted(by: { $0.value > $1.value }), id: \.key) { activity, minutes in
+                   HStack {
+                       Text(activity)
+                           .font(.subheadline)
+                       Spacer()
+                       Text("\(minutes) min")
+                           .font(.subheadline.bold())
+                           .foregroundStyle(.blue)
+                   }
+                   .padding(.horizontal)
+               }
             }
+            .padding()
+//           .background(
+//               RoundedRectangle(cornerRadius: 15)
+//                   .fill(Color.white)
+//                   .shadow(radius: 2)
+//           )
+           .padding(.horizontal)
         }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 15)
-                .fill(Color.white)
-                .shadow(radius: 2)
-        )
-        .padding(.horizontal)
     }
     
     private func calculateBreakdown() -> [String: Int] {

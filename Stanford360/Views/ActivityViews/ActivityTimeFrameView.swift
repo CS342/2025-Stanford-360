@@ -64,14 +64,18 @@ struct ActivityTimeFrameView: View {
                 title: "Weekly Progress",
                 isWeekly: true
             )
-            ActivityBreakdownView(activities: activityManager.getWeeklySummary())
-            List {
-                // Show a placeholder when no activities
-                Text("No activities logged this week.")
-                    .foregroundColor(.gray)
-                    .padding()
+            if !activityManager.activities.isEmpty {
+                ActivityBreakdownView(activities: activityManager.getWeeklySummary())
+                    .padding(.top, 20)
+            } else {
+                List {
+                    // Show a placeholder when no activities
+                    Text("No activities logged this week.")
+                        .foregroundColor(.gray)
+                        .padding()
+                }
+                .listStyle(PlainListStyle())
             }
-            .listStyle(PlainListStyle())
         }
     }
     
@@ -82,24 +86,43 @@ struct ActivityTimeFrameView: View {
                 title: "Monthly Progress",
                 isWeekly: false
             )
-            ActivityBreakdownView(activities: activityManager.getMonthlyActivities())
-            List {
-                // Show a placeholder when no activities
-                Text("No activities logged this month.")
-                    .foregroundColor(.gray)
-                    .padding()
+            if !activityManager.activities.isEmpty {
+                ActivityBreakdownView(activities: activityManager.getMonthlyActivities())
+            } else {
+                List {
+                    // Show a placeholder when no activities
+                    Text("No activities logged this month.")
+                        .foregroundColor(.gray)
+                        .padding()
+                }
+                .listStyle(PlainListStyle())
             }
-            .listStyle(PlainListStyle())
         }
     }
 }
 
 #Preview {
     let mockActivityManager = ActivityManager()
-    // Optionally, you could add some mock activities to the manager
-    
+    let sampleActivities: [Activity] = [
+        Activity(
+            date: Date(),
+            steps: 8000,
+            activeMinutes: 45,
+            caloriesBurned: 300,
+            activityType: "Running"
+        ),
+        Activity(
+            date: Date(),
+            steps: 5000,
+            activeMinutes: 35,
+            caloriesBurned: 300,
+            activityType: "Walking"
+        )
+    ]
+    mockActivityManager.activities = sampleActivities
+
     return ActivityTimeFrameView(
-        timeFrame: .today,  // You can change this to test different time frames
+        timeFrame: .week,  // You can change this to test different time frames
         activityManager: mockActivityManager
     )
 }
