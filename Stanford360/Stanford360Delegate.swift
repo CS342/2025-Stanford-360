@@ -50,10 +50,10 @@ class Stanford360Delegate: SpeziAppDelegate {
                 healthKit
             }
             
+			PatientManager()
             Stanford360Scheduler()
             Scheduler()
             OnboardingDataSource()
-
             Notifications()
         }
     }

@@ -22,6 +22,9 @@
     "%.2f g" : {
 
     },
+    "%lf" : {
+
+    },
     "🎉 Goal Reached! Stay Hydrated! 🎉" : {
 
     },
@@ -129,7 +132,16 @@
         }
       }
     },
+    "Edit" : {
+
+    },
+    "Enter height" : {
+
+    },
     "Enter intake (oz)" : {
+
+    },
+    "Enter weight" : {
 
     },
     "Grant Access" : {
@@ -182,6 +194,12 @@
         }
       }
     },
+    "Height:" : {
+
+    },
+    "Hello, World!" : {
+
+    },
     "HL7 FHIR" : {
       "localizations" : {
         "en" : {
@@ -191,6 +209,9 @@
           }
         }
       }
+    },
+    "Home" : {
+
     },
     "Hydration" : {
 
@@ -307,6 +328,15 @@
 
     },
     "Log your water intake" : {
+
+    },
+    "Me" : {
+
+    },
+    "Meal" : {
+
+    },
+    "Meal Name" : {
 
     },
     "Next" : {
@@ -467,13 +497,10 @@
         }
       }
     },
-    "Total Protein Intake" : {
+    "Total Intake: %@ oz" : {
 
     },
     "Total Protein Intake" : {
-    
-    },
-    "Total Intake: %@ oz" : {
 
     },
     "Unsupported Event" : {
@@ -485,6 +512,9 @@
           }
         }
       }
+    },
+    "Weight:" : {
+
     },
     "WELCOME_AREA1_DESCRIPTION" : {
       "localizations" : {

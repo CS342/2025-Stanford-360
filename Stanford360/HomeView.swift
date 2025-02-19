@@ -13,35 +13,33 @@ import SwiftUI
 
 struct HomeView: View {
     enum Tabs: String {
-        case schedule
-        case contact
-        case activity
+		case home
         case hydration
-        case protein
+		case protein
+		case activity
+		case patient
     }
 
-
-    @AppStorage(StorageKeys.homeTabSelection) private var selectedTab = Tabs.schedule
+    @AppStorage(StorageKeys.homeTabSelection) private var selectedTab = Tabs.home
     @AppStorage(StorageKeys.tabViewCustomization) private var tabViewCustomization = TabViewCustomization()
 
     @State private var presentingAccount = false
+	
+	@Environment(PatientManager.self) private var patientManager
+	@Environment(Stanford360Standard.self) private var standard
 
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            Tab("Schedule", systemImage: "list.clipboard", value: .schedule) {
-                ScheduleView(presentingAccount: $presentingAccount)
+            Tab("Home", systemImage: "house.fill", value: .home) {
+                FeedView()
             }
-                .customizationID("home.schedule")
+			.customizationID("home.home")
             /// **Activity Tracking Tab (NEW)**
             Tab("Activity", systemImage: "figure.walk", value: .activity) {
                 ActivityView() // 👈 Added the ActivityView here
             }
             .customizationID("home.activity")
-            Tab("Contacts", systemImage: "person.fill", value: .contact) {
-                Contacts(presentingAccount: $presentingAccount)
-            }
-                .customizationID("home.contacts")
             Tab("Hydration", systemImage: "drop.fill", value: .hydration) {
                 HydrationTrackerView()
             }
@@ -54,7 +52,14 @@ struct HomeView: View {
                 ))
             }
                 .customizationID("home.protein")
+			Tab("Me", systemImage: "person.fill", value: .patient) {
+				PatientDetailView()
+			}
+				.customizationID("home.patient")
         }
+		.task {
+			patientManager.patient = try? await standard.getPatient()
+		}
             .tabViewStyle(.sidebarAdaptable)
             .tabViewCustomization($tabViewCustomization)
             .sheet(isPresented: $presentingAccount) {
