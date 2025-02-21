@@ -25,71 +25,50 @@ final class HydrationTrackerViewTests: XCTestCase {
     @MainActor
     func testUIElementsExist() {
         let app = XCUIApplication()
-        XCTAssertTrue(app.textFields["intakeInputField"].waitForExistence(timeout: 2), "Intake input field should exist")
+        
+        XCTAssertTrue(app.staticTexts["Hydration Tracker Header"].waitForExistence(timeout: 2), "Header should exist")
         XCTAssertTrue(app.buttons["logWaterIntakeButton"].waitForExistence(timeout: 2), "Log Water Intake button should exist")
-        XCTAssertTrue(app.staticTexts["totalIntakeLabel"].waitForExistence(timeout: 2), "Total Intake label should exist")
+        XCTAssertTrue(app.staticTexts["8 oz"].waitForExistence(timeout: 2), "Preset button for 8 oz should exist")
         if app.staticTexts["streakLabel"].exists {
                 XCTAssertTrue(app.staticTexts["streakLabel"].exists, "Streak label should exist if the streak is greater than 0")
         }
     }
 
-    /// **Test: Logging Water Intake Updates Total Intake**
+    /// **Test: Logging Water Intake Updates Progress Bar**
     @MainActor
-    func testLoggingWaterIntake() {
+    func testProgressBarUpdatesAfterLoggingWaterIntake() {
         let app = XCUIApplication()
-        let intakeField = app.textFields["intakeInputField"]
-        let logButton = app.buttons["logWaterIntakeButton"]
-        let totalIntakeLabel = app.staticTexts["totalIntakeLabel"]
-        let initialIntakeText = totalIntakeLabel.label
-        let initialIntake = extractIntake(from: initialIntakeText)
-
-        intakeField.tap()
-        intakeField.typeText("12")
-        logButton.tap()
         
-        let expectedIntake = initialIntake + 12.0
-        let expectedIntakeString = String(format: "%.1f", expectedIntake)
-
-        XCTAssertTrue(totalIntakeLabel.waitForExistence(timeout: 2), "Total Intake label should exist")
-        XCTAssertTrue(totalIntakeLabel.label.contains(expectedIntakeString), "Total Intake should update to \(expectedIntakeString) oz")
-    }
-    
-    /// **Extracts the numeric intake value from the label string**
-    private func extractIntake(from text: String) -> Double {
-        let pattern = "[0-9]+(?:\\.[0-9]*)?"
-        
-        guard let regex = try? NSRegularExpression(pattern: pattern),
-              let match = regex.firstMatch(in: text, range: NSRange(location: 0, length: text.utf16.count)),
-              let range = Range(match.range, in: text) else {
-            return 0.0
-        }
-        
-        let numberString = String(text[range])
-        return Double(numberString) ?? 0.0
+        XCTAssertTrue(app.staticTexts["12 oz"].waitForExistence(timeout: 2), "Preset button for 12 oz should exist")
+        app.staticTexts["12 oz"].tap()
+        app.buttons["logWaterIntakeButton"].tap()
+        let progressBarLabel = app.staticTexts["progressBarLabel"]
+        XCTAssertTrue(progressBarLabel.waitForExistence(timeout: 2), "Progress bar label should exist")
     }
 
     /// **Test: Logging 60oz Increases Streak**
     @MainActor
     func testStreakIncreases() {
         let app = XCUIApplication()
-        let intakeField = app.textFields["intakeInputField"]
         let logButton = app.buttons["logWaterIntakeButton"]
 
         var initialStreak = 0
-
         if app.staticTexts["streakLabel"].exists {
             let streakLabel = app.staticTexts["streakLabel"]
             initialStreak = extractStreak(from: streakLabel.label)
         }
         
-        intakeField.tap()
-        intakeField.typeText("60")
-        logButton.tap()
+        for _ in 1...3 {
+            XCTAssertTrue(app.staticTexts["20 oz"].waitForExistence(timeout: 2), "Preset button for 20 oz should exist")
+            app.staticTexts["20 oz"].tap()
+            logButton.tap()
+        }
+        
+        let streakLabel = app.staticTexts["streakLabel"]
+        XCTAssertTrue(streakLabel.waitForExistence(timeout: 3), "Streak label should exist after logging 60 oz intake")
 
-        XCTAssertTrue(app.staticTexts["streakLabel"].waitForExistence(timeout: 5), "Streak label should exist after logging 60 oz intake")
-
-        let updatedStreak = extractStreak(from: app.staticTexts["streakLabel"].label)
-
+        let updatedStreak = extractStreak(from: streakLabel.label)
+        
         if initialStreak < updatedStreak {
             XCTAssertEqual(updatedStreak, initialStreak + 1, "Streak should increase by 1 if it wasn't already updated")
         } else {
@@ -113,46 +92,42 @@ final class HydrationTrackerViewTests: XCTestCase {
 
     /// **Test: Invalid Input Shows Error**
     @MainActor
-    func testInvalidInputShowsError() {
-        let app = XCUIApplication()
-        let intakeField = app.textFields["intakeInputField"]
-        let logButton = app.buttons["logWaterIntakeButton"]
-        let errorLabel = app.staticTexts["errorMessageLabel"]
-
-        intakeField.tap()
-        intakeField.typeText("abc")
-        logButton.tap()
-
-        XCTAssertTrue(errorLabel.waitForExistence(timeout: 2), "Error message should appear for invalid input")
-    }
+        func testErrorWhenNoPresetSelected() {
+            let app = XCUIApplication()
+            app.buttons["logWaterIntakeButton"].tap()
+            
+            let errorLabel = app.staticTexts["errorMessageLabel"]
+            XCTAssertTrue(errorLabel.waitForExistence(timeout: 2), "Error message should appear if no preset is selected")
+        }
     
     /// **Test: Milestone Message Appears**
     @MainActor
-    func testMilestoneMessageAppears() {
-        let app = XCUIApplication()
-        let intakeField = app.textFields["intakeInputField"]
-        let logButton = app.buttons["logWaterIntakeButton"]
-        let milestoneLabel = app.staticTexts["milestoneMessageLabel"]
-
-        intakeField.tap()
-        intakeField.typeText("60")
-        logButton.tap()
-
-        XCTAssertTrue(milestoneLabel.waitForExistence(timeout: 2), "Milestone message should appear after logging 60 oz")
-    }
+        func testMilestoneMessageAppears() {
+            let app = XCUIApplication()
+            
+            for _ in 1...3 {
+                XCTAssertTrue(app.staticTexts["20 oz"].exists, "Preset button for 20 oz should exist")
+                app.staticTexts["20 oz"].tap()
+                app.buttons["logWaterIntakeButton"].tap()
+            }
+            
+            let milestoneLabel = app.staticTexts["milestoneMessageLabel"]
+            XCTAssertTrue(milestoneLabel.waitForExistence(timeout: 2), "Milestone message should appear after logging enough water")
+        }
 
     /// t**Test: Reaching Goal Shows Success Message**
     @MainActor
     func testGoalReachedMessage() {
         let app = XCUIApplication()
-        let intakeField = app.textFields["intakeInputField"]
-        let logButton = app.buttons["logWaterIntakeButton"]
-        let successMessage = app.staticTexts["🎉 Goal Reached! Stay Hydrated! 🎉"]
-
-        intakeField.tap()
-        intakeField.typeText("60")
-        logButton.tap()
-
-        XCTAssertTrue(successMessage.waitForExistence(timeout: 2), "Success message should appear when reaching 60 oz goal")
+        
+        XCTAssertTrue(app.staticTexts["32 oz"].exists, "Preset button for 32 oz should exist")
+        app.staticTexts["32 oz"].tap()
+        app.buttons["logWaterIntakeButton"].tap()
+        
+        app.staticTexts["32 oz"].tap()
+        app.buttons["logWaterIntakeButton"].tap()
+        
+        let successMessage = app.staticTexts["goalReachedLabel"]
+        XCTAssertTrue(successMessage.waitForExistence(timeout: 3), "Success message should appear when reaching the 60 oz goal")
     }
 }

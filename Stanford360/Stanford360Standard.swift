@@ -190,11 +190,9 @@ actor Stanford360Standard: Standard,
                 let streak = data["streak"] as? Int ?? 0
                 let lastTriggeredMilestone = data["lastTriggeredMilestone"] as? Double ?? 0.0
                 let lastHydrationDate = (data["lastHydrationDate"] as? Timestamp)?.dateValue() ?? Date()
-                let date = (data["date"] as? Timestamp)?.dateValue() ?? Date()
                 let isStreakUpdated = data["isStreakUpdated"] as? Bool ?? false
 
                 return HydrationLog(
-                    date: date,
                     amountOz: amountOz,
                     streak: streak,
                     lastTriggeredMilestone: lastTriggeredMilestone,
