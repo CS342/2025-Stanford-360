@@ -4,7 +4,13 @@
     "" : {
 
     },
+    "%.1fg" : {
+
+    },
     "%.2f g" : {
+
+    },
+    "%lld" : {
 
     },
     "🍗 Protein Tracker" : {
@@ -17,6 +23,9 @@
 
     },
     "🔥 Streak: %lld days!" : {
+
+    },
+    "2 of 3 Meals" : {
 
     },
     "ACCOUNT_SETUP_DESCRIPTION" : {
@@ -55,9 +64,6 @@
     "Add New Meal" : {
 
     },
-    "Added on: %@" : {
-
-    },
     "Allow Notifications" : {
       "localizations" : {
         "en" : {
@@ -69,6 +75,9 @@
       }
     },
     "Base" : {
+
+    },
+    "Cancel" : {
 
     },
     "Close" : {
@@ -114,10 +123,22 @@
         }
       }
     },
+    "Daily Meals" : {
+
+    },
     "Do not forget to take in protein everyday! You're doing great!🤩" : {
 
     },
     "Enter intake (oz)" : {
+
+    },
+    "Enter meal name" : {
+
+    },
+    "g" : {
+
+    },
+    "Goal: %lld min" : {
 
     },
     "Grant Access" : {
@@ -184,6 +205,9 @@
 
     },
     "Hydration Tracker Header" : {
+
+    },
+    "Intake time" : {
 
     },
     "Interesting Modules" : {
@@ -285,10 +309,10 @@
     "Meal" : {
 
     },
-    "Meal Details" : {
+    "Meal Name" : {
 
     },
-    "Meal Name" : {
+    "minutes" : {
 
     },
     "Next" : {
@@ -300,6 +324,9 @@
           }
         }
       }
+    },
+    "No Image Available" : {
+
     },
     "No meals added yet" : {
 
@@ -350,7 +377,19 @@
     "Protein (g)" : {
 
     },
+    "Protein Amount (g)" : {
+
+    },
+    "Protein Content" : {
+
+    },
+    "Protein Tracker" : {
+
+    },
     "Save" : {
+
+    },
+    "Save Meal" : {
 
     },
     "Schedule" : {

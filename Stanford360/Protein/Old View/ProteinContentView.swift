@@ -10,7 +10,6 @@ import Charts
 import SwiftUI
 
 struct ProteinContentView: View {
-
     @Environment(Stanford360Standard.self) private var standard
     @ObservedObject var proteinData: ProteinIntakeModel
     @State private var totalProtein: Double // consider this design
@@ -31,7 +30,6 @@ struct ProteinContentView: View {
                 mealList()
             }
             .padding()
-            //.navigationTitle("Protein Tracker")
             .task {
                 updateTotalProtein()
                 await loadMealsFromFirebase()
@@ -117,7 +115,6 @@ struct ProteinContentView: View {
         )
     }
 
-    // List view of all meals
     // List view of all meals
     func mealList() -> some View {
         List {
@@ -238,7 +235,7 @@ struct ProteinContentView: View {
             }
         }
     }
-    // make proteinData var
+// make proteinData var
 //    func saveToStorage() {
 //        if let data = try? JSONEncoder().encode(proteinData) {
 //            UserDefaults.standard.set(data, forKey: proteinData)

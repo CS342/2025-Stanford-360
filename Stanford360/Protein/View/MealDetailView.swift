@@ -10,60 +10,152 @@ import SwiftUI
 
 struct MealDetailView: View {
     let meal: Meal
-
+    
     var body: some View {
         ScrollView {
-            VStack(spacing: 16) {
+            VStack(spacing: 24) {
+                // Hero Image Section
                 mealImageView()
-                mealInfoView()
+                    .frame(maxWidth: .infinity)
+                
+                // Content Section
+                VStack(spacing: 20) {
+                    // Header
+                    headerSection
+                    
+                    // Protein Info Card
+                    proteinInfoCard
+                    
+                    // Meal Timestamp Card
+                    timeInfoCard
+                }
+                .padding(.horizontal)
             }
-            .padding()
         }
-        .navigationTitle("Meal Details")
         .navigationBarTitleDisplayMode(.inline)
+        .background(Color(UIColor.systemGroupedBackground))
     }
-
+    
+    private var headerSection: some View {
+        VStack(spacing: 8) {
+            Text(meal.name)
+                .font(.system(.title, design: .rounded))
+                .fontWeight(.bold)
+                .multilineTextAlignment(.center)
+                .foregroundColor(.primary)
+        }
+    }
+    // add parameters
+    private var proteinInfoCard: some View {
+        VStack(spacing: 12) {
+            HStack {
+                Image(systemName: "flame.fill")
+                    .foregroundColor(.orange)
+                Text("Protein Content")
+                    .font(.headline)
+                Spacer()
+            }
+            
+            HStack {
+                Text(String(format: "%.1f", meal.proteinGrams))
+                    .font(.system(size: 44, weight: .bold, design: .rounded))
+                Text("g")
+                    .font(.system(size: 24, weight: .medium, design: .rounded))
+                    .foregroundColor(.secondary)
+                    .padding(.leading, -4)
+                Spacer()
+            }
+        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color(UIColor.secondarySystemGroupedBackground))
+        )
+        .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
+    }
+    
+    private var timeInfoCard: some View {
+        VStack(spacing: 12) {
+            HStack {
+                Image(systemName: "clock.fill")
+                    .foregroundColor(.blue)
+                Text("Intake time")// take in meals every 3 or 4 hours
+                    .font(.headline)
+                Spacer()
+            }
+            
+            HStack {
+                Text(meal.timestamp, style: .date)
+                    .font(.system(.body, design: .rounded))
+                    .foregroundColor(.secondary)
+                Spacer()
+                
+                Text(meal.timestamp, style: .time)
+                    .font(.system(.body, design: .rounded))
+                    .foregroundColor(.secondary)
+            }
+        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color(UIColor.secondarySystemGroupedBackground))
+        )
+        .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
+    }
+    
     @ViewBuilder
     private func mealImageView() -> some View {
         if let imageURL = meal.imageURL, let url = URL(string: imageURL) {
-            AsyncImage(url: url) { image in
-                image.resizable()
-                    .scaledToFit()
-                    .frame(height: 200)
-                    .cornerRadius(12)
-                    .shadow(radius: 5)
-            } placeholder: {
-                ProgressView()
+            AsyncImage(url: url) { phase in
+                switch phase {
+                case .empty:
+                    ProgressView()
+                        .frame(height: 250)
+                case .success(let image):
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(height: 250)
+                        .clipped()
+                case .failure(_):
+                    placeholderImage
+                @unknown default:
+                    placeholderImage
+                }
             }
         } else {
-            Image(systemName: "photo")
-                .resizable()
-                .scaledToFit()
-                .frame(height: 200)
-                .foregroundColor(.gray)
-                .opacity(0.5)
-                .cornerRadius(12)
+            placeholderImage
         }
     }
+    
+    private var placeholderImage: some View {
+        ZStack {
+            Rectangle()
+                .fill(Color(UIColor.secondarySystemBackground))
+            
+            VStack(spacing: 12) {
+                Image(systemName: "fork.knife.circle.fill")
+                    .font(.system(size: 60))
+                    .foregroundColor(.gray)
+                
+                Text("No Image Available")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+        }
+        .frame(height: 250)
+    }
+}
 
-    @ViewBuilder
-    private func mealInfoView() -> some View {
-        Text(meal.name)
-            .font(.largeTitle)
-            .bold()
-
-        Text(String(format: "%.2f g of Protein", meal.proteinGrams))
-            .font(.title2)
-            .foregroundColor(.secondary)
-
-//        if let description = meal.description {
-//            Text(description)
-//                .font(.body)
-//                .padding(.horizontal)
-//        }
-
-        Text("Added on: \(meal.timestamp, style: .date)")
-            .font(.footnote)
-            .foregroundColor(.gray)
+#Preview {
+    NavigationView {
+        MealDetailView(
+            meal: Meal(
+                name: "Grilled Chicken Salad",
+                proteinGrams: 32.5,
+                imageURL: nil, // how to present a picture on UI
+                timestamp: Date()
+            )
+        )
     }
 }

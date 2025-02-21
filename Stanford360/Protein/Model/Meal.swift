@@ -35,14 +35,4 @@ class Meal: ObservableObject, Identifiable {// for each
 //        // - Account for cooking methods
 //        return weights / 10.0
 //    }
-    // Update protein content based on weight
-//    func updateProteinBasedOnWeight() {
-//        proteinGrams = calculateProteinContent()
-//    }
-//    
-//    // Convenience method to update weight and recalculate protein
-//    func updateWeight(_ newWeight: Double) {
-//        weights = newWeight
-//        updateProteinBasedOnWeight()
-//    }
 }

@@ -9,6 +9,8 @@
 import Charts
 import SwiftUI
 
+
+// a visualization for a chart
 struct ChartView: View {
     let meals: [Meal]
     

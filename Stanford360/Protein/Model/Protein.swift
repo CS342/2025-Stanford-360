@@ -9,11 +9,10 @@
 import Combine
 import Foundation
 
-// Protein Intake Model
+// Protein Intake Model, can also be review as meal controller
 class ProteinIntakeModel: ObservableObject {
-    // Do I need a variable to record the protein intake each day?
     @Published var userID: String // Unique identifier for the user
-    @Published var date: Date // The date of the intake record
+    @Published var date: Date // The date of the intake record, should be a period of time
     @Published var meals: [Meal] // List of meals consumed by the user
 
     // Computed property to calculate the total protein intake for the day
