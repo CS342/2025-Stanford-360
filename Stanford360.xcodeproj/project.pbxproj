@@ -139,27 +139,12 @@
 		A9FE7ACF2AA39BAB0077B045 /* AccountSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		4FA061B62D4AA824008DE21A /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				ActivityModels/Activity.swift,
-				ActivityModels/ActivityManager.swift,
-				ActivityModels/HealthKitActivity.swift,
-				HealthKitManager.swift,
-			);
-			target = 653A254C283387FE005D4D48 /* Stanford360 */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		4D191FAE2D5711A900538084 /* ProteinTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ProteinTests; sourceTree = "<group>"; };
-		4FA061B12D4AA806008DE21A /* Models */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (4FA061B62D4AA824008DE21A /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Models; sourceTree = "<group>"; };
+		4F8EA0B92D680A4400A94137 /* Activity */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Activity; sourceTree = "<group>"; };
 		4FA061CF2D4C4468008DE21A /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
 		4FF18DDD2D5FAB5E00E13832 /* ActivityTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ActivityTests; sourceTree = "<group>"; };
 		C1EFB0572D52F8E8008A6669 /* Hydration */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Hydration; sourceTree = "<group>"; };
-		C1EFB0642D52FA1A008A6669 /* Patient */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Patient; sourceTree = "<group>"; };
-		C1EFB0662D52FA22008A6669 /* Activity */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Activity; sourceTree = "<group>"; };
 		C1EFB0682D52FA2C008A6669 /* Protein */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Protein; sourceTree = "<group>"; };
 		C1EFB0732D52FAFB008A6669 /* HydrationTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = HydrationTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -309,10 +294,9 @@
 		653A254F283387FE005D4D48 /* Stanford360 */ = {
 			isa = PBXGroup;
 			children = (
+				4F8EA0B92D680A4400A94137 /* Activity */,
 				4FA061CF2D4C4468008DE21A /* Views */,
 				C1EFB0682D52FA2C008A6669 /* Protein */,
-				C1EFB0662D52FA22008A6669 /* Activity */,
-				C1EFB0642D52FA1A008A6669 /* Patient */,
 				C1EFB0572D52F8E8008A6669 /* Hydration */,
 				2FC975A72978F11A00BA99FE /* HomeView.swift */,
 				653A2550283387FE005D4D48 /* Stanford360.swift */,
@@ -327,7 +311,6 @@
 				2FE5DC3B29EDD7D0004B9AB4 /* Schedule */,
 				2FE5DC3C29EDD7DA004B9AB4 /* SharedContext */,
 				2FC9759D2978E30800BA99FE /* Supporting Files */,
-				4FA061B12D4AA806008DE21A /* Models */,
 			);
 			path = Stanford360;
 			sourceTree = "<group>";
@@ -399,10 +382,9 @@
 				56E7083D2BB06FCA00B08F0A /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
+				4F8EA0B92D680A4400A94137 /* Activity */,
 				4FA061CF2D4C4468008DE21A /* Views */,
 				C1EFB0572D52F8E8008A6669 /* Hydration */,
-				C1EFB0642D52FA1A008A6669 /* Patient */,
-				C1EFB0662D52FA22008A6669 /* Activity */,
 				C1EFB0682D52FA2C008A6669 /* Protein */,
 			);
 			name = Stanford360;
