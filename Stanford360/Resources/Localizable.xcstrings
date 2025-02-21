@@ -1,34 +1,40 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%.2f g" : {
+
+    },
     "%@" : {
+
+    },
+    "%lld / 60 oz" : {
+
+    },
+    "%lld Day Streak" : {
+
+    },
+    "%lld oz" : {
+
+    },
+    "%lld oz water" : {
 
     },
     "⏳ Minutes: %lld" : {
 
     },
+    "🎉 Goal Reached! Stay Hydrated! 🎉" : {
+
+    },
     "🏃 Activity: %@" : {
+
+    },
+    "💧 Hydration Tracker" : {
 
     },
     "🔥 Calories: %lld" : {
 
     },
     "🚶 Steps: %lld" : {
-    
-    },
-    "" : {
-
-    },
-    "%.2f g" : {
-
-    },
-    "🎉 Goal Reached! Stay Hydrated! 🎉" : {
-
-    },
-    "💧 Hydration Tracker" : {
-
-    },
-    "🔥 Streak: %lld days!" : {
 
     },
     "ACCOUNT_SETUP_DESCRIPTION" : {
@@ -68,7 +74,7 @@
 
     },
     "Activity Type" : {
-    
+
     },
     "Add Meal" : {
 
@@ -129,7 +135,10 @@
         }
       }
     },
-    "Enter intake (oz)" : {
+    "Day" : {
+
+    },
+    "Goal" : {
 
     },
     "Grant Access" : {
@@ -195,7 +204,13 @@
     "Hydration" : {
 
     },
+    "Hydration Period" : {
+
+    },
     "Hydration Tracker Header" : {
+
+    },
+    "Intake" : {
 
     },
     "Interesting Modules" : {
@@ -289,24 +304,21 @@
       }
     },
     "Log Activity" : {
-    
-    },
-    "Meal" : {
 
-    },
-    "Meal Name" : {
-
-    },
-    "Meal" : {
-
-    },
-    "Meal Name" : {
-    
     },
     "Log Water Intake" : {
 
     },
     "Log your water intake" : {
+
+    },
+    "Meal" : {
+
+    },
+    "Meal Name" : {
+
+    },
+    "Monthly Hydration" : {
 
     },
     "Next" : {
@@ -437,6 +449,9 @@
     "Steps" : {
 
     },
+    "Streak icon" : {
+
+    },
     "Swift Package Manager" : {
       "localizations" : {
         "en" : {
@@ -457,6 +472,9 @@
         }
       }
     },
+    "This Month" : {
+
+    },
     "This type of event is currently unsupported. Please contact the developer of this app." : {
       "localizations" : {
         "en" : {
@@ -467,13 +485,13 @@
         }
       }
     },
-    "Total Protein Intake" : {
+    "This Week" : {
+
+    },
+    "Today" : {
 
     },
     "Total Protein Intake" : {
-    
-    },
-    "Total Intake: %@ oz" : {
 
     },
     "Unsupported Event" : {
@@ -485,6 +503,12 @@
           }
         }
       }
+    },
+    "Week" : {
+
+    },
+    "Weekly Hydration" : {
+
     },
     "WELCOME_AREA1_DESCRIPTION" : {
       "localizations" : {

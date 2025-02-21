@@ -12,7 +12,6 @@ import Foundation
 // MARK: - Hydration Log Model
 struct HydrationLog: Identifiable, Codable {
     @DocumentID var id: String?
-    // periphery:ignore
     var date: Date
     var amountOz: Double
     var streak: Int
