@@ -200,6 +200,8 @@ struct ProteinView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     ProteinView(proteinData: ProteinIntakeModel(userID: "test", date: Date(), meals: []))
 }
+#endif

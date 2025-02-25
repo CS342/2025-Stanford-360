@@ -182,6 +182,8 @@ struct AddMealView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     AddMealView(proteinData: ProteinIntakeModel(userID: "test", date: Date(), meals: []))
 }
+#endif

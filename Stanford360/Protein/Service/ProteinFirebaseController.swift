@@ -7,5 +7,5 @@
 //
 
 // this file is about all the operations related to operations to firebase
-// the structure of file should be:
+// the structure of file should be:daily protein intake -> list of meals
 // 

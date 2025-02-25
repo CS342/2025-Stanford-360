@@ -9,7 +9,7 @@
 import Combine
 import Foundation
 
-// Protein Intake Model, can also be review as meal controller
+// Protein Intake Model, can also be reviewed as a meal controller
 class ProteinIntakeModel: ObservableObject {
     @Published var userID: String // Unique identifier for the user
     @Published var date: Date // The date of the intake record, should be a period of time
@@ -26,18 +26,18 @@ class ProteinIntakeModel: ObservableObject {
         self.meals = meals
     }
     
-    // add a new meal to the list
+    // Add a new meal to the list
     func addMeal(name: String, proteinGrams: Double, imageURL: String? = nil, timestamp: Date = Date()) {
         let newMeal = Meal(name: name, proteinGrams: proteinGrams, imageURL: imageURL, timestamp: timestamp)
         meals.append(newMeal)
     }
 
-    // delete a meal from the list by its name
+    // Delete a meal from the list by its name
     func deleteMeal(byName name: String) {
         meals.removeAll { $0.name == name }
     }
 
-    // update an existing meal's details
+    // Update an existing meal's details
     func updateMeal(
         oldName: String,
         newName: String,
@@ -55,8 +55,29 @@ class ProteinIntakeModel: ObservableObject {
         }
     }
 
-    // filter meals by a specific date
+    // Filter meals by a specific date
     func filterMeals(byDate targetDate: Date) -> [Meal] {
         meals.filter { Calendar.current.isDate($0.timestamp, inSameDayAs: targetDate) }
     }
+
+    // Compute weekly total protein intake
+    func getWeeklyProteinIntake() -> Double {
+        let calendar = Calendar.current
+        guard let oneWeekAgo = calendar.date(byAdding: .day, value: -7, to: date) else {
+            return 0.0
+        }
+        return meals.filter { $0.timestamp >= oneWeekAgo }
+            .reduce(0) { $0 + $1.proteinGrams }
+    }
+
+    // Compute monthly total protein intake
+    func getMonthlyProteinIntake() -> Double {
+        let calendar = Calendar.current
+        guard let oneMonthAgo = calendar.date(byAdding: .month, value: -1, to: date) else {
+            return 0.0
+        }
+        return meals.filter { $0.timestamp >= oneMonthAgo }
+            .reduce(0) { $0 + $1.proteinGrams }
+    }
 }
+

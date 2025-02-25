@@ -112,8 +112,10 @@ struct DailyProgressView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     DailyProgressView(currentValue: 45, maxValue: 60)
         .frame(height: 300)
         .padding()
 }
+#endif

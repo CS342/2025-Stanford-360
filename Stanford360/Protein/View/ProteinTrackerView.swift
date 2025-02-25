@@ -126,6 +126,8 @@ struct ProteinTrackerView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     ProteinTrackerView()
 }
+#endif

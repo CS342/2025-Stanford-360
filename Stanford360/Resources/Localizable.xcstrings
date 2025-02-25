@@ -138,7 +138,7 @@
     "g" : {
 
     },
-    "Goal: %lld min" : {
+    "Goal: %lld g" : {
 
     },
     "Grant Access" : {
@@ -312,9 +312,6 @@
     "Meal Name" : {
 
     },
-    "minutes" : {
-
-    },
     "Next" : {
       "localizations" : {
         "en" : {
@@ -370,6 +367,9 @@
           }
         }
       }
+    },
+    "protein" : {
+
     },
     "Protein" : {
 

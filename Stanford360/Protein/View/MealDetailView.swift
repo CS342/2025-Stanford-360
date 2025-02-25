@@ -147,6 +147,7 @@ struct MealDetailView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     NavigationView {
         MealDetailView(
@@ -159,3 +160,4 @@ struct MealDetailView: View {
         )
     }
 }
+#endif
