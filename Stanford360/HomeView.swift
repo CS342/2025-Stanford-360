@@ -13,35 +13,29 @@ import SwiftUI
 
 struct HomeView: View {
     enum Tabs: String {
-        case schedule
-        case contact
-        case activity
+		case home
         case hydration
-        case protein
+		case protein
+		case activity
     }
 
-
-    @AppStorage(StorageKeys.homeTabSelection) private var selectedTab = Tabs.schedule
+    @AppStorage(StorageKeys.homeTabSelection) private var selectedTab = Tabs.home
     @AppStorage(StorageKeys.tabViewCustomization) private var tabViewCustomization = TabViewCustomization()
 
     @State private var presentingAccount = false
-
+    @State private var activityManager = ActivityManager()
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            Tab("Schedule", systemImage: "list.clipboard", value: .schedule) {
-                ScheduleView(presentingAccount: $presentingAccount)
+            Tab("Home", systemImage: "house.fill", value: .home) {
+				FeedView(presentingAccount: $presentingAccount)
             }
-                .customizationID("home.schedule")
-            /// **Activity Tracking Tab (NEW)**
+			.customizationID("home.home")
+
             Tab("Activity", systemImage: "figure.walk", value: .activity) {
-                ActivityView() // 👈 Added the ActivityView here
+                ActivityView()
             }
             .customizationID("home.activity")
-            Tab("Contacts", systemImage: "person.fill", value: .contact) {
-                Contacts(presentingAccount: $presentingAccount)
-            }
-                .customizationID("home.contacts")
             Tab("Hydration", systemImage: "drop.fill", value: .hydration) {
                 HydrationTrackerView()
             }
@@ -54,6 +48,10 @@ struct HomeView: View {
                 ))
             }
                 .customizationID("home.protein")
+        }
+        
+        .task {
+            activityManager.sendActivityReminder()
         }
             .tabViewStyle(.sidebarAdaptable)
             .tabViewCustomization($tabViewCustomization)

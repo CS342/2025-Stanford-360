@@ -5,7 +5,7 @@
 //
 // SPDX-License-Identifier: MIT
 //
-
+import BackgroundTasks
 import class FirebaseFirestore.FirestoreSettings
 import class FirebaseFirestore.MemoryCacheSettings
 import Spezi
@@ -19,9 +19,13 @@ import SpeziNotifications
 import SpeziOnboarding
 import SpeziScheduler
 import SwiftUI
+import UserNotifications
 
 
 class Stanford360Delegate: SpeziAppDelegate {
+//    let activityReminderTaskId = "com.stanford360.activityReminder"
+//    let sharedActivityManager = ActivityManager()
+    
     override var configuration: Configuration {
         Configuration(standard: Stanford360Standard()) {
             if !FeatureFlags.disableFirebase {
@@ -53,11 +57,10 @@ class Stanford360Delegate: SpeziAppDelegate {
             Stanford360Scheduler()
             Scheduler()
             OnboardingDataSource()
-
             Notifications()
         }
     }
-
+    
     private var accountEmulator: (host: String, port: Int)? {
         if FeatureFlags.useFirebaseEmulator {
             (host: "localhost", port: 9099)
@@ -65,7 +68,6 @@ class Stanford360Delegate: SpeziAppDelegate {
             nil
         }
     }
-
     
     private var firestore: Firestore {
         let settings = FirestoreSettings()
@@ -97,4 +99,86 @@ class Stanford360Delegate: SpeziAppDelegate {
             )
         }
     }
+    
+//    override func application(
+//        _ application: UIApplication,
+//        willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = [:]
+//    ) -> Bool {
+//        registerBackgroundTask()
+//        scheduleBackgroundActivityReminder()
+//        if !UserDefaults.standard.bool(forKey: "hasAskedForNotificationPermission") {
+//            requestNotificationPermission()
+//        }
+//        return true
+//    }
+//
+//    /// Registers the background task
+//    private func registerBackgroundTask() {
+//        BGTaskScheduler.shared.register(
+//            forTaskWithIdentifier: activityReminderTaskId,
+//            using: nil
+//        ) { task in
+//            if let task = task as? BGAppRefreshTask {
+//                self.handleBackgroundActivityReminder(
+//                    task: task,
+//                    activityManager: self.sharedActivityManager
+//                )
+//            }
+//        }
+//    }
+//
+//    /// Schedules the background task to start at 8 AM and repeat every 5 hours
+//    func scheduleBackgroundActivityReminder() {
+//        let request = BGAppRefreshTaskRequest(identifier: activityReminderTaskId)
+//        
+//        guard let baseDate = Calendar.current.date(
+//            bySettingHour: 8,
+//            minute: 0,
+//            second: 0,
+//            of: Date()
+//        ) else {
+//            print("Failed to compute base date for scheduling.")
+//            return
+//        }
+//        let nextRun = baseDate.addingTimeInterval(5 * 60 * 60) // 8 AM first, then run every 5 hours
+//        request.earliestBeginDate = nextRun
+//
+//        do {
+//            try BGTaskScheduler.shared.submit(request)
+//            if let earliestDate = request.earliestBeginDate {
+//                print("Scheduled background activity reminder at \(earliestDate)")
+//            } else {
+//                print("Failed to retrieve earliest begin date.")
+//            }
+//        } catch {
+//            print("Failed to schedule activity reminder: \(error.localizedDescription)")
+//        }
+//    }
+//
+//    /// Handles the background task execution
+//    func handleBackgroundActivityReminder(task: BGAppRefreshTask, activityManager: ActivityManager) {
+//        activityManager.sendActivityReminder()
+//        task.setTaskCompleted(success: true)
+//        scheduleBackgroundActivityReminder() // Reschedule for continuous monitoring
+//    }
+//
+//
+//    /// Requests notification permissions
+//    private func requestNotificationPermission() {
+//        let center = UNUserNotificationCenter.current()
+//        center.getNotificationSettings { settings in
+//            guard settings.authorizationStatus == .notDetermined else {
+//                return
+//            }
+//            
+//            center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+//                if granted {
+//                    print("Notification permission granted!")
+//                    UserDefaults.standard.set(true, forKey: "hasAskedForNotificationPermission")
+//                } else if let error = error {
+//                    print("Failed to request notification permission: \(error)")
+//                }
+//            }
+//        }
+//    }
 }

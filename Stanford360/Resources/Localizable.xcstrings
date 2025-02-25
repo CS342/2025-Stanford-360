@@ -1,34 +1,59 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%@" : {
-
-    },
-    "⏳ Minutes: %lld" : {
-
-    },
-    "🏃 Activity: %@" : {
-
-    },
-    "🔥 Calories: %lld" : {
-
-    },
-    "🚶 Steps: %lld" : {
-    
-    },
     "" : {
 
     },
     "%.2f g" : {
 
     },
+    "%@" : {
+
+    },
+    "%lf" : {
+
+    },
+    "%lld" : {
+
+    },
+    "%lld/%lld completed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld/%2$lld completed"
+          }
+        }
+      }
+    },
+    "%lld%%" : {
+
+    },
+    "⏳ Minutes: %lld" : {
+
+    },
+    "%lld" : {
+
+    },
+    "%lld min" : {
+
+    },
     "🎉 Goal Reached! Stay Hydrated! 🎉" : {
+
+    },
+    "🏃 Activity: %@" : {
 
     },
     "💧 Hydration Tracker" : {
 
     },
+    "🔥 Calories: %lld" : {
+
+    },
     "🔥 Streak: %lld days!" : {
+
+    },
+    "🚶 Steps: %lld" : {
 
     },
     "ACCOUNT_SETUP_DESCRIPTION" : {
@@ -64,16 +89,31 @@
     "Activity" : {
 
     },
+    "Activity Breakdown" : {
+
+    },
+    "Activity Time" : {
+
+    },
+    "Add Activity Button" : {
+
+    },
     "Activity Tracker" : {
 
     },
     "Activity Type" : {
-    
+
     },
     "Add Meal" : {
 
     },
     "Add New Meal" : {
+
+    },
+    "All Tasks" : {
+    
+    },
+    "Add Your Activity! 🎯" : {
 
     },
     "Allow Notifications" : {
@@ -87,6 +127,9 @@
       }
     },
     "Base" : {
+
+    },
+    "Cancel" : {
 
     },
     "Close" : {
@@ -129,7 +172,25 @@
         }
       }
     },
+    "Edit" : {
+
+    },
+    "Enter height" : {
+
+    },
+    "Date" : {
+
+    },
     "Enter intake (oz)" : {
+
+    },
+    "Enter weight" : {
+    
+    },
+    "Goal" : {
+
+    },
+    "Goal: 60 minutes per day" : {
 
     },
     "Grant Access" : {
@@ -182,6 +243,9 @@
         }
       }
     },
+    "Height:" : {
+
+    },
     "HL7 FHIR" : {
       "localizations" : {
         "en" : {
@@ -191,6 +255,12 @@
           }
         }
       }
+    },
+    "Home" : {
+    
+    },
+    "How many minutes?" : {
+
     },
     "Hydration" : {
 
@@ -258,6 +328,15 @@
         }
       }
     },
+    "JD" : {
+
+    },
+    "John Doe" : {
+    
+    },
+    "Invalid Date" : {
+
+    },
     "Learn More" : {
       "localizations" : {
         "en" : {
@@ -288,25 +367,37 @@
         }
       }
     },
+    "Log Water Intake" : {
+    
+    },
     "Log Activity" : {
-    
-    },
-    "Meal" : {
 
-    },
-    "Meal Name" : {
-
-    },
-    "Meal" : {
-
-    },
-    "Meal Name" : {
-    
     },
     "Log Water Intake" : {
 
     },
     "Log your water intake" : {
+
+    },
+    "Me" : {
+
+    },
+    "Meal" : {
+
+    },
+    "Meal Name" : {
+
+    },
+    "Navigate to task details" : {
+
+    },
+    "minutes" : {
+
+    },
+    "Minutes" : {
+
+    },
+    "My Active Journey 🏃‍♂️" : {
 
     },
     "Next" : {
@@ -319,7 +410,22 @@
         }
       }
     },
+    "No activities logged this month." : {
+
+    },
+    "No activities logged this week." : {
+
+    },
+    "No activities logged today" : {
+
+    },
     "No meals added yet" : {
+
+    },
+    "No tasks" : {
+
+    },
+    "No tasks scheduled" : {
 
     },
     "NOTIFICATION_PERMISSIONS_DESCRIPTION" : {
@@ -342,6 +448,9 @@
         }
       }
     },
+    "OK" : {
+
+    },
     "Onboarding" : {
       "localizations" : {
         "en" : {
@@ -362,6 +471,9 @@
         }
       }
     },
+    "Please select a date and time that isn't in the future." : {
+
+    },
     "Protein" : {
 
     },
@@ -371,7 +483,13 @@
     "Protein Tracker" : {
 
     },
+    "Remaining" : {
+
+    },
     "Save" : {
+
+    },
+    "Save My Activity! 🌟" : {
 
     },
     "Schedule" : {
@@ -447,6 +565,12 @@
         }
       }
     },
+    "Task completed checkmark" : {
+
+    },
+    "Task completed for day %lld" : {
+
+    },
     "The Spezi Framework" : {
       "localizations" : {
         "en" : {
@@ -456,6 +580,12 @@
           }
         }
       }
+    },
+    "This day doesn't have any scheduled tasks." : {
+    
+    },
+    "This Month" : {
+
     },
     "This type of event is currently unsupported. Please contact the developer of this app." : {
       "localizations" : {
@@ -467,13 +597,28 @@
         }
       }
     },
-    "Total Protein Intake" : {
+    "Timeline" : {
+
+    },
+    "Today" : {
+
+    },
+    "This Week" : {
+
+    },
+    "Time Frame" : {
+
+    },
+    "Today" : {
+
+    },
+    "Today's Activities" : {
+
+    },
+    "Total Intake: %@ oz" : {
 
     },
     "Total Protein Intake" : {
-    
-    },
-    "Total Intake: %@ oz" : {
 
     },
     "Unsupported Event" : {
@@ -485,6 +630,12 @@
           }
         }
       }
+    },
+    "View" : {
+
+    },
+    "Weight:" : {
+
     },
     "WELCOME_AREA1_DESCRIPTION" : {
       "localizations" : {
@@ -525,6 +676,12 @@
           }
         }
       }
+    },
+    "What did you do?" : {
+
+    },
+    "When did you do it?" : {
+
     },
     "You need %@ oz more to reach your goal!" : {
 

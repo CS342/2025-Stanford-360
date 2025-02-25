@@ -13,6 +13,7 @@ import SpeziViews
 import SwiftUI
 
 
+// periphery:ignore - ScheduleView is a part of the SpeziTemplateApplication
 struct ScheduleView: View {
     @Environment(Account.self) private var account: Account?
     @Environment(Stanford360Scheduler.self) private var scheduler: Stanford360Scheduler
