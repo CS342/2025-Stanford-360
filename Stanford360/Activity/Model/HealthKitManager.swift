@@ -12,7 +12,7 @@ import Foundation
 import HealthKit
 
 enum HealthKitError: Error {
-    case authorizationDenied
+//    case authorizationDenied
     case dateCalculationFailed
     case fetchingStepsFailed
     case fetchingActiveMinutesFailed

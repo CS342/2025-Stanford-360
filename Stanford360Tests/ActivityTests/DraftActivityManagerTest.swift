@@ -1,44 +1,34 @@
+// //
+// //  ActivityManagerTest.swift
+// //  Stanford360Tests
+// //
+// //  Created by Elsa Bismuth on 29/01/2025.
+// //
+// // SPDX-FileCopyrightText: 2025 Stanford University
+// //
+// // SPDX-License-Identifier: MIT
 //
-//  ActivityManagerTest.swift
-//  Stanford360Tests
-//
-//  Created by Elsa Bismuth on 29/01/2025.
-//
-// SPDX-FileCopyrightText: 2025 Stanford University
-//
-// SPDX-License-Identifier: MIT
-
-import FirebaseFirestore
 // @testable import Stanford360
-import SwiftUICore
-import XCTest
-
-final class ActivityManagerTests: XCTestCase {
+// import FirebaseFirestore
+// import SwiftUICore
+// import XCTest
+//
+// @MainActor
+// final class ActivityManagerTests: XCTestCase {
 //    var activityManager: ActivityManager?
-////    var mockFirestore: Firestore!
-////    var mockUserDocRef: DocumentReference!
-////    @Environment(Stanford360Standard.self) private var standard
+// //    var mockFirestore: Firestore!
+// //    var mockUserDocRef: DocumentReference!
+//    @Environment(Stanford360Standard.self) private var standard
 //
-//    override func setUp() {
-//        super.setUp()
-//        activityManager = ActivityManager()
-//        
-//        // Initialize a mock Firestore instance for testing
-////        mockFirestore = Firestore.firestore()
-////        mockUserDocRef = mockFirestore.collection("users").document("testUser")
-////        
-////        // Directly override the `userDocumentReference` method using a testable extension
-////        standard.configuration.userDocumentReference = {
-////            return self.mockUserDocRef
-////        }
-//    }
+//    override func setUp() async throws {
+//          try await super.setUp()
+//          activityManager = ActivityManager()
+//      }
 //
-//    override func tearDown() {
-//        activityManager = nil
-////        mockFirestore = nil
-////        mockUserDocRef = nil
-//        super.tearDown()
-//    }
+//      override func tearDown() async throws {
+//          activityManager = nil
+//          try await super.tearDown()
+//      }
 //
 //    /// **Test: Logging a new activity**
 //    func testLogActivityToView() {
@@ -176,24 +166,24 @@ final class ActivityManagerTests: XCTestCase {
 //        XCTAssertEqual(todayActivity?.steps, 4000, "Today's activity steps should be correct.")
 //    }
 //    
-////    /// **Test: Motivational Message**
-////    func testTriggerMotivation() {
-////        guard let manager = activityManager else {
-////                XCTFail("Activity Manager not initialized")
-////                return
-////        }
-////        let activity = Activity(
-////            date: Date(),
-////            steps: 5000,
-////            activeMinutes: 50,
-////            caloriesBurned: 200,
-////            activityType: "Running"
-////        )
-////        manager.logActivityToView(activity)
-////
-////        let message = manager.triggerMotivation()
-////        XCTAssertTrue(message.contains("Keep going!"), "Message should encourage user to complete 60 minutes.")
-////    }
+//    /// **Test: Motivational Message**
+//    func testTriggerMotivation() {
+//        guard let manager = activityManager else {
+//                XCTFail("Activity Manager not initialized")
+//                return
+//        }
+//        let activity = Activity(
+//            date: Date(),
+//            steps: 5000,
+//            activeMinutes: 50,
+//            caloriesBurned: 200,
+//            activityType: "Running"
+//        )
+//        manager.logActivityToView(activity)
+//
+//        let message = manager.triggerMotivation()
+//        XCTAssertTrue(message.contains("Keep going!"), "Message should encourage user to complete 60 minutes.")
+//    }
 //    
 //    func testSendActivityReminder() {
 //        guard let manager = activityManager else {
@@ -254,36 +244,5 @@ final class ActivityManagerTests: XCTestCase {
 //            }
 //        }
 //    }
-    
-//    /// **Test: Store Activity in Firestore**
-//        func testStoreActivity() async throws {
-//            guard let manager = activityManager else {
-//                XCTFail("Activity Manager not initialized")
-//                return
-//            }
-//
-//            let activity = Activity(
-//                date: Date(),
-//                steps: 6000,
-//                activeMinutes: 60,
-//                caloriesBurned: 250,
-//                activityType: "Running"
-//            )
-//
-//            do {
-//                try await standard.store(activity: activity)
-//                
-//                // Fetch stored data to verify
-//                let snapshot = try await mockUserDocRef.collection("activities").getDocuments()
-//                let storedActivities = snapshot.documents.map { try? $0.data(as: Activity.self) }
-//                
-//                XCTAssertFalse(storedActivities.isEmpty, "Activity should be stored in Firestore.")
-//                XCTAssertEqual(storedActivities.first??.steps, 6000, "Stored activity steps should match.")
-//                XCTAssertEqual(storedActivities.first??.activeMinutes, 60, "Stored activity minutes should match.")
-//                XCTAssertEqual(storedActivities.first??.activityType, "Running", "Stored activity type should match.")
-//
-//            } catch {
-//                XCTFail("Failed to store activity: \(error)")
-//            }
-//        }
-}
+//    
+// }

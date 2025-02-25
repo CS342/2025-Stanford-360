@@ -1,3 +1,7 @@
+// // SPDX-FileCopyrightText: 2025 Stanford University
+// //
+// // SPDX-License-Identifier: MIT
+
 // import XCTest
 // @testable import Stanford360
 // import HealthKit

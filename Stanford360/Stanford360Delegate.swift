@@ -23,8 +23,8 @@ import UserNotifications
 
 
 class Stanford360Delegate: SpeziAppDelegate {
-    let activityReminderTaskId = "com.stanford360.activityReminder"
-    let sharedActivityManager = ActivityManager()
+//    let activityReminderTaskId = "com.stanford360.activityReminder"
+//    let sharedActivityManager = ActivityManager()
     
     override var configuration: Configuration {
         Configuration(standard: Stanford360Standard()) {

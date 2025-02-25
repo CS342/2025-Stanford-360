@@ -77,10 +77,10 @@ class ActivityManager {
         }
     }
     
-    func getTodayActivity() -> Activity? {
-        let today = Calendar.current.startOfDay(for: Date())
-        return activities.first { Calendar.current.startOfDay(for: $0.date) == today }
-    }
+//    func getTodayActivity() -> Activity? {
+//        let today = Calendar.current.startOfDay(for: Date())
+//        return activities.first { Calendar.current.startOfDay(for: $0.date) == today }
+//    }
     
     func getWeeklySummary() -> [Activity] {
         let calendar = Calendar.current
@@ -100,25 +100,25 @@ class ActivityManager {
             .sorted { $0.date < $1.date }
     }
     
-    func checkStreak() -> Int {
-        var streak = 0
-        let calendar = Calendar.current
-        let sortedActivities = activities.sorted(by: { $0.date > $1.date })
-        var previousDate: Date?
-        
-        for activity in sortedActivities {
-            let activityDate = calendar.startOfDay(for: activity.date)
-            if let prev = previousDate, calendar.date(byAdding: .day, value: -1, to: prev) != activityDate {
-                break
-            }
-            if activity.activeMinutes >= 60 {
-                streak += 1
-                previousDate = activityDate
-            }
-        }
-        return streak
-    }
-    
+//    func checkStreak() -> Int {
+//        var streak = 0
+//        let calendar = Calendar.current
+//        let sortedActivities = activities.sorted(by: { $0.date > $1.date })
+//        var previousDate: Date?
+//        
+//        for activity in sortedActivities {
+//            let activityDate = calendar.startOfDay(for: activity.date)
+//            if let prev = previousDate, calendar.date(byAdding: .day, value: -1, to: prev) != activityDate {
+//                break
+//            }
+//            if activity.activeMinutes >= 60 {
+//                streak += 1
+//                previousDate = activityDate
+//            }
+//        }
+//        return streak
+//    }
+//    
     func triggerMotivation() -> String {
         if todayTotalMinutes >= 60 {
             return "🎉 Amazing! You've reached your daily goal of 60 minutes!"

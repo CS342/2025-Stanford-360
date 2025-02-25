@@ -33,7 +33,6 @@ struct HomeView: View {
                 ScheduleView(presentingAccount: $presentingAccount)
             }
                 .customizationID("home.schedule")
-            /// **Activity Tracking Tab (NEW)**
             Tab("Activity", systemImage: "figure.walk", value: .activity) {
                 ActivityView()
             }

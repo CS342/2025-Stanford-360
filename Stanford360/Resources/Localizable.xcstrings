@@ -1,6 +1,21 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@" : {
+
+    },
+    "⏳ Minutes: %lld" : {
+
+    },
+    "🏃 Activity: %@" : {
+
+    },
+    "🔥 Calories: %lld" : {
+
+    },
+    "🚶 Steps: %lld" : {
+    
+    },
     "" : {
 
     },
@@ -63,6 +78,12 @@
     },
     "Add Activity Button" : {
 
+    },
+    "Activity Tracker" : {
+
+    },
+    "Activity Type" : {
+    
     },
     "Add Meal" : {
 
@@ -304,6 +325,12 @@
       }
     },
     "Log Water Intake" : {
+    
+    },
+    "Log Activity" : {
+    
+    },
+    "Meal" : {
 
     },
     "Log your water intake" : {
@@ -466,6 +493,9 @@
           }
         }
       }
+    },
+    "Steps" : {
+
     },
     "Swift Package Manager" : {
       "localizations" : {

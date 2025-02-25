@@ -12,7 +12,7 @@
 import XCTest
 import XCTestExtensions
 
- class ActivityViewUITests: XCTestCase {
+class ActivityViewUITests: XCTestCase {
 //    @MainActor
 //    override func setUp() async throws {
 //        continueAfterFailure = false
@@ -67,6 +67,7 @@ import XCTestExtensions
 //
 //        firstActivity.swipeLeft()
 ////        app.buttons["Delete"].tap()
+//        app.buttons["Delete"].tap()
 //
 //        // Ensure activity is removed
 //        XCTAssertFalse(firstActivity.exists)

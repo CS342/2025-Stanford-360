@@ -28,9 +28,4 @@ struct Activity: Identifiable, Codable {
         self.caloriesBurned = caloriesBurned
         self.activityType = activityType
     }
-    
-    /// Converts steps to active minutes (1000 steps ≈ 10 min).
-    static func convertStepsToMinutes(steps: Int) -> Int {
-        steps / 100
-    }
 }

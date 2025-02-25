@@ -24,7 +24,7 @@ struct ActivityView: View {
     @State private var showingAddActivity = false
     @State private var selectedTimeFrame: TimeFrame = .today
     
-    @Environment(Stanford360Standard.self) private var standard
+//    @Environment(Stanford360Standard.self) private var standard
     
     var body: some View {
         NavigationStack {

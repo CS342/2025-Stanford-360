@@ -4,6 +4,9 @@
 //
 //  Created by Elsa Bismuth on 14/02/2025.
 //
+// SPDX-FileCopyrightText: 2025 Stanford University
+//
+// SPDX-License-Identifier: MIT
 
 @testable import Stanford360
 import XCTest
