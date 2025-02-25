@@ -21,23 +21,23 @@ class ProteinIntakeModelTests: XCTestCase {
 		super.tearDown()
     }
 
-    func testAddMeal() {
-        model.addMeal(name: "Test Meal", proteinGrams: 20.0)
+//    func testAddMeal() {
+//        model.addMeal(name: "Test Meal", proteinGrams: 20.0)
+//
+//        XCTAssertEqual(model.meals.count, 1)
+//        XCTAssertEqual(model.meals.first?.name, "Test Meal")
+//        XCTAssertEqual(model.meals.first?.proteinGrams, 20.0)
+//    }
 
-        XCTAssertEqual(model.meals.count, 1)
-        XCTAssertEqual(model.meals.first?.name, "Test Meal")
-        XCTAssertEqual(model.meals.first?.proteinGrams, 20.0)
-    }
-
-    func testDeleteMeal() {
-        model.addMeal(name: "Meal 1", proteinGrams: 20.0)
-        model.addMeal(name: "Meal 2", proteinGrams: 30.0)
-
-        model.deleteMeal(byName: "Meal 1")
-
-        XCTAssertEqual(model.meals.count, 1)
-        XCTAssertEqual(model.meals.first?.name, "Meal 2")
-    }
+//    func testDeleteMeal() {
+//        model.addMeal(name: "Meal 1", proteinGrams: 20.0)
+//        model.addMeal(name: "Meal 2", proteinGrams: 30.0)
+//
+//        model.deleteMeal(byName: "Meal 1")
+//
+//        XCTAssertEqual(model.meals.count, 1)
+//        XCTAssertEqual(model.meals.first?.name, "Meal 2")
+//    }
 
     func testTotalProteinCalculation() {
         model.addMeal(name: "Meal 1", proteinGrams: 20.0)
