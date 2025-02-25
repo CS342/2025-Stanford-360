@@ -25,7 +25,7 @@ struct HomeView: View {
     @AppStorage(StorageKeys.tabViewCustomization) private var tabViewCustomization = TabViewCustomization()
 
     @State private var presentingAccount = false
-
+    @State private var activityManager = ActivityManager()
     
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -33,15 +33,10 @@ struct HomeView: View {
                 ScheduleView(presentingAccount: $presentingAccount)
             }
                 .customizationID("home.schedule")
-            /// **Activity Tracking Tab (NEW)**
             Tab("Activity", systemImage: "figure.walk", value: .activity) {
-                ActivityView() // 👈 Added the ActivityView here
+                ActivityView()
             }
             .customizationID("home.activity")
-            Tab("Contacts", systemImage: "person.fill", value: .contact) {
-                Contacts(presentingAccount: $presentingAccount)
-            }
-                .customizationID("home.contacts")
             Tab("Hydration", systemImage: "drop.fill", value: .hydration) {
                 HydrationTrackerView()
             }
@@ -54,6 +49,14 @@ struct HomeView: View {
                 ))
             }
                 .customizationID("home.protein")
+            Tab("Contacts", systemImage: "person.fill", value: .contact) {
+                Contacts(presentingAccount: $presentingAccount)
+            }
+                .customizationID("home.contacts")
+        }
+        
+        .task {
+            activityManager.sendActivityReminder()
         }
             .tabViewStyle(.sidebarAdaptable)
             .tabViewCustomization($tabViewCustomization)
