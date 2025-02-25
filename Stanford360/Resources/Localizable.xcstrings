@@ -32,6 +32,12 @@
     "⏳ Minutes: %lld" : {
 
     },
+    "%lld" : {
+
+    },
+    "%lld min" : {
+
+    },
     "🎉 Goal Reached! Stay Hydrated! 🎉" : {
 
     },
@@ -83,6 +89,15 @@
     "Activity" : {
 
     },
+    "Activity Breakdown" : {
+
+    },
+    "Activity Time" : {
+
+    },
+    "Add Activity Button" : {
+
+    },
     "Activity Tracker" : {
 
     },
@@ -96,6 +111,9 @@
 
     },
     "All Tasks" : {
+    
+    },
+    "Add Your Activity! 🎯" : {
 
     },
     "Allow Notifications" : {
@@ -109,6 +127,9 @@
       }
     },
     "Base" : {
+
+    },
+    "Cancel" : {
 
     },
     "Close" : {
@@ -157,10 +178,19 @@
     "Enter height" : {
 
     },
+    "Date" : {
+
+    },
     "Enter intake (oz)" : {
 
     },
     "Enter weight" : {
+    
+    },
+    "Goal" : {
+
+    },
+    "Goal: 60 minutes per day" : {
 
     },
     "Grant Access" : {
@@ -227,6 +257,9 @@
       }
     },
     "Home" : {
+    
+    },
+    "How many minutes?" : {
 
     },
     "Hydration" : {
@@ -299,6 +332,9 @@
 
     },
     "John Doe" : {
+    
+    },
+    "Invalid Date" : {
 
     },
     "Learn More" : {
@@ -331,6 +367,9 @@
         }
       }
     },
+    "Log Water Intake" : {
+    
+    },
     "Log Activity" : {
 
     },
@@ -352,6 +391,15 @@
     "Navigate to task details" : {
 
     },
+    "minutes" : {
+
+    },
+    "Minutes" : {
+
+    },
+    "My Active Journey 🏃‍♂️" : {
+
+    },
     "Next" : {
       "localizations" : {
         "en" : {
@@ -361,6 +409,15 @@
           }
         }
       }
+    },
+    "No activities logged this month." : {
+
+    },
+    "No activities logged this week." : {
+
+    },
+    "No activities logged today" : {
+
     },
     "No meals added yet" : {
 
@@ -391,6 +448,9 @@
         }
       }
     },
+    "OK" : {
+
+    },
     "Onboarding" : {
       "localizations" : {
         "en" : {
@@ -411,6 +471,9 @@
         }
       }
     },
+    "Please select a date and time that isn't in the future." : {
+
+    },
     "Protein" : {
 
     },
@@ -424,6 +487,9 @@
 
     },
     "Save" : {
+
+    },
+    "Save My Activity! 🌟" : {
 
     },
     "Schedule" : {
@@ -516,6 +582,9 @@
       }
     },
     "This day doesn't have any scheduled tasks." : {
+    
+    },
+    "This Month" : {
 
     },
     "This type of event is currently unsupported. Please contact the developer of this app." : {
@@ -532,6 +601,18 @@
 
     },
     "Today" : {
+
+    },
+    "This Week" : {
+
+    },
+    "Time Frame" : {
+
+    },
+    "Today" : {
+
+    },
+    "Today's Activities" : {
 
     },
     "Total Intake: %@ oz" : {
@@ -595,6 +676,12 @@
           }
         }
       }
+    },
+    "What did you do?" : {
+
+    },
+    "When did you do it?" : {
+
     },
     "You need %@ oz more to reach your goal!" : {
 

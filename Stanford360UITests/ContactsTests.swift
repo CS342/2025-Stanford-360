@@ -19,7 +19,6 @@ class ContactsTests: XCTestCase {
         app.launch()
     }
     
-
 //    @MainActor
 //    func testContacts() throws {
 //        let app = XCUIApplication()
