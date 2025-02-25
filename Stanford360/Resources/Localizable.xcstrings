@@ -7,13 +7,22 @@
     "%.2f g" : {
 
     },
-    "%@" : {
-
-    },
-    "%lf" : {
-
-    },
     "%lld" : {
+
+    },
+    "%lld / 60 oz" : {
+
+    },
+    "%lld Day Streak" : {
+
+    },
+    "%lld min" : {
+
+    },
+    "%lld oz" : {
+
+    },
+    "%lld oz water" : {
 
     },
     "%lld/%lld completed" : {
@@ -29,31 +38,16 @@
     "%lld%%" : {
 
     },
-    "⏳ Minutes: %lld" : {
-
-    },
-    "%lld" : {
-
-    },
-    "%lld min" : {
+    "🍗 Protein Tracker" : {
 
     },
     "🎉 Goal Reached! Stay Hydrated! 🎉" : {
 
     },
-    "🏃 Activity: %@" : {
-
-    },
     "💧 Hydration Tracker" : {
 
     },
-    "🔥 Calories: %lld" : {
-
-    },
-    "🔥 Streak: %lld days!" : {
-
-    },
-    "🚶 Steps: %lld" : {
+    "2 of 3 Meals" : {
 
     },
     "ACCOUNT_SETUP_DESCRIPTION" : {
@@ -98,22 +92,16 @@
     "Add Activity Button" : {
 
     },
-    "Activity Tracker" : {
-
-    },
-    "Activity Type" : {
-
-    },
     "Add Meal" : {
 
     },
     "Add New Meal" : {
 
     },
-    "All Tasks" : {
-    
-    },
     "Add Your Activity! 🎯" : {
+
+    },
+    "All Tasks" : {
 
     },
     "Allow Notifications" : {
@@ -129,7 +117,16 @@
     "Base" : {
 
     },
+    "camera" : {
+
+    },
     "Cancel" : {
+
+    },
+    "checkmark" : {
+
+    },
+    "clock" : {
 
     },
     "Close" : {
@@ -141,6 +138,9 @@
           }
         }
       }
+    },
+    "Congratulations! You've reached your protein intake goal! 🎉" : {
+
     },
     "CONSENT_LOADING_ERROR" : {
       "localizations" : {
@@ -172,22 +172,34 @@
         }
       }
     },
-    "Edit" : {
-
-    },
-    "Enter height" : {
+    "Daily Meals" : {
 
     },
     "Date" : {
 
     },
-    "Enter intake (oz)" : {
+    "Day" : {
 
     },
-    "Enter weight" : {
-    
+    "Do not forget to take in protein everyday! You're doing great!🤩" : {
+
+    },
+    "Enter meal name" : {
+
+    },
+    "flame" : {
+
+    },
+    "fork" : {
+
+    },
+    "g" : {
+
     },
     "Goal" : {
+
+    },
+    "Goal: %lld g" : {
 
     },
     "Goal: 60 minutes per day" : {
@@ -243,9 +255,6 @@
         }
       }
     },
-    "Height:" : {
-
-    },
     "HL7 FHIR" : {
       "localizations" : {
         "en" : {
@@ -257,7 +266,7 @@
       }
     },
     "Home" : {
-    
+
     },
     "How many minutes?" : {
 
@@ -265,7 +274,16 @@
     "Hydration" : {
 
     },
+    "Hydration Period" : {
+
+    },
     "Hydration Tracker Header" : {
+
+    },
+    "Intake" : {
+
+    },
+    "Intake time" : {
 
     },
     "Interesting Modules" : {
@@ -328,12 +346,6 @@
         }
       }
     },
-    "JD" : {
-
-    },
-    "John Doe" : {
-    
-    },
     "Invalid Date" : {
 
     },
@@ -368,18 +380,9 @@
       }
     },
     "Log Water Intake" : {
-    
-    },
-    "Log Activity" : {
-
-    },
-    "Log Water Intake" : {
 
     },
     "Log your water intake" : {
-
-    },
-    "Me" : {
 
     },
     "Meal" : {
@@ -388,16 +391,19 @@
     "Meal Name" : {
 
     },
-    "Navigate to task details" : {
-
-    },
     "minutes" : {
 
     },
     "Minutes" : {
 
     },
+    "Monthly Hydration" : {
+
+    },
     "My Active Journey 🏃‍♂️" : {
+
+    },
+    "Navigate to task details" : {
 
     },
     "Next" : {
@@ -417,6 +423,9 @@
 
     },
     "No activities logged today" : {
+
+    },
+    "No Image Available" : {
 
     },
     "No meals added yet" : {
@@ -474,19 +483,28 @@
     "Please select a date and time that isn't in the future." : {
 
     },
+    "protein" : {
+
+    },
     "Protein" : {
 
     },
     "Protein (g)" : {
 
     },
-    "Protein Tracker" : {
+    "Protein Amount (g)" : {
+
+    },
+    "Protein Content" : {
 
     },
     "Remaining" : {
 
     },
     "Save" : {
+
+    },
+    "Save Meal" : {
 
     },
     "Save My Activity! 🌟" : {
@@ -501,6 +519,9 @@
           }
         }
       }
+    },
+    "selectImage" : {
+
     },
     "Social Support Questionnaire" : {
       "localizations" : {
@@ -552,7 +573,7 @@
         }
       }
     },
-    "Steps" : {
+    "Streak icon" : {
 
     },
     "Swift Package Manager" : {
@@ -582,7 +603,7 @@
       }
     },
     "This day doesn't have any scheduled tasks." : {
-    
+
     },
     "This Month" : {
 
@@ -597,25 +618,19 @@
         }
       }
     },
-    "Timeline" : {
-
-    },
-    "Today" : {
-
-    },
     "This Week" : {
 
     },
     "Time Frame" : {
 
     },
+    "Timeline" : {
+
+    },
     "Today" : {
 
     },
     "Today's Activities" : {
-
-    },
-    "Total Intake: %@ oz" : {
 
     },
     "Total Protein Intake" : {
@@ -634,7 +649,10 @@
     "View" : {
 
     },
-    "Weight:" : {
+    "Week" : {
+
+    },
+    "Weekly Hydration" : {
 
     },
     "WELCOME_AREA1_DESCRIPTION" : {
@@ -681,6 +699,9 @@
 
     },
     "When did you do it?" : {
+
+    },
+    "You have reached the first 30-gram of protein goal🎉. You need %@ gram more to reach your goal!💪" : {
 
     },
     "You need %@ oz more to reach your goal!" : {

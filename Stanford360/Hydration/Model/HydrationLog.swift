@@ -12,8 +12,6 @@ import Foundation
 // MARK: - Hydration Log Model
 struct HydrationLog: Identifiable, Codable {
     @DocumentID var id: String?
-    // periphery:ignore
-    var date: Date
     var amountOz: Double
     var streak: Int
     var lastTriggeredMilestone: Double
@@ -21,7 +19,6 @@ struct HydrationLog: Identifiable, Codable {
     var isStreakUpdated: Bool
 
     init(
-        date: Date,
         amountOz: Double,
         streak: Int,
         lastTriggeredMilestone: Double,
@@ -30,7 +27,6 @@ struct HydrationLog: Identifiable, Codable {
         id: String? = UUID().uuidString
     ) {
         self.id = id
-        self.date = date
         self.amountOz = amountOz
         self.streak = streak
         self.lastTriggeredMilestone = lastTriggeredMilestone
