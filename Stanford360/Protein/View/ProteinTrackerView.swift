@@ -9,19 +9,48 @@
 import SwiftUI
 
 struct ProteinTrackerView: View {
+    // TimeFrame Enum
+    enum ProteinTimeFrame {
+        case today
+        case week
+        case month
+    }
+    
+//    @Environment(Stanford360Standard.self) private var standard
+//    @ObservedObject var proteinData: ProteinIntakeModel
+//    @State private var totalProtein: Double // consider this design
+//    @State private var mealName: String = ""
+//    @State private var proteinAmount: Double = 0.0
+//    @State private var showingAddMeal = false
+    @State private var isLoading = false
     @State private var isCardAnimating = false
     @State private var isProgressAnimating = false
+    @State var selectedTimeFrame: ProteinTimeFrame = .today
     
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 32) {
                     headerView()
-                    DailyProgressView(currentValue:45, maxValue: 60)
-                        .frame(height: 250)
-                        .frame(maxWidth: .infinity, alignment: .center)
+                    proteinPeriodPicker()
+                    // proteinPeriodPicker
+                    switch selectedTimeFrame {
+                    case .today:
+                        DailyProgressView(currentValue:45, maxValue: 60)
+                            .frame(height: 250)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                    case .week:
+                        DailyProgressView(currentValue:45, maxValue: 60)
+                            .frame(height: 250)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                    case .month:
+                        DailyProgressView(currentValue:45, maxValue: 60)
+                            .frame(height: 250)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                    }
                     Spacer()
                     mealsCardView()
+                    // add meal here
                 }
                 .padding()
             }
@@ -102,6 +131,17 @@ struct ProteinTrackerView: View {
                 }
         }
     }
+    
+    // add picker to change the pick decided by the period
+    func proteinPeriodPicker() -> some View {
+          Picker("Hydration Period", selection: $selectedTimeFrame) {
+              Text("Today").tag(ProteinTimeFrame.today)
+              Text("This Week").tag(ProteinTimeFrame.week)
+              Text("This Month").tag(ProteinTimeFrame.month)
+          }
+          .pickerStyle(SegmentedPickerStyle())
+          .padding(.horizontal)
+      }
     
     private func mealRowView(mealName: String, protein: String, time: String, isCompleted: Bool) -> some View {
         HStack {
