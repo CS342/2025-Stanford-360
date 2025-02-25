@@ -12,49 +12,68 @@ import SwiftUI
 struct ProteinContentView: View {
     @Environment(Stanford360Standard.self) private var standard
     @ObservedObject var proteinData: ProteinIntakeModel
-    @State private var totalProtein: Double
+    @State private var totalProtein: Double // consider this design
     @State private var mealName: String = ""
     @State private var proteinAmount: Double = 0.0
     @State private var showingAddMeal = false
+    @State private var isLoading = false
 
     var body: some View {
         NavigationStack {
             VStack {
+                headerView()
                 proteinOverview()
                 ChartView(meals: proteinData.meals)
-                Spacer()
+                // Spacer()
                 addMealButton()
+                congratulatoryDisplay()
                 mealList()
             }
             .padding()
-            .onAppear {
+            .task {
                 updateTotalProtein()
+                await loadMealsFromFirebase()
             }
-            .navigationTitle("Protein Tracker")
+            .overlay {
+                if isLoading {
+                    ProgressView()
+                        .scaleEffect(1.5)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color.black.opacity(0.2))
+                }
+            }
         }
     }
 
-    // MARK: - Initializer
+
     init(proteinData: ProteinIntakeModel) {
         self.proteinData = proteinData
         _totalProtein = State(initialValue: proteinData.totalProteinGrams)
     }
+    
+    func headerView() -> some View {
+        Text("🍗 Protein Tracker")
+            .font(.largeTitle)
+            .bold()
+            .padding()
+            // .accessibilityLabel("Protein Tracker Header")
+    }
 
-    // MARK: - Protein Overview
-    private func proteinOverview() -> some View {
+    // Displays the total protein intake overview
+    func proteinOverview() -> some View {
         VStack {
             Text("Total Protein Intake")
-                .font(.largeTitle)
+                .font(.title2)
                 .bold()
                 .padding()
             Text("\(totalProtein, specifier: "%.2f") g")
-                .font(.largeTitle)
+                .font(.title2)
                 .foregroundColor(totalProtein >= 100 ? .green : .primary)
         }
     }
 
-    // MARK: - Add Meal Button
-    private func addMealButton() -> some View {
+    // Button to add a new meal
+    func addMealButton() -> some View {
         Button("Add Meal") {
             showingAddMeal = true
         }
@@ -67,8 +86,8 @@ struct ProteinContentView: View {
         }
     }
 
-    // MARK: - Add Meal View
-    private func addMealView() -> some View {
+    // Form view for adding a new meal
+    func addMealView() -> some View {
         Form {
             Section {
                 TextField("Meal Name", text: $mealName)
@@ -87,74 +106,154 @@ struct ProteinContentView: View {
         .navigationBarItems(
             trailing: Button("Save") {
                 if !mealName.isEmpty && proteinAmount > 0 {
-                    addMeal(name: mealName, proteinGrams: proteinAmount)
-                    mealName = ""
-                    proteinAmount = 0.0
-                    showingAddMeal = false  // 使用这个来关闭 sheet
+                    Task {
+                        await saveMeal()
+                    }
                 }
             }
             .disabled(mealName.isEmpty || proteinAmount <= 0)
         )
     }
 
-    // MARK: - Meal List
-    private func mealList() -> some View {
+    // List view of all meals
+    func mealList() -> some View {
         List {
+            // ForEach(proteinData.meals, id: \.id) { meal in -> modify the only one? Is there a need?
             ForEach(proteinData.meals, id: \.name) { meal in
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text(meal.name)
-                            .font(.headline)
-                        Text(meal.timestamp, style: .date)
-                            .font(.caption)
-                            .foregroundColor(.gray)
+                NavigationLink(destination: MealDetailView(meal: meal)) {
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(meal.name)
+                                .font(.headline)
+                            Text(meal.timestamp, style: .date)
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                        }
+                        Spacer()
+                        Text("\(meal.proteinGrams, specifier: "%.2f") g")
+                            .foregroundColor(.secondary)
                     }
-                    Spacer()
-                    Text("\(meal.proteinGrams, specifier: "%.2f") g")
-                        .foregroundColor(.secondary)
                 }
             }
             .onDelete(perform: deleteMeal)
         }
     }
 
-    // MARK: - Methods
-    private func addMeal(name: String, proteinGrams: Double) {
-        proteinData.addMeal(name: name, proteinGrams: proteinGrams)
-        updateTotalProtein()
-        // Then store in Firebase
-        Task {
-            do {
-                let meal = Meal(name: name, proteinGrams: proteinGrams)
-                try await standard.storeMeal(meal: meal)
-            } catch {
-                print("Error storing meal to Firebase:\(error)")
-                // add UI to deal with exception error catching
+    
+    // Save a new meal to both local state and Firebase
+    func saveMeal() async {
+        do {
+            // First store in Firebase
+            let meal = Meal(name: mealName, proteinGrams: proteinAmount)
+            try await standard.storeMeal(meal: meal)
+            
+            // Then update local state
+            await MainActor.run {
+                proteinData.addMeal(name: mealName, proteinGrams: proteinAmount)
+                updateTotalProtein()
+                // Reset form and close sheet
+                mealName = ""
+                proteinAmount = 0.0
+                showingAddMeal = false
+                print("Meal have been added to the firebase!")
             }
+        } catch {
+            print("Error storing meal to Firebase: \(error)")
         }
     }
 
-    private func deleteMeal(at offsets: IndexSet) {
+    // Delete meals at specified indices
+    func deleteMeal(at offsets: IndexSet) {
         for index in offsets {
             let meal = proteinData.meals[index]
-            // delete from local model
-            proteinData.deleteMeal(byName: meal.name)
-            updateTotalProtein()
-            
-            // delete from firebase
             Task {
                 do {
+                    // First delete from Firebase
                     try await standard.deleteMeal(withName: meal.name, timestamp: meal.timestamp)
+                    
+                    // Then update local state
+                    await MainActor.run {
+                        proteinData.deleteMeal(byName: meal.name)
+                        updateTotalProtein()
+                    }
                 } catch {
-                    print("Error deleting meal from Firebase:\(error)")
-                    // add UI to deal with exception error catching
+                    print("Error deleting meal from Firebase: \(error)")
                 }
             }
         }
     }
 
-    // loading data when the dataUI first load
-    private func updateTotalProtein() {
+    // Load meals data from Firebase
+    func loadMealsFromFirebase() async {
+        isLoading = true
+        do {
+            let meals = try await standard.fetchMeals()
+            print("feteching meals.....", meals)
+            // Update UI on main thread
+            await MainActor.run {
+                // Clear existing meals before adding new ones
+                proteinData.meals.removeAll()
+                
+                // Add fetched meals
+                for meal in meals {
+                    proteinData.addMeal(
+                        name: meal.name,
+                        proteinGrams: meal.proteinGrams,
+                        imageURL: meal.imageURL,
+                        timestamp: meal.timestamp
+                    )
+                }
+                updateTotalProtein()
+                isLoading = false
+            }
+        } catch {
+            print("Error loading meals from Firebase: \(error)")
+            isLoading = false
+        }
+    }
+
+    // Update the total protein count
+    func updateTotalProtein() {
         totalProtein = proteinData.totalProteinGrams
     }
+    
+    // trigger congratulatory messages for the first 30-gram of protein consumed and upon reaching the 60-gram protein target
+    func congratulatoryDisplay() -> some View {
+        Group {
+            if totalProtein >= 30 && totalProtein < 60 {
+                Text("You have reached the first 30-gram of protein goal🎉. You need \(String(format: "%.1f", 60 - totalProtein)) gram more to reach your goal!💪")
+                    .font(.subheadline)
+                    .foregroundColor(.green)
+            } else if totalProtein >= 60 {
+                Text("Congratulations! You've reached your protein intake goal! 🎉")
+                    .font(.subheadline)
+                    .foregroundColor(.green)
+            } else {
+                Text("Do not forget to take in protein everyday! You're doing great!🤩")
+                    .font(.subheadline)
+                    .foregroundColor(.blue)
+            }
+        }
+    }
+// make proteinData var
+//    func saveToStorage() {
+//        if let data = try? JSONEncoder().encode(proteinData) {
+//            UserDefaults.standard.set(data, forKey: proteinData)
+//        }
+//    }
 }
+    
+    // send notifications
+//    func sendProteinReminder(){
+//        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["proteinReminder"])
+//        let content = UNMutableNotificationContent()
+//        content.title = "Congrats!🎉"
+//        content.body = "You have meet the protein intake."
+//        content.sound = .default
+//
+//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 4 * 60 * 60, repeats: false)
+//
+//        let request = UNNotificationRequest(identifier: "proteinReminder", content: content, trigger: trigger)
+//
+//        UNUserNotificationCenter.current().add(request)
+//    }

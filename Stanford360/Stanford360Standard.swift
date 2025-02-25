@@ -288,36 +288,36 @@ actor Stanford360Standard: Standard,
         }
     }
     
-//    // retrieves all meals for the current user
-//    @MainActor
-//    func fetchMeals() async throws -> [Meal] {
-//        if FeatureFlags.disableFirebase {
-//            return []
-//        }
-//        do {
-//            let snapshot = try await configuration.userDocumentReference
-//                .collection("meals")
-//                .getDocuments()
-//            
-//            return snapshot.documents.compactMap { document in
-//                guard let name = document.data()["name"] as? String,
-//                      let proteinGrams = document.data()["protein"] as? Double,
-//                      let timestamp = document.data()["timestamp"] as? Date else {
-//                    return nil
-//                }
-//                
-//                return Meal(
-//                    name: name,
-//                    proteinGrams: proteinGrams,
-//                    imageURL: document.data()["imageURL"] as? String,
-//                    timestamp: timestamp
-//                )
-//            }
-//        } catch {
-//            await logger.error("Could not fetch meals:\(error)")
-//            throw error
-//        }
-//    }
+    // retrieves all meals for the current user
+    @MainActor
+    func fetchMeals() async throws -> [Meal] {
+        if FeatureFlags.disableFirebase {
+            return []
+        }
+        do {
+            let snapshot = try await configuration.userDocumentReference
+                .collection("meals")
+                .getDocuments()
+            
+            return snapshot.documents.compactMap { document in
+                guard let name = document.data()["name"] as? String,
+                      let proteinGrams = document.data()["protein"] as? Double,
+                      let timestamp = document.data()["timestamp"] as? Date else {
+                    return nil
+                }
+                
+                return Meal(
+                    name: name,
+                    proteinGrams: proteinGrams,
+                    imageURL: document.data()["imageURL"] as? String,
+                    timestamp: timestamp
+                )
+            }
+        } catch {
+            await logger.error("Could not fetch meals:\(error)")
+            throw error
+        }
+    }
     
     // Delete a meal from Firebase
     @MainActor

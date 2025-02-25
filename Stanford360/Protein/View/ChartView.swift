@@ -5,23 +5,37 @@
 //
 // SPDX-License-Identifier: MIT
 //
+
 import Charts
 import SwiftUI
 
+
+// a visualization for a chart
 struct ChartView: View {
     let meals: [Meal]
+    
+    var maxProtein: Double {
+        meals.map { $0.proteinGrams }.max() ?? 0
+    }
+    
+    // Set chart height to 30% of screen height to prevent overflow
+    var chartHeight: CGFloat {
+        UIScreen.main.bounds.height * 0.3
+    }
+    
+    var yScaleMax: Double {
+        max(maxProtein * 1.2, 200)
+    }
     
     var body: some View {
         Chart {
             if meals.isEmpty {
-                RuleMark(
-                    y: .value("Base", 0)
-                )
-                .foregroundStyle(.clear)
-                .annotation(position: .overlay) {
-                    Text("No meals added yet")
-                        .foregroundStyle(.secondary)
-                }
+                RuleMark(y: .value("Base", 0))
+                    .foregroundStyle(.clear)
+                    .annotation(position: .automatic) {
+                        Text("No meals added yet")
+                            .foregroundStyle(.secondary)
+                    }
             } else {
                 ForEach(meals, id: \.name) { meal in
                     BarMark(
@@ -34,8 +48,8 @@ struct ChartView: View {
                 }
             }
         }
-        .frame(height: 200)
-        .chartYScale(domain: 0...200)
+        .frame(height: chartHeight)
+        .chartYScale(domain: 0...yScaleMax)
         .chartXAxis {
             AxisMarks(values: .automatic) { _ in
                 AxisValueLabel()
@@ -43,7 +57,7 @@ struct ChartView: View {
             }
         }
         .chartYAxis {
-            AxisMarks(position: .leading) {
+            AxisMarks(position: .leading) { _ in
                 AxisValueLabel()
                 AxisGridLine()
             }
