@@ -10,6 +10,8 @@ import SpeziNotifications
 import SpeziOnboarding
 import SwiftUI
 
+import class SpeziScheduler.Scheduler
+
 
 struct NotificationPermissions: View {
     @Environment(OnboardingNavigationPath.self) private var onboardingNavigationPath
@@ -73,6 +75,7 @@ struct NotificationPermissions: View {
     }
         .previewWith {
             Stanford360Scheduler()
+			Scheduler()
         }
 }
 #endif

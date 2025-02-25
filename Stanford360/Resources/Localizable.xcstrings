@@ -1,25 +1,35 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%@" : {
-
-    },
-    "⏳ Minutes: %lld" : {
-
-    },
-    "🏃 Activity: %@" : {
-
-    },
-    "🔥 Calories: %lld" : {
-
-    },
-    "🚶 Steps: %lld" : {
-    
-    },
     "" : {
 
     },
     "%.2f g" : {
+
+    },
+    "%@" : {
+
+    },
+    "%lf" : {
+
+    },
+    "%lld" : {
+
+    },
+    "%lld/%lld completed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld/%2$lld completed"
+          }
+        }
+      }
+    },
+    "%lld%%" : {
+
+    },
+    "⏳ Minutes: %lld" : {
 
     },
     "%lld" : {
@@ -31,10 +41,19 @@
     "🎉 Goal Reached! Stay Hydrated! 🎉" : {
 
     },
+    "🏃 Activity: %@" : {
+
+    },
     "💧 Hydration Tracker" : {
 
     },
+    "🔥 Calories: %lld" : {
+
+    },
     "🔥 Streak: %lld days!" : {
+
+    },
+    "🚶 Steps: %lld" : {
 
     },
     "ACCOUNT_SETUP_DESCRIPTION" : {
@@ -83,13 +102,16 @@
 
     },
     "Activity Type" : {
-    
+
     },
     "Add Meal" : {
 
     },
     "Add New Meal" : {
 
+    },
+    "All Tasks" : {
+    
     },
     "Add Your Activity! 🎯" : {
 
@@ -150,11 +172,20 @@
         }
       }
     },
+    "Edit" : {
+
+    },
+    "Enter height" : {
+
+    },
     "Date" : {
 
     },
     "Enter intake (oz)" : {
 
+    },
+    "Enter weight" : {
+    
     },
     "Goal" : {
 
@@ -212,6 +243,9 @@
         }
       }
     },
+    "Height:" : {
+
+    },
     "HL7 FHIR" : {
       "localizations" : {
         "en" : {
@@ -221,6 +255,9 @@
           }
         }
       }
+    },
+    "Home" : {
+    
     },
     "How many minutes?" : {
 
@@ -291,6 +328,12 @@
         }
       }
     },
+    "JD" : {
+
+    },
+    "John Doe" : {
+    
+    },
     "Invalid Date" : {
 
     },
@@ -328,18 +371,24 @@
     
     },
     "Log Activity" : {
-    
+
     },
-    "Meal" : {
+    "Log Water Intake" : {
 
     },
     "Log your water intake" : {
+
+    },
+    "Me" : {
 
     },
     "Meal" : {
 
     },
     "Meal Name" : {
+
+    },
+    "Navigate to task details" : {
 
     },
     "minutes" : {
@@ -371,6 +420,12 @@
 
     },
     "No meals added yet" : {
+
+    },
+    "No tasks" : {
+
+    },
+    "No tasks scheduled" : {
 
     },
     "NOTIFICATION_PERMISSIONS_DESCRIPTION" : {
@@ -426,6 +481,9 @@
 
     },
     "Protein Tracker" : {
+
+    },
+    "Remaining" : {
 
     },
     "Save" : {
@@ -507,6 +565,12 @@
         }
       }
     },
+    "Task completed checkmark" : {
+
+    },
+    "Task completed for day %lld" : {
+
+    },
     "The Spezi Framework" : {
       "localizations" : {
         "en" : {
@@ -516,6 +580,9 @@
           }
         }
       }
+    },
+    "This day doesn't have any scheduled tasks." : {
+    
     },
     "This Month" : {
 
@@ -529,6 +596,12 @@
           }
         }
       }
+    },
+    "Timeline" : {
+
+    },
+    "Today" : {
+
     },
     "This Week" : {
 
@@ -557,6 +630,12 @@
           }
         }
       }
+    },
+    "View" : {
+
+    },
+    "Weight:" : {
+
     },
     "WELCOME_AREA1_DESCRIPTION" : {
       "localizations" : {

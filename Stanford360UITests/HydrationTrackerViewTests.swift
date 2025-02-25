@@ -91,7 +91,7 @@ final class HydrationTrackerViewTests: XCTestCase {
 //        }
 //    }
 
-    
+//    
 //    /// **Extracts the streak value from the streak label**
 //    private func extractStreak(from text: String) -> Int {
 //        let pattern = "[0-9]+"

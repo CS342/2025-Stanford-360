@@ -19,8 +19,7 @@ class SchedulerTests: XCTestCase {
         app.launchArguments = ["--skipOnboarding"]
         app.deleteAndLaunch(withSpringboardAppName: "Stanford360")
     }
-//    
-//
+
 //    @MainActor
 //    func testScheduler() throws {
 //        let app = XCUIApplication()
