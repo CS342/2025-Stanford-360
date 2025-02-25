@@ -105,6 +105,7 @@ struct MealDetailView: View {
         .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
     }
     
+    
     private var placeholderImage: some View {
         ZStack {
             Rectangle()
@@ -114,7 +115,6 @@ struct MealDetailView: View {
                 Image(systemName: "fork.knife.circle.fill")
                     .font(.system(size: 60))
                     .foregroundColor(.gray)
-                    .accessibilityLabel("fork")
                 
                 Text("No Image Available")
                     .font(.caption)

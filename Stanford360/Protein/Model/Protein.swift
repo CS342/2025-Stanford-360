@@ -11,8 +11,8 @@ import Foundation
 
 // Protein Intake Model, can also be reviewed as a meal controller
 class ProteinIntakeModel: ObservableObject {
-//    @Published var userID: String // Unique identifier for the user
-//    @Published var date: Date // The date of the intake record, should be a period of time
+    @Published var userID: String // Unique identifier for the user
+    @Published var date: Date // The date of the intake record, should be a period of time
     @Published var meals: [Meal] // List of meals consumed by the user
 
     // Computed property to calculate the total protein intake for the day
@@ -20,9 +20,9 @@ class ProteinIntakeModel: ObservableObject {
         meals.reduce(0) { $0 + $1.proteinGrams }
     }
 
-    init(/*userID: String, date: Date, */meals: [Meal]) {
-//        self.userID = userID
-//        self.date = date
+    init(userID: String, date: Date, meals: [Meal]) {
+        self.userID = userID
+        self.date = date
         self.meals = meals
     }
     
@@ -55,28 +55,28 @@ class ProteinIntakeModel: ObservableObject {
         }
     }
 
-//    // Filter meals by a specific date
-//    func filterMeals(byDate targetDate: Date) -> [Meal] {
-//        meals.filter { Calendar.current.isDate($0.timestamp, inSameDayAs: targetDate) }
-//    }
+    // Filter meals by a specific date
+    func filterMeals(byDate targetDate: Date) -> [Meal] {
+        meals.filter { Calendar.current.isDate($0.timestamp, inSameDayAs: targetDate) }
+    }
 
-//    // Compute weekly total protein intake
-//    func getWeeklyProteinIntake() -> Double {
-//        let calendar = Calendar.current
-//        guard let oneWeekAgo = calendar.date(byAdding: .day, value: -7, to: date) else {
-//            return 0.0
-//        }
-//        return meals.filter { $0.timestamp >= oneWeekAgo }
-//            .reduce(0) { $0 + $1.proteinGrams }
-//    }
+    // Compute weekly total protein intake
+    func getWeeklyProteinIntake() -> Double {
+        let calendar = Calendar.current
+        guard let oneWeekAgo = calendar.date(byAdding: .day, value: -7, to: date) else {
+            return 0.0
+        }
+        return meals.filter { $0.timestamp >= oneWeekAgo }
+            .reduce(0) { $0 + $1.proteinGrams }
+    }
 
-//    // Compute monthly total protein intake
-//    func getMonthlyProteinIntake() -> Double {
-//        let calendar = Calendar.current
-//        guard let oneMonthAgo = calendar.date(byAdding: .month, value: -1, to: date) else {
-//            return 0.0
-//        }
-//        return meals.filter { $0.timestamp >= oneMonthAgo }
-//            .reduce(0) { $0 + $1.proteinGrams }
-//    }
+    // Compute monthly total protein intake
+    func getMonthlyProteinIntake() -> Double {
+        let calendar = Calendar.current
+        guard let oneMonthAgo = calendar.date(byAdding: .month, value: -1, to: date) else {
+            return 0.0
+        }
+        return meals.filter { $0.timestamp >= oneMonthAgo }
+            .reduce(0) { $0 + $1.proteinGrams }
+    }
 }

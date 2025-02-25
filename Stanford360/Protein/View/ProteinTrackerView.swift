@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-// periphery:ignore - ProteinTrackerView is in progress but it is necessary to merge for class
 struct ProteinTrackerView: View {
     // TimeFrame Enum
     enum ProteinTimeFrame {
@@ -16,6 +15,7 @@ struct ProteinTrackerView: View {
         case week
         case month
     }
+    @State private var showingAddProtein = false
     
 //    @Environment(Stanford360Standard.self) private var standard
 //    @ObservedObject var proteinData: ProteinIntakeModel
@@ -26,7 +26,26 @@ struct ProteinTrackerView: View {
     @State private var isLoading = false
     @State private var isCardAnimating = false
     @State private var isProgressAnimating = false
+    @StateObject private var proteinData = ProteinIntakeModel(userID: "user123", date: Date(), meals: [])
     @State var selectedTimeFrame: ProteinTimeFrame = .today
+    
+    private var addProteinButton: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                Button(action: { showingAddProtein = true }) {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.system(size: 56))
+                        .foregroundColor(.blue)
+                        .shadow(radius: 3)
+                        .background(Circle().fill(.white))
+                        .accessibilityLabel("Add Protein Button")
+                }
+                .padding([.trailing, .bottom], 25)
+            }
+        }
+    }
     
     var body: some View {
         NavigationView {
@@ -37,37 +56,41 @@ struct ProteinTrackerView: View {
                     // proteinPeriodPicker
                     switch selectedTimeFrame {
                     case .today:
-                        ProteinProgressView(currentValue: 45, maxValue: 60)
+                        DailyRecordView(currentValue: 45, maxValue: 60)
                             .frame(height: 250)
                             .frame(maxWidth: .infinity, alignment: .center)
                     case .week:
-                        ProteinProgressView(currentValue: 45, maxValue: 60)
+                        DailyRecordView(currentValue: 45, maxValue: 60)
                             .frame(height: 250)
                             .frame(maxWidth: .infinity, alignment: .center)
                     case .month:
-                        ProteinProgressView(currentValue: 45, maxValue: 60)
+                        DailyRecordView(currentValue: 45, maxValue: 60)
                             .frame(height: 250)
                             .frame(maxWidth: .infinity, alignment: .center)
                     }
                     Spacer()
                     mealsCardView()
                     // add meal here
+                    addProteinButton
                 }
                 .padding()
             }
             .navigationBarHidden(true)
             .background(Color(UIColor.systemGroupedBackground))
         }
+        .sheet(isPresented: $showingAddProtein) {
+            AddMealView(proteinData: proteinData)
+        }
     }
     
-    private func headerView() -> some View {
+    func headerView() -> some View {
         Text("🍗 Protein Tracker")
             .font(.system(size: 34, weight: .bold, design: .rounded))
             .foregroundColor(.primary)
             .padding(.top)
     }
     
-    private func mealsHeaderView() -> some View {
+    func mealsHeaderView() -> some View {
         HStack {
             Text("Daily Meals")
                 .font(.title2.bold())
@@ -84,15 +107,8 @@ struct ProteinTrackerView: View {
         }
     }
     
-    private func mealsList() -> some View {
+    func mealsList() -> some View {
         VStack(spacing: 16) {
-            mealRowView(
-                mealName: "Breakfast",
-                protein: "25g",
-                time: "8:00 AM",
-                isCompleted: true
-            )
-            
             Divider()
             
             mealRowView(
@@ -119,7 +135,7 @@ struct ProteinTrackerView: View {
         .shadow(color: Color.black.opacity(0.05), radius: 10)
     }
     
-    private func mealsCardView() -> some View {
+    func mealsCardView() -> some View {
         VStack(alignment: .leading, spacing: 20) {
             mealsHeaderView()
             mealsList()
@@ -144,7 +160,7 @@ struct ProteinTrackerView: View {
           .padding(.horizontal)
       }
     
-    private func mealRowView(mealName: String, protein: String, time: String, isCompleted: Bool) -> some View {
+    func mealRowView(mealName: String, protein: String, time: String, isCompleted: Bool) -> some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
                 Text(mealName)
@@ -162,7 +178,7 @@ struct ProteinTrackerView: View {
                 .font(.title3)
                 .foregroundStyle(isCompleted ? .blue : .gray.opacity(0.3))
                 .symbolEffect(.bounce, value: isCompleted)
-                .accessibilityLabel("checkmark")
+                .accessibilityLabel("circle")
         }
         .contentShape(Rectangle())
     }

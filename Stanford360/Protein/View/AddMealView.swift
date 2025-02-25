@@ -8,30 +8,25 @@
 
 import SwiftUI
 
-// periphery:ignore - AddMealView is in progress but it is necessary to merge for class
 struct AddMealView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var proteinData: ProteinIntakeModel
-    @Environment(Stanford360Standard.self) private var standard
-    
+
     @State private var mealName: String = ""
-    @State private var proteinAmount: Double = 0.0
+    @State private var proteinAmount: String = ""  // Store as a string to avoid flickering in TextField
     @State private var showingImagePicker = false
     @State private var selectedImage: UIImage?
     @State private var isLoading = false
-    
+
     var body: some View {
         NavigationView {
             ZStack {
                 Color(UIColor.systemGroupedBackground)
                     .ignoresSafeArea()
-                
+
                 VStack(spacing: 0) {
-                    // Header Image Section
                     imageSelectionView
-                    // Form Fields
                     formFields
-                    // Save Button
                     saveButton
                 }
             }
@@ -39,9 +34,7 @@ struct AddMealView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
-                        dismiss()
-                    }
+                    Button("Cancel") { dismiss() }
                 }
             }
             .overlay {
@@ -57,7 +50,8 @@ struct AddMealView: View {
             }
         }
     }
-    
+
+    // Image selection view with a camera button
     private var imageSelectionView: some View {
         ZStack {
             Group {
@@ -65,7 +59,7 @@ struct AddMealView: View {
                     Image(uiImage: image)
                         .resizable()
                         .scaledToFill()
-                        .accessibilityLabel("selectImage")
+                        .accessibilityLabel("Selected Image")
                 } else {
                     Rectangle()
                         .fill(Color(UIColor.secondarySystemBackground))
@@ -73,77 +67,62 @@ struct AddMealView: View {
             }
             .frame(height: 200)
             .clipShape(RoundedRectangle(cornerRadius: 16))
-            .overlay(
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(Color.gray.opacity(0.2), lineWidth: 1)
-            )
-            
-            Button(action: {
-                showingImagePicker = true
-            }) {
+            .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.gray.opacity(0.2), lineWidth: 1))
+
+            Button(action: { showingImagePicker = true }) {
                 ZStack {
                     Circle()
                         .fill(Color.blue)
                         .frame(width: 60, height: 60)
                         .shadow(color: Color.black.opacity(0.2), radius: 5)
-                    
+
                     Image(systemName: "camera.fill")
                         .font(.system(size: 24))
-                        .foregroundStyle(.white)
-                        .accessibilityLabel("camera")
+                        .foregroundColor(.white)
+                        .accessibilityLabel("Camera")
                 }
             }
         }
         .padding()
     }
-    
+
+    // Form fields for entering meal name and protein amount
     private var formFields: some View {
         VStack(spacing: 24) {
-            // Meal Name Field
+            // Meal Name Input
             VStack(alignment: .leading, spacing: 8) {
                 Text("Meal Name")
                     .font(.headline)
                     .foregroundStyle(.secondary)
-                
+
                 TextField("Enter meal name", text: $mealName)
                     .padding()
-                    .background(
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(Color(UIColor.secondarySystemGroupedBackground))
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.gray.opacity(0.2), lineWidth: 1)
-                    )
+                    .background(RoundedRectangle(cornerRadius: 12).fill(Color(UIColor.secondarySystemGroupedBackground)))
+                    .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray.opacity(0.2), lineWidth: 1))
             }
-            
-            // Protein Amount Field
+
+            // Protein Amount Input
             VStack(alignment: .leading, spacing: 8) {
                 Text("Protein Amount (g)")
                     .font(.headline)
                     .foregroundStyle(.secondary)
-                
-                TextField("", value: $proteinAmount, format: .number)
+
+                TextField("Enter protein grams", text: $proteinAmount)
                     .keyboardType(.decimalPad)
                     .padding()
-                    .background(
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(Color(UIColor.secondarySystemGroupedBackground))
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.gray.opacity(0.2), lineWidth: 1)
-                    )
+                    .background(RoundedRectangle(cornerRadius: 12).fill(Color(UIColor.secondarySystemGroupedBackground)))
+                    .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray.opacity(0.2), lineWidth: 1))
             }
         }
         .padding()
     }
-    
+
+    // Save button to store meal information
     private var saveButton: some View {
         Button(action: {
-            if !mealName.isEmpty && proteinAmount > 0 {
+            if let proteinValue = Double(proteinAmount), !mealName.isEmpty, proteinValue > 0 {
                 Task {
-                    await saveMeal()
+                    await saveMeal(proteinValue: proteinValue)
                 }
             }
         }) {
@@ -152,34 +131,32 @@ struct AddMealView: View {
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(!mealName.isEmpty && proteinAmount > 0 ? Color.blue : Color.gray)
-                )
+                .background(RoundedRectangle(cornerRadius: 16).fill(isValidInput ? Color.blue : Color.gray))
                 .padding()
         }
-        .disabled(mealName.isEmpty || proteinAmount <= 0)
+        .disabled(!isValidInput)
     }
-    
-    // Save meal function
-    private func saveMeal() async {
+
+    // Check if the input fields are valid
+    private var isValidInput: Bool {
+        if let proteinValue = Double(proteinAmount) {
+            return !mealName.isEmpty && proteinValue > 0
+        }
+        return false
+    }
+
+    // Save meal data and update protein intake model
+    private func saveMeal(proteinValue: Double) async {
         isLoading = true
-        
         do {
-            // Create a new meal
-            let meal = Meal(name: mealName, proteinGrams: proteinAmount)
-            
-            // Save to Firebase, but should be stored within a day
-            try await standard.storeMeal(meal: meal)
-            
-            // Update local state
+            let meal = Meal(name: mealName, proteinGrams: proteinValue)
+            try await proteinData.addMeal(name: mealName, proteinGrams: proteinValue)
             await MainActor.run {
-                proteinData.addMeal(name: mealName, proteinGrams: proteinAmount)
                 isLoading = false
                 dismiss()
             }
         } catch {
-            print("Error storing meal to Firebase: \(error)")
+            print("Error saving meal: \(error)")
             isLoading = false
         }
     }
@@ -187,6 +164,6 @@ struct AddMealView: View {
 
 #if DEBUG
 #Preview {
-    AddMealView(proteinData: ProteinIntakeModel(/*userID: "test", date: Date(), */meals: []))
+    AddMealView(proteinData: ProteinIntakeModel(userID: "test", date: Date(), meals: []))
 }
 #endif
