@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+// periphery:ignore - AddMealView is in progress but it is necessary to merge for class
 struct AddMealView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var proteinData: ProteinIntakeModel
@@ -186,6 +187,6 @@ struct AddMealView: View {
 
 #if DEBUG
 #Preview {
-    AddMealView(proteinData: ProteinIntakeModel(userID: "test", date: Date(), meals: []))
+    AddMealView(proteinData: ProteinIntakeModel(/*userID: "test", date: Date(), */meals: []))
 }
 #endif

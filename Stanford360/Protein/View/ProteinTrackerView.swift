@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+// periphery:ignore - ProteinTrackerView is in progress but it is necessary to merge for class
 struct ProteinTrackerView: View {
     // TimeFrame Enum
     enum ProteinTimeFrame {
@@ -36,15 +37,15 @@ struct ProteinTrackerView: View {
                     // proteinPeriodPicker
                     switch selectedTimeFrame {
                     case .today:
-                        DailyProgressView(currentValue: 45, maxValue: 60)
+                        ProteinProgressView(currentValue: 45, maxValue: 60)
                             .frame(height: 250)
                             .frame(maxWidth: .infinity, alignment: .center)
                     case .week:
-                        DailyProgressView(currentValue: 45, maxValue: 60)
+                        ProteinProgressView(currentValue: 45, maxValue: 60)
                             .frame(height: 250)
                             .frame(maxWidth: .infinity, alignment: .center)
                     case .month:
-                        DailyProgressView(currentValue: 45, maxValue: 60)
+                        ProteinProgressView(currentValue: 45, maxValue: 60)
                             .frame(height: 250)
                             .frame(maxWidth: .infinity, alignment: .center)
                     }

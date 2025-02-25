@@ -10,11 +10,11 @@
 import XCTest
 
 class ProteinIntakeModelTests: XCTestCase {
-	private var model = ProteinIntakeModel(meals: []) // Use private to encapsulate
+	private var model = ProteinIntakeModel(/*userID: "userId", date: Date(), */meals: []) // Use private to encapsulate
 
     override func setUp() {
 		super.setUp()
-        model = ProteinIntakeModel(meals: [])
+        model = ProteinIntakeModel(/*userID: "userId", date: Date(), */meals: [])
     }
 
     override func tearDown() {
