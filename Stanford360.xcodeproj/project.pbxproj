@@ -50,10 +50,10 @@
 		2FE5DC9C29EDD9EF004B9AB4 /* XCTHealthKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE5DC9B29EDD9EF004B9AB4 /* XCTHealthKit */; };
 		2FE5DCB129EE6107004B9AB4 /* AccountOnboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5DCAC29EE6107004B9AB4 /* AccountOnboarding.swift */; };
 		2FF53D8D2A8729D600042B76 /* Stanford360Standard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF53D8C2A8729D600042B76 /* Stanford360Standard.swift */; };
+		45E038232D503C0F009D07E2 /* HydrationTrackerViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E038222D503BFA009D07E2 /* HydrationTrackerViewTests.swift */; };
 		4FA061BC2D4AF1F9008DE21A /* ActivityManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA061BB2D4AF1F9008DE21A /* ActivityManagerTest.swift */; };
 		4FA061BE2D4AF594008DE21A /* HealthKitOnFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 4FA061BD2D4AF594008DE21A /* HealthKitOnFHIR */; };
 		4FA061C02D4AF59C008DE21A /* ResearchKitOnFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 4FA061BF2D4AF59C008DE21A /* ResearchKitOnFHIR */; };
-		45E038232D503C0F009D07E2 /* HydrationTrackerViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E038222D503BFA009D07E2 /* HydrationTrackerViewTests.swift */; };
 		4FCAD0592D5AAD20007324A6 /* ActivityViewUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCAD0582D5AAD20007324A6 /* ActivityViewUITest.swift */; };
 		5680DD3E2AB8CD84004E6D4A /* ContributionsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5680DD3D2AB8CD84004E6D4A /* ContributionsTest.swift */; };
 		56E708352BB06B7100B08F0A /* SpeziLicense in Frameworks */ = {isa = PBXBuildFile; productRef = 56E708342BB06B7100B08F0A /* SpeziLicense */; };
@@ -75,6 +75,12 @@
 		A9D83F962B083794000D0C78 /* SpeziFirebaseAccountStorage in Frameworks */ = {isa = PBXBuildFile; productRef = A9D83F952B083794000D0C78 /* SpeziFirebaseAccountStorage */; };
 		A9DFE8A92ABE551400428242 /* AccountButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DFE8A82ABE551400428242 /* AccountButton.swift */; };
 		A9FE7AD02AA39BAB0077B045 /* AccountSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FE7ACF2AA39BAB0077B045 /* AccountSheet.swift */; };
+		C13ED86B2D656A0400033A55 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13ED8692D656A0400033A55 /* FeedView.swift */; };
+		C156248A2D6D6D9300298CEB /* DayTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15624892D6D6D9300298CEB /* DayTimelineView.swift */; };
+		C15624902D6D6E6E00298CEB /* InfiniteDayTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C156248F2D6D6E6E00298CEB /* InfiniteDayTimelineView.swift */; };
+		C1CF13CF2D6D72C40057BC77 /* DailyScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CF13CE2D6D72C40057BC77 /* DailyScheduleView.swift */; };
+		C1CF13DA2D6D76BE0057BC77 /* ScheduleTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CF13D92D6D76BE0057BC77 /* ScheduleTask.swift */; };
+		C1CF13E72D6D7CF20057BC77 /* TaskStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CF13E62D6D7CF20057BC77 /* TaskStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,8 +128,8 @@
 		2FE5DC5529EDD811004B9AB4 /* SocialSupportQuestionnaire.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SocialSupportQuestionnaire.json; sourceTree = "<group>"; };
 		2FE5DCAC29EE6107004B9AB4 /* AccountOnboarding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountOnboarding.swift; sourceTree = "<group>"; };
 		2FF53D8C2A8729D600042B76 /* Stanford360Standard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stanford360Standard.swift; sourceTree = "<group>"; };
-		4FA061BB2D4AF1F9008DE21A /* ActivityManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityManagerTest.swift; sourceTree = "<group>"; };
 		45E038222D503BFA009D07E2 /* HydrationTrackerViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydrationTrackerViewTests.swift; sourceTree = "<group>"; };
+		4FA061BB2D4AF1F9008DE21A /* ActivityManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityManagerTest.swift; sourceTree = "<group>"; };
 		4FCAD0582D5AAD20007324A6 /* ActivityViewUITest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewUITest.swift; sourceTree = "<group>"; };
 		5680DD3D2AB8CD84004E6D4A /* ContributionsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributionsTest.swift; sourceTree = "<group>"; };
 		653A254D283387FE005D4D48 /* Stanford360.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stanford360.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -139,6 +145,12 @@
 		A9A3DCC72C75CB9A00FC9B69 /* FirebaseConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseConfiguration.swift; sourceTree = "<group>"; };
 		A9DFE8A82ABE551400428242 /* AccountButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountButton.swift; sourceTree = "<group>"; };
 		A9FE7ACF2AA39BAB0077B045 /* AccountSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSheet.swift; sourceTree = "<group>"; };
+		C13ED8692D656A0400033A55 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
+		C15624892D6D6D9300298CEB /* DayTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTimelineView.swift; sourceTree = "<group>"; };
+		C156248F2D6D6E6E00298CEB /* InfiniteDayTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfiniteDayTimelineView.swift; sourceTree = "<group>"; };
+		C1CF13CE2D6D72C40057BC77 /* DailyScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyScheduleView.swift; sourceTree = "<group>"; };
+		C1CF13D92D6D76BE0057BC77 /* ScheduleTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTask.swift; sourceTree = "<group>"; };
+		C1CF13E62D6D7CF20057BC77 /* TaskStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -153,11 +165,10 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		4D191FAE2D5711A900538084 /* ProteinTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ProteinTests; sourceTree = "<group>"; };
 		4FA061B12D4AA806008DE21A /* Models */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (4FA061B62D4AA824008DE21A /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Models; sourceTree = "<group>"; };
 		4FA061CF2D4C4468008DE21A /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
-		4D191FAE2D5711A900538084 /* ProteinTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ProteinTests; sourceTree = "<group>"; };
 		C1EFB0572D52F8E8008A6669 /* Hydration */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Hydration; sourceTree = "<group>"; };
-		C1EFB0642D52FA1A008A6669 /* Patient */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Patient; sourceTree = "<group>"; };
 		C1EFB0662D52FA22008A6669 /* Activity */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Activity; sourceTree = "<group>"; };
 		C1EFB0682D52FA2C008A6669 /* Protein */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Protein; sourceTree = "<group>"; };
 		C1EFB0732D52FAFB008A6669 /* HydrationTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = HydrationTests; sourceTree = "<group>"; };
@@ -308,10 +319,10 @@
 		653A254F283387FE005D4D48 /* Stanford360 */ = {
 			isa = PBXGroup;
 			children = (
+				C13ED86A2D656A0400033A55 /* Feed */,
 				4FA061CF2D4C4468008DE21A /* Views */,
 				C1EFB0682D52FA2C008A6669 /* Protein */,
 				C1EFB0662D52FA22008A6669 /* Activity */,
-				C1EFB0642D52FA1A008A6669 /* Patient */,
 				C1EFB0572D52F8E8008A6669 /* Hydration */,
 				2FC975A72978F11A00BA99FE /* HomeView.swift */,
 				653A2550283387FE005D4D48 /* Stanford360.swift */,
@@ -380,6 +391,19 @@
 			path = Firestore;
 			sourceTree = "<group>";
 		};
+		C13ED86A2D656A0400033A55 /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				C13ED8692D656A0400033A55 /* FeedView.swift */,
+				C15624892D6D6D9300298CEB /* DayTimelineView.swift */,
+				C156248F2D6D6E6E00298CEB /* InfiniteDayTimelineView.swift */,
+				C1CF13CE2D6D72C40057BC77 /* DailyScheduleView.swift */,
+				C1CF13D92D6D76BE0057BC77 /* ScheduleTask.swift */,
+				C1CF13E62D6D7CF20057BC77 /* TaskStore.swift */,
+			);
+			path = Feed;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -400,7 +424,6 @@
 			fileSystemSynchronizedGroups = (
 				4FA061CF2D4C4468008DE21A /* Views */,
 				C1EFB0572D52F8E8008A6669 /* Hydration */,
-				C1EFB0642D52FA1A008A6669 /* Patient */,
 				C1EFB0662D52FA22008A6669 /* Activity */,
 				C1EFB0682D52FA2C008A6669 /* Protein */,
 			);
@@ -591,13 +614,19 @@
 				2FE5DC4E29EDD7FA004B9AB4 /* ScheduleView.swift in Sources */,
 				A9DFE8A92ABE551400428242 /* AccountButton.swift in Sources */,
 				A9A3DCC82C75CBBD00FC9B69 /* FirebaseConfiguration.swift in Sources */,
+				C13ED86B2D656A0400033A55 /* FeedView.swift in Sources */,
 				2FE5DC3729EDD7CA004B9AB4 /* OnboardingFlow.swift in Sources */,
 				2F1AC9DF2B4E840E00C24973 /* Stanford360.docc in Sources */,
+				C156248A2D6D6D9300298CEB /* DayTimelineView.swift in Sources */,
 				2FF53D8D2A8729D600042B76 /* Stanford360Standard.swift in Sources */,
+				C1CF13DA2D6D76BE0057BC77 /* ScheduleTask.swift in Sources */,
 				A9720E432ABB68CC00872D23 /* AccountSetupHeader.swift in Sources */,
 				2FE5DC4029EDD7EE004B9AB4 /* FeatureFlags.swift in Sources */,
 				2F4E23832989D51F0013F3D9 /* Stanford360TestingSetup.swift in Sources */,
+				C15624902D6D6E6E00298CEB /* InfiniteDayTimelineView.swift in Sources */,
 				A98FF2B12CD131F500DFC949 /* EventView.swift in Sources */,
+				C1CF13E72D6D7CF20057BC77 /* TaskStore.swift in Sources */,
+				C1CF13CF2D6D72C40057BC77 /* DailyScheduleView.swift in Sources */,
 				2FE5DC5329EDD7FA004B9AB4 /* Bundle+Questionnaire.swift in Sources */,
 				2F5E32BD297E05EA003432F8 /* Stanford360Delegate.swift in Sources */,
 				2FE5DC5229EDD7FA004B9AB4 /* Stanford360Scheduler.swift in Sources */,

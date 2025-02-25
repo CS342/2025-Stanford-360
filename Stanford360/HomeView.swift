@@ -13,35 +13,29 @@ import SwiftUI
 
 struct HomeView: View {
     enum Tabs: String {
-        case schedule
-        case contact
-        case activity
+		case home
         case hydration
-        case protein
+		case protein
+		case activity
     }
 
-
-    @AppStorage(StorageKeys.homeTabSelection) private var selectedTab = Tabs.schedule
+    @AppStorage(StorageKeys.homeTabSelection) private var selectedTab = Tabs.home
     @AppStorage(StorageKeys.tabViewCustomization) private var tabViewCustomization = TabViewCustomization()
 
     @State private var presentingAccount = false
-
+	
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            Tab("Schedule", systemImage: "list.clipboard", value: .schedule) {
-                ScheduleView(presentingAccount: $presentingAccount)
+            Tab("Home", systemImage: "house.fill", value: .home) {
+				FeedView(presentingAccount: $presentingAccount)
             }
-                .customizationID("home.schedule")
+			.customizationID("home.home")
             /// **Activity Tracking Tab (NEW)**
             Tab("Activity", systemImage: "figure.walk", value: .activity) {
                 ActivityView() // 👈 Added the ActivityView here
             }
             .customizationID("home.activity")
-            Tab("Contacts", systemImage: "person.fill", value: .contact) {
-                Contacts(presentingAccount: $presentingAccount)
-            }
-                .customizationID("home.contacts")
             Tab("Hydration", systemImage: "drop.fill", value: .hydration) {
                 HydrationTrackerView()
             }
