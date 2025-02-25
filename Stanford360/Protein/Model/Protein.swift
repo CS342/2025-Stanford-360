@@ -80,4 +80,3 @@ class ProteinIntakeModel: ObservableObject {
             .reduce(0) { $0 + $1.proteinGrams }
     }
 }
-

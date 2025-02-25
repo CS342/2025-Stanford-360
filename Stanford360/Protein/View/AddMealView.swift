@@ -64,6 +64,7 @@ struct AddMealView: View {
                     Image(uiImage: image)
                         .resizable()
                         .scaledToFill()
+                        .accessibilityLabel("selectImage")
                 } else {
                     Rectangle()
                         .fill(Color(UIColor.secondarySystemBackground))
@@ -88,6 +89,7 @@ struct AddMealView: View {
                     Image(systemName: "camera.fill")
                         .font(.system(size: 24))
                         .foregroundStyle(.white)
+                        .accessibilityLabel("camera")
                 }
             }
         }

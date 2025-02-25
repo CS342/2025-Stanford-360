@@ -51,6 +51,7 @@ struct MealDetailView: View {
             HStack {
                 Image(systemName: "flame.fill")
                     .foregroundColor(.orange)
+                    .accessibilityLabel("flame")
                 Text("Protein Content")
                     .font(.headline)
                 Spacer()
@@ -79,6 +80,7 @@ struct MealDetailView: View {
             HStack {
                 Image(systemName: "clock.fill")
                     .foregroundColor(.blue)
+                    .accessibilityLabel("clock")
                 Text("Intake time")// take in meals every 3 or 4 hours
                     .font(.headline)
                 Spacer()
@@ -103,6 +105,25 @@ struct MealDetailView: View {
         .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
     }
     
+    private var placeholderImage: some View {
+        ZStack {
+            Rectangle()
+                .fill(Color(UIColor.secondarySystemBackground))
+            
+            VStack(spacing: 12) {
+                Image(systemName: "fork.knife.circle.fill")
+                    .font(.system(size: 60))
+                    .foregroundColor(.gray)
+                    .accessibilityLabel("fork")
+                
+                Text("No Image Available")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+        }
+        .frame(height: 250)
+    }
+    
     @ViewBuilder
     private func mealImageView() -> some View {
         if let imageURL = meal.imageURL, let url = URL(string: imageURL) {
@@ -117,7 +138,7 @@ struct MealDetailView: View {
                         .aspectRatio(contentMode: .fill)
                         .frame(height: 250)
                         .clipped()
-                case .failure(_):
+                case .failure:
                     placeholderImage
                 @unknown default:
                     placeholderImage
@@ -126,24 +147,6 @@ struct MealDetailView: View {
         } else {
             placeholderImage
         }
-    }
-    
-    private var placeholderImage: some View {
-        ZStack {
-            Rectangle()
-                .fill(Color(UIColor.secondarySystemBackground))
-            
-            VStack(spacing: 12) {
-                Image(systemName: "fork.knife.circle.fill")
-                    .font(.system(size: 60))
-                    .foregroundColor(.gray)
-                
-                Text("No Image Available")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-            }
-        }
-        .frame(height: 250)
     }
 }
 

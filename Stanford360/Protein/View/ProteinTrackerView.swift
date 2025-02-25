@@ -36,15 +36,15 @@ struct ProteinTrackerView: View {
                     // proteinPeriodPicker
                     switch selectedTimeFrame {
                     case .today:
-                        DailyProgressView(currentValue:45, maxValue: 60)
+                        DailyProgressView(currentValue: 45, maxValue: 60)
                             .frame(height: 250)
                             .frame(maxWidth: .infinity, alignment: .center)
                     case .week:
-                        DailyProgressView(currentValue:45, maxValue: 60)
+                        DailyProgressView(currentValue: 45, maxValue: 60)
                             .frame(height: 250)
                             .frame(maxWidth: .infinity, alignment: .center)
                     case .month:
-                        DailyProgressView(currentValue:45, maxValue: 60)
+                        DailyProgressView(currentValue: 45, maxValue: 60)
                             .frame(height: 250)
                             .frame(maxWidth: .infinity, alignment: .center)
                     }
@@ -161,6 +161,7 @@ struct ProteinTrackerView: View {
                 .font(.title3)
                 .foregroundStyle(isCompleted ? .blue : .gray.opacity(0.3))
                 .symbolEffect(.bounce, value: isCompleted)
+                .accessibilityLabel("checkmark")
         }
         .contentShape(Rectangle())
     }
