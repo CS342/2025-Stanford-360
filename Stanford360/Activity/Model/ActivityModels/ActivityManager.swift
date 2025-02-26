@@ -16,7 +16,7 @@ import UserNotifications
 class ActivityManager {
     var activities: [Activity] = []
     private let storageKey = "activities"
-    private let healthKitManager: HealthKitManager
+    let healthKitManager: HealthKitManager
     
     var todayTotalMinutes: Int {
         let today = Date()
@@ -28,40 +28,48 @@ class ActivityManager {
     init(healthKitManager: HealthKitManager = HealthKitManager()) {
         self.healthKitManager = healthKitManager
         loadFromStorage()
-        setupHealthKit()
     }
     
-    private func setupHealthKit() {
-        Task {
-            do {
-                try await healthKitManager.requestAuthorization()
+    func setupHealthKit() async {
+        do {
+            // Request authorization
+            try await healthKitManager.requestAuthorization()
+            
+            // If authorized, start syncing HealthKit data
+            if healthKitManager.isHealthKitAuthorized {
                 await syncHealthKitData()
-            } catch {
-                print("Failed to setup HealthKit: \(error)")
+                
+                // Set up periodic sync (every 15 minutes)
+                Timer.scheduledTimer(withTimeInterval: 900, repeats: true) { _ in
+                    Task {
+                        await self.syncHealthKitData()
+                    }
+                }
             }
+        } catch {
+            print("Failed to setup HealthKit: \(error.localizedDescription)")
         }
     }
     
     func syncHealthKitData() async {
         do {
-            let healthKitActivity = try await healthKitManager.readDailyActivity(for: Date())
-            
-            // Check if a similar HealthKit activity already exists
-            let newActivity = healthKitActivity.toActivity()
-            let existingHealthKitActivities = activities.filter {
-                $0.activityType == "HealthKit" &&
-                Calendar.current.isDateInToday($0.date) &&
-                $0.steps == newActivity.steps &&
-                $0.activeMinutes == newActivity.activeMinutes &&
-                $0.caloriesBurned == newActivity.caloriesBurned
-            }
-            
-            // Add activity if no identical one exists
-            if existingHealthKitActivities.isEmpty {
-                logActivityToView(newActivity)
+            if healthKitManager.isHealthKitAuthorized {
+                let healthKitActivity = try await healthKitManager.fetchAndConvertHealthKitData(for: Date())
+                
+                // Remove any existing HealthKit activities for today
+                activities.removeAll { activity in
+                    activity.activityType == "HealthKit Import" &&
+                    Calendar.current.isDateInToday(activity.date)
+                }
+                
+                // Only add if there are actual activities recorded
+                if healthKitActivity.activeMinutes > 0 {
+                    activities.append(healthKitActivity)
+                    saveToStorage()
+                }
             }
         } catch {
-            print("Failed to sync HealthKit data: \(error)")
+            print("Failed to sync HealthKit data: \(error.localizedDescription)")
         }
     }
 
@@ -70,9 +78,31 @@ class ActivityManager {
         saveToStorage()
         
         // Save non-HealthKit activities to HealthKit
-        if activity.activityType != "HealthKit" {
+        if !activity.activityType.contains("HealthKit") {
             Task {
-                try? await healthKitManager.saveActivity(activity)
+                do {
+                    // First check authorization
+                    if !healthKitManager.isHealthKitAuthorized {
+                        print("Requesting HealthKit authorization...")
+                        try await healthKitManager.requestAuthorization()
+                    }
+                    
+                    // Only proceed if authorized
+                    if healthKitManager.isHealthKitAuthorized {
+                        print("Saving activity to HealthKit: \(activity.activeMinutes) minutes")
+                        try await healthKitManager.saveActivity(activity)
+                        
+                        // Wait a moment for HealthKit to process the new data
+                        try await Task.sleep(for: .seconds(1))
+                        
+                        // Refresh data from HealthKit
+                        await syncHealthKitData()
+                    } else {
+                        print("HealthKit authorization was denied")
+                    }
+                } catch {
+                    print("Failed to save activity to HealthKit: \(error.localizedDescription)")
+                }
             }
         }
     }
