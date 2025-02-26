@@ -58,6 +58,7 @@ class Stanford360Delegate: SpeziAppDelegate {
             Scheduler()
             OnboardingDataSource()
             Notifications()
+			PatientManager()
         }
     }
     
