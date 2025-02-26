@@ -154,7 +154,6 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		4D191FAE2D5711A900538084 /* ProteinTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ProteinTests; sourceTree = "<group>"; };
 		4F8EA0B92D680A4400A94137 /* Activity */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Activity; sourceTree = "<group>"; };
-		4FA061CF2D4C4468008DE21A /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
 		4FF18DDD2D5FAB5E00E13832 /* ActivityTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ActivityTests; sourceTree = "<group>"; };
 		C1C1E6432D6E9A25007D38F0 /* Dashboard */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Dashboard; sourceTree = "<group>"; };
 		C1EFB0572D52F8E8008A6669 /* Hydration */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Hydration; sourceTree = "<group>"; };
@@ -308,7 +307,6 @@
 			children = (
 				C1C1E6432D6E9A25007D38F0 /* Dashboard */,
 				C13ED86A2D656A0400033A55 /* Feed */,
-				4FA061CF2D4C4468008DE21A /* Views */,
 				4F8EA0B92D680A4400A94137 /* Activity */,
 				C1EFB0682D52FA2C008A6669 /* Protein */,
 				C1EFB0572D52F8E8008A6669 /* Hydration */,
