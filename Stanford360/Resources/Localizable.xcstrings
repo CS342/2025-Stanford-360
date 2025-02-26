@@ -7,6 +7,9 @@
     "%.2f g" : {
 
     },
+    "%.2f/60" : {
+
+    },
     "%lld" : {
 
     },
@@ -34,6 +37,9 @@
           }
         }
       }
+    },
+    "%lld/60" : {
+
     },
     "%lld%%" : {
 
@@ -87,6 +93,9 @@
 
     },
     "Activity Breakdown" : {
+
+    },
+    "Activity Progress" : {
 
     },
     "Activity Time" : {
@@ -179,6 +188,9 @@
 
     },
     "Daily Meals" : {
+
+    },
+    "Dashboard" : {
 
     },
     "Date" : {
@@ -290,6 +302,9 @@
 
     },
     "Hydration Period" : {
+
+    },
+    "Hydration Progress" : {
 
     },
     "Hydration Tracker Header" : {
@@ -516,6 +531,9 @@
     "Protein Content" : {
 
     },
+    "Protein Progress" : {
+
+    },
     "Remaining" : {
 
     },
@@ -649,6 +667,9 @@
 
     },
     "Today's Activities" : {
+
+    },
+    "Today's Progress" : {
 
     },
     "Total Protein Intake" : {
