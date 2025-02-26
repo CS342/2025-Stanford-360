@@ -80,6 +80,9 @@
         }
       }
     },
+    "Activities must be logged manually" : {
+
+    },
     "Activity" : {
 
     },
@@ -172,6 +175,9 @@
         }
       }
     },
+    "Continue Without HealthKit" : {
+
+    },
     "Daily Meals" : {
 
     },
@@ -182,6 +188,9 @@
 
     },
     "Do not forget to take in protein everyday! You're doing great!🤩" : {
+
+    },
+    "Enable HealthKit in Settings to auto-track steps, or log activities manually." : {
 
     },
     "Enter meal name" : {
@@ -224,6 +233,12 @@
           }
         }
       }
+    },
+    "HealthKit Access Not Available" : {
+
+    },
+    "HealthKit Access Required" : {
+
     },
     "HealthKit Data Source" : {
       "localizations" : {
@@ -469,6 +484,9 @@
           }
         }
       }
+    },
+    "Open Settings" : {
+
     },
     "Please fill out the Social Support Questionnaire every day." : {
       "localizations" : {

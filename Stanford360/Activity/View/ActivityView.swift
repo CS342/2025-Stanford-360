@@ -23,6 +23,7 @@ struct ActivityView: View {
     @State private var activityManager = ActivityManager()
     @State private var showingAddActivity = false
     @State private var selectedTimeFrame: TimeFrame = .today
+    @State private var showHealthKitAlert = false
     
 //    @Environment(Stanford360Standard.self) private var standard
     
@@ -35,25 +36,58 @@ struct ActivityView: View {
     // Extracted content to reduce body closure length
     private var content: some View {
         ZStack {
-            mainActivityContent
+            VStack(spacing: 20) {
+                if !activityManager.healthKitManager.isHealthKitAuthorized {
+                    healthKitWarningBanner
+                }
+                
+                timeFramePicker
+                motivationText
+                
+                ActivityTimeFrameView(
+                    timeFrame: selectedTimeFrame,
+                    activityManager: activityManager
+                )
+            }
             addActivityButton
         }
         .navigationTitle("My Active Journey 🏃‍♂️")
         .sheet(isPresented: $showingAddActivity) {
             AddActivitySheet(activityManager: activityManager)
         }
+        .onAppear {
+            Task {
+                // Request HealthKit authorization when view appears
+                await activityManager.setupHealthKit()
+            }
+        }
+        .alert("HealthKit Access Required", isPresented: $showHealthKitAlert) {
+            Button("Open Settings", role: .none) {
+                if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(settingsURL)
+                }
+            }
+            Button("Continue Without HealthKit", role: .cancel) { }
+        } message: {
+            Text("Enable HealthKit in Settings to auto-track steps, or log activities manually.")
+        }
     }
     
-    // Extracted main activity content
-    private var mainActivityContent: some View {
-        VStack(spacing: 20) {
-            timeFramePicker
-            motivationText
-            
-            ActivityTimeFrameView(
-                timeFrame: selectedTimeFrame,
-                activityManager: activityManager
-            )
+    // Extracted health kit warning banner
+    private var healthKitWarningBanner: some View {
+        VStack {
+            Text("HealthKit Access Not Available")
+                .font(.headline)
+                .foregroundColor(.orange)
+            Text("Activities must be logged manually")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+        }
+        .padding()
+        .background(Color.orange.opacity(0.1))
+        .cornerRadius(10)
+        .onTapGesture {
+            showHealthKitAlert = true
         }
     }
     
