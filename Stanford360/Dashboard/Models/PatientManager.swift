@@ -10,10 +10,10 @@
 //
 
 import Foundation
+import Spezi
 
-@Observable
-class PatientManager {
-	var patient: Patient
+class PatientManager: Module, EnvironmentAccessible {
+	@Published var patient: Patient
 	
 	init(patient: Patient = Patient(activityMinutes: 0, hydrationOunces: 0, proteinGrams: 0)) {
 		self.patient = patient
