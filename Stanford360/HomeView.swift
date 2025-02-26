@@ -17,6 +17,7 @@ struct HomeView: View {
         case hydration
 		case protein
 		case activity
+		case dashboard
     }
 
     @AppStorage(StorageKeys.homeTabSelection) private var selectedTab = Tabs.home
@@ -36,10 +37,12 @@ struct HomeView: View {
                 ActivityView()
             }
             .customizationID("home.activity")
+			
             Tab("Hydration", systemImage: "drop.fill", value: .hydration) {
                 HydrationTrackerView()
             }
-                .customizationID("home.hydration")
+			.customizationID("home.hydration")
+			
             Tab("Protein", systemImage: "fork.knife", value: .protein) {
                 ProteinContentView(proteinData: ProteinIntakeModel(
 //                    userID: "defaultUser",
@@ -47,9 +50,13 @@ struct HomeView: View {
                     meals: []
                 ))
             }
-                .customizationID("home.protein")
+			.customizationID("home.protein")
+			
+			Tab("Dashboard", systemImage: "target", value: .dashboard) {
+				DashboardView()
+			}
+			.customizationID("home.dashboard")
         }
-        
         .task {
             activityManager.sendActivityReminder()
         }
