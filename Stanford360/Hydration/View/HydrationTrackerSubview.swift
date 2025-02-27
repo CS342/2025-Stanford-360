@@ -16,30 +16,6 @@ struct DailyHydrationData: Identifiable {
     let intakeOz: Double
 }
 
-struct WeeklyHydrationInMonthData: Identifiable {
-    let id = UUID()
-    let weekName: String
-    let intakeOz: Double
-}
-
-// MARK: - Sample Data
-let sampleDayByDayData: [DailyHydrationData] = [
-    DailyHydrationData(dayName: "Sun", intakeOz: 30),
-    DailyHydrationData(dayName: "Mon", intakeOz: 45),
-    DailyHydrationData(dayName: "Tue", intakeOz: 60),
-    DailyHydrationData(dayName: "Wed", intakeOz: 70),
-    DailyHydrationData(dayName: "Thu", intakeOz: 50),
-    DailyHydrationData(dayName: "Fri", intakeOz: 42),
-    DailyHydrationData(dayName: "Sat", intakeOz: 86)
-]
-
-let sampleWeeksInMonth: [WeeklyHydrationInMonthData] = [
-    WeeklyHydrationInMonthData(weekName: "Week 1", intakeOz: 40),
-    WeeklyHydrationInMonthData(weekName: "Week 2", intakeOz: 70),
-    WeeklyHydrationInMonthData(weekName: "Week 3", intakeOz: 55),
-    WeeklyHydrationInMonthData(weekName: "Week 4", intakeOz: 65)
-]
-
 extension HydrationTrackerView {
     // MARK: - Header View
     func headerView() -> some View {
@@ -63,68 +39,177 @@ extension HydrationTrackerView {
         }
     }
 
-    // MARK: - "This Week" Placeholder
-    func monthlyViewPlaceholder() -> some View {
-        VStack(alignment: .leading) {
-            Text("Monthly Hydration")
-                .font(.headline)
-                .foregroundColor(.blue)
-            
-            Chart {
-                ForEach(sampleWeeksInMonth) { data in
-                    LineMark(
-                        x: .value("Week", data.weekName),
-                        y: .value("Intake", data.intakeOz)
-                    )
-                    .symbol {
-                        Circle().fill(.orange).frame(width: 8, height: 8)
-                    }
-                    .foregroundStyle(.orange)
-                }
-
-                // Red dashed line for 60 oz goal
-                RuleMark(y: .value("Goal", 60))
-                    .foregroundStyle(.red)
-                    .lineStyle(StrokeStyle(lineWidth: 1, dash: [5]))
-                    .annotation(position: .top, alignment: .leading) {
-                        Text("Goal").font(.caption).foregroundColor(.red)
-                    }
-            }
-            .chartYScale(domain: 0...100)
-            .frame(height: 200)
-        }
-        .padding()
-    }
-
-    // MARK: - "This Month" Placeholder
-    func weeklyViewPlaceholder() -> some View {
+    // MARK: - Weekly Hydration View
+    func weeklyView() -> some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Weekly Hydration")
                 .font(.headline)
                 .foregroundColor(.blue)
 
-            Chart {
-                ForEach(sampleDayByDayData) { data in
-                    BarMark(
-                        x: .value("Day", data.dayName),
-                        y: .value("Intake", data.intakeOz)
-                    )
-                    .foregroundStyle(Color.blue.gradient)
+            weeklyChart()
+                .overlay(hoverTooltip())
+                .chartOverlay { proxy in
+                    chartHoverGesture(proxy: proxy)
                 }
-
-                // Goal line
-                RuleMark(y: .value("Goal", 60))
-                    .foregroundStyle(.red)
-                    .lineStyle(StrokeStyle(lineWidth: 1, dash: [5]))
-                    .annotation(position: .top, alignment: .leading) {
-                        Text("Goal")
-                            .font(.caption)
-                            .foregroundColor(.red)
-                    }
-            }
-            .frame(height: 200)
         }
         .padding()
+    }
+
+    // MARK: - Weekly Chart View
+    private func weeklyChart() -> some View {
+        Chart {
+            ForEach(weeklyData) { data in
+                BarMark(
+                    x: .value("Day", data.dayName),
+                    y: .value("Intake", data.intakeOz)
+                )
+                .foregroundStyle(Color.blue.gradient)
+                .opacity(data.intakeOz > 0 ? 1 : 0)
+            }
+
+            // Goal line
+            goalLine()
+        }
+        .chartXAxis {
+            AxisMarks(values: weeklyData.map { $0.dayName })
+        }
+        .chartYScale(domain: 0...maxWeeklyIntake)
+        .frame(height: 200)
+    }
+
+    // MARK: - Chart Hover Gesture
+    private func chartHoverGesture(proxy: ChartProxy) -> some View {
+        Color.clear
+            .contentShape(Rectangle())
+            .gesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { value in
+                        let location = value.location
+                        if let closestData = findClosestWeeklyData(to: location, in: proxy) {
+                            selectedDate = closestData.dayName
+                            selectedIntake = closestData.intakeOz
+                            selectedPosition = location
+                        }
+                    }
+                    .onEnded { _ in
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            selectedDate = nil
+                            selectedIntake = nil
+                            selectedPosition = nil
+                        }
+                    }
+            )
+    }
+
+    // MARK: - Find Closest Weekly Data Point
+    private func findClosestWeeklyData(to location: CGPoint, in proxy: ChartProxy) -> DailyHydrationData? {
+        guard !weeklyData.isEmpty else {
+            return nil
+        }
+
+        if let dayName = proxy.value(atX: location.x, as: String.self) {
+            return weeklyData.first(where: { $0.dayName == dayName })
+        }
+
+        return nil
+    }
+
+    // MARK: - Monthly Hydration View
+    func monthlyView() -> some View {
+        VStack(alignment: .leading) {
+            Text("Monthly Hydration")
+                .font(.headline)
+                .foregroundColor(.blue)
+
+            chartView()
+                .overlay(hoverTooltip())
+                .chartOverlay { proxy in
+                    Color.clear
+                        .contentShape(Rectangle())
+                        .gesture(
+                            DragGesture(minimumDistance: 0)
+                                .onChanged { value in
+                                    let location = value.location
+                                    if let closestData = findClosestData(to: location, in: proxy) {
+                                        selectedDate = closestData.dayName
+                                        selectedIntake = closestData.intakeOz
+                                        selectedPosition = location
+                                    }
+                                }
+                                .onEnded { _ in
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                        selectedDate = nil
+                                        selectedIntake = nil
+                                        selectedPosition = nil
+                                    }
+                                }
+                        )
+                }
+        }
+        .padding()
+    }
+
+    // MARK: - Chart View
+    private func chartView() -> some View {
+        Chart {
+            ForEach(monthlyData, id: \.id) { data in
+                LineMark(
+                    x: .value("Date", data.dayName),
+                    y: .value("Intake", data.intakeOz)
+                )
+                .interpolationMethod(.monotone)
+                .foregroundStyle(.blue.gradient)
+            }
+
+            // Goal Line at 60 oz
+            goalLine()
+        }
+        .chartYScale(domain: 0...maxMonthlyIntake)
+        .chartXAxis {
+            AxisMarks(values: .automatic) { _ in }
+        }
+        .frame(height: 200)
+    }
+    
+    // MARK: - Find Closest Data Point (Fix Hover)
+    private func findClosestData(to location: CGPoint, in proxy: ChartProxy) -> DailyHydrationData? {
+        guard !monthlyData.isEmpty else {
+            return nil
+        }
+
+        if let dayName = proxy.value(atX: location.x, as: String.self) {
+            return monthlyData.first(where: { $0.dayName == dayName })
+        }
+
+        return nil
+    }
+
+    // MARK: - Tooltip Overlay (Fix: Now Properly Displays)
+    private func hoverTooltip() -> some View {
+        GeometryReader { _ in
+            if let selectedDate, let selectedIntake, let selectedPosition {
+                VStack {
+                    Text("\(selectedDate): \(selectedIntake, specifier: "%.1f") oz")
+                        .font(.caption)
+                        .bold()
+                        .foregroundColor(.white)
+                        .padding(6)
+                        .background(RoundedRectangle(cornerRadius: 10).fill(Color.blue))
+                        .position(x: selectedPosition.x, y: max(selectedPosition.y - 40, 20))
+                }
+            }
+        }
+    }
+    
+    private func goalLine() -> some ChartContent {
+        RuleMark(y: .value("Goal", 60))
+            .foregroundStyle(.red)
+            .lineStyle(StrokeStyle(lineWidth: 1, dash: [5]))
+            .annotation(position: .top, alignment: .leading) {
+                Text("Goal")
+                    .font(.caption)
+                    .foregroundColor(.red)
+            }
     }
 
     // MARK: - Circular Progress Bar

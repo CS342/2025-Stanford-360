@@ -49,27 +49,38 @@ extension HydrationTrackerView {
             }
 
             // Update Firestore
-            let updatedLog = HydrationLog(
-                amountOz: newTotalIntake,
-                streak: newStreak,
-                lastTriggeredMilestone: max(fetchedLog?.lastTriggeredMilestone ?? 0, newTotalIntake),
-                lastHydrationDate: lastHydrationDate,
-                isStreakUpdated: isStreakUpdated
-            )
-            
-            await standard.addOrUpdateHydrationLog(hydrationLog: updatedLog)
+            await updateFirestoreLog(newTotalIntake, newStreak, isStreakUpdated, lastHydrationDate)
 
             totalIntake = newTotalIntake
             streak = newStreak
             
+            let updatedWeeklyData = await standard.fetchWeeklyHydrationData()
+            let updatedMonthlyData = await standard.fetchMonthlyHydrationData()
+            withAnimation {
+                weeklyData = updatedWeeklyData
+                monthlyData = updatedMonthlyData
+            }
+            
             scheduleHydrationReminder()
             
-            displayMilestoneMessage(newTotalIntake: updatedLog.amountOz, lastMilestone: fetchedLog?.lastTriggeredMilestone ?? 0)
+            displayMilestoneMessage(newTotalIntake: newTotalIntake, lastMilestone: fetchedLog?.lastTriggeredMilestone ?? 0)
         } catch {
             print("❌ Error updating hydration log: \(error)")
         }
         selectedAmount = nil
         intakeAmount = ""
+    }
+    
+    private func updateFirestoreLog(_ newTotalIntake: Double, _ newStreak: Int, _ isStreakUpdated: Bool, _ lastHydrationDate: Date) async {
+        let updatedLog = HydrationLog(
+            amountOz: newTotalIntake,
+            streak: newStreak,
+            lastTriggeredMilestone: max(totalIntake, newTotalIntake),
+            lastHydrationDate: lastHydrationDate,
+            isStreakUpdated: isStreakUpdated
+        )
+
+        await standard.addOrUpdateHydrationLog(hydrationLog: updatedLog)
     }
     
     // MARK: - Helper Function: Display Milestone Message
@@ -106,6 +117,12 @@ extension HydrationTrackerView {
             if let log = fetchedLog, calendar.isDate(log.lastHydrationDate, inSameDayAs: today) {
                 totalIntake = log.amountOz
                 streak = log.streak
+            }
+
+            // 🔹 Fetch Weekly Data Again to Refresh Graph
+            let updatedWeeklyData = await standard.fetchWeeklyHydrationData()
+            withAnimation {
+                weeklyData = updatedWeeklyData
             }
         } catch {
             print("❌ Error fetching hydration data: \(error)")

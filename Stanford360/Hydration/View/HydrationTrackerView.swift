@@ -26,6 +26,17 @@ struct HydrationTrackerView: View {
     @State var streakJustUpdated = false
     @State var isSpecialMilestone: Bool = false
     @State var selectedTimeFrame: HydrationTimeFrame = .today
+    @State var weeklyData: [DailyHydrationData] = []
+    @State var monthlyData: [DailyHydrationData] = []
+    @State var selectedDate: String?
+    @State var selectedIntake: Double?
+    @State var selectedPosition: CGPoint?
+    var maxMonthlyIntake: Double {
+        max(200, monthlyData.map { $0.intakeOz }.max() ?? 0)
+    }
+    var maxWeeklyIntake: Double {
+        max(100, weeklyData.map { $0.intakeOz }.max() ?? 0)
+    }
 
     @Environment(Stanford360Standard.self) var standard
 
@@ -60,9 +71,9 @@ struct HydrationTrackerView: View {
                     case .today:
                         todayView()
                     case .week:
-                        weeklyViewPlaceholder()
+                        weeklyView()
                     case .month:
-                        monthlyViewPlaceholder()
+                        monthlyView()
                     }
                 }
                 .padding(.top, 30)
@@ -71,6 +82,8 @@ struct HydrationTrackerView: View {
             .onAppear {
                 Task {
                     await fetchHydrationData()
+                    weeklyData = await standard.fetchWeeklyHydrationData()
+                    monthlyData = await standard.fetchMonthlyHydrationData()
                 }
             }
             .contentShape(Rectangle())

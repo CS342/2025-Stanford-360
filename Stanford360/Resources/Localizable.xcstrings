@@ -10,6 +10,16 @@
     "%.2f/60" : {
 
     },
+    "%@: %.1f oz" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: %2$.1f oz"
+          }
+        }
+      }
+    },
     "%lld" : {
 
     },
@@ -686,9 +696,6 @@
       }
     },
     "View" : {
-
-    },
-    "Week" : {
 
     },
     "Weekly Hydration" : {
