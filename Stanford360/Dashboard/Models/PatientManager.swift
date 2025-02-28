@@ -12,10 +12,23 @@
 import Foundation
 import Spezi
 
+@Observable
 class PatientManager: Module, EnvironmentAccessible {
-	@Published var patient: Patient
+	var patient: Patient
 	
 	init(patient: Patient = Patient(activityMinutes: 0, hydrationOunces: 0, proteinGrams: 0)) {
 		self.patient = patient
+	}
+	
+	func updateActivityMinutes(_ minutes: Int) {
+		self.patient.activityMinutes = minutes
+	}
+	
+	func updateHydrationOunces(_ ounces: Double) {
+		self.patient.hydrationOunces = ounces
+	}
+	
+	func updateProteinGrams(_ grams: Double) {
+		self.patient.proteinGrams = grams
 	}
 }

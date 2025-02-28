@@ -52,6 +52,7 @@ extension HydrationTrackerView {
             await updateFirestoreLog(newTotalIntake, newStreak, isStreakUpdated, lastHydrationDate)
 
             totalIntake = newTotalIntake
+			patientManager.updateHydrationOunces(newTotalIntake)
             streak = newStreak
             
             let updatedWeeklyData = await standard.fetchWeeklyHydrationData()
@@ -116,6 +117,7 @@ extension HydrationTrackerView {
 
             if let log = fetchedLog, calendar.isDate(log.lastHydrationDate, inSameDayAs: today) {
                 totalIntake = log.amountOz
+				patientManager.updateHydrationOunces(log.amountOz)
                 streak = log.streak
             }
 

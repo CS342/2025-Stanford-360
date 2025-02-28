@@ -13,6 +13,7 @@ import SwiftUI
 struct AddActivitySheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(Stanford360Standard.self) private var standard
+	@Environment(PatientManager.self) private var patientManager
     @Bindable var activityManager: ActivityManager
     @State private var activeMinutes = ""
     @State private var selectedActivity = "Walking 🚶‍♂️"
@@ -145,6 +146,7 @@ struct AddActivitySheet: View {
         )
         
         activityManager.logActivityToView(newActivity)
+		patientManager.updateActivityMinutes(activityManager.todayTotalMinutes)
         try? await standard.store(activity: newActivity)
         dismiss()
     }
