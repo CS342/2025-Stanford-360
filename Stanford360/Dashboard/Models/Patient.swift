@@ -14,5 +14,5 @@ import Foundation
 struct Patient {
 	var activityMinutes: Int
 	var hydrationOunces: Double
-	var proteinGrams: Int
+	var proteinGrams: Double
 }

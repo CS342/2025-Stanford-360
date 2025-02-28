@@ -15,6 +15,8 @@ struct HydrationTrackerView: View {
         case week
         case month
     }
+	
+	@Environment(PatientManager.self) var patientManager
 
     // MARK: - State
     @State var intakeAmount: String = ""
