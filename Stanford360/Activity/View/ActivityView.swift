@@ -28,8 +28,12 @@ struct ActivityView: View {
 //    @Environment(Stanford360Standard.self) private var standard
     
     var body: some View {
-        NavigationStack {
+        NavigationView {
             content
+        }
+        .task {
+            // Replace await with proper async operation if needed
+            await activityManager.loadActivities()
         }
     }
     
@@ -58,7 +62,7 @@ struct ActivityView: View {
         .onAppear {
             Task {
                 // Request HealthKit authorization when view appears
-                await activityManager.setupHealthKit()
+                 activityManager.setupHealthKit()
             }
         }
         .alert("HealthKit Access Required", isPresented: $showHealthKitAlert) {
@@ -84,6 +88,8 @@ struct ActivityView: View {
                 .foregroundColor(.secondary)
         }
         .padding()
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal, 16)
         .background(Color.orange.opacity(0.1))
         .cornerRadius(10)
         .onTapGesture {

@@ -145,7 +145,6 @@ struct AddActivitySheet: View {
         )
         
         activityManager.logActivityToView(newActivity)
-        try? await standard.store(activity: newActivity)
         dismiss()
     }
 }

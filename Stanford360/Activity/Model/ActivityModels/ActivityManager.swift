@@ -9,64 +9,108 @@
 // SPDX-License-Identifier: MIT
 
 import Foundation
+import Spezi
+import StoreKit
+import SwiftUI
+import SwiftUICore
 import UserNotifications
+
+enum TimeFrame {
+    case today
+    case week
+    case month
+}
 
 @MainActor
 @Observable
 class ActivityManager {
+    // MARK: - Properties
     var activities: [Activity] = []
-    private let storageKey = "activities"
+    let standard: Stanford360Standard
     let healthKitManager: HealthKitManager
     
-    var todayTotalMinutes: Int {
+    // MARK: - Initialization
+    init(
+        standard: Stanford360Standard = Stanford360Standard(),
+        healthKitManager: HealthKitManager = HealthKitManager()
+    ) {
+        self.standard = standard
+        self.healthKitManager = healthKitManager
+        Task {
+            await loadActivities()
+        }
+        setupHealthKit()
+    }
+    
+    // Make this public so ActivityView can access it
+    func loadActivities() async {
+        do {
+            let calendar = Calendar.current
+            guard let thirtyDaysAgo = calendar.date(byAdding: .day, value: -30, to: Date()) else {
+                return
+            }
+            
+            let fetchedActivities = try await standard.fetchActivitiesInRange(
+                from: thirtyDaysAgo,
+                to: Date()
+            )
+            
+            activities = fetchedActivities.sorted { $0.date > $1.date }
+            print("Loaded \(activities.count) activities from Firestore")
+        } catch {
+            print("Failed to load activities from Firestore: \(error)")
+        }
+    }
+    
+    // MARK: - Methods
+    func getTodayTotalMinutes() -> Int {
         let today = Date()
         return activities
             .filter { Calendar.current.isDate($0.date, inSameDayAs: today) }
             .reduce(0) { $0 + $1.activeMinutes }
     }
     
-    init(healthKitManager: HealthKitManager = HealthKitManager()) {
-        self.healthKitManager = healthKitManager
-        loadFromStorage()
-    }
-    
-    func setupHealthKit() async {
-        do {
-            // Request authorization
-            try await healthKitManager.requestAuthorization()
-            
-            // If authorized, start syncing HealthKit data
-            if healthKitManager.isHealthKitAuthorized {
+    func setupHealthKit() {
+        Task {
+            do {
+                try await healthKitManager.requestAuthorization()
                 await syncHealthKitData()
-                
-                // Set up periodic sync (every 15 minutes)
-                Timer.scheduledTimer(withTimeInterval: 900, repeats: true) { _ in
-                    Task {
-                        await self.syncHealthKitData()
-                    }
-                }
+            } catch {
+                print("Failed to setup HealthKit: \(error.localizedDescription)")
             }
-        } catch {
-            print("Failed to setup HealthKit: \(error.localizedDescription)")
         }
     }
-    
+
+    // Retrieve data from HealthKit and convert it to an Activity
     func syncHealthKitData() async {
         do {
-            if healthKitManager.isHealthKitAuthorized {
-                let healthKitActivity = try await healthKitManager.fetchAndConvertHealthKitData(for: Date())
-                
-                // Remove any existing HealthKit activities for today
-                activities.removeAll { activity in
-                    activity.activityType == "HealthKit Import" &&
-                    Calendar.current.isDateInToday(activity.date)
-                }
-                
-                // Only add if there are actual activities recorded
-                if healthKitActivity.activeMinutes > 0 {
-                    activities.append(healthKitActivity)
-                    saveToStorage()
-                }
+            // First check if HealthKit is authorized
+            if !healthKitManager.isHealthKitAuthorized {
+                try await healthKitManager.requestAuthorization()
+            }
+            
+            // Use fetchAndConvertHealthKitData to properly convert steps to minutes
+            let healthKitActivity = try await healthKitManager.fetchAndConvertHealthKitData(for: Date())
+            
+            print("HealthKit data fetched: \(healthKitActivity.activeMinutes) minutes, \(healthKitActivity.steps) steps")
+            
+            // Remove any existing HealthKit activities for today - use consistent activity type
+            let today = Calendar.current.startOfDay(for: Date())
+            activities.removeAll { activity in
+                activity.activityType == "HealthKit Import" &&
+                Calendar.current.startOfDay(for: activity.date) == today
+            }
+            
+            // Only add if there are actual activities recorded
+            if healthKitActivity.activeMinutes > 0 || healthKitActivity.steps > 0 {
+                print("Adding HealthKit activity with \(healthKitActivity.activeMinutes) minutes")
+                // Make sure we're not adding this activity to HealthKit again
+                var activityCopy = healthKitActivity
+                activityCopy.activityType = "HealthKit Import"
+                activities.append(activityCopy)
+                saveToStorage()
+            } else {
+                print("No significant HealthKit activity found for today")
             }
         } catch {
             print("Failed to sync HealthKit data: \(error.localizedDescription)")
@@ -75,33 +119,23 @@ class ActivityManager {
 
     func logActivityToView(_ activity: Activity) {
         activities.append(activity)
-        saveToStorage()
         
-        // Save non-HealthKit activities to HealthKit
-        if !activity.activityType.contains("HealthKit") {
-            Task {
+        Task {
+            await standard.addOrUpdateActivity(activity: activity)
+            
+            if !activity.activityType.contains("HealthKit") {
                 do {
-                    // First check authorization
                     if !healthKitManager.isHealthKitAuthorized {
-                        print("Requesting HealthKit authorization...")
                         try await healthKitManager.requestAuthorization()
                     }
                     
-                    // Only proceed if authorized
                     if healthKitManager.isHealthKitAuthorized {
-                        print("Saving activity to HealthKit: \(activity.activeMinutes) minutes")
                         try await healthKitManager.saveActivity(activity)
-                        
-                        // Wait a moment for HealthKit to process the new data
                         try await Task.sleep(for: .seconds(1))
-                        
-                        // Refresh data from HealthKit
                         await syncHealthKitData()
-                    } else {
-                        print("HealthKit authorization was denied")
                     }
                 } catch {
-                    print("Failed to save activity to HealthKit: \(error.localizedDescription)")
+                    print("Failed to save activity to HealthKit: \(error)")
                 }
             }
         }
@@ -150,10 +184,10 @@ class ActivityManager {
 //    }
 //    
     func triggerMotivation() -> String {
-        if todayTotalMinutes >= 60 {
+        if getTodayTotalMinutes() >= 60 {
             return "🎉 Amazing! You've reached your daily goal of 60 minutes!"
-        } else if todayTotalMinutes > 0 {
-            let remainingMinutes = 60 - todayTotalMinutes
+        } else if getTodayTotalMinutes() > 0 {
+            let remainingMinutes = 60 - getTodayTotalMinutes()
             return "Keep going! Only \(remainingMinutes) more minutes to reach today's goal! 🚀"
         } else {
             return "Start your activity today and move towards your goal! 💪"
@@ -166,10 +200,10 @@ class ActivityManager {
         let content = UNMutableNotificationContent()
         content.title = "🏃 Keep Moving!"
         
-        if todayTotalMinutes >= 60 {
+        if getTodayTotalMinutes() >= 60 {
             content.body = "🎉 Amazing! You've reached your daily goal of 60 minutes! Keep up the great work!"
         } else {
-            let remainingMinutes = 60 - todayTotalMinutes
+            let remainingMinutes = 60 - getTodayTotalMinutes()
             content.body = "You're only \(remainingMinutes) minutes away from your daily goal! Keep going! 🚀"
             let request = UNNotificationRequest(identifier: "activityReminder", content: content, trigger: nil)
             UNUserNotificationCenter.current().add(request)
@@ -177,7 +211,7 @@ class ActivityManager {
     }
     
     private func loadFromStorage() {
-        if let data = UserDefaults.standard.data(forKey: storageKey),
+        if let data = UserDefaults.standard.data(forKey: "activities"),
            let decoded = try? JSONDecoder().decode([Activity].self, from: data) {
             activities = decoded
         }
@@ -185,7 +219,33 @@ class ActivityManager {
     
     private func saveToStorage() {
         if let data = try? JSONEncoder().encode(activities) {
-            UserDefaults.standard.set(data, forKey: storageKey)
+            UserDefaults.standard.set(data, forKey: "activities")
+        }
+    }
+    
+    // Helper methods to get activities for different time frames
+    func getActivitiesForTimeFrame(_ timeFrame: TimeFrame) -> [Activity] {
+        let calendar = Calendar.current
+        let now = Date()
+        
+        switch timeFrame {
+        case .today:
+            let todayActivities = activities.filter { calendar.isDateInToday($0.date) }
+            return todayActivities
+            
+        case .week:
+            guard let weekAgo = calendar.date(byAdding: .day, value: -7, to: now) else {
+                return []
+            }
+            let weekActivities = activities.filter { $0.date >= weekAgo && $0.date <= now }
+            return weekActivities
+            
+        case .month:
+            guard let monthAgo = calendar.date(byAdding: .month, value: -1, to: now) else {
+                return []
+            }
+            let monthActivities = activities.filter { $0.date >= monthAgo && $0.date <= now }
+            return monthActivities
         }
     }
 }

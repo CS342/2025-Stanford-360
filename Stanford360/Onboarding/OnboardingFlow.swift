@@ -46,10 +46,10 @@ struct OnboardingFlow: View {
                 AccountOnboarding()
             }
             
-            #if !(targetEnvironment(simulator) && (arch(i386) || arch(x86_64)))
-                Consent()
-            #endif
-            
+//            #if !(targetEnvironment(simulator) && (arch(i386) || arch(x86_64)))
+//                Consent()
+//            #endif
+//            
             if HKHealthStore.isHealthDataAvailable() && !healthKitAuthorization {
                 HealthKitPermissions()
             }
