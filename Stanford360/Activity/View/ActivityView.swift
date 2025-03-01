@@ -19,9 +19,11 @@ struct ActivityView: View {
         case today, week, month
     }
     
-    // State properties grouped together
     @Environment(ActivityManager.self) private var activityManager
     @Environment(HealthKitManager.self) private var healthKitManager
+	@Environment(PatientManager.self) private var patientManager
+	
+	// State properties grouped together
     @State private var showingAddActivity = false
     @State private var selectedTimeFrame: TimeFrame = .today
     @State private var showHealthKitAlert = false
@@ -35,6 +37,7 @@ struct ActivityView: View {
         .task {
             // Replace await with proper async operation if needed
             activityManager.activities = (try? await standard.loadActivitiesFromFirestore()) ?? []
+			patientManager.updateActivityMinutes(activityManager.getTodayTotalMinutes())
             do {
                 try await healthKitManager.requestAuthorization()
                 await syncHealthKitData()
