@@ -56,6 +56,7 @@ class Stanford360Delegate: SpeziAppDelegate {
 			
 			Stanford360Scheduler()
 			Scheduler()
+            HydrationScheduler()
 			OnboardingDataSource()
 			Notifications()
 			PatientManager()
