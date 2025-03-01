@@ -181,4 +181,32 @@ class HealthKitManager: Module, EnvironmentAccessible {
             activityType: "HealthKit Import"
         )
     }
+    
+    /// Converts HealthKit metrics into equivalent active minutes
+    private func calculateActiveMinutes(steps: Int, exerciseMinutes: Int) -> Int {
+        // Convert steps to minutes (assuming 100 steps per minute of activity)
+        let stepsBasedMinutes = steps / 100
+        
+        // Take the maximum value to avoid double counting
+        return max(exerciseMinutes, stepsBasedMinutes)
+    }
+    
+    /// Fetches and converts HealthKit data into an Activity object
+    func fetchAndConvertHealthKitData(for date: Date) async throws -> Activity {
+        let healthKitActivity = try await readDailyActivity(for: date)
+        
+        // Calculate active minutes based on steps (100 steps ≈ 1 minute of activity)
+        let convertedActiveMinutes = calculateActiveMinutes(
+            steps: healthKitActivity.steps,
+            exerciseMinutes: healthKitActivity.activeMinutes
+        )
+        
+        return Activity(
+            date: date,
+            steps: healthKitActivity.steps,
+            activeMinutes: convertedActiveMinutes,
+            caloriesBurned: healthKitActivity.caloriesBurned,
+            activityType: "HealthKit Import"
+        )
+    }
 }

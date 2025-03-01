@@ -44,7 +44,7 @@ struct DashboardView: View {
 			Text("Protein")
 				.font(.title2)
 				.fontWeight(.light)
-			Text("\(patient.proteinGrams)/60")
+			Text("\(patient.proteinGrams, specifier: "%.2f")/60")
 				.font(.title)
 				.fontWeight(.semibold)
 				.foregroundColor(.green)

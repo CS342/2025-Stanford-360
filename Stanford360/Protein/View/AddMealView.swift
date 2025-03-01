@@ -13,6 +13,7 @@ struct AddMealView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var proteinData: ProteinIntakeModel
     @Environment(Stanford360Standard.self) private var standard
+	@Environment(PatientManager.self) private var patientManager
     
     @State private var mealName: String = ""
     @State private var proteinAmount: Double = 0.0
@@ -145,6 +146,7 @@ struct AddMealView: View {
                 Task {
                     await saveMeal()
                 }
+				patientManager.updateProteinGrams(proteinData.totalProteinGrams)
             }
         }) {
             Text("Save Meal")
