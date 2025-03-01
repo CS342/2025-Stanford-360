@@ -27,7 +27,7 @@ struct ActivityTimeFrameView: View {
     
     private var todayView: some View {
         VStack {
-            DailyProgressView(activeMinutes: activityManager.todayTotalMinutes)
+            DailyProgressView(activeMinutes: activityManager.getTodayTotalMinutes())
                 .frame(height: 200)
                 .padding()
                 

@@ -10,9 +10,10 @@
 
 import FirebaseFirestore
 import Foundation
+import Spezi
 
 /// Represents a child's daily physical activity session.
-struct Activity: Identifiable, Codable {
+struct Activity: Identifiable, Codable, @unchecked Sendable {
     @DocumentID var id: String?
     var date: Date
     var steps: Int
@@ -20,7 +21,14 @@ struct Activity: Identifiable, Codable {
     var caloriesBurned: Int
     var activityType: String
     
-    init(date: Date, steps: Int, activeMinutes: Int, caloriesBurned: Int, activityType: String, id: String? = UUID().uuidString) {
+    init(
+        date: Date,
+        steps: Int,
+        activeMinutes: Int,
+        caloriesBurned: Int,
+        activityType: String,
+        id: String? = UUID().uuidString
+    ) {
         self.id = id
         self.date = date
         self.steps = steps

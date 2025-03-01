@@ -59,6 +59,8 @@ class Stanford360Delegate: SpeziAppDelegate {
             OnboardingDataSource()
             Notifications()
 			PatientManager()
+            ActivityManager()
+            HealthKitManager()
         }
     }
     
