@@ -10,6 +10,7 @@
 
 import Foundation
 import HealthKit
+import Spezi
 
 enum HealthKitError: Error {
 //    case authorizationDenied
@@ -21,7 +22,7 @@ enum HealthKitError: Error {
 
 @MainActor
 @Observable
-class HealthKitManager {
+class HealthKitManager: Module, EnvironmentAccessible {
     let healthStore: HKHealthStore
     var isHealthKitAuthorized = false
     private var healthKitObserver: Any?
@@ -72,10 +73,10 @@ class HealthKitManager {
         )
     }
     
-    func saveActivity(_ activity: Activity) async throws {
-        let samples = createHealthKitSamples(for: activity)
-        try await healthStore.save(samples)
-    }
+//    func saveActivityToHealthKit(_ activity: Activity) async throws {
+//        let samples = createHealthKitSamples(for: activity)
+//        try await healthStore.save(samples)
+//    }
     
     private func fetchSteps(startDate: Date, endDate: Date) async throws -> Int {
         guard let stepType = HKObjectType.quantityType(forIdentifier: .stepCount) else {
@@ -123,36 +124,36 @@ class HealthKitManager {
         }
     }
     
-    private func createHealthKitSamples(for activity: Activity) -> [HKSample] {
-        var samples: [HKSample] = []
-        
-        if let stepType = HKObjectType.quantityType(forIdentifier: .stepCount) {
-            // Convert activity minutes to steps (assuming moderate pace of 100 steps/minute)
-            let estimatedSteps = activity.activeMinutes * 100
-            let stepQuantity = HKQuantity(unit: .count(), doubleValue: Double(estimatedSteps))
-            let stepSample = HKQuantitySample(
-                type: stepType,
-                quantity: stepQuantity,
-                start: activity.date,
-                end: activity.date.addingTimeInterval(60 * Double(activity.activeMinutes))
-            )
-            samples.append(stepSample)
-        }
-        
-        if let exerciseType = HKObjectType.quantityType(forIdentifier: .appleExerciseTime) {
-            let exerciseQuantity = HKQuantity(unit: .minute(), doubleValue: Double(activity.activeMinutes))
-            let exerciseSample = HKQuantitySample(
-                type: exerciseType,
-                quantity: exerciseQuantity,
-                start: activity.date,
-                end: activity.date.addingTimeInterval(60 * Double(activity.activeMinutes))
-            )
-            samples.append(exerciseSample)
-        }
-        
-        return samples
-    }
-    
+//    private func createHealthKitSamples(for activity: Activity) -> [HKSample] {
+//        var samples: [HKSample] = []
+//        
+//        if let stepType = HKObjectType.quantityType(forIdentifier: .stepCount) {
+//            // Convert activity minutes to steps (assuming moderate pace of 100 steps/minute)
+//            let estimatedSteps = activity.activeMinutes * 100
+//            let stepQuantity = HKQuantity(unit: .count(), doubleValue: Double(estimatedSteps))
+//            let stepSample = HKQuantitySample(
+//                type: stepType,
+//                quantity: stepQuantity,
+//                start: activity.date,
+//                end: activity.date.addingTimeInterval(60 * Double(activity.activeMinutes))
+//            )
+//            samples.append(stepSample)
+//        }
+//        
+//        if let exerciseType = HKObjectType.quantityType(forIdentifier: .appleExerciseTime) {
+//            let exerciseQuantity = HKQuantity(unit: .minute(), doubleValue: Double(activity.activeMinutes))
+//            let exerciseSample = HKQuantitySample(
+//                type: exerciseType,
+//                quantity: exerciseQuantity,
+//                start: activity.date,
+//                end: activity.date.addingTimeInterval(60 * Double(activity.activeMinutes))
+//            )
+//            samples.append(exerciseSample)
+//        }
+//        
+//        return samples
+//    }
+//    
     /// Converts HealthKit metrics into equivalent active minutes
     private func calculateActiveMinutes(steps: Int, exerciseMinutes: Int) -> Int {
         // Convert steps to minutes (assuming 100 steps per minute of activity)

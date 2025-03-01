@@ -108,9 +108,9 @@ struct AddActivitySheet: View {
     private var saveButton: some View {
         Button(action: {
             Task {
-                await saveActivity()
-                dismiss()
+                await saveActivityToView()
             }
+            dismiss()
         }) {
             Text("Save My Activity! 🌟")
                 .font(.title3.bold())
@@ -126,7 +126,7 @@ struct AddActivitySheet: View {
         .disabled(activeMinutes.isEmpty)
     }
     
-    private func saveActivity() async {
+    private func saveActivityToView() async {
         // Validate date isn't in the future
         guard selectedDate <= Date() else {
             showingDateError = true
@@ -144,8 +144,8 @@ struct AddActivitySheet: View {
             activityType: selectedActivity
         )
         
-        activityManager.logActivityToView(newActivity)
-        dismiss()
+        activityManager.activities.append(newActivity)
+        await standard.addActivityToFirestore(activity: newActivity)
     }
 }
 

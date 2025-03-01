@@ -20,7 +20,6 @@ struct Activity: Identifiable, Codable, @unchecked Sendable {
     var activeMinutes: Int
     var caloriesBurned: Int
     var activityType: String
-    var userId: String?
     
     init(
         date: Date,
@@ -28,8 +27,7 @@ struct Activity: Identifiable, Codable, @unchecked Sendable {
         activeMinutes: Int,
         caloriesBurned: Int,
         activityType: String,
-        id: String? = UUID().uuidString,
-        userId: String? = nil
+        id: String? = UUID().uuidString
     ) {
         self.id = id
         self.date = date
@@ -37,6 +35,5 @@ struct Activity: Identifiable, Codable, @unchecked Sendable {
         self.activeMinutes = activeMinutes
         self.caloriesBurned = caloriesBurned
         self.activityType = activityType
-        self.userId = userId
     }
 }

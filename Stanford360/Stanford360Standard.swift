@@ -26,9 +26,9 @@ actor Stanford360Standard: Standard,
                                    HealthKitConstraint,
                                    ConsentConstraint,
                                    AccountNotifyConstraint {
-    @Application(\.logger) private var logger
+    @Application(\.logger) internal var logger
 
-    @Dependency(FirebaseConfiguration.self) private var configuration
+    @Dependency(FirebaseConfiguration.self) internal var configuration
 
     init() {}
 
@@ -128,52 +128,37 @@ actor Stanford360Standard: Standard,
     /// - Parameter consent: The consent form's data to be stored as a `PDFDocument`.
     @MainActor
     func store(consent: ConsentDocumentExport) async throws {
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "yyyy-MM-dd_HHmmss"
-//        let dateString = formatter.string(from: Date())
-//
-//        guard !FeatureFlags.disableFirebase else {
-//            guard let basePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-//                await logger.error("Could not create path for writing consent form to user document directory.")
-//                return
-//            }
-//            
-//            let filePath = basePath.appending(path: "consentForm_\(dateString).pdf")
-//            await consent.pdf.write(to: filePath)
-//            
-//            return
-//        }
-//        
-//        do {
-//            guard let consentData = await consent.pdf.dataRepresentation() else {
-//                await logger.error("Could not store consent form.")
-//                return
-//            }
-//
-//            let metadata = StorageMetadata()
-//            metadata.contentType = "application/pdf"
-//            _ = try await configuration.userBucketReference
-//                .child("consent/\(dateString).pdf")
-//                .putDataAsync(consentData, metadata: metadata) { @Sendable _ in }
-//        } catch {
-//            await logger.error("Could not store consent form: \(error)")
-//        }
-    }
-    
-    // /// Stores an activity document under the current user's subcollection "activities".
-    // @MainActor
-    // func store(activity: Activity) async throws {
-    //     if !FeatureFlags.disableFirebase {
-    //         // Get the user's document reference from your Firebase configuration.
-    //         let userDocRef = try await configuration.userDocumentReference
-            
-    //         // Create or access the "activities" subcollection under the user's document.
-    //         try userDocRef.collection("activities").addDocument(from: activity)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd_HHmmss"
+        let dateString = formatter.string(from: Date())
 
-    //         // Optional: Log success
-    //         await logger.debug("Activity stored successfully for user \(userDocRef.documentID)")
-    //     }
-    // }
+        guard !FeatureFlags.disableFirebase else {
+            guard let basePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+                await logger.error("Could not create path for writing consent form to user document directory.")
+                return
+            }
+            
+            let filePath = basePath.appending(path: "consentForm_\(dateString).pdf")
+            await consent.pdf.write(to: filePath)
+            
+            return
+        }
+        
+        do {
+            guard let consentData = await consent.pdf.dataRepresentation() else {
+                await logger.error("Could not store consent form.")
+                return
+            }
+
+            let metadata = StorageMetadata()
+            metadata.contentType = "application/pdf"
+            _ = try await configuration.userBucketReference
+                .child("consent/\(dateString).pdf")
+                .putDataAsync(consentData, metadata: metadata) { @Sendable _ in }
+        } catch {
+            await logger.error("Could not store consent form: \(error)")
+        }
+    }
                                      
     /// Store hydration document under hydrationLog
     private func hydrationDocument(date: Date) async throws -> DocumentReference {
@@ -320,98 +305,23 @@ actor Stanford360Standard: Standard,
     // Delete a meal from Firebase
     @MainActor
     func deleteMeal(withName name: String, timestamp: Date) async throws {
-//        if FeatureFlags.disableFirebase {
-//            await logger.debug("Deleting meal locally:\(name)")
-//            return
-//        }
-//        do {
-//            let snapshot = try await configuration.userDocumentReference
-//                .collection("meals")
-//                .whereField("name", isEqualTo: name)
-//                .whereField("timestamp", isEqualTo: timestamp)
-//                .getDocuments()
-//            
-//            for document in snapshot.documents {
-//                try await document.reference.delete()
-//            }
-//            await logger.debug("Meal deleted successfully")
-//        } catch {
-//            await logger.error("Could not delete meal:\(error)")
-//            throw error
-//        }
-    }
-
-    /// Get activity document reference for a specific date and activity ID
-    private func activityDocument(date: Date, activityId: String = UUID().uuidString) async throws -> DocumentReference {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        let dateString = formatter.string(from: date)
-        return try await configuration.userDocumentReference
-            .collection("activities")
-            .document(dateString)
-            .collection("dailyActivities")  // Subcollection for multiple activities per day
-            .document(activityId)
-    }
-    
-    func addOrUpdateActivity(activity: Activity) async {
-        do {
-            let activityData: [String: Any] = [
-                "steps": activity.steps,
-                "activeMinutes": activity.activeMinutes,
-                "caloriesBurned": activity.caloriesBurned,
-                "activityType": activity.activityType,
-                "date": Timestamp(date: activity.date)
-            ]
-            
-            let activityDocRef = try await activityDocument(date: activity.date, activityId: activity.id ?? UUID().uuidString)
-            try await activityDocRef.setData(activityData, merge: true)
-            
-            logger.debug("Activity stored successfully")
-        } catch {
-            logger.error("Could not store activity: \(error)")
+        if FeatureFlags.disableFirebase {
+            await logger.debug("Deleting meal locally:\(name)")
+            return
         }
-    }
-
-    @MainActor
-    func fetchActivitiesInRange(from startDate: Date, to endDate: Date) async throws -> [Activity] {
         do {
-            let calendar = Calendar.current
-            guard let endOfDay = calendar.date(byAdding: .day, value: 1, to: endDate) else {
-                return []
-            }
-            
-            let activityDocRef = try await activityDocument(date: startDate)
-            print("✅ Fetching activities from \(startDate) to \(endDate)")
-            
-            let snapshot = try await activityDocRef
-                .collection("dailyActivities")
-                .whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startDate))
-                .whereField("date", isLessThanOrEqualTo: Timestamp(date: endOfDay))
+            let snapshot = try await configuration.userDocumentReference
+                .collection("meals")
+                .whereField("name", isEqualTo: name)
+                .whereField("timestamp", isEqualTo: timestamp)
                 .getDocuments()
             
-            let activities = snapshot.documents.compactMap { document -> Activity? in
-                let data = document.data()
-                // Extract each field safely
-                let date = (data["date"] as? Timestamp)?.dateValue() ?? startDate
-                let steps = data["steps"] as? Int ?? 0
-                let activeMinutes = data["activeMinutes"] as? Int ?? 0
-                let caloriesBurned = data["caloriesBurned"] as? Int ?? 0
-                let activityType = data["activityType"] as? String ?? "Unknown"
-                
-                return Activity(
-                    date: date,
-                    steps: steps,
-                    activeMinutes: activeMinutes,
-                    caloriesBurned: caloriesBurned,
-                    activityType: activityType,
-                    id: document.documentID
-                )
+            for document in snapshot.documents {
+                try await document.reference.delete()
             }
-            
-            print("✅ Found \(activities.count) activities")
-            return activities.sorted { $0.date > $1.date }
+            await logger.debug("Meal deleted successfully")
         } catch {
-            print("❌ Error fetching activities: \(error)")
+            await logger.error("Could not delete meal:\(error)")
             throw error
         }
     }

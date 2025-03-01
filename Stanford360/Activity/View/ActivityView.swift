@@ -20,20 +20,27 @@ struct ActivityView: View {
     }
     
     // State properties grouped together
-    @State private var activityManager = ActivityManager()
+    @Environment(ActivityManager.self) private var activityManager
+    @Environment(HealthKitManager.self) private var healthKitManager
     @State private var showingAddActivity = false
     @State private var selectedTimeFrame: TimeFrame = .today
     @State private var showHealthKitAlert = false
     
-//    @Environment(Stanford360Standard.self) private var standard
-    
+    @Environment(Stanford360Standard.self) internal var standard
+
     var body: some View {
         NavigationView {
             content
         }
         .task {
             // Replace await with proper async operation if needed
-            await activityManager.loadActivities()
+            activityManager.activities = (try? await standard.loadActivitiesFromFirestore()) ?? []
+            do {
+                try await healthKitManager.requestAuthorization()
+                await syncHealthKitData()
+            } catch {
+                print("Failed to setup HealthKit: \(error.localizedDescription)")
+            }
         }
     }
     
@@ -41,7 +48,7 @@ struct ActivityView: View {
     private var content: some View {
         ZStack {
             VStack(spacing: 20) {
-                if !activityManager.healthKitManager.isHealthKitAuthorized {
+                if !healthKitManager.isHealthKitAuthorized {
                     healthKitWarningBanner
                 }
                 
@@ -58,12 +65,6 @@ struct ActivityView: View {
         .navigationTitle("My Active Journey 🏃‍♂️")
         .sheet(isPresented: $showingAddActivity) {
             AddActivitySheet(activityManager: activityManager)
-        }
-        .onAppear {
-            Task {
-                // Request HealthKit authorization when view appears
-                 activityManager.setupHealthKit()
-            }
         }
         .alert("HealthKit Access Required", isPresented: $showHealthKitAlert) {
             Button("Open Settings", role: .none) {
@@ -136,6 +137,42 @@ struct ActivityView: View {
                 }
                 .padding([.trailing, .bottom], 25)
             }
+        }
+    }
+    
+    // Retrieve data from HealthKit and convert it to an Activity
+    func syncHealthKitData() async {
+        do {
+            // First check if HealthKit is authorized
+            if !healthKitManager.isHealthKitAuthorized {
+                try await healthKitManager.requestAuthorization()
+            }
+            
+            // Use fetchAndConvertHealthKitData to properly convert steps to minutes
+            let healthKitActivity = try await healthKitManager.fetchAndConvertHealthKitData(for: Date())
+            
+            print("HealthKit data fetched: \(healthKitActivity.activeMinutes) minutes, \(healthKitActivity.steps) steps")
+            
+            // Remove any existing HealthKit activities for today - use consistent activity type
+            let today = Calendar.current.startOfDay(for: Date())
+            activityManager.activities.removeAll { activity in
+                activity.activityType == "HealthKit Import" &&
+                Calendar.current.startOfDay(for: activity.date) == today
+            }
+            
+            // Only add if there are actual activities recorded
+            if healthKitActivity.activeMinutes > 0 || healthKitActivity.steps > 0 {
+                print("Adding HealthKit activity with \(healthKitActivity.activeMinutes) minutes")
+                // Make sure we're not adding this activity to HealthKit again
+                var activityCopy = healthKitActivity
+                activityCopy.activityType = "HealthKit Import"
+                activityManager.activities.append(activityCopy)
+                activityManager.saveToStorage()
+            } else {
+                print("No significant HealthKit activity found for today")
+            }
+        } catch {
+            print("Failed to sync HealthKit data: \(error.localizedDescription)")
         }
     }
 }
