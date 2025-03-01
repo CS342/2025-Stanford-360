@@ -62,7 +62,11 @@ struct ProgressRings: View {
 }
 
 #Preview {
-	@Previewable @State var patientManager = PatientManager(patient: Patient(activityMinutes: 30, hydrationOunces: 40, proteinGrams: 10))
+	@Previewable @State var patientManager = PatientManager(patient: Patient(
+		activityMinutes: 30,
+		hydrationOunces: 40,
+		proteinGrams: 10
+	))
 	
 	ProgressRings()
 		.environment(patientManager)

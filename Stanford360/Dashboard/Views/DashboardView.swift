@@ -12,7 +12,11 @@
 import SwiftUI
 
 struct DashboardView: View {
+	@Environment(Stanford360Standard.self) private var standard
 	@Environment(PatientManager.self) private var patientManager
+	@Environment(ActivityManager.self) private var activityManager
+	@Environment(HydrationManager.self) private var hydrationManager
+	@Environment(ProteinManager.self) private var proteinManager
 	
 	var body: some View {
 		let patient = patientManager.patient
@@ -51,12 +55,36 @@ struct DashboardView: View {
 			
 			ProgressRings()
 		}
+		.task {
+			await loadPatientData()
+		}
 		.padding(.top, 20)
+	}
+	
+	/// Loads the patient's activities, hydration, and meals into their respective managers and updates the patient's data accordingly
+	func loadPatientData() async {
+		let patientData = try? await standard.fetchPatientData()
+		
+		activityManager.activities = patientData?.activities ?? []
+		let activityMinutes = activityManager.getTodayTotalMinutes()
+		patientManager.updateActivityMinutes(activityMinutes)
+		
+		hydrationManager.hydration = patientData?.hydration ?? []
+		let hydrationOunces = hydrationManager.getTodayHydrationOunces()
+		patientManager.updateHydrationOunces(hydrationOunces)
+		
+		proteinManager.meals = patientData?.meals ?? []
+		let proteinGrams = proteinManager.totalProteinGrams
+		patientManager.updateProteinGrams(proteinGrams)
 	}
 }
 
 #Preview {
-	@Previewable @State var patientManager = PatientManager(patient: Patient(activityMinutes: 50, hydrationOunces: 40, proteinGrams: 10))
+	@Previewable @State var patientManager = PatientManager(patient: Patient(
+		activityMinutes: 50,
+		hydrationOunces: 40,
+		proteinGrams: 10
+	))
 	
 	DashboardView()
 		.environment(patientManager)

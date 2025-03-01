@@ -12,77 +12,73 @@ import SwiftUI
 
 
 struct HomeView: View {
-    enum Tabs: String {
+	enum Tabs: String {
 		case home
-        case hydration
+		case hydration
 		case protein
 		case activity
 		case dashboard
-    }
-
-    @AppStorage(StorageKeys.homeTabSelection) private var selectedTab = Tabs.home
-    @AppStorage(StorageKeys.tabViewCustomization) private var tabViewCustomization = TabViewCustomization()
-
-    @State private var presentingAccount = false
-    @State private var activityManager = ActivityManager()
-    
-    var body: some View {
-        TabView(selection: $selectedTab) {
-            Tab("Home", systemImage: "house.fill", value: .home) {
+	}
+	
+	@AppStorage(StorageKeys.homeTabSelection) private var selectedTab = Tabs.home
+	@AppStorage(StorageKeys.tabViewCustomization) private var tabViewCustomization = TabViewCustomization()
+	
+	@State private var presentingAccount = false
+	@State private var activityManager = ActivityManager()
+	
+	var body: some View {
+		TabView(selection: $selectedTab) {
+			Tab("Home", systemImage: "house.fill", value: .home) {
 				FeedView(presentingAccount: $presentingAccount)
-            }
+			}
 			.customizationID("home.home")
-
-            Tab("Activity", systemImage: "figure.walk", value: .activity) {
-                ActivityView()
-            }
-            .customizationID("home.activity")
 			
-            Tab("Hydration", systemImage: "drop.fill", value: .hydration) {
-                HydrationTrackerView()
-            }
+			Tab("Activity", systemImage: "figure.walk", value: .activity) {
+				ActivityView()
+			}
+			.customizationID("home.activity")
+			
+			Tab("Hydration", systemImage: "drop.fill", value: .hydration) {
+				HydrationTrackerView()
+			}
 			.customizationID("home.hydration")
 			
-            Tab("Protein", systemImage: "fork.knife", value: .protein) {
-                ProteinContentView(proteinData: ProteinIntakeModel(
-//                    userID: "defaultUser",
-//                    date: Date(),
-                    meals: []
-                ))
-            }
+			Tab("Protein", systemImage: "fork.knife", value: .protein) {
+				ProteinContentView()
+			}
 			.customizationID("home.protein")
 			
 			Tab("Dashboard", systemImage: "target", value: .dashboard) {
 				DashboardView()
 			}
 			.customizationID("home.dashboard")
-        }
-        .task {
-            activityManager.sendActivityReminder()
-        }
-            .tabViewStyle(.sidebarAdaptable)
-            .tabViewCustomization($tabViewCustomization)
-            .sheet(isPresented: $presentingAccount) {
-                AccountSheet(dismissAfterSignIn: false) // presentation was user initiated, do not automatically dismiss
-            }
-            .accountRequired(!FeatureFlags.disableFirebase && !FeatureFlags.skipOnboarding) {
-                AccountSheet()
-            }
-    }
+		}
+		.task {
+			activityManager.sendActivityReminder()
+		}
+		.tabViewStyle(.sidebarAdaptable)
+		.tabViewCustomization($tabViewCustomization)
+		.sheet(isPresented: $presentingAccount) {
+			AccountSheet(dismissAfterSignIn: false) // presentation was user initiated, do not automatically dismiss
+		}
+		.accountRequired(!FeatureFlags.disableFirebase && !FeatureFlags.skipOnboarding) {
+			AccountSheet()
+		}
+	}
 }
 
 
 #if DEBUG
 #Preview {
-    var details = AccountDetails()
-    details.userId = "lelandstanford@stanford.edu"
-    details.name = PersonNameComponents(givenName: "Leland", familyName: "Stanford")
-    
-    return HomeView()
-        .previewWith(standard: Stanford360Standard()) {
-            Stanford360Scheduler()
-            Scheduler()
-            AccountConfiguration(service: InMemoryAccountService(), activeDetails: details)
-        }
+	var details = AccountDetails()
+	details.userId = "lelandstanford@stanford.edu"
+	details.name = PersonNameComponents(givenName: "Leland", familyName: "Stanford")
+	
+	return HomeView()
+		.previewWith(standard: Stanford360Standard()) {
+			Stanford360Scheduler()
+			Scheduler()
+			AccountConfiguration(service: InMemoryAccountService(), activeDetails: details)
+		}
 }
 #endif
