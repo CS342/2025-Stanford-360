@@ -39,6 +39,7 @@ struct HydrationTrackerView: View {
     }
 
     @Environment(Stanford360Standard.self) var standard
+    @Environment(HydrationScheduler.self) var hydrationScheduler
 
     // MARK: - Preset Amounts
     let presetAmounts: [(icon: String, amount: Double)] = [
@@ -53,14 +54,6 @@ struct HydrationTrackerView: View {
     // MARK: - Body
     var body: some View {
         ZStack {
-            /*
-            LinearGradient(
-                gradient: Gradient(colors: [Color.blue.opacity(0.2), Color.white]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .edgesIgnoringSafeArea(.all)
-             */
             ScrollView {
                 VStack(spacing: 20) {
                     headerView()
