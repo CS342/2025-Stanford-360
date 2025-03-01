@@ -14,7 +14,7 @@ struct AddActivitySheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(Stanford360Standard.self) private var standard
 	@Environment(PatientManager.self) private var patientManager
-    @Bindable var activityManager: ActivityManager
+	@Environment(ActivityManager.self) private var activityManager
     @State private var activeMinutes = ""
     @State private var selectedActivity = "Walking 🚶‍♂️"
     @State private var selectedDate = Date()
@@ -146,11 +146,11 @@ struct AddActivitySheet: View {
         )
         
         activityManager.activities.append(newActivity)
+		patientManager.updateActivityMinutes(activityManager.getTodayTotalMinutes())
         await standard.addActivityToFirestore(activity: newActivity)
     }
 }
 
 #Preview {
-    AddActivitySheet(activityManager: ActivityManager())
-        .environment(Stanford360Standard())
+    AddActivitySheet()
 }

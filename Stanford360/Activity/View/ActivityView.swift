@@ -64,7 +64,7 @@ struct ActivityView: View {
         }
         .navigationTitle("My Active Journey 🏃‍♂️")
         .sheet(isPresented: $showingAddActivity) {
-            AddActivitySheet(activityManager: activityManager)
+            AddActivitySheet()
         }
         .alert("HealthKit Access Required", isPresented: $showHealthKitAlert) {
             Button("Open Settings", role: .none) {

@@ -159,21 +159,6 @@ actor Stanford360Standard: Standard,
             await logger.error("Could not store consent form: \(error)")
         }
     }
-    
-    /// Stores an activity document under the current user’s subcollection "activities".
-    @MainActor
-    func store(activity: Activity) async throws {
-        if !FeatureFlags.disableFirebase {
-            // Get the user's document reference from your Firebase configuration.
-            let userDocRef = try await configuration.userDocumentReference
-            
-            // Create or access the "activities" subcollection under the user's document.
-            try userDocRef.collection("activities").addDocument(from: activity)
-
-            // Optional: Log success
-            await logger.debug("Activity stored successfully for user \(userDocRef.documentID)")
-        }
-    }
           
     // store a protein document under the current user's subcollection "meals"
     @MainActor
