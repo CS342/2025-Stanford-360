@@ -17,6 +17,8 @@ struct HydrationTrackerView: View {
     }
 	
 	@Environment(PatientManager.self) var patientManager
+    @Environment(Stanford360Standard.self) var standard
+    @Environment(HydrationScheduler.self) var hydrationScheduler
 
     // MARK: - State
     @State var intakeAmount: String = ""
@@ -40,8 +42,6 @@ struct HydrationTrackerView: View {
         max(100, weeklyData.map { $0.intakeOz }.max() ?? 0)
     }
 
-    @Environment(Stanford360Standard.self) var standard
-
     // MARK: - Preset Amounts
     let presetAmounts: [(icon: String, amount: Double)] = [
         (icon: "small_mug", amount: 8.0),
@@ -55,14 +55,6 @@ struct HydrationTrackerView: View {
     // MARK: - Body
     var body: some View {
         ZStack {
-            /*
-            LinearGradient(
-                gradient: Gradient(colors: [Color.blue.opacity(0.2), Color.white]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .edgesIgnoringSafeArea(.all)
-             */
             ScrollView {
                 VStack(spacing: 20) {
                     headerView()

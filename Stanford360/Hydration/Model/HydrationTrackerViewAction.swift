@@ -62,7 +62,7 @@ extension HydrationTrackerView {
                 monthlyData = updatedMonthlyData
             }
             
-            scheduleHydrationReminder()
+            await hydrationScheduler.userLoggedWaterIntake()
             
             displayMilestoneMessage(newTotalIntake: newTotalIntake, lastMilestone: fetchedLog?.lastTriggeredMilestone ?? 0)
         } catch {
@@ -147,20 +147,5 @@ extension HydrationTrackerView {
         }
 
         return (latestMessage, isSpecialMilestone)
-    }
-    
-    // MARK: - Hydration Reminder Notifications
-    func scheduleHydrationReminder() {
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["hydrationReminder"])
-
-        let content = UNMutableNotificationContent()
-        content.title = "💧 Stay Hydrated!"
-        content.body = "You haven't logged any water intake in the last 4 hours. Drink up!"
-        content.sound = .default
-
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 4 * 60 * 60, repeats: false)
-        let request = UNNotificationRequest(identifier: "hydrationReminder", content: content, trigger: trigger)
-
-        UNUserNotificationCenter.current().add(request)
     }
 }

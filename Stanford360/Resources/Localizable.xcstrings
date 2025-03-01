@@ -63,6 +63,9 @@
     "💧 Hydration Tracker" : {
 
     },
+    "💧 Stay Hydrated!" : {
+
+    },
     "2 of 3 Meals" : {
 
     },
@@ -748,6 +751,9 @@
 
     },
     "You have reached the first 30-gram of protein goal🎉. You need %@ gram more to reach your goal!💪" : {
+
+    },
+    "You haven't logged any water intake in the last 4 hours. Drink up!" : {
 
     },
     "You need %@ oz more to reach your goal!" : {
