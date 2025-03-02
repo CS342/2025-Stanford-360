@@ -89,7 +89,7 @@ struct ProteinTrackerView: View {
             .multilineTextAlignment(.center) // Ensures center alignment for multiline text
             .padding(.top)
     }
-
+    
     
     // MARK: - Time Frame Picker
     func proteinPeriodPicker() -> some View {
@@ -136,37 +136,72 @@ struct ProteinTrackerView: View {
     
     // MARK: - Meals List (Dynamically fetched from Firebase)
     func mealsList() -> some View {
-        VStack(spacing: 16) {
-            if proteinManager.meals.isEmpty {
-                Text("No meals logged yet.")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, minHeight: 60)
-                    .background(
-                        RoundedRectangle(cornerRadius: 16)
-                            .fill(Color(UIColor.secondarySystemGroupedBackground))
-                    )
-            } else {
-                ForEach(proteinManager.meals) { meal in
-                    mealRowView(
-                        mealName: meal.name,
-                        protein: "\(meal.proteinGrams)g",
-                        time: meal.timestamp.formatted(date: .omitted, time: .shortened),
-                        isCompleted: true
-                    )
-                    if meal.id != proteinManager.meals.last?.id {
-                        Divider()
-                    }
+        ScrollView {
+            VStack(spacing: 16) {
+                if proteinManager.meals.isEmpty {
+                    emptyMealsView()
+                } else {
+                    mealsContentView()
                 }
             }
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color(UIColor.secondarySystemGroupedBackground))
+            )
+            .shadow(color: Color.black.opacity(0.05), radius: 10)
         }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color(UIColor.secondarySystemGroupedBackground))
-        )
-        .shadow(color: Color.black.opacity(0.05), radius: 10)
     }
+
+    private func mealsContentView() -> some View {
+        ForEach(proteinManager.meals, id: \.id) { meal in
+            NavigationLink(destination: MealDetailView(meal: meal)) {
+                mealRowView(
+                    mealName: meal.name,
+                    protein: "\(meal.proteinGrams)g",
+                    time: meal.timestamp.formatted(date: .omitted, time: .shortened),
+                    isCompleted: true
+                )
+            }
+            .contentShape(Rectangle())
+            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                deleteButton(for: meal)
+            }
+            
+            if meal.id != proteinManager.meals.last?.id {
+                Divider()
+            }
+        }
+    }
+
+    
+    private func deleteButton(for meal: Meal) -> some View {
+        Button(role: .destructive) {
+            if let mealID = meal.id {
+                withAnimation {
+                    proteinManager.deleteMeal(byID: mealID)
+                }
+                Task {
+                    await standard.deleteMealByID(byID: mealID)
+                }
+            }
+        } label: {
+            Label("Delete", systemImage: "trash")
+        }
+    }
+
+    
+    private func emptyMealsView() -> some View {
+        Text("No meals logged yet.")
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
+            .frame(maxWidth: .infinity, minHeight: 60)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color(UIColor.secondarySystemGroupedBackground))
+            )
+    }
+
     
     func mealRowView(mealName: String, protein: String, time: String, isCompleted: Bool) -> some View {
         HStack {

@@ -43,6 +43,20 @@ extension Stanford360Standard {
         return meals
     }
     
+    func deleteMealByID(byID id: String) async {
+        do {
+            let userDocRef = try await configuration.userDocumentReference
+            try await userDocRef
+                .collection("meals")
+                .document(id)
+                .delete()
+            
+            print("✅ Successfully deleted meal with ID: \(id) from Firebase and local data.")
+        } catch {
+            print("❌ Error deleting meal from Firebase: \(error)")
+        }
+    }
+    
     // Fetch meals by week
 //    func fetchMealsByWeek() async -> [Meal] {
 //        var meals: [Meal] = []

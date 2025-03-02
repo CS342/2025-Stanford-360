@@ -142,6 +142,9 @@
     "circle" : {
 
     },
+    "clock" : {
+
+    },
     "Close" : {
       "localizations" : {
         "en" : {
@@ -197,13 +200,25 @@
     "Day" : {
 
     },
+    "Delete" : {
+
+    },
     "Enable HealthKit in Settings to auto-track steps, or log activities manually." : {
 
     },
     "Enter %@" : {
 
     },
+    "flame" : {
+
+    },
+    "fork" : {
+
+    },
     "fork_background" : {
+
+    },
+    "g" : {
 
     },
     "Goal" : {
@@ -300,6 +315,9 @@
 
     },
     "Intake" : {
+
+    },
+    "Intake time" : {
 
     },
     "Interesting Modules" : {
@@ -438,6 +456,9 @@
     "No activities logged today" : {
 
     },
+    "No Image Available" : {
+
+    },
     "No meals logged yet." : {
 
     },
@@ -503,6 +524,9 @@
 
     },
     "Protein" : {
+
+    },
+    "Protein Content" : {
 
     },
     "Protein Period" : {
