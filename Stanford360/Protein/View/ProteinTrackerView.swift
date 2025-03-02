@@ -28,11 +28,19 @@ struct ProteinTrackerView: View {
                     proteinPeriodPicker()
                     
                     // Fixed section (non-scrollable)
-                    DailyRecordView(currentValue: proteinManager.getTodayTotalGrams(), maxValue: 60)
-                        .frame(height: 220)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .padding(.top, 50) // Add spacing to prevent overlap
-                        .padding(.bottom, 20) // Ensure separation
+                    switch selectedTimeFrame {
+                    case .today:
+                        DailyRecordView(currentValue: proteinManager.getTodayTotalGrams(), maxValue: 60)
+                            .frame(height: 220)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .padding(.top, 50) // Add spacing to prevent overlap
+                            .padding(.bottom, 20) // Ensure separation
+                    case .week:
+                        WeeklyRecordView()
+                    case .month:
+                        MonthlyRecordView()
+                    }
+                    
                     
                     // Scrollable section for Daily Meals
                     ScrollView {
@@ -184,12 +192,6 @@ struct ProteinTrackerView: View {
     }
     
     func loadMeals() async {
-        proteinManager.meals = await standard.fetchMeals()
+        proteinManager.meals = await standard.fetchMealsByDay()
     }
 }
-
-#if DEBUG
-#Preview {
-    ProteinTrackerView()
-}
-#endif

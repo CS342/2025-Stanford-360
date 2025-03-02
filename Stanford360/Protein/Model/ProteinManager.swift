@@ -25,6 +25,30 @@ class ProteinManager: Module, EnvironmentAccessible {
 			.filter { Calendar.current.isDate($0.timestamp, inSameDayAs: today) }
 			.reduce(0) { $0 + $1.proteinGrams }
 	}
+    
+//    func getThisWeekTotalGrams() -> Double {
+//        let today = Date()
+//        let calendar = Calendar.current
+//        
+//        return meals
+//            .filter {
+//                calendar.isDate($0.timestamp, equalTo: today, toGranularity: .weekOfYear)
+//            }
+//            .reduce(0) { $0 + $1.proteinGrams }
+//    }
+//
+//    
+//    func getThisMonthTotalGrams() -> Double {
+//        let today = Date()
+//        let calendar = Calendar.current
+//
+//        return meals
+//            .filter {
+//                calendar.isDate($0.timestamp, equalTo: today, toGranularity: .month)
+//            }
+//            .reduce(0) { $0 + $1.proteinGrams }
+//    }
+
 	
 	// Add a new meal to the list
 	func addMeal(name: String, proteinGrams: Double, /*imageURL: String? = nil, */timestamp: Date = Date()) {
@@ -32,11 +56,11 @@ class ProteinManager: Module, EnvironmentAccessible {
 		meals.append(newMeal)
 	}
 	
-	// Delete a meal from the list by its name
-	//	func deleteMeal(byName name: String) {
-	//		meals.removeAll { $0.name == name }
-	//	}
-	
+//    // Delete a meal from the list by its id
+//    func deleteMeal(byID id: String) {
+//        meals.removeAll { $0.id == id }
+//    }
+//	
 	// Update an existing meal's details
 	//	func updateMeal(
 	//		oldName: String,
@@ -54,29 +78,4 @@ class ProteinManager: Module, EnvironmentAccessible {
 	//			)
 	//		}
 	//	}
-	
-	//    // Filter meals by a specific date
-	//    func filterMeals(byDate targetDate: Date) -> [Meal] {
-	//        meals.filter { Calendar.current.isDate($0.timestamp, inSameDayAs: targetDate) }
-	//    }
-	
-	//    // Compute weekly total protein intake
-	//    func getWeeklyProteinIntake() -> Double {
-	//        let calendar = Calendar.current
-	//        guard let oneWeekAgo = calendar.date(byAdding: .day, value: -7, to: date) else {
-	//            return 0.0
-	//        }
-	//        return meals.filter { $0.timestamp >= oneWeekAgo }
-	//            .reduce(0) { $0 + $1.proteinGrams }
-	//    }
-	
-	//    // Compute monthly total protein intake
-	//    func getMonthlyProteinIntake() -> Double {
-	//        let calendar = Calendar.current
-	//        guard let oneMonthAgo = calendar.date(byAdding: .month, value: -1, to: date) else {
-	//            return 0.0
-	//        }
-	//        return meals.filter { $0.timestamp >= oneMonthAgo }
-	//            .reduce(0) { $0 + $1.proteinGrams }
-	//    }
 }
