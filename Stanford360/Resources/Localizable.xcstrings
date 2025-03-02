@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%.2f/60" : {
+
+    },
     "" : {
 
     },
@@ -30,6 +33,9 @@
 
     },
     "%lld Day Streak" : {
+
+    },
+    "%lld Meals Logged" : {
 
     },
     "%lld min" : {
@@ -64,9 +70,6 @@
 
     },
     "💧 Stay Hydrated!" : {
-
-    },
-    "2 of 3 Meals" : {
 
     },
     "ACCOUNT_SETUP_DESCRIPTION" : {
@@ -117,10 +120,7 @@
     "Add Activity Button" : {
 
     },
-    "Add Meal" : {
-
-    },
-    "Add New Meal" : {
+    "Add Protein Button" : {
 
     },
     "Add Your Activity! 🎯" : {
@@ -139,19 +139,16 @@
         }
       }
     },
-    "Base" : {
-
-    },
-    "camera" : {
-
-    },
     "Cancel" : {
 
     },
-    "checkmark" : {
+    "Choose from Library" : {
 
     },
-    "clock" : {
+    "Choose Image Source" : {
+
+    },
+    "circle" : {
 
     },
     "Close" : {
@@ -163,9 +160,6 @@
           }
         }
       }
-    },
-    "Congratulations! You've reached your protein intake goal! 🎉" : {
-
     },
     "CONSENT_LOADING_ERROR" : {
       "localizations" : {
@@ -212,22 +206,13 @@
     "Day" : {
 
     },
-    "Do not forget to take in protein everyday! You're doing great!🤩" : {
-
-    },
     "Enable HealthKit in Settings to auto-track steps, or log activities manually." : {
 
     },
-    "Enter meal name" : {
+    "Enter %@" : {
 
     },
-    "flame" : {
-
-    },
-    "fork" : {
-
-    },
-    "g" : {
+    "fork_background" : {
 
     },
     "Goal" : {
@@ -324,9 +309,6 @@
 
     },
     "Intake" : {
-
-    },
-    "Intake time" : {
 
     },
     "Interesting Modules" : {
@@ -428,12 +410,6 @@
     "Log your water intake" : {
 
     },
-    "Meal" : {
-
-    },
-    "Meal Name" : {
-
-    },
     "minutes" : {
 
     },
@@ -468,10 +444,7 @@
     "No activities logged today" : {
 
     },
-    "No Image Available" : {
-
-    },
-    "No meals added yet" : {
+    "No meals logged yet." : {
 
     },
     "No tasks" : {
@@ -529,28 +502,22 @@
     "Please select a date and time that isn't in the future." : {
 
     },
+    "Please upload your meal, you are doing great!🎉🎉🎉" : {
+
+    },
     "protein" : {
 
     },
     "Protein" : {
 
     },
-    "Protein (g)" : {
-
-    },
-    "Protein Amount (g)" : {
-
-    },
-    "Protein Content" : {
+    "Protein Period" : {
 
     },
     "Protein Progress" : {
 
     },
     "Remaining" : {
-
-    },
-    "Save" : {
 
     },
     "Save Meal" : {
@@ -568,9 +535,6 @@
           }
         }
       }
-    },
-    "selectImage" : {
-
     },
     "Social Support Questionnaire" : {
       "localizations" : {
@@ -635,6 +599,9 @@
         }
       }
     },
+    "Take a Photo" : {
+
+    },
     "Task completed checkmark" : {
 
     },
@@ -683,9 +650,6 @@
 
     },
     "Today's Progress" : {
-
-    },
-    "Total Protein Intake" : {
 
     },
     "Unsupported Event" : {
@@ -748,9 +712,6 @@
 
     },
     "When did you do it?" : {
-
-    },
-    "You have reached the first 30-gram of protein goal🎉. You need %@ gram more to reach your goal!💪" : {
 
     },
     "You haven't logged any water intake in the last 4 hours. Drink up!" : {

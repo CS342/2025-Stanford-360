@@ -44,7 +44,7 @@ struct HomeView: View {
 			.customizationID("home.hydration")
 			
 			Tab("Protein", systemImage: "fork.knife", value: .protein) {
-				ProteinContentView()
+                ProteinTrackerView()
 			}
 			.customizationID("home.protein")
 			

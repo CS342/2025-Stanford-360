@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct ProteinProgressView: View {
+struct DailyRecordView: View {
     let currentValue: Int
     let maxValue: Int
     
@@ -114,7 +114,7 @@ struct ProteinProgressView: View {
 
 #if DEBUG
 #Preview {
-    ProteinProgressView(currentValue: 45, maxValue: 60)
+    DailyRecordView(currentValue: 45, maxValue: 60)
         .frame(height: 300)
         .padding()
 }
