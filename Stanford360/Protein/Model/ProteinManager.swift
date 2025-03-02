@@ -10,10 +10,18 @@ import Combine
 import Foundation
 import Spezi
 
-// Protein Intake Model, can also be reviewed as a meal controller
 @Observable
 class ProteinManager: Module, EnvironmentAccessible {
-	var meals: [Meal] // List of meals consumed by the user
+	var meals: [Meal]
+	var mealsByDate: [Date: [Meal]] {
+		var mealsByDate: [Date: [Meal]] = [:]
+		for meal in meals {
+			let normalizedDate = Calendar.current.startOfDay(for: meal.timestamp)
+			mealsByDate[normalizedDate, default: []].append(meal)
+		}
+		
+		return mealsByDate
+	}
 	
 	init(meals: [Meal] = []) {
 		self.meals = meals
@@ -49,6 +57,10 @@ class ProteinManager: Module, EnvironmentAccessible {
 //            .reduce(0) { $0 + $1.proteinGrams }
 //    }
 
+	
+	func getTotalProteinGrams(_ meals: [Meal]) -> Double {
+		meals.reduce(0) { $0 + $1.proteinGrams }
+	}
 	
 	// Add a new meal to the list
 	func addMeal(name: String, proteinGrams: Double, /*imageURL: String? = nil, */timestamp: Date = Date()) {

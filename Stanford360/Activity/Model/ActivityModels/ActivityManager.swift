@@ -15,20 +15,23 @@ import SwiftUI
 import SwiftUICore
 import UserNotifications
 
-// enum TimeFrame {
-//    case today
-//    case week
-//    case month
-// }
-
-@MainActor
 @Observable
 class ActivityManager: Module, EnvironmentAccessible {
     // MARK: - Properties
     var activities: [Activity] = []
+	var activitiesByDate: [Date: [Activity]] {
+		var activitiesByDate: [Date: [Activity]] = [:]
+		for activity in activities {
+			let normalizedDate = Calendar.current.startOfDay(for: activity.date)
+			activitiesByDate[normalizedDate, default: []].append(activity)
+		}
+		
+		return activitiesByDate
+	}
     
     // MARK: - Initialization
-    init() {
+	init(activities: [Activity] = []) {
+		self.activities = activities
     }
     
     // MARK: - Methods
@@ -38,6 +41,10 @@ class ActivityManager: Module, EnvironmentAccessible {
             .filter { Calendar.current.isDate($0.date, inSameDayAs: today) }
             .reduce(0) { $0 + $1.activeMinutes }
     }
+	
+	func getTotalActivityMinutes(_ activities: [Activity]) -> Int {
+		activities.reduce(0) { $0 + $1.activeMinutes }
+	}
     
 //    func getTodayActivity() -> Activity? {
 //        let today = Calendar.current.startOfDay(for: Date())

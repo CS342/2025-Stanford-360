@@ -51,16 +51,10 @@
     "%lld%%" : {
 
     },
-    "🍗 Protein Tracker" : {
-
-    },
     "🎉 Goal Reached! Stay Hydrated! 🎉" : {
 
     },
     "🏃 Keep Moving!" : {
-
-    },
-    "💧 Hydration Tracker" : {
 
     },
     "💧 Stay Hydrated!" : {
@@ -103,6 +97,9 @@
 
     },
     "Activity Breakdown" : {
+
+    },
+    "Activity Minutes" : {
 
     },
     "Activity Progress" : {
@@ -293,13 +290,7 @@
     "Hydration" : {
 
     },
-    "Hydration Period" : {
-
-    },
     "Hydration Progress" : {
-
-    },
-    "Hydration Tracker Header" : {
 
     },
     "Intake" : {
@@ -404,6 +395,9 @@
     "Log your water intake" : {
 
     },
+    "Metric" : {
+
+    },
     "minutes" : {
 
     },
@@ -417,6 +411,15 @@
 
     },
     "My Active Journey 🏃‍♂️" : {
+
+    },
+    "My Dashboard" : {
+
+    },
+    "My Hydration 💧" : {
+
+    },
+    "My Protein 🍗" : {
 
     },
     "Navigate to task details" : {
@@ -508,7 +511,7 @@
     "Protein" : {
 
     },
-    "Protein Period" : {
+    "Protein Grams" : {
 
     },
     "Protein Progress" : {
@@ -646,9 +649,6 @@
     "Today's Activities" : {
 
     },
-    "Today's Progress" : {
-
-    },
     "Unsupported Event" : {
       "localizations" : {
         "en" : {
@@ -660,6 +660,9 @@
       }
     },
     "View" : {
+
+    },
+    "Week" : {
 
     },
     "Weekly Hydration" : {

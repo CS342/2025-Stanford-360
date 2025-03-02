@@ -10,25 +10,21 @@
 import SwiftUI
 
 struct ProteinTrackerView: View {
-    enum ProteinTimeFrame {
-        case today, week, month
-    }
+	@Environment(Stanford360Standard.self) private var standard
+	@Environment(ProteinManager.self) private var proteinManager
+	@Environment(Account.self) private var account: Account?
     
+	@State var selectedTimeFrame: TimeFrame = .today
     @State private var showingAddProtein = false
     @State private var isCardAnimating = false
-    @Environment(Stanford360Standard.self) private var standard
-    @Environment(ProteinManager.self) private var proteinManager
-    @State private var selectedTimeFrame: ProteinTimeFrame = .today
-    @Environment(Account.self) private var account: Account?
-	@Binding private var presentingAccount: Bool
     
+	@Binding private var presentingAccount: Bool
+	
     var body: some View {
         NavigationStack {
             ZStack {
                 VStack(alignment: .leading, spacing: 0) {
-                    headerView()
-                    Spacer()
-                    proteinPeriodPicker()
+					TimeFramePicker(selectedTimeFrame: $selectedTimeFrame)
                     
                     // Fixed section (non-scrollable)
                     switch selectedTimeFrame {
@@ -48,20 +44,18 @@ struct ProteinTrackerView: View {
                     ScrollView {
                         mealsCardView()
                     }
-                    .padding(.top, 20) // Added spacing before meals
+					.padding(20) // Added spacing before meals
                 }
-                .padding()
-                .background(Color(UIColor.systemGroupedBackground))
-                
                 // Floating + button fixed at the bottom
                 addProteinButton
             }
             .task { await loadMeals() } // Load meals when the view appears
-            .toolbar {
-                if account != nil {
-                    AccountButton(isPresented: $presentingAccount)
-                }
-            }
+			.navigationTitle("My Protein 🍗")
+			.toolbar {
+				if account != nil {
+					AccountButton(isPresented: $presentingAccount)
+				}
+			}
         }
         .sheet(isPresented: $showingAddProtein) {
             AddMealView()
@@ -89,28 +83,6 @@ struct ProteinTrackerView: View {
     
     init(presentingAccount: Binding<Bool>) {
         self._presentingAccount = presentingAccount
-    }
-    
-    // MARK: - Header
-    func headerView() -> some View {
-        Text("🍗 Protein Tracker")
-            .font(.system(size: 34, weight: .bold, design: .rounded))
-            .foregroundColor(.primary)
-            .frame(maxWidth: .infinity, alignment: .center) // Center horizontally
-            .multilineTextAlignment(.center) // Ensures center alignment for multiline text
-            .padding(.top)
-    }
-    
-    
-    // MARK: - Time Frame Picker
-    func proteinPeriodPicker() -> some View {
-        Picker("Protein Period", selection: $selectedTimeFrame) {
-            Text("Today").tag(ProteinTimeFrame.today)
-            Text("This Week").tag(ProteinTimeFrame.week)
-            Text("This Month").tag(ProteinTimeFrame.month)
-        }
-        .pickerStyle(SegmentedPickerStyle())
-        .padding(.horizontal)
     }
     
     // MARK: - Daily Meals Section

@@ -17,15 +17,6 @@ struct DailyHydrationData: Identifiable {
 }
 
 extension HydrationTrackerView {
-    // MARK: - Header View
-    func headerView() -> some View {
-        Text("💧 Hydration Tracker")
-            .font(.largeTitle)
-            .bold()
-            .foregroundColor(.blue)
-            .accessibilityLabel("Hydration Tracker Header")
-    }
-
     // MARK: - "Today" Tab Content
     func todayView() -> some View {
         VStack(spacing: 20) {
@@ -53,6 +44,7 @@ extension HydrationTrackerView {
                 }
         }
         .padding()
+		.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 
     // MARK: - Weekly Chart View
@@ -147,6 +139,7 @@ extension HydrationTrackerView {
                 }
         }
         .padding()
+		.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 
     // MARK: - Chart View
@@ -199,17 +192,6 @@ extension HydrationTrackerView {
                 }
             }
         }
-    }
-    
-    private func goalLine() -> some ChartContent {
-        RuleMark(y: .value("Goal", 60))
-            .foregroundStyle(.red)
-            .lineStyle(StrokeStyle(lineWidth: 1, dash: [5]))
-            .annotation(position: .top, alignment: .leading) {
-                Text("Goal")
-                    .font(.caption)
-                    .foregroundColor(.red)
-            }
     }
 
     // MARK: - Circular Progress Bar

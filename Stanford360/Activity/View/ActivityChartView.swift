@@ -58,14 +58,7 @@ struct ActivityChartView: View {
                     }
                 }
                 
-                RuleMark(y: .value("Goal", 60))
-                    .foregroundStyle(.red)
-                    .lineStyle(StrokeStyle(lineWidth: 1, dash: [5]))
-                    .annotation(position: .trailing) {
-                        Text("Goal")
-                            .font(.caption)
-                            .foregroundStyle(.red)
-                    }
+                goalLine()
             }
             .frame(height: 200)
             .padding()
