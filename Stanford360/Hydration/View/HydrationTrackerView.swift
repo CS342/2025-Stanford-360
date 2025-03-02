@@ -6,6 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
+@_spi(TestingSupport) import SpeziAccount
 import SwiftUI
 
 struct HydrationTrackerView: View {
@@ -41,6 +42,8 @@ struct HydrationTrackerView: View {
     var maxWeeklyIntake: Double {
         max(100, weeklyData.map { $0.intakeOz }.max() ?? 0)
     }
+    @Environment(Account.self) private var account: Account?
+    @Binding private var presentingAccount: Bool
 
     // MARK: - Preset Amounts
     let presetAmounts: [(icon: String, amount: Double)] = [
@@ -72,6 +75,11 @@ struct HydrationTrackerView: View {
                 }
                 .padding(.top, 30)
                 .frame(maxHeight: .infinity, alignment: .top)
+                .toolbar {
+                    if account != nil {
+                        AccountButton(isPresented: $presentingAccount)
+                    }
+                }
             }
             .onAppear {
                 Task {
@@ -87,6 +95,10 @@ struct HydrationTrackerView: View {
         }
     }
     
+    init(presentingAccount: Binding<Bool>) {
+        self._presentingAccount = presentingAccount
+    }
+
     func hydrationPeriodPicker() -> some View {
         Picker("Hydration Period", selection: $selectedTimeFrame) {
             Text("Today").tag(HydrationTimeFrame.today)
@@ -100,6 +112,8 @@ struct HydrationTrackerView: View {
 
 // MARK: - Preview
 #Preview {
-    HydrationTrackerView()
+    @Previewable @State var presentingAccount = false
+
+    HydrationTrackerView(presentingAccount: $presentingAccount)
         .environment(Stanford360Standard())
 }
