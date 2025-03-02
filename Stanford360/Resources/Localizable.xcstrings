@@ -407,10 +407,10 @@
     "Minutes" : {
 
     },
-    "Monthly Hydration" : {
+    "Month" : {
 
     },
-    "Monthly Protein Intake" : {
+    "Monthly Hydration" : {
 
     },
     "My Active Journey 🏃‍♂️" : {
@@ -709,6 +709,9 @@
 
     },
     "When did you do it?" : {
+
+    },
+    "Yearly Protein Intake" : {
 
     },
     "You haven't logged any water intake in the last 4 hours. Drink up!" : {

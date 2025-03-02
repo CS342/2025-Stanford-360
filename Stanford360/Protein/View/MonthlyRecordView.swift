@@ -12,39 +12,38 @@ import Charts
 import SwiftUI
 
 struct MonthlyRecordView: View {
-    struct DailyProteinData: Identifiable {
+    struct MonthlyProteinData: Identifiable {
         let id = UUID()
-        let dayName: String
+        let monthName: String
         let proteinGrams: Double
     }
     
     @Environment(ProteinManager.self) private var proteinManager
-    var monthlyData: [DailyProteinData] {
+    var monthlyData: [MonthlyProteinData] {
         let calendar = Calendar.current
         var monthlyIntake: [String: Double] = [:]
 
-        for meal in proteinManager.meals where calendar.isDate(meal.timestamp, equalTo: Date(), toGranularity: .month) {
-            let day = calendar.component(.day, from: meal.timestamp)
-            let dayName = String(format: "%02d", day)
-            monthlyIntake[dayName, default: 0] += meal.proteinGrams
+        for meal in proteinManager.meals {
+            let monthIndex = calendar.component(.month, from: meal.timestamp) - 1
+            let monthName = Calendar.current.shortMonthSymbols[monthIndex]
+            monthlyIntake[monthName, default: 0] += meal.proteinGrams
         }
 
-        return (1...31).map { day in
-            let dayName = String(format: "%02d", day)
-            return DailyProteinData(dayName: dayName, proteinGrams: monthlyIntake[dayName] ?? 0)
+        return Calendar.current.shortMonthSymbols.map { monthName in
+            MonthlyProteinData(monthName: monthName, proteinGrams: monthlyIntake[monthName] ?? 0)
         }
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Monthly Protein Intake")
+            Text("Yearly Protein Intake")
                 .font(.headline)
                 .foregroundColor(.blue)
 
             Chart {
                 ForEach(monthlyData) { data in
                     LineMark(
-                        x: .value("Date", data.dayName),
+                        x: .value("Month", data.monthName),
                         y: .value("Protein", data.proteinGrams)
                     )
                     .interpolationMethod(.monotone)
@@ -60,6 +59,17 @@ struct MonthlyRecordView: View {
                             .font(.caption)
                             .foregroundColor(.red)
                     }
+            }
+            .chartXAxis {
+                AxisMarks(values: Calendar.current.shortMonthSymbols) { value in
+                    AxisGridLine()
+                    AxisTick()
+                    if let month = value.as(String.self) {
+                        AxisValueLabel {
+                            Text(month)
+                        }
+                    }
+                }
             }
             .chartYScale(domain: 0...200)
             .frame(height: 200)
