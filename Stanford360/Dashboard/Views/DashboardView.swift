@@ -21,44 +21,39 @@ struct DashboardView: View {
 	var body: some View {
 		let patient = patientManager.patient
 		
-		VStack {
+		VStack(alignment: .leading, spacing: 0) {
 			Text("Today's Progress")
-				.font(.largeTitle)
-				.bold()
-				.padding(.bottom, 40)
-			
-			Text("Activity")
-				.font(.title2)
-				.fontWeight(.light)
-			Text("\(patient.activityMinutes)/60")
-				.font(.title)
-				.fontWeight(.semibold)
-				.foregroundColor(.red)
-			Spacer()
-			
-			Text("Hydration")
-				.font(.title2)
-				.fontWeight(.light)
-			Text("\(patient.hydrationOunces, specifier: "%.2f")/60")
-				.font(.title)
-				.fontWeight(.semibold)
-				.foregroundColor(.blue)
-			Spacer()
-			
-			Text("Protein")
-				.font(.title2)
-				.fontWeight(.light)
-			Text("\(patient.proteinGrams, specifier: "%.2f")/60")
-				.font(.title)
-				.fontWeight(.semibold)
-				.foregroundColor(.green)
+				.font(.system(size: 28, weight: .bold))
+				.foregroundColor(.textPrimary)
+				.padding(.horizontal, 20)
+				.padding(.top, 40)
 			
 			ProgressRings()
+			
+			VStack(spacing: 15) {
+				ProgressCard(
+					title: "Activity",
+					progress: CGFloat(patient.activityMinutes),
+					color: .activityColor
+				)
+				
+				ProgressCard(
+					title: "Hydration",
+					progress: CGFloat(patient.hydrationOunces),
+					color: .hydrationColor
+				)
+				
+				ProgressCard(
+					title: "Protein",
+					progress: CGFloat(patient.proteinGrams),
+					color: .proteinColor
+				)
+			}
+			.padding(.horizontal, 20)
 		}
 		.task {
 			await loadPatientData()
 		}
-		.padding(.top, 20)
 	}
 	
 	/// Loads the patient's activities, hydration, and meals into their respective managers and updates the patient's data accordingly
@@ -80,12 +75,24 @@ struct DashboardView: View {
 }
 
 #Preview {
+	@Previewable @State var standard = Stanford360Standard()
+	
 	@Previewable @State var patientManager = PatientManager(patient: Patient(
 		activityMinutes: 50,
 		hydrationOunces: 40,
 		proteinGrams: 10
 	))
 	
+	@Previewable @State var activityManager = ActivityManager()
+	
+	@Previewable @State var hydrationManager = HydrationManager()
+	
+	@Previewable @State var proteinManager = ProteinManager()
+	
 	DashboardView()
+		.environment(standard)
 		.environment(patientManager)
+		.environment(activityManager)
+		.environment(hydrationManager)
+		.environment(proteinManager)
 }
