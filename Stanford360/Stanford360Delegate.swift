@@ -64,6 +64,7 @@ class Stanford360Delegate: SpeziAppDelegate {
 			HydrationManager()
 			ProteinManager()
 			HealthKitManager()
+			ActivityScheduler()
 		}
 	}
 	
@@ -167,24 +168,21 @@ class Stanford360Delegate: SpeziAppDelegate {
 	//        task.setTaskCompleted(success: true)
 	//        scheduleBackgroundActivityReminder() // Reschedule for continuous monitoring
 	//    }
-	//
-	//
-	//    /// Requests notification permissions
-	//    private func requestNotificationPermission() {
-	//        let center = UNUserNotificationCenter.current()
-	//        center.getNotificationSettings { settings in
-	//            guard settings.authorizationStatus == .notDetermined else {
-	//                return
-	//            }
-	//
-	//            center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-	//                if granted {
-	//                    print("Notification permission granted!")
-	//                    UserDefaults.standard.set(true, forKey: "hasAskedForNotificationPermission")
-	//                } else if let error = error {
-	//                    print("Failed to request notification permission: \(error)")
-	//                }
-	//            }
-	//        }
-	//    }
+	
+//	private func requestNotificationPermission() {
+//		let center = UNUserNotificationCenter.current()
+//		center.getNotificationSettings { settings in
+//			guard settings.authorizationStatus == .notDetermined else {
+//				return
+//			}
+//
+//			center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+//				if granted {
+//					print("Notification permission granted!")
+//				} else if let error = error {
+//					print("Failed to request notification permission: \(error)")
+//				}
+//			}
+//		}
+//	}
 }

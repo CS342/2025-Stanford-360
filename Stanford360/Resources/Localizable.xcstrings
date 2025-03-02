@@ -57,6 +57,9 @@
     "🎉 Goal Reached! Stay Hydrated! 🎉" : {
 
     },
+    "🏃 Keep Moving!" : {
+
+    },
     "💧 Hydration Tracker" : {
 
     },
@@ -703,6 +706,12 @@
 
     },
     "When did you do it?" : {
+
+    },
+    "You have reached the first 30-gram of protein goal🎉. You need %@ gram more to reach your goal!💪" : {
+
+    },
+    "You haven't logged any activity in the last 4 hours. Time to get moving!" : {
 
     },
     "You haven't logged any water intake in the last 4 hours. Drink up!" : {

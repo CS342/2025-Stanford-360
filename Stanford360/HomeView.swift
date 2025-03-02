@@ -24,7 +24,6 @@ struct HomeView: View {
 	@AppStorage(StorageKeys.tabViewCustomization) private var tabViewCustomization = TabViewCustomization()
 	
 	@State private var presentingAccount = false
-	@State private var activityManager = ActivityManager()
 	
 	var body: some View {
 		TabView(selection: $selectedTab) {
@@ -52,9 +51,6 @@ struct HomeView: View {
 				DashboardView(presentingAccount: $presentingAccount)
 			}
 			.customizationID("home.dashboard")
-		}
-		.task {
-			activityManager.sendActivityReminder()
 		}
 		.tabViewStyle(.sidebarAdaptable)
 		.tabViewCustomization($tabViewCustomization)

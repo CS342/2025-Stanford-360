@@ -11,18 +11,45 @@
 import SwiftUI
 
 struct ActivityTimeFrameView: View {
-    let timeFrame: ActivityView.TimeFrame
+    @State private var selectedTimeFrame: ActivityView.TimeFrame = .today
     let activityManager: ActivityManager
     
     var body: some View {
-        switch timeFrame {
-        case .today:
-            todayView
-        case .week:
-            weeklyView
-        case .month:
-            monthlyView
+        VStack {
+            // Time frame picker
+            Picker("Time Frame", selection: $selectedTimeFrame) {
+                Text("Today").tag(ActivityView.TimeFrame.today)
+                Text("This Week").tag(ActivityView.TimeFrame.week)
+                Text("This Month").tag(ActivityView.TimeFrame.month)
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            .padding(.horizontal)
+            
+            motivationText
+            
+            // TabView for swiping
+            TabView(selection: $selectedTimeFrame) {
+                todayView
+                    .tag(ActivityView.TimeFrame.today)
+                weeklyView
+                    .tag(ActivityView.TimeFrame.week)
+                monthlyView
+                    .tag(ActivityView.TimeFrame.month)
+            }
+            .tabViewStyle(PageTabViewStyle())
         }
+    }
+    
+    // Extracted motivation text
+    private var motivationText: some View {
+        Text(activityManager.triggerMotivation())
+            .font(.headline)
+            .foregroundColor(.blue)
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 15)
+                    .fill(Color.blue.opacity(0.1))
+            )
     }
     
     private var todayView: some View {
@@ -30,7 +57,7 @@ struct ActivityTimeFrameView: View {
             DailyProgressView(activeMinutes: activityManager.getTodayTotalMinutes())
                 .frame(height: 200)
                 .padding()
-                
+            
             if !activityManager.activities.isEmpty {
                 Text("Today's Activities")
                     .font(.headline)
@@ -47,7 +74,6 @@ struct ActivityTimeFrameView: View {
                 .listStyle(PlainListStyle())
             } else {
                 List {
-                    // Show a placeholder when no activities
                     Text("No activities logged today")
                         .foregroundColor(.gray)
                         .padding()
@@ -69,7 +95,6 @@ struct ActivityTimeFrameView: View {
                     .padding(.top, 20)
             } else {
                 List {
-                    // Show a placeholder when no activities
                     Text("No activities logged this week.")
                         .foregroundColor(.gray)
                         .padding()
@@ -90,7 +115,6 @@ struct ActivityTimeFrameView: View {
                 ActivityBreakdownView(activities: activityManager.getMonthlyActivities())
             } else {
                 List {
-                    // Show a placeholder when no activities
                     Text("No activities logged this month.")
                         .foregroundColor(.gray)
                         .padding()
@@ -100,7 +124,6 @@ struct ActivityTimeFrameView: View {
         }
     }
 }
-
 #Preview {
     let mockActivityManager = ActivityManager()
     let sampleActivities: [Activity] = [
@@ -122,7 +145,6 @@ struct ActivityTimeFrameView: View {
     mockActivityManager.activities = sampleActivities
 
     return ActivityTimeFrameView(
-        timeFrame: .week,  // You can change this to test different time frames
         activityManager: mockActivityManager
     )
 }
