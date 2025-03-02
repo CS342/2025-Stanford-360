@@ -43,22 +43,22 @@ class ProteinManager: Module, EnvironmentAccessible {
 //	}
 	
 	// Update an existing meal's details
-	func updateMeal(
-		oldName: String,
-		newName: String,
-		newProteinGrams: Double,
-		// newImageURL: String? = nil,
-		newTimestamp: Date = Date()
-	) {
-		if let index = meals.firstIndex(where: { $0.name == oldName }) {
-			meals[index] = Meal(
-				name: newName,
-				proteinGrams: newProteinGrams,
-				// imageURL: newImageURL,
-				timestamp: newTimestamp
-			)
-		}
-	}
+//	func updateMeal(
+//		oldName: String,
+//		newName: String,
+//		newProteinGrams: Double,
+//		// newImageURL: String? = nil,
+//		newTimestamp: Date = Date()
+//	) {
+//		if let index = meals.firstIndex(where: { $0.name == oldName }) {
+//			meals[index] = Meal(
+//				name: newName,
+//				proteinGrams: newProteinGrams,
+//				// imageURL: newImageURL,
+//				timestamp: newTimestamp
+//			)
+//		}
+//	}
 	
 	//    // Filter meals by a specific date
 	//    func filterMeals(byDate targetDate: Date) -> [Meal] {

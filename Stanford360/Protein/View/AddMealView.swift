@@ -10,6 +10,7 @@ import SwiftUI
 
 struct AddMealView: View {
     @Environment(\ .dismiss) private var dismiss
+    @Environment(Stanford360Standard.self) private var standard
     @Environment(ProteinManager.self) private var proteinManager
 
     @State private var mealName: String = ""
@@ -153,7 +154,10 @@ struct AddMealView: View {
 
 
     private var saveButton: some View {
-        Button(action: { attemptSaveMeal() }) {
+        Button(action: {
+            Task {
+                await saveMeal()
+            }}) {
             Text("Save Meal")
                 .font(.headline)
                 .foregroundStyle(.white)
@@ -185,24 +189,15 @@ struct AddMealView: View {
         }
     }
 
-    private func attemptSaveMeal() {
-        if let proteinValue = Double(proteinAmount), !mealName.isEmpty, proteinValue > 0 {
-            Task { await saveMeal(proteinValue: proteinValue) }
-        }
-    }
 
-    private func saveMeal(proteinValue: Double) async {
+    private func saveMeal() async {
         isLoading = true
-        do {
-            let meal = Meal(name: mealName, proteinGrams: proteinValue)
-            try await proteinManager.addMeal(name: mealName, proteinGrams: proteinValue)
-            await MainActor.run {
-                isLoading = false
-                dismiss()
-            }
-        } catch {
-            print("Error saving meal: \(error)")
+        let meal = Meal(name: mealName, proteinGrams: Double(proteinAmount) ?? 0)
+        proteinManager.addMeal(name: mealName, proteinGrams: Double(proteinAmount) ?? 0)
+        await standard.storeMeal(meal)
+        await MainActor.run {
             isLoading = false
+            dismiss()
         }
     }
 }
