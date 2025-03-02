@@ -41,7 +41,6 @@ struct ProteinTrackerView: View {
                         MonthlyRecordView()
                     }
                     
-                    
                     // Scrollable section for Daily Meals
                     ScrollView {
                         mealsCardView()
