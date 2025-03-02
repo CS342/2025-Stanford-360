@@ -92,21 +92,21 @@ class ActivityManager: Module, EnvironmentAccessible {
         }
     }
     
-    func sendActivityReminder() {
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["activityReminder"])
+    // func sendActivityReminder() {
+    //     UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["activityReminder"])
         
-        let content = UNMutableNotificationContent()
-        content.title = "🏃 Keep Moving!"
+    //     let content = UNMutableNotificationContent()
+    //     content.title = "🏃 Keep Moving!"
         
-        if getTodayTotalMinutes() >= 60 {
-            content.body = "🎉 Amazing! You've reached your daily goal of 60 minutes! Keep up the great work!"
-        } else {
-            let remainingMinutes = 60 - getTodayTotalMinutes()
-            content.body = "You're only \(remainingMinutes) minutes away from your daily goal! Keep going! 🚀"
-            let request = UNNotificationRequest(identifier: "activityReminder", content: content, trigger: nil)
-            UNUserNotificationCenter.current().add(request)
-        }
-    }
+    //     if getTodayTotalMinutes() >= 60 {
+    //         content.body = "🎉 Amazing! You've reached your daily goal of 60 minutes! Keep up the great work!"
+    //     } else {
+    //         let remainingMinutes = 60 - getTodayTotalMinutes()
+    //         content.body = "You're only \(remainingMinutes) minutes away from your daily goal! Keep going! 🚀"
+    //         let request = UNNotificationRequest(identifier: "activityReminder", content: content, trigger: nil)
+    //         UNUserNotificationCenter.current().add(request)
+    //     }
+    // }
     
 //    private func loadFromStorage() {
 //        if let data = UserDefaults.standard.data(forKey: "activities"),
