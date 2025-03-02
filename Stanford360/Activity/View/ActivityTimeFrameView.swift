@@ -11,30 +11,23 @@
 import SwiftUI
 
 struct ActivityTimeFrameView: View {
-    @State private var selectedTimeFrame: ActivityView.TimeFrame = .today
+    @State private var selectedTimeFrame: TimeFrame = .today
     let activityManager: ActivityManager
     
     var body: some View {
         VStack {
-            // Time frame picker
-            Picker("Time Frame", selection: $selectedTimeFrame) {
-                Text("Today").tag(ActivityView.TimeFrame.today)
-                Text("This Week").tag(ActivityView.TimeFrame.week)
-                Text("This Month").tag(ActivityView.TimeFrame.month)
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding(.horizontal)
+			TimeFramePicker(selectedTimeFrame: $selectedTimeFrame)
             
             motivationText
             
             // TabView for swiping
             TabView(selection: $selectedTimeFrame) {
                 todayView
-                    .tag(ActivityView.TimeFrame.today)
+                    .tag(TimeFrame.today)
                 weeklyView
-                    .tag(ActivityView.TimeFrame.week)
+                    .tag(TimeFrame.week)
                 monthlyView
-                    .tag(ActivityView.TimeFrame.month)
+                    .tag(TimeFrame.month)
             }
             .tabViewStyle(PageTabViewStyle())
         }

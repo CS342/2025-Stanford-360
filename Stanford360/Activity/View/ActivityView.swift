@@ -15,11 +15,6 @@ import SwiftUI
 
 /// Simple UI for tracking kids' activity.
 struct ActivityView: View {
-    // Enum moved to the top of the type contents
-    enum TimeFrame {
-        case today, week, month
-    }
-    
     @Environment(ActivityManager.self) private var activityManager
     @Environment(HealthKitManager.self) private var healthKitManager
 	@Environment(PatientManager.self) private var patientManager
@@ -56,9 +51,6 @@ struct ActivityView: View {
                 if !healthKitManager.isHealthKitAuthorized {
                     healthKitWarningBanner
                 }
-                
-//                timeFramePicker
-//                motivationText
                 
                 ActivityTimeFrameView(
                     activityManager: activityManager
