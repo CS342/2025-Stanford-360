@@ -10,6 +10,7 @@
 
 import Charts
 import FirebaseAuth
+@_spi(TestingSupport) import SpeziAccount
 import SwiftUI
 
 /// Simple UI for tracking kids' activity.
@@ -22,11 +23,13 @@ struct ActivityView: View {
     @Environment(ActivityManager.self) private var activityManager
     @Environment(HealthKitManager.self) private var healthKitManager
 	@Environment(PatientManager.self) private var patientManager
+    @Environment(Account.self) private var account: Account?
 	
 	// State properties grouped together
     @State private var showingAddActivity = false
     @State private var selectedTimeFrame: TimeFrame = .today
     @State private var showHealthKitAlert = false
+    @Binding private var presentingAccount: Bool
     
     @Environment(Stanford360Standard.self) internal var standard
 
@@ -69,6 +72,11 @@ struct ActivityView: View {
         .sheet(isPresented: $showingAddActivity) {
             AddActivitySheet()
         }
+        .toolbar {
+            if account != nil {
+                AccountButton(isPresented: $presentingAccount)
+            }
+        }
         .alert("HealthKit Access Required", isPresented: $showHealthKitAlert) {
             Button("Open Settings", role: .none) {
                 if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
@@ -93,7 +101,6 @@ struct ActivityView: View {
         }
         .padding()
         .frame(maxWidth: .infinity)
-        .padding(.horizontal, 16)
         .background(Color.orange.opacity(0.1))
         .cornerRadius(10)
         .onTapGesture {
@@ -143,6 +150,10 @@ struct ActivityView: View {
         }
     }
     
+    init(presentingAccount: Binding<Bool>) {
+        self._presentingAccount = presentingAccount
+    }
+    
     // Retrieve data from HealthKit and convert it to an Activity
     func syncHealthKitData() async {
         do {
@@ -181,6 +192,8 @@ struct ActivityView: View {
 }
 
 #Preview {
-    ActivityView()
+    @Previewable @State var presentingAccount = false
+
+    ActivityView(presentingAccount: $presentingAccount)
         .environment(Stanford360Standard())
 }

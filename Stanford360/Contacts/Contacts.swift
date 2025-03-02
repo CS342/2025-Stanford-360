@@ -54,7 +54,6 @@ struct Contacts: View {
 
     @Binding var presentingAccount: Bool
     
-    
     var body: some View {
         NavigationStack {
             ContactsList(contacts: contacts)
@@ -66,7 +65,6 @@ struct Contacts: View {
                 }
         }
     }
-    
     
     init(presentingAccount: Binding<Bool>) {
         self._presentingAccount = presentingAccount

@@ -6,6 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
+@_spi(TestingSupport) import SpeziAccount
 import SwiftUI
 
 struct ProteinTrackerView: View {
@@ -18,6 +19,8 @@ struct ProteinTrackerView: View {
     @Environment(Stanford360Standard.self) private var standard
     @Environment(ProteinManager.self) private var proteinManager
     @State private var selectedTimeFrame: ProteinTimeFrame = .today
+    @Environment(Account.self) private var account: Account?
+	@Binding private var presentingAccount: Bool
     
     var body: some View {
         NavigationStack {
@@ -54,12 +57,17 @@ struct ProteinTrackerView: View {
                 addProteinButton
             }
             .task { await loadMeals() } // Load meals when the view appears
+            .toolbar {
+                if account != nil {
+                    AccountButton(isPresented: $presentingAccount)
+                }
+            }
         }
         .sheet(isPresented: $showingAddProtein) {
             AddMealView()
         }
     }
-    
+
     // MARK: - Floating Add Protein Button (Fixed at the bottom)
     private var addProteinButton: some View {
         VStack {
@@ -79,6 +87,10 @@ struct ProteinTrackerView: View {
         }
     }
     
+    init(presentingAccount: Binding<Bool>) {
+        self._presentingAccount = presentingAccount
+    }
+    
     // MARK: - Header
     func headerView() -> some View {
         Text("🍗 Protein Tracker")
@@ -88,7 +100,7 @@ struct ProteinTrackerView: View {
             .multilineTextAlignment(.center) // Ensures center alignment for multiline text
             .padding(.top)
     }
-
+    
     
     // MARK: - Time Frame Picker
     func proteinPeriodPicker() -> some View {
