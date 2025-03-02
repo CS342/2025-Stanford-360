@@ -33,12 +33,13 @@ struct ActivityBreakdownView: View {
                }
             }
             .padding()
-//           .background(
-//               RoundedRectangle(cornerRadius: 15)
-//                   .fill(Color.white)
-//                   .shadow(radius: 2)
-//           )
-           .padding(.horizontal)
+            .background(
+                RoundedRectangle(cornerRadius: 15)
+                    .fill(Color.white)
+                    .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
+            )
+            .padding(.horizontal)
+            .padding(.top, 10)
         }
     }
     

@@ -55,11 +55,11 @@ struct ActivityView: View {
                     healthKitWarningBanner
                 }
                 
-                timeFramePicker
-                motivationText
+//                timeFramePicker
+//                motivationText
                 
                 ActivityTimeFrameView(
-                    timeFrame: selectedTimeFrame,
+//                    timeFrame: selectedTimeFrame,
                     activityManager: activityManager
                 )
             }
@@ -99,29 +99,6 @@ struct ActivityView: View {
         .onTapGesture {
             showHealthKitAlert = true
         }
-    }
-    
-    // Extracted time frame picker
-    private var timeFramePicker: some View {
-        Picker("Time Frame", selection: $selectedTimeFrame) {
-            Text("Today").tag(TimeFrame.today)
-            Text("This Week").tag(TimeFrame.week)
-            Text("This Month").tag(TimeFrame.month)
-        }
-        .pickerStyle(SegmentedPickerStyle())
-        .padding(.horizontal)
-    }
-    
-    // Extracted motivation text
-    private var motivationText: some View {
-        Text(activityManager.triggerMotivation())
-            .font(.headline)
-            .foregroundColor(.blue)
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 15)
-                    .fill(Color.blue.opacity(0.1))
-            )
     }
     
     // Extracted add activity button

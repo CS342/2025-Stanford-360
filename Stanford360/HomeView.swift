@@ -53,9 +53,9 @@ struct HomeView: View {
 			}
 			.customizationID("home.dashboard")
 		}
-		.task {
-			activityManager.sendActivityReminder()
-		}
+//		.task {
+//			activityManager.sendActivityReminder()
+//		}
 		.tabViewStyle(.sidebarAdaptable)
 		.tabViewCustomization($tabViewCustomization)
 		.sheet(isPresented: $presentingAccount) {
