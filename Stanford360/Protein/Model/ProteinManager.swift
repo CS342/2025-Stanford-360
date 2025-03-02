@@ -15,13 +15,20 @@ import Spezi
 class ProteinManager: Module, EnvironmentAccessible {
 	var meals: [Meal] // List of meals consumed by the user
 	
-	// Computed property to calculate the total protein intake for the day
+	// Computed property to calculate the total protein intake
 	var totalProteinGrams: Double {
 		meals.reduce(0) { $0 + $1.proteinGrams }
 	}
 	
 	init(meals: [Meal] = []) {
 		self.meals = meals
+	}
+	
+	func getTodayTotalGrams() -> Double {
+		let today = Date()
+		return meals
+			.filter { Calendar.current.isDate($0.timestamp, inSameDayAs: today) }
+			.reduce(0) { $0 + $1.proteinGrams }
 	}
 	
 	// Add a new meal to the list
