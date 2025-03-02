@@ -15,49 +15,55 @@ import SwiftUI
 struct ProgressRings: View {
 	@Environment(PatientManager.self) private var patientManager
 	
-	private let ringWidth: CGFloat = 50
-	private let iconSize: CGFloat = 30
+	private let ringWidth: CGFloat = 35
+	private let ringSpacing: CGFloat = 5
+	private let baseRingSize: CGFloat = 120
+	private let iconSize: CGFloat = 16
 	
 	var body: some View {
 		let patient = patientManager.patient
 		
 		ZStack {
-			// activity ring
+			// Activity Ring
+			let activityRingSize = baseRingSize + (ringSpacing + ringWidth) * 4
 			PercentageRing(
 				ringWidth: ringWidth,
 				percent: Double(patient.activityMinutes) / 60 * 100,
-				backgroundColor: Color.red.opacity(0.4),
-				foregroundColors: [Color.red, Color(red: 0.75, green: 0, blue: 0)],
+				backgroundColor: .activityColor.opacity(0.4),
+				foregroundColors: [.activityColor, .red],
 				icon: Image(systemName: "figure.walk"),
-				iconSize: iconSize
+				iconSize: iconSize + 2
 			)
-			.padding(20)
+			.frame(width: activityRingSize, height: activityRingSize)
 			.accessibilityLabel("Activity Progress")
 			
-			// hydration ring
+			// Hydration Ring
+			let hydrationRingSize = baseRingSize + (ringSpacing + ringWidth) * 2
 			PercentageRing(
 				ringWidth: ringWidth,
 				percent: Double(patient.hydrationOunces) / 60 * 100,
-				backgroundColor: Color.blue.opacity(0.4),
-				foregroundColors: [Color.blue, Color(red: 0, green: 0, blue: 0.75)],
+				backgroundColor: .hydrationColor.opacity(0.4),
+				foregroundColors: [.hydrationColor, .blue],
 				icon: Image(systemName: "drop.fill"),
 				iconSize: iconSize
 			)
-			.padding(70)
+			.frame(width: hydrationRingSize, height: hydrationRingSize)
 			.accessibilityLabel("Hydration Progress")
 			
-			// protein ring
+			// Protein Ring
 			PercentageRing(
 				ringWidth: ringWidth,
 				percent: Double(patient.proteinGrams) / 60 * 100,
-				backgroundColor: Color.green.opacity(0.4),
-				foregroundColors: [Color.green, Color(red: 0, green: 0.75, blue: 0)],
+				backgroundColor: .proteinColor.opacity(0.4),
+				foregroundColors: [.proteinColor, .green],
 				icon: Image(systemName: "fork.knife"),
 				iconSize: iconSize
 			)
-			.padding(120)
+			.frame(width: baseRingSize, height: baseRingSize)
 			.accessibilityLabel("Protein Progress")
 		}
+		.padding(.vertical, 30)
+		.frame(maxWidth: .infinity)
 	}
 }
 
