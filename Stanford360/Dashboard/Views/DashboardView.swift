@@ -22,51 +22,23 @@ struct DashboardView: View {
 	@Binding private var presentingAccount: Bool
 	
 	var body: some View {
-		let patient = patientManager.patient
-		
-		VStack(alignment: .leading, spacing: 0) {
-			Text("Today's Progress")
-				.font(.system(size: 28, weight: .bold))
-				.foregroundColor(.textPrimary)
-				.padding(.horizontal, 20)
-				.padding(.top, 40)
-			
-			ProgressRings()
-			
-			VStack(spacing: 15) {
-				ProgressCard(
-					title: "Activity",
-					progress: CGFloat(patient.activityMinutes),
-					color: .activityColor
-				)
-				
-				ProgressCard(
-					title: "Hydration",
-					progress: CGFloat(patient.hydrationOunces),
-					color: .hydrationColor
-				)
-				
-				ProgressCard(
-					title: "Protein",
-					progress: CGFloat(patient.proteinGrams),
-					color: .proteinColor
-				)
-			}
-			.padding(.horizontal, 20)
-		}
-		.toolbar {
-			if account != nil {
-				AccountButton(isPresented: $presentingAccount)
-			}
+		NavigationView {
+			DashboardTimeFrameView()
+				.navigationTitle("My Dashboard")
+				.toolbar {
+					if account != nil {
+						AccountButton(isPresented: $presentingAccount)
+					}
+				}
 		}
 		.task {
 			await loadPatientData()
 		}
 	}
-
+	
 	init(presentingAccount: Binding<Bool>) {
-        self._presentingAccount = presentingAccount
-    }
+		self._presentingAccount = presentingAccount
+	}
 	
 	/// Loads the patient's activities, hydration, and meals into their respective managers and updates the patient's data accordingly
 	func loadPatientData() async {
@@ -96,11 +68,11 @@ struct DashboardView: View {
 		proteinGrams: 10
 	))
 	
-	@Previewable @State var activityManager = ActivityManager()
+	@Previewable @State var activityManager = ActivityManager(activities: activitiesData)
 	
 	@Previewable @State var hydrationManager = HydrationManager()
 	
-	@Previewable @State var proteinManager = ProteinManager()
+	@Previewable @State var proteinManager = ProteinManager(meals: mealsData)
 	
 	DashboardView(presentingAccount: $presentingAccount)
 		.environment(standard)

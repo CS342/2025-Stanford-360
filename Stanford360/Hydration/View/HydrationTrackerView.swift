@@ -10,13 +10,6 @@
 import SwiftUI
 
 struct HydrationTrackerView: View {
-    // MARK: - TimeFrame Enum
-    enum HydrationTimeFrame {
-        case today
-        case week
-        case month
-    }
-	
 	@Environment(PatientManager.self) var patientManager
     @Environment(Stanford360Standard.self) var standard
     @Environment(HydrationScheduler.self) var hydrationScheduler
@@ -30,7 +23,7 @@ struct HydrationTrackerView: View {
     @State var selectedAmount: Double?
     @State var streakJustUpdated = false
     @State var isSpecialMilestone: Bool = false
-    @State var selectedTimeFrame: HydrationTimeFrame = .today
+    @State var selectedTimeFrame: TimeFrame = .today
     @State var weeklyData: [DailyHydrationData] = []
     @State var monthlyData: [DailyHydrationData] = []
     @State var selectedDate: String?
@@ -56,57 +49,42 @@ struct HydrationTrackerView: View {
     ]
 
     // MARK: - Body
-    var body: some View {
-        ZStack {
-            ScrollView {
-                VStack(spacing: 20) {
-                    headerView()
-                    hydrationPeriodPicker()
-                    
-                    // Tab content
-                    switch selectedTimeFrame {
-                    case .today:
-                        todayView()
-                    case .week:
-                        weeklyView()
-                    case .month:
-                        monthlyView()
-                    }
-                }
-                .padding(.top, 30)
-                .frame(maxHeight: .infinity, alignment: .top)
-                .toolbar {
-                    if account != nil {
-                        AccountButton(isPresented: $presentingAccount)
-                    }
-                }
-            }
-            .onAppear {
-                Task {
-                    await fetchHydrationData()
-                    weeklyData = await standard.fetchWeeklyHydrationData()
-                    monthlyData = await standard.fetchMonthlyHydrationData()
-                }
-            }
-            .contentShape(Rectangle())
-            .onTapGesture {
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-            }
-        }
-    }
+	var body: some View {
+		NavigationView {
+			VStack(spacing: 20) {
+				TimeFramePicker(selectedTimeFrame: $selectedTimeFrame)
+				
+				TabView(selection: $selectedTimeFrame) {
+					todayView()
+						.tag(TimeFrame.today)
+					weeklyView()
+						.tag(TimeFrame.week)
+					monthlyView()
+						.tag(TimeFrame.month)
+				}
+				.tabViewStyle(PageTabViewStyle())
+			}
+			.navigationTitle("My Hydration 💧")
+			.toolbar {
+				if account != nil {
+					AccountButton(isPresented: $presentingAccount)
+				}
+			}
+			.onAppear {
+				Task {
+					await fetchHydrationData()
+					weeklyData = await standard.fetchWeeklyHydrationData()
+					monthlyData = await standard.fetchMonthlyHydrationData()
+				}
+			}
+			.onTapGesture {
+				UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+			}
+		}
+	}
     
     init(presentingAccount: Binding<Bool>) {
         self._presentingAccount = presentingAccount
-    }
-
-    func hydrationPeriodPicker() -> some View {
-        Picker("Hydration Period", selection: $selectedTimeFrame) {
-            Text("Today").tag(HydrationTimeFrame.today)
-            Text("This Week").tag(HydrationTimeFrame.week)
-            Text("This Month").tag(HydrationTimeFrame.month)
-        }
-        .pickerStyle(SegmentedPickerStyle())
-        .padding(.horizontal)
     }
 }
 
