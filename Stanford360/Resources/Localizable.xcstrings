@@ -1,19 +1,13 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%.2f/60" : {
-
-    },
-    "" : {
-
-    },
     "/ 60" : {
 
     },
-    "%.2f g" : {
+    "%.f" : {
 
     },
-    "%.f" : {
+    "%.2f/60" : {
 
     },
     "%@: %.1f oz" : {
@@ -218,7 +212,7 @@
     "Goal" : {
 
     },
-    "Goal: %lld g" : {
+    "Goal: %.f g" : {
 
     },
     "Goal: 60 minutes per day" : {

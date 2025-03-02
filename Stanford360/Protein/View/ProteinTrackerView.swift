@@ -15,7 +15,8 @@ struct ProteinTrackerView: View {
     
     @State private var showingAddProtein = false
     @State private var isCardAnimating = false
-    @State private var meals: [Meal] = [] // Meals fetched from Firebase
+    @Environment(Stanford360Standard.self) private var standard
+    @Environment(ProteinManager.self) private var proteinManager
     @State private var selectedTimeFrame: ProteinTimeFrame = .today
     
     var body: some View {
@@ -27,7 +28,7 @@ struct ProteinTrackerView: View {
                     proteinPeriodPicker()
                     
                     // Fixed section (non-scrollable)
-                    DailyRecordView(currentValue: 45, maxValue: 60)
+                    DailyRecordView(currentValue: proteinManager.getTodayTotalGrams(), maxValue: 60)
                         .frame(height: 220)
                         .frame(maxWidth: .infinity, alignment: .center)
                         .padding(.top, 50) // Add spacing to prevent overlap
@@ -45,7 +46,7 @@ struct ProteinTrackerView: View {
                 // Floating + button fixed at the bottom
                 addProteinButton
             }
-            .task { await fetchMeals() } // Load meals when the view appears
+            .task { await loadMeals() } // Load meals when the view appears
         }
         .sheet(isPresented: $showingAddProtein) {
             AddMealView()
@@ -113,7 +114,7 @@ struct ProteinTrackerView: View {
             Text("Daily Meals")
                 .font(.title2.bold())
             Spacer()
-            Text("\(meals.count) Meals Logged")
+            Text("\(proteinManager.meals.count) Meals Logged")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .padding(.horizontal, 12)
@@ -128,7 +129,7 @@ struct ProteinTrackerView: View {
     // MARK: - Meals List (Dynamically fetched from Firebase)
     func mealsList() -> some View {
         VStack(spacing: 16) {
-            if meals.isEmpty {
+            if proteinManager.meals.isEmpty {
                 Text("No meals logged yet.")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
@@ -138,14 +139,14 @@ struct ProteinTrackerView: View {
                             .fill(Color(UIColor.secondarySystemGroupedBackground))
                     )
             } else {
-                ForEach(meals) { meal in
+                ForEach(proteinManager.meals) { meal in
                     mealRowView(
                         mealName: meal.name,
                         protein: "\(meal.proteinGrams)g",
                         time: meal.timestamp.formatted(date: .omitted, time: .shortened),
                         isCompleted: true
                     )
-                    if meal.id != meals.last?.id {
+                    if meal.id != proteinManager.meals.last?.id {
                         Divider()
                     }
                 }
@@ -182,17 +183,8 @@ struct ProteinTrackerView: View {
         .contentShape(Rectangle())
     }
     
-    // MARK: - Fetch Meals from Firebase
-    @MainActor
-    func fetchMeals() async {
-//        do {
-//            guard let fetchedMeals = try await FirebaseManager.shared.fetchProteinIntake(for: Date())?.meals else {
-//                return
-//            }
-//            meals = fetchedMeals
-//        } catch {
-//            print("❌ Error fetching meals: \(error)")
-//        }
+    func loadMeals() async {
+        proteinManager.meals = await standard.fetchMeals()
     }
 }
 
