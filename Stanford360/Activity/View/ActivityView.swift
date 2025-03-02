@@ -25,7 +25,6 @@ struct ActivityView: View {
 	
 	// State properties grouped together
     @State private var showingAddActivity = false
-    @State private var selectedTimeFrame: TimeFrame = .today
     @State private var showHealthKitAlert = false
     
     @Environment(Stanford360Standard.self) internal var standard
@@ -59,7 +58,6 @@ struct ActivityView: View {
 //                motivationText
                 
                 ActivityTimeFrameView(
-//                    timeFrame: selectedTimeFrame,
                     activityManager: activityManager
                 )
             }

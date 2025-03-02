@@ -15,11 +15,6 @@ import Spezi
 class ProteinManager: Module, EnvironmentAccessible {
 	var meals: [Meal] // List of meals consumed by the user
 	
-	// Computed property to calculate the total protein intake
-	var totalProteinGrams: Double {
-		meals.reduce(0) { $0 + $1.proteinGrams }
-	}
-	
 	init(meals: [Meal] = []) {
 		self.meals = meals
 	}
@@ -32,33 +27,33 @@ class ProteinManager: Module, EnvironmentAccessible {
 	}
 	
 	// Add a new meal to the list
-	func addMeal(name: String, proteinGrams: Double, imageURL: String? = nil, timestamp: Date = Date()) {
-		let newMeal = Meal(name: name, proteinGrams: proteinGrams, imageURL: imageURL, timestamp: timestamp)
+	func addMeal(name: String, proteinGrams: Double, /*imageURL: String? = nil, */timestamp: Date = Date()) {
+		let newMeal = Meal(name: name, proteinGrams: proteinGrams, /*imageURL: imageURL,*/ timestamp: timestamp)
 		meals.append(newMeal)
 	}
 	
 	// Delete a meal from the list by its name
-	func deleteMeal(byName name: String) {
-		meals.removeAll { $0.name == name }
-	}
+	//	func deleteMeal(byName name: String) {
+	//		meals.removeAll { $0.name == name }
+	//	}
 	
 	// Update an existing meal's details
-	func updateMeal(
-		oldName: String,
-		newName: String,
-		newProteinGrams: Double,
-		newImageURL: String? = nil,
-		newTimestamp: Date = Date()
-	) {
-		if let index = meals.firstIndex(where: { $0.name == oldName }) {
-			meals[index] = Meal(
-				name: newName,
-				proteinGrams: newProteinGrams,
-				imageURL: newImageURL,
-				timestamp: newTimestamp
-			)
-		}
-	}
+	//	func updateMeal(
+	//		oldName: String,
+	//		newName: String,
+	//		newProteinGrams: Double,
+	//		// newImageURL: String? = nil,
+	//		newTimestamp: Date = Date()
+	//	) {
+	//		if let index = meals.firstIndex(where: { $0.name == oldName }) {
+	//			meals[index] = Meal(
+	//				name: newName,
+	//				proteinGrams: newProteinGrams,
+	//				// imageURL: newImageURL,
+	//				timestamp: newTimestamp
+	//			)
+	//		}
+	//	}
 	
 	//    // Filter meals by a specific date
 	//    func filterMeals(byDate targetDate: Date) -> [Meal] {

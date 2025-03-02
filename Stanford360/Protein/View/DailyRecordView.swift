@@ -8,9 +8,9 @@
 
 import SwiftUI
 
-struct ProteinProgressView: View {
-    let currentValue: Int
-    let maxValue: Int
+struct DailyRecordView: View {
+    let currentValue: Double
+    let maxValue: Double
     
     // Animation states
     @State private var isAnimating = false
@@ -82,7 +82,7 @@ struct ProteinProgressView: View {
     
     private func infoText() -> some View {
         VStack(spacing: 8) {
-            Text("\(currentValue)")
+            Text("\(currentValue, specifier: "%.f")")
                 .font(.system(size: 65, weight: .bold, design: .rounded))
                 .opacity(showText ? 1 : 0)
                 .scaleEffect(showText ? 1 : 0.5)
@@ -93,7 +93,7 @@ struct ProteinProgressView: View {
                 .opacity(showText ? 1 : 0)
                 .scaleEffect(showText ? 1 : 0.5)
             
-            Text("Goal: \(maxValue) g")
+            Text("Goal: \(maxValue, specifier: "%.f") g")
                 .font(.system(.subheadline, design: .rounded))
                 .foregroundStyle(.secondary)
                 .padding(.top, 4)
@@ -114,7 +114,7 @@ struct ProteinProgressView: View {
 
 #if DEBUG
 #Preview {
-    ProteinProgressView(currentValue: 45, maxValue: 60)
+	DailyRecordView(currentValue: 45, maxValue: 60)
         .frame(height: 300)
         .padding()
 }

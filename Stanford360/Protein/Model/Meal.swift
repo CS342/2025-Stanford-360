@@ -9,24 +9,24 @@
 import FirebaseFirestore
 import Foundation
 
-struct Meal: Identifiable, Codable {
+struct Meal: Identifiable, Codable, @unchecked Sendable {
 	@DocumentID var id: String?
 	var name: String // Name of the meal, e.g., "Chicken breast" or "Protein shake"
 	var proteinGrams: Double // Amount of protein in the meal (in grams)
-	var imageURL: String? // Optional URL of the meal's image
+	// var imageURL: String? // Optional URL of the meal's image
 	var timestamp: Date // Time when the meal was consumed
 	
 	init(
 		name: String,
 		proteinGrams: Double,
-		imageURL: String? = nil,
+		// imageURL: String? = nil,
 		timestamp: Date = Date(),
 		id: String? = UUID().uuidString
 	) {
 		self.id = id
 		self.name = name
 		self.proteinGrams = proteinGrams
-		self.imageURL = imageURL
+		// self.imageURL = imageURL
 		self.timestamp = timestamp
 	}
 }

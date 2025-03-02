@@ -24,7 +24,6 @@ struct HomeView: View {
 	@AppStorage(StorageKeys.tabViewCustomization) private var tabViewCustomization = TabViewCustomization()
 	
 	@State private var presentingAccount = false
-	@State private var activityManager = ActivityManager()
 	
 	var body: some View {
 		TabView(selection: $selectedTab) {
@@ -44,7 +43,7 @@ struct HomeView: View {
 			.customizationID("home.hydration")
 			
 			Tab("Protein", systemImage: "fork.knife", value: .protein) {
-				ProteinContentView()
+                ProteinTrackerView()
 			}
 			.customizationID("home.protein")
 			
@@ -53,9 +52,6 @@ struct HomeView: View {
 			}
 			.customizationID("home.dashboard")
 		}
-//		.task {
-//			activityManager.sendActivityReminder()
-//		}
 		.tabViewStyle(.sidebarAdaptable)
 		.tabViewCustomization($tabViewCustomization)
 		.sheet(isPresented: $presentingAccount) {
