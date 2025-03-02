@@ -34,22 +34,22 @@ struct HomeView: View {
 			.customizationID("home.home")
 			
 			Tab("Activity", systemImage: "figure.walk", value: .activity) {
-				ActivityView()
+				ActivityView(presentingAccount: $presentingAccount)
 			}
 			.customizationID("home.activity")
 			
 			Tab("Hydration", systemImage: "drop.fill", value: .hydration) {
-				HydrationTrackerView()
+				HydrationTrackerView(presentingAccount: $presentingAccount)
 			}
 			.customizationID("home.hydration")
 			
 			Tab("Protein", systemImage: "fork.knife", value: .protein) {
-                ProteinTrackerView()
+                ProteinTrackerView(presentingAccount: $presentingAccount)
 			}
 			.customizationID("home.protein")
 			
 			Tab("Dashboard", systemImage: "target", value: .dashboard) {
-				DashboardView()
+				DashboardView(presentingAccount: $presentingAccount)
 			}
 			.customizationID("home.dashboard")
 		}
