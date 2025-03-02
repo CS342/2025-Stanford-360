@@ -9,7 +9,7 @@
 import FirebaseFirestore
 import Foundation
 
-struct Meal: Identifiable, Codable {
+struct Meal: Identifiable, Codable, @unchecked Sendable {
 	@DocumentID var id: String?
 	var name: String // Name of the meal, e.g., "Chicken breast" or "Protein shake"
 	var proteinGrams: Double // Amount of protein in the meal (in grams)
