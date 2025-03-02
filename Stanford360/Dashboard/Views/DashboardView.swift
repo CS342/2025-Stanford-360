@@ -74,7 +74,7 @@ struct DashboardView: View {
 		patientManager.updateHydrationOunces(hydrationOunces)
 		
 		proteinManager.meals = patientData?.meals ?? []
-		let proteinGrams = proteinManager.totalProteinGrams
+		let proteinGrams = proteinManager.getTodayTotalGrams()
 		patientManager.updateProteinGrams(proteinGrams)
 	}
 }
