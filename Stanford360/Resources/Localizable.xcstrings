@@ -530,6 +530,9 @@
         }
       }
     },
+    "selected_image" : {
+
+    },
     "Social Support Questionnaire" : {
       "localizations" : {
         "en" : {

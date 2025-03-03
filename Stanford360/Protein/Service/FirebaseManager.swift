@@ -7,6 +7,7 @@
 //
 
 import FirebaseFirestore
+import FirebaseStorage
 import Foundation
 
 extension Stanford360Standard {

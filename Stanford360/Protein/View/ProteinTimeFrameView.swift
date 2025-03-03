@@ -1,9 +1,5 @@
 //
-//  ProteinTimeFrameView.swift
-//  Stanford360
-//
-//  Created by Kelly Bonilla Guzmán on 3/2/25.
-//
+// This source file is part of the Stanford 360 based on the Stanford Spezi Template Application project
 //
 // SPDX-FileCopyrightText: 2025 Stanford University
 //
