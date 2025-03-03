@@ -108,6 +108,9 @@
     "Activity Time" : {
 
     },
+    "Add Activity Button" : {
+
+    },
     "Add Your Activity! 🎯" : {
 
     },
@@ -189,6 +192,15 @@
 
     },
     "Day" : {
+
+    },
+    "Delete" : {
+
+    },
+    "Edit" : {
+
+    },
+    "Edit Your Activity! 📝" : {
 
     },
     "Enable HealthKit in Settings to auto-track steps, or log activities manually." : {
@@ -652,6 +664,9 @@
           }
         }
       }
+    },
+    "Update Activity! 🔄" : {
+
     },
     "View" : {
 

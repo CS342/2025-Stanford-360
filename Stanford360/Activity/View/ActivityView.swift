@@ -85,10 +85,10 @@ struct ActivityView: View {
             showHealthKitAlert = true
         }
     }
-    
-    init(presentingAccount: Binding<Bool>) {
-        self._presentingAccount = presentingAccount
-    }
+	
+	init(presentingAccount: Binding<Bool>) {
+		self._presentingAccount = presentingAccount
+	}
 	
 	func loadActivities() async {
 		activityManager.activities = await standard.fetchActivities()

@@ -16,21 +16,21 @@ struct ActivityBreakdownView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 5) {
-               Text("Activity Breakdown")
-                   .font(.headline)
-                   .padding(.horizontal)
-               
-               ForEach(calculateBreakdown().sorted(by: { $0.value > $1.value }), id: \.key) { activity, minutes in
-                   HStack {
-                       Text(activity)
-                           .font(.subheadline)
-                       Spacer()
-                       Text("\(minutes) min")
-                           .font(.subheadline.bold())
-                           .foregroundStyle(.blue)
-                   }
-                   .padding(.horizontal)
-               }
+                Text("Activity Breakdown")
+                    .font(.headline)
+                    .padding(.horizontal)
+                
+                ForEach(calculateBreakdown().sorted(by: { $0.value > $1.value }), id: \.key) { activity, minutes in
+                    HStack {
+                        Text(activity)
+                            .font(.subheadline)
+                        Spacer()
+                        Text("\(minutes) min")
+                            .font(.subheadline.bold())
+                            .foregroundStyle(.blue)
+                    }
+                    .padding(.horizontal)
+                }
             }
             .padding()
             .background(
@@ -58,7 +58,6 @@ struct ActivityBreakdownView: View {
             date: Date(),
             steps: 8000,
             activeMinutes: 45,
-            caloriesBurned: 300,
             activityType: "Running"
         ),
         {
@@ -69,7 +68,6 @@ struct ActivityBreakdownView: View {
                 date: date,
                 steps: 6000,
                 activeMinutes: 30,
-                caloriesBurned: 200,
                 activityType: "Walking"
             )
         }(),
@@ -81,7 +79,6 @@ struct ActivityBreakdownView: View {
                 date: date,
                 steps: 7500,
                 activeMinutes: 40,
-                caloriesBurned: 250,
                 activityType: "Soccer"
             )
         }()

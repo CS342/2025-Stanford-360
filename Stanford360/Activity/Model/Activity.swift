@@ -18,14 +18,12 @@ struct Activity: Identifiable, Codable, @unchecked Sendable {
     var date: Date
     var steps: Int
     var activeMinutes: Int
-    var caloriesBurned: Int
     var activityType: String
     
     init(
         date: Date,
         steps: Int,
         activeMinutes: Int,
-        caloriesBurned: Int,
         activityType: String,
         id: String? = UUID().uuidString
     ) {
@@ -33,7 +31,6 @@ struct Activity: Identifiable, Codable, @unchecked Sendable {
         self.date = date
         self.steps = steps
         self.activeMinutes = activeMinutes
-        self.caloriesBurned = caloriesBurned
         self.activityType = activityType
     }
 }
