@@ -15,6 +15,7 @@ struct ProteinView: View {
 	@Environment(Account.self) private var account: Account?
     
     @State private var showingAddProtein = false
+    @State private var showingInfo = false
     @State private var isCardAnimating = false
     
 	@Binding private var presentingAccount: Bool
@@ -32,7 +33,7 @@ struct ProteinView: View {
 					.padding(20)
 				}
 				
-				AddButton(showingAddItem: $showingAddProtein, imageAccessibilityLabel: "Add Protein Button")
+				buttons
 			}
 			.navigationTitle("My Protein 🍗")
 			.toolbar {
@@ -43,11 +44,40 @@ struct ProteinView: View {
 			.sheet(isPresented: $showingAddProtein) {
 				AddMealView()
 			}
+            .sheet(isPresented: $showingInfo) {
+                MealRecsSheet()
+            }
 		}
 		.task {
 			await loadMeals()
 		}
 	}
+    
+    private var buttons: some View {
+        ZStack {
+            HStack {
+                IconButton(
+                    showingAddItem: $showingInfo,
+                    imageName: "questionmark.circle.fill",
+                    imageAccessibilityLabel: "Meal Recommendation Button",
+                    color: .green
+                )
+                .padding(.trailing, 70)
+                Spacer()
+            }
+            
+            HStack {
+                Spacer()
+                IconButton(
+                    showingAddItem: $showingAddProtein,
+                    imageName: "plus.circle.fill",
+                    imageAccessibilityLabel: "Add Protein Button",
+                    color: .blue
+                )
+                .padding(.trailing, 10)
+            }
+        }
+    }
     
 	private var mealsCardView: some View {
         VStack(alignment: .leading, spacing: 20) {

@@ -124,14 +124,12 @@ struct ActivityTimeFrameView: View {
             date: Date(),
             steps: 8000,
             activeMinutes: 45,
-            caloriesBurned: 300,
             activityType: "Running"
         ),
         Activity(
             date: Date(),
             steps: 5000,
             activeMinutes: 35,
-            caloriesBurned: 300,
             activityType: "Walking"
         )
     ]
