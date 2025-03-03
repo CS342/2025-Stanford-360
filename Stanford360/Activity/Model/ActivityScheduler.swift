@@ -36,7 +36,7 @@ final class ActivityScheduler: Module, DefaultInitializable, EnvironmentAccessib
     }
 
     @MainActor
-    func userLoggedActivity() async {
+    func userLoggedActivity(activityMinutes: Int) async {
         let now = Date()
         let calendar = Calendar.current
         let hour = calendar.component(.hour, from: now)
@@ -52,23 +52,27 @@ final class ActivityScheduler: Module, DefaultInitializable, EnvironmentAccessib
             print("⏳ Skipping activity reminder before 9 AM.")
             return
         }
+        
+        let remainingMinutes = max(0, 60 - activityMinutes)
 
-        // Schedule a new reminder
-        do {
-            try scheduler.createOrUpdateTask(
-                id: "activity-reminder",
-                title: "🏃 Keep Moving!",
-                instructions: "You haven't logged any activity in the last 4 hours. Time to get moving!",
-                category: Task.Category(rawValue: "Activity"),
-                schedule: .daily(
-                    hour: Calendar.current.component(.hour, from: now) + 4,
-                    minute: Calendar.current.component(.minute, from: now),
-                    startingAt: .now
-                ),
-                scheduleNotifications: true
-            )
-        } catch {
-            print("Failed to schedule activity reminder: \(error.localizedDescription)")
+        if remainingMinutes > 0 {
+            // Schedule a new reminder
+            do {
+                try scheduler.createOrUpdateTask(
+                    id: "activity-reminder",
+                    title: "🏃 Keep Moving!",
+                    instructions: "You have \(remainingMinutes) minutes left to reach your goal of 60 minutes!",
+                    category: Task.Category(rawValue: "Activity"),
+                    schedule: .daily(
+                        hour: Calendar.current.component(.hour, from: now) + 4,
+                        minute: Calendar.current.component(.minute, from: now),
+                        startingAt: .now
+                    ),
+                    scheduleNotifications: true
+                )
+            } catch {
+                print("Failed to schedule activity reminder: \(error.localizedDescription)")
+            }
         }
     }
 }
