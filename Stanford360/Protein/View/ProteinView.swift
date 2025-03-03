@@ -117,6 +117,27 @@ struct ProteinView: View {
 		self._presentingAccount = presentingAccount
 	}
     
+    private func mealsContentView() -> some View {
+        ForEach(proteinManager.meals, id: \.id) { meal in
+            NavigationLink(destination: MealDetailView(meal: meal)) {
+                mealRowView(
+                    mealName: meal.name,
+                    protein: "\(meal.proteinGrams)g",
+                    time: meal.timestamp.formatted(date: .omitted, time: .shortened),
+                    isCompleted: true
+                )
+            }
+            .contentShape(Rectangle())
+            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                deleteButton(for: meal)
+            }
+
+            if meal.id != proteinManager.meals.last?.id {
+                Divider()
+            }
+        }
+    }
+    
     func mealRowView(mealName: String, protein: String, time: String, isCompleted: Bool) -> some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
