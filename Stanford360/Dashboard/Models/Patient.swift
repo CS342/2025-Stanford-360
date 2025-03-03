@@ -12,6 +12,7 @@
 import Foundation
 
 struct Patient {
+	var weight: Measurement<UnitMass>
 	var activityMinutes: Int
 	var hydrationOunces: Double
 	var proteinGrams: Double
