@@ -17,6 +17,7 @@ struct MealRecsSheet: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 0) { // Reduced spacing to 0
+                    balancedPlateSection
                     proteinGuideSection
                     produceInSeasonSection
                     restaurantRecommendationsSection
@@ -85,6 +86,21 @@ struct MealRecsSheet: View {
                 .frame(width: 350, height: 650)
                 .padding(0) // Remove all padding
                 .accessibilityLabel("Food in common restaurants recommendations")
+        }
+    }
+    
+    private var balancedPlateSection: some View {
+        VStack(spacing: 0) {
+            sectionHeader(title: "Keep a Balanced Plate")
+                .padding(.top, 8) // Add minimal top padding for section separation
+                .padding(.bottom, 0) // No bottom padding
+            
+            Image("BalancedPlate")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 350, height: 650)
+                .padding(0) // Remove all padding
+                .accessibilityLabel("Balanced Plate Recommendations")
         }
     }
     
