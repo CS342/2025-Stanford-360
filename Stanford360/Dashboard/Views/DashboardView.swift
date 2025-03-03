@@ -37,6 +37,7 @@ struct DashboardView: View {
 			}
 		}
 		.task {
+			print(patientManager.patient.weight)
 			await loadPatientData()
 		}
 	}
@@ -68,6 +69,7 @@ struct DashboardView: View {
 	@Previewable @State var presentingAccount = false
 	
 	@Previewable @State var patientManager = PatientManager(patient: Patient(
+		weight: Measurement(value: 0, unit: .pounds),
 		activityMinutes: 50,
 		hydrationOunces: 40,
 		proteinGrams: 10
