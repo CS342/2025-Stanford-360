@@ -13,7 +13,7 @@ struct ProteinTodayView: View {
 	
 	var body: some View {
 		DailyRecordView(currentValue: proteinManager.getTodayTotalGrams(), maxValue: 60)
-			.frame(height: 220)
+			.frame(height: 200)
 			.frame(maxWidth: .infinity, alignment: .center)
 			.padding(.top, 50) // Add spacing to prevent overlap
 			.padding(.bottom, 20) // Ensure separation

@@ -162,6 +162,7 @@ struct AddMealView: View {
                 .foregroundColor(.blue)
                 .background(Circle().fill(Color.white))
                 .shadow(radius: 5)
+                .accessibilityLabel("plus.circle")
         }
     }
 
@@ -176,6 +177,7 @@ struct AddMealView: View {
                         .foregroundColor(.blue)
                         .background(Circle().fill(Color.white))
                         .shadow(radius: 5)
+                        .accessibilityLabel("pencil")
                 }
                 .padding()
             }

@@ -88,7 +88,10 @@ extension Stanford360Standard {
     }
     
     func uploadImageToFirebase(_ image: UIImage, imageName: String) async -> String? {
-        guard let imageData = image.jpegData(compressionQuality: 0.8) else { return nil }
+        guard let imageData = image.jpegData(compressionQuality: 0.8)
+        else {
+            return nil
+        }
         let uniqueImageName = "\(UUID().uuidString)_\(imageName)"
         let storageRef = Storage.storage().reference().child("meal_images/\(uniqueImageName).jpg")
         

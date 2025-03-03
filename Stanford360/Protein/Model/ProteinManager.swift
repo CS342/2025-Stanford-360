@@ -13,6 +13,10 @@ import Spezi
 @Observable
 class ProteinManager: Module, EnvironmentAccessible {
 	var meals: [Meal]
+    var todayMeals: [Meal] {
+        let today = Calendar.current.startOfDay(for: Date())
+        return mealsByDate[today] ?? []
+    }
 	var mealsByDate: [Date: [Meal]] {
 		var mealsByDate: [Date: [Meal]] = [:]
 		for meal in meals {
