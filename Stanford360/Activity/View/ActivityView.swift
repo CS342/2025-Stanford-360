@@ -29,53 +29,41 @@ struct ActivityView: View {
 
     var body: some View {
         NavigationView {
-            content
+			ZStack {
+				VStack(spacing: 20) {
+					if !healthKitManager.isHealthKitAuthorized {
+						healthKitWarningBanner
+					}
+					
+					ActivityTimeFrameView(
+						activityManager: activityManager
+					)
+				}
+				
+				AddButton(showingAddItem: $showingAddActivity, imageAccessibilityLabel: "Add Activity Button")
+			}
+			.navigationTitle("My Active Journey 🏃‍♂️")
+			.toolbar {
+				if account != nil {
+					AccountButton(isPresented: $presentingAccount)
+				}
+			}
+			.sheet(isPresented: $showingAddActivity) {
+				AddActivitySheet()
+			}
+			.alert("HealthKit Access Required", isPresented: $showHealthKitAlert) {
+				Button("Open Settings", role: .none) {
+					if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+						UIApplication.shared.open(settingsURL)
+					}
+				}
+				Button("Continue Without HealthKit", role: .cancel) { }
+			} message: {
+				Text("Enable HealthKit in Settings to auto-track steps, or log activities manually.")
+			}
         }
         .task {
-            // Replace await with proper async operation if needed
-            activityManager.activities = (try? await standard.loadActivitiesFromFirestore()) ?? []
-			patientManager.updateActivityMinutes(activityManager.getTodayTotalMinutes())
-            do {
-                try await healthKitManager.requestAuthorization()
-                await syncHealthKitData()
-            } catch {
-                print("Failed to setup HealthKit: \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    // Extracted content to reduce body closure length
-    private var content: some View {
-        ZStack {
-            VStack(spacing: 20) {
-                if !healthKitManager.isHealthKitAuthorized {
-                    healthKitWarningBanner
-                }
-                
-                ActivityTimeFrameView(
-                    activityManager: activityManager
-                )
-            }
-            addActivityButton
-        }
-        .navigationTitle("My Active Journey 🏃‍♂️")
-        .sheet(isPresented: $showingAddActivity) {
-            AddActivitySheet()
-        }
-        .toolbar {
-            if account != nil {
-                AccountButton(isPresented: $presentingAccount)
-            }
-        }
-        .alert("HealthKit Access Required", isPresented: $showHealthKitAlert) {
-            Button("Open Settings", role: .none) {
-                if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
-                    UIApplication.shared.open(settingsURL)
-                }
-            }
-            Button("Continue Without HealthKit", role: .cancel) { }
-        } message: {
-            Text("Enable HealthKit in Settings to auto-track steps, or log activities manually.")
+			await loadActivities()
         }
     }
     
@@ -98,28 +86,24 @@ struct ActivityView: View {
         }
     }
     
-    // Extracted add activity button
-    private var addActivityButton: some View {
-        VStack {
-            Spacer()
-            HStack {
-                Spacer()
-                Button(action: { showingAddActivity = true }) {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.system(size: 56))
-                        .foregroundColor(.blue)
-                        .shadow(radius: 3)
-                        .background(Circle().fill(.white))
-                        .accessibilityLabel("Add Activity Button")
-                }
-                .padding([.trailing, .bottom], 25)
-            }
-        }
-    }
-    
     init(presentingAccount: Binding<Bool>) {
         self._presentingAccount = presentingAccount
     }
+	
+	func loadActivities() async {
+		activityManager.activities = await standard.fetchActivities()
+		
+		// update patient's activities
+		patientManager.updateActivityMinutes(activityManager.getTodayTotalMinutes())
+		
+		// fetch from healthkit
+		do {
+			try await healthKitManager.requestAuthorization()
+			await syncHealthKitData()
+		} catch {
+			print("Failed to setup HealthKit: \(error.localizedDescription)")
+		}
+	}
     
     // Retrieve data from HealthKit and convert it to an Activity
     func syncHealthKitData() async {

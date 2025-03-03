@@ -9,80 +9,50 @@
 @_spi(TestingSupport) import SpeziAccount
 import SwiftUI
 
-struct ProteinTrackerView: View {
+struct ProteinView: View {
 	@Environment(Stanford360Standard.self) private var standard
 	@Environment(ProteinManager.self) private var proteinManager
 	@Environment(Account.self) private var account: Account?
     
-	@State var selectedTimeFrame: TimeFrame = .today
     @State private var showingAddProtein = false
     @State private var isCardAnimating = false
     
 	@Binding private var presentingAccount: Bool
 	
-    var body: some View {
-        NavigationStack {
-            ZStack {
-                VStack(alignment: .leading, spacing: 0) {
-					TimeFramePicker(selectedTimeFrame: $selectedTimeFrame)
-                    
-                    // Fixed section (non-scrollable)
-                    DailyRecordView(currentValue: proteinManager.getTodayTotalGrams(), maxValue: 60)
-                        .frame(height: 220)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .padding(.top, 50) // Add spacing to prevent overlap
-                        .padding(.bottom, 20) // Ensure separation
-                    
-                    // Scrollable section for Daily Meals
-                    ScrollView {
-                        mealsCardView()
-                    }
-					.padding(20) // Added spacing before meals
-                }
-                // Floating + button fixed at the bottom
-                addProteinButton
-            }
-            .task { await loadMeals() } // Load meals when the view appears
+	var body: some View {
+		NavigationStack {
+			ZStack {
+				VStack(spacing: 20) {
+					ProteinTimeFrameView()
+					
+					// Scrollable section for Daily Meals
+					ScrollView {
+						mealsCardView
+					}
+					.padding(20)
+				}
+				
+				AddButton(showingAddItem: $showingAddProtein, imageAccessibilityLabel: "Add Protein Button")
+			}
 			.navigationTitle("My Protein 🍗")
 			.toolbar {
 				if account != nil {
 					AccountButton(isPresented: $presentingAccount)
 				}
 			}
-        }
-        .sheet(isPresented: $showingAddProtein) {
-            AddMealView()
-        }
-    }
-
-    // MARK: - Floating Add Protein Button (Fixed at the bottom)
-    private var addProteinButton: some View {
-        VStack {
-            Spacer()
-            HStack {
-                Spacer()
-                Button(action: { showingAddProtein = true }) {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.system(size: 56))
-                        .foregroundColor(.blue)
-                        .shadow(radius: 3)
-                        .background(Circle().fill(.white))
-                        .accessibilityLabel("Add Protein Button")
-                }
-                .padding([.trailing, .bottom], 25)
-            }
-        }
-    }
+			.sheet(isPresented: $showingAddProtein) {
+				AddMealView()
+			}
+		}
+		.task {
+			await loadMeals()
+		}
+	}
     
-    init(presentingAccount: Binding<Bool>) {
-        self._presentingAccount = presentingAccount
-    }
-    
-    // MARK: - Daily Meals Section
-    func mealsCardView() -> some View {
+	private var mealsCardView: some View {
         VStack(alignment: .leading, spacing: 20) {
-            mealsHeaderView()
-            mealsList()
+            mealsHeaderView
+            mealsList
                 .opacity(isCardAnimating ? 1 : 0)
                 .offset(y: isCardAnimating ? 0 : 50)
                 .onAppear {
@@ -93,7 +63,7 @@ struct ProteinTrackerView: View {
         }
     }
     
-    func mealsHeaderView() -> some View {
+	private var mealsHeaderView: some View {
         HStack {
             Text("Daily Meals")
                 .font(.title2.bold())
@@ -110,8 +80,7 @@ struct ProteinTrackerView: View {
         }
     }
     
-    // MARK: - Meals List (Dynamically fetched from Firebase)
-    func mealsList() -> some View {
+	private var mealsList: some View {
         VStack(spacing: 16) {
             if proteinManager.meals.isEmpty {
                 Text("No meals logged yet.")
@@ -143,6 +112,10 @@ struct ProteinTrackerView: View {
         )
         .shadow(color: Color.black.opacity(0.05), radius: 10)
     }
+	
+	init(presentingAccount: Binding<Bool>) {
+		self._presentingAccount = presentingAccount
+	}
     
     func mealRowView(mealName: String, protein: String, time: String, isCompleted: Bool) -> some View {
         HStack {
@@ -175,6 +148,6 @@ struct ProteinTrackerView: View {
 #if DEBUG
 #Preview {
 	@Previewable @State var presentingAccount = false
-    ProteinTrackerView(presentingAccount: $presentingAccount)
+    ProteinView(presentingAccount: $presentingAccount)
 }
 #endif
