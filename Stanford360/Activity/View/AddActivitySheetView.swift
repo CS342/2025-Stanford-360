@@ -31,7 +31,7 @@ struct AddActivitySheet: View {
     let activityTypes = [
         "Walking 🚶‍♂️", "Running 🏃‍♂️", "Swimming 🏊‍♂️",
         "Dancing 💃", "Basketball 🏀", "Soccer ⚽️",
-        "Cycling 🚲", "Other 🌟"
+        "Cycling 🚲", "Strengthening 💪", "Yoga 🧘‍♀️", "Golf ⛳️", "Other 🌟"
     ]
     
     var body: some View {

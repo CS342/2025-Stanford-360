@@ -25,6 +25,9 @@ struct ActivityChartView: View {
         "Basketball 🏀": .orange,
         "Soccer ⚽️": .red,
         "Cycling 🚲": .yellow,
+        "Strengthening 💪": .brown,
+        "Yoga 🧘‍♀️": .purple.opacity(0.7),
+        "Golf ⛳️": .green.opacity(0.5),
         "School Physical Education 🏟️": .pink,
         "Other 🌟": .gray,
         "HealthKit": .blue
