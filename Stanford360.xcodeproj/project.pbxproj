@@ -78,6 +78,8 @@
 		C13ED86B2D656A0400033A55 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13ED8692D656A0400033A55 /* FeedView.swift */; };
 		C156248A2D6D6D9300298CEB /* DayTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15624892D6D6D9300298CEB /* DayTimelineView.swift */; };
 		C15624902D6D6E6E00298CEB /* InfiniteDayTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C156248F2D6D6E6E00298CEB /* InfiniteDayTimelineView.swift */; };
+		C15C64082D75CF8500979C62 /* LogWeightSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15C64072D75CF8500979C62 /* LogWeightSheet.swift */; };
+		C15C640A2D75CFF700979C62 /* LogWeightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15C64092D75CFF700979C62 /* LogWeightView.swift */; };
 		C1CF13CF2D6D72C40057BC77 /* DailyScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CF13CE2D6D72C40057BC77 /* DailyScheduleView.swift */; };
 		C1CF13DA2D6D76BE0057BC77 /* ScheduleTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CF13D92D6D76BE0057BC77 /* ScheduleTask.swift */; };
 		C1CF13E72D6D7CF20057BC77 /* TaskStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CF13E62D6D7CF20057BC77 /* TaskStore.swift */; };
@@ -148,6 +150,8 @@
 		C13ED8692D656A0400033A55 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		C15624892D6D6D9300298CEB /* DayTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTimelineView.swift; sourceTree = "<group>"; };
 		C156248F2D6D6E6E00298CEB /* InfiniteDayTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfiniteDayTimelineView.swift; sourceTree = "<group>"; };
+		C15C64072D75CF8500979C62 /* LogWeightSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogWeightSheet.swift; sourceTree = "<group>"; };
+		C15C64092D75CFF700979C62 /* LogWeightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogWeightView.swift; sourceTree = "<group>"; };
 		C1CF13CE2D6D72C40057BC77 /* DailyScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyScheduleView.swift; sourceTree = "<group>"; };
 		C1CF13D92D6D76BE0057BC77 /* ScheduleTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTask.swift; sourceTree = "<group>"; };
 		C1CF13E62D6D7CF20057BC77 /* TaskStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStore.swift; sourceTree = "<group>"; };
@@ -364,8 +368,10 @@
 			isa = PBXGroup;
 			children = (
 				A9FE7ACF2AA39BAB0077B045 /* AccountSheet.swift */,
+				C15C64072D75CF8500979C62 /* LogWeightSheet.swift */,
 				A9720E422ABB68CC00872D23 /* AccountSetupHeader.swift */,
 				A9DFE8A82ABE551400428242 /* AccountButton.swift */,
+				C15C64092D75CFF700979C62 /* LogWeightView.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -600,6 +606,7 @@
 				2FC975A82978F11A00BA99FE /* HomeView.swift in Sources */,
 				2FE5DC4E29EDD7FA004B9AB4 /* ScheduleView.swift in Sources */,
 				A9DFE8A92ABE551400428242 /* AccountButton.swift in Sources */,
+				C15C64082D75CF8500979C62 /* LogWeightSheet.swift in Sources */,
 				A9A3DCC82C75CBBD00FC9B69 /* FirebaseConfiguration.swift in Sources */,
 				C13ED86B2D656A0400033A55 /* FeedView.swift in Sources */,
 				2FE5DC3729EDD7CA004B9AB4 /* OnboardingFlow.swift in Sources */,
@@ -621,6 +628,7 @@
 				459A2CA32D6FD9DF00D429E9 /* Stanford360StandardHydration.swift in Sources */,
 				653A2551283387FE005D4D48 /* Stanford360.swift in Sources */,
 				2FE5DC3629EDD7CA004B9AB4 /* HealthKitPermissions.swift in Sources */,
+				C15C640A2D75CFF700979C62 /* LogWeightView.swift in Sources */,
 				2F65B44E2A3B8B0600A36932 /* NotificationPermissions.swift in Sources */,
 				2FE5DC2629EDD38A004B9AB4 /* Contacts.swift in Sources */,
 			);

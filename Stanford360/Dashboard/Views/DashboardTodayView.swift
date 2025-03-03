@@ -48,6 +48,7 @@ struct DashboardTodayView: View {
 
 #Preview {
 	@Previewable @State var patientManager = PatientManager(patient: Patient(
+		weight: Measurement(value: 0, unit: .pounds),
 		activityMinutes: 50,
 		hydrationOunces: 40,
 		proteinGrams: 10
