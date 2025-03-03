@@ -8,7 +8,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import SpeziScheduler
 import SpeziViews
 import SwiftUI
 
@@ -17,7 +16,6 @@ struct AddActivitySheet: View {
     @Environment(Stanford360Standard.self) private var standard
     @Environment(PatientManager.self) private var patientManager
     @Environment(ActivityManager.self) private var activityManager
-    @Environment(Scheduler.self) private var scheduler
     
     // Activity properties that can be initialized for editing
     @State private var activeMinutes: String
@@ -28,8 +26,6 @@ struct AddActivitySheet: View {
     // For editing, we need the original activity ID
     private var activityId: String?
     private var isEditing: Bool
-    
-    var viewState: ViewState = .idle
     
     let activityTypes = [
         "Walking 🚶‍♂️", "Running 🏃‍♂️", "Swimming 🏊‍♂️",
@@ -118,7 +114,7 @@ struct AddActivitySheet: View {
     }
     
     private var saveButton: some View {
-        Button(action: {
+        Button {
             Task {
                 if isEditing {
                     await updateActivity()
@@ -127,7 +123,7 @@ struct AddActivitySheet: View {
                 }
             }
             dismiss()
-        }, label: {
+        } label: {
             Text(isEditing ? "Update Activity! 🔄" : "Save My Activity! 🌟")
                 .font(.title3.bold())
                 .foregroundColor(.white)
@@ -137,11 +133,11 @@ struct AddActivitySheet: View {
                     RoundedRectangle(cornerRadius: 15)
                         .fill(Color.blue)
                 )
-        })
-        .padding()
+        }
         .disabled(activeMinutes.isEmpty)
+        .padding()
     }
-    
+
     // Initializer to accept pre-filled values when creating a new activity
     init(selectedActivity: String = "Walking 🚶‍♂️", activeMinutes: String = "", selectedDate: Date = Date()) {
         self._selectedActivity = State(initialValue: selectedActivity)
@@ -160,7 +156,7 @@ struct AddActivitySheet: View {
         self.isEditing = true
     }
     
-    private mutating func saveNewActivity() async {
+    private func saveNewActivity() async {
         // Validate date isn't in the future
         guard selectedDate <= Date() else {
             showingDateError = true
@@ -180,7 +176,6 @@ struct AddActivitySheet: View {
         activityManager.activities.append(newActivity)
         patientManager.updateActivityMinutes(activityManager.getTodayTotalMinutes())
         await standard.addActivityToFirestore(activity: newActivity)
-        await scheduleActivityNotifcation(activeMinutes: activityManager.getTodayTotalMinutes())
     }
     
     private func updateActivity() async {
@@ -202,51 +197,18 @@ struct AddActivitySheet: View {
         )
         
         // Use the standard extension method to update in both places
-        await standard.updateActivity(activity: updatedActivity, activityManager: activityManager)
+        await standard.updateActivityFirestore(activity: updatedActivity)
+        
+        // Update in local ActivityManager
+        var updatedActivities = activityManager.activities
+        if let index = updatedActivities.firstIndex(where: { $0.id == updatedActivity.id }) {
+            updatedActivities[index] = updatedActivity
+            activityManager.activities = updatedActivities
+        }
+//        activityManager.activities.editActivity(updatedActivity)
         
         // Update patient manager with new totals
         patientManager.updateActivityMinutes(activityManager.getTodayTotalMinutes())
-    }
-    
-    func scheduleActivityNotifcation(activeMinutes: Int) async {
-        let now = Date()
-        let calendar = Calendar.current
-        let hour = calendar.component(.hour, from: now)
-
-        // If it's after 9 PM, don't schedule new reminders
-        if hour >= 21 {
-            print("⏳ Skipping activity reminder after 9 PM.")
-            return
-        }
-
-        // If it's before 9 AM, also skip scheduling
-        if hour < 9 {
-            print("⏳ Skipping activity reminder before 9 AM.")
-            return
-        }
-
-        // Calculate remaining time to reach 60 minutes
-        let remainingMinutes = max(0, 60 - activeMinutes)
-
-        // Schedule a new reminder if goal not reached
-        if remainingMinutes > 0 {
-            do {
-                try scheduler.createOrUpdateTask(
-                    id: "activity-reminder",
-                    title: "🏃 Keep Moving!",
-                    instructions: "You have \(remainingMinutes) minutes left to reach your goal of 60 minutes!",
-                    category: Task.Category(rawValue: "Activity"),
-                    schedule: .daily(
-                        hour: Calendar.current.component(.hour, from: now) + 5,
-                        minute: Calendar.current.component(.minute, from: now),
-                        startingAt: .now
-                    ),
-                    scheduleNotifications: true
-                )
-            } catch {
-                print("Failed to schedule activity reminder: \(error.localizedDescription)")
-            }
-        }
     }
 }
 

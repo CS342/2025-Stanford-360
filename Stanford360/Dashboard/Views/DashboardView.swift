@@ -45,10 +45,6 @@ struct DashboardView: View {
         self._presentingAccount = presentingAccount
     }
 	
-	init(presentingAccount: Binding<Bool>) {
-		self._presentingAccount = presentingAccount
-	}
-	
 	/// Loads the patient's activities, hydration, and meals into their respective managers and updates the patient's data accordingly
 	func loadPatientData() async {
 		let patientData = try? await standard.fetchPatientData()

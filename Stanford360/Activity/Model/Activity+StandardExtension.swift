@@ -47,6 +47,7 @@ extension Stanford360Standard {
 			try await activityDocRef.setData(activityData, merge: true)
 			
 			logger.debug("Activity stored successfully")
+            await ActivityScheduler().userLoggedActivity()
 		} catch {
 			logger.error("Could not store activity: \(error)")
 		}
@@ -69,8 +70,8 @@ extension Stanford360Standard {
 		return activities
 	}
 
-	/// Updates an activity in both Firestore and the local ActivityManager
-	func updateActivity(activity: Activity, activityManager: ActivityManager) async {
+	/// Updates an activity in both Firestore
+	func updateActivityFirestore(activity: Activity) async {
 		do {
 			let activityData: [String: Any] = [
 				"steps": activity.steps,
@@ -81,9 +82,6 @@ extension Stanford360Standard {
 			
 			let activityDocRef = try await activityDocument(activityId: activity.id ?? UUID().uuidString)
 			try await activityDocRef.setData(activityData, merge: true)
-
-			// Update in local ActivityManager
-            await activityManager.editActivity(activity)
 			
 			logger.debug("Activity updated successfully")
 		} catch {
@@ -91,13 +89,12 @@ extension Stanford360Standard {
 		}
 	}
 
-	/// Deletes an activity from both Firestore and the local ActivityManager
-	func deleteActivity(_ activity: Activity, activityManager: ActivityManager) async {
+	/// Deletes an activity from both Firestore
+	func deleteActivity(_ activity: Activity) async {
 		do {
             let activityDocRef = try await activityDocument(activityId: activity.id ?? UUID().uuidString)
 			try await activityDocRef.delete()
-
-			await activityManager.deleteActivity(activity)
+            
 			logger.debug("Activity deleted successfully")
 		} catch {
 			logger.error("Could not delete activity: \(error)")

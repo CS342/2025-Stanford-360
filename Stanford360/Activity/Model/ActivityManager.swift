@@ -46,17 +46,17 @@ class ActivityManager: Module, EnvironmentAccessible {
 		activities.reduce(0) { $0 + $1.activeMinutes }
 	}
 
-    // Method to edit an existing activity
-    func editActivity(_ updatedActivity: Activity) {
-        if let index = activities.firstIndex(where: { $0.id == updatedActivity.id }) {
-            activities[index] = updatedActivity
-        }
-    }
-
-    // Method to delete an activity
-    func deleteActivity(_ activity: Activity) {
-        activities.removeAll { $0.id == activity.id }
-    }
+//    // Method to edit an existing activity
+//    func editActivity(_ updatedActivity: Activity) {
+//        if let index = activities.firstIndex(where: { $0.id == updatedActivity.id }) {
+//            activities[index] = updatedActivity
+//        }
+//    }
+//
+//    // Method to delete an activity
+//    func deleteActivity(_ activity: Activity) {
+//        activities.removeAll { $0.id == activity.id }
+//    }
     
 //    func getTodayActivity() -> Activity? {
 //        let today = Calendar.current.startOfDay(for: Date())

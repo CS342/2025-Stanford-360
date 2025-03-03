@@ -85,25 +85,6 @@ struct ActivityView: View {
             showHealthKitAlert = true
         }
     }
-    
-    // Extracted add activity button
-    private var addActivityButton: some View {
-        VStack {
-            Spacer()
-            HStack {
-                Spacer()
-                Button(action: { showingAddActivity = true }) {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.system(size: 56))
-                        .foregroundColor(.blue)
-                        .shadow(radius: 3)
-                        .background(Circle().fill(.white))
-                        .accessibilityLabel("Add Activity Button")
-                }
-                .padding([.trailing, .bottom], 25)
-            }
-        }
-    }
 	
 	init(presentingAccount: Binding<Bool>) {
 		self._presentingAccount = presentingAccount

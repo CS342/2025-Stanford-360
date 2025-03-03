@@ -49,7 +49,10 @@ struct ActivityCardView: View {
             Button(role: .destructive) {
                 isPerformingAction = true
                 Task {
-                    await standard.deleteActivity(activity, activityManager: activityManager)
+                    await standard.deleteActivity(activity)
+                    var updatedActivities = activityManager.activities
+                    updatedActivities.removeAll { $0.id == activity.id }
+                    activityManager.activities = updatedActivities
                     isPerformingAction = false
                 }
             } label: {
