@@ -115,25 +115,25 @@ struct ActivityView: View {
             showHealthKitAlert = true
         }
     }
-    
-    init(presentingAccount: Binding<Bool>) {
-        self._presentingAccount = presentingAccount
-    }
-    
-    func loadActivities() async {
-        activityManager.activities = await standard.fetchActivities()
-        
-        // update patient's activities
-        patientManager.updateActivityMinutes(activityManager.getTodayTotalMinutes())
-        
-        // fetch from healthkit
-        do {
-            try await healthKitManager.requestAuthorization()
-            await syncHealthKitData()
-        } catch {
-            print("Failed to setup HealthKit: \(error.localizedDescription)")
-        }
-    }
+	
+	init(presentingAccount: Binding<Bool>) {
+		self._presentingAccount = presentingAccount
+	}
+	
+	func loadActivities() async {
+		activityManager.activities = await standard.fetchActivities()
+		
+		// update patient's activities
+		patientManager.updateActivityMinutes(activityManager.getTodayTotalMinutes())
+		
+		// fetch from healthkit
+		do {
+			try await healthKitManager.requestAuthorization()
+			await syncHealthKitData()
+		} catch {
+			print("Failed to setup HealthKit: \(error.localizedDescription)")
+		}
+	}
     
     // Retrieve data from HealthKit and convert it to an Activity
     func syncHealthKitData() async {
