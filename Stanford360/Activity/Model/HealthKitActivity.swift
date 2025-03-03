@@ -14,7 +14,6 @@ struct HealthKitActivity: Sendable {
     var date: Date
     var steps: Int
     var activeMinutes: Int
-    var caloriesBurned: Int
     var activityType: String
     
     func toActivity() -> Activity {
@@ -22,7 +21,6 @@ struct HealthKitActivity: Sendable {
             date: date,
             steps: steps,
             activeMinutes: activeMinutes,
-            caloriesBurned: caloriesBurned,
             activityType: activityType
         )
     }

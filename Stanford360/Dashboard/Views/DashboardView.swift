@@ -31,10 +31,19 @@ struct DashboardView: View {
 					}
 				}
 		}
+		.toolbar {
+			if account != nil {
+				AccountButton(isPresented: $presentingAccount)
+			}
+		}
 		.task {
 			await loadPatientData()
 		}
 	}
+
+	init(presentingAccount: Binding<Bool>) {
+        self._presentingAccount = presentingAccount
+    }
 	
 	init(presentingAccount: Binding<Bool>) {
 		self._presentingAccount = presentingAccount
