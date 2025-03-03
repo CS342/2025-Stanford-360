@@ -191,14 +191,39 @@ struct AddMealView: View {
 	}
 	
 	
-	private func saveMeal() async {
-		isLoading = true
-		let meal = Meal(name: mealName, proteinGrams: Double(proteinAmount) ?? 0)
-		proteinManager.addMeal(name: mealName, proteinGrams: Double(proteinAmount) ?? 0)
-		await standard.storeMeal(meal)
-		await MainActor.run {
-			isLoading = false
-			dismiss()
-		}
-	}
+//	private func saveMeal() async {
+//		isLoading = true
+//		let meal = Meal(name: mealName, proteinGrams: Double(proteinAmount) ?? 0)
+//		proteinManager.addMeal(name: mealName, proteinGrams: Double(proteinAmount) ?? 0)
+//		await standard.storeMeal(meal)
+//		await MainActor.run {
+//			isLoading = false
+//			dismiss()
+//		}
+//	}
+    private func saveMeal() async {
+        isLoading = true
+        defer { isLoading = false }
+        var meal = Meal(name: mealName, proteinGrams: Double(proteinAmount) ?? 0)
+        
+        // If an image is selected, upload it first
+        if let image = selectedImage {
+            if let imageURL = await standard.uploadImageToFirebase(image, imageName: meal.id ?? UUID().uuidString) {
+                meal.imageURL = imageURL
+                print("✅ Image URL uploaded: \(imageURL)")
+            } else {
+                print("❌ Failed to upload image. Aborting meal save.")
+                return
+            }
+        }
+        await standard.storeMeal(meal, selectedImage: selectedImage)
+        await MainActor.run {
+            proteinManager.addMeal(
+                name: meal.name,
+                proteinGrams: meal.proteinGrams,
+                imageURL: meal.imageURL
+            )
+            dismiss()
+        }
+    }
 }
