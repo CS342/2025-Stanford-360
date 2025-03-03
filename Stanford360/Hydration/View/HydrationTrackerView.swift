@@ -12,7 +12,9 @@ import SwiftUI
 struct HydrationTrackerView: View {
 	@Environment(PatientManager.self) var patientManager
     @Environment(Stanford360Standard.self) var standard
+    @Environment(HydrationManager.self) var hydrationManager
     @Environment(HydrationScheduler.self) var hydrationScheduler
+    
 
     // MARK: - State
     @State var intakeAmount: String = ""
@@ -21,6 +23,7 @@ struct HydrationTrackerView: View {
     @State var totalIntake: Double = 0.0
     @State var streak: Int?
     @State var selectedAmount: Double?
+    @State var isStreakUpdated: Bool = false
     @State var streakJustUpdated = false
     @State var isSpecialMilestone: Bool = false
     @State var selectedTimeFrame: TimeFrame = .today
@@ -72,9 +75,7 @@ struct HydrationTrackerView: View {
 			}
 			.onAppear {
 				Task {
-					await fetchHydrationData()
-					weeklyData = await standard.fetchWeeklyHydrationData()
-					monthlyData = await standard.fetchMonthlyHydrationData()
+                    await loadHydrationLogs()
 				}
 			}
 			.onTapGesture {
@@ -85,6 +86,34 @@ struct HydrationTrackerView: View {
     
     init(presentingAccount: Binding<Bool>) {
         self._presentingAccount = presentingAccount
+    }
+    
+    func loadHydrationLogs() async {
+        do {
+            if let fetchedLog = try await standard.fetchHydrationLog() {
+                hydrationManager.hydration = [fetchedLog]
+                totalIntake = fetchedLog.amountOz
+                streak = fetchedLog.streak
+                isStreakUpdated = fetchedLog.isStreakUpdated
+                patientManager.updateHydrationOunces(fetchedLog.amountOz)
+            } else {
+                hydrationManager.hydration = []
+                totalIntake = 0
+                isStreakUpdated = false
+
+                // Fetch yesterday's streak if no data exists for today
+                let yesterdayStreak = await standard.fetchYesterdayStreak()
+                streak = yesterdayStreak
+            }
+        } catch {
+            print("❌ Error fetching hydration logs: \(error)")
+            hydrationManager.hydration = []
+            isStreakUpdated = false
+        }
+
+        // Fetch weekly and monthly hydration data
+        weeklyData = await standard.fetchWeeklyHydrationData()
+        monthlyData = await standard.fetchMonthlyHydrationData()
     }
 }
 

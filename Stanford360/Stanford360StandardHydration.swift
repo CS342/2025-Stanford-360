@@ -58,8 +58,7 @@ extension Stanford360Standard {
                     streak: streak,
                     lastTriggeredMilestone: lastTriggeredMilestone,
                     lastHydrationDate: lastHydrationDate,
-                    isStreakUpdated: isStreakUpdated,
-                    id: document.documentID
+                    isStreakUpdated: isStreakUpdated
                 )
             } else {
                 print("⚠️ No hydration log found for today.")
@@ -100,12 +99,12 @@ extension Stanford360Standard {
             let calendar = Calendar.current
             let today = calendar.startOfDay(for: Date())
 
-            // 📌 Create default structure with all 7 days
+            // Create default structure with all 7 days
             let weekDaysOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
             var hydrationMap: [String: Double] = [:]
 
             for dayName in weekDaysOrder {
-                hydrationMap[dayName] = 0.0  // Default 0 intake
+                hydrationMap[dayName] = 0.0
             }
 
             for dayOffset in 0..<7 {
@@ -115,9 +114,7 @@ extension Stanford360Standard {
 
                     if document.exists, let data = document.data() {
                         let intakeOz = data["amountOz"] as? Double ?? 0.0
-                        // let dayName = DateFormatter.localizedString(from: date, dateStyle: .short, timeStyle: .none)
 
-                        // 🌟 Use correct abbreviation
                         if let weekdayIndex = calendar.dateComponents([.weekday], from: date).weekday {
                             let correctedDayName = weekDaysOrder[weekdayIndex - 1]  // Convert to Sun–Sat
                             hydrationMap[correctedDayName] = intakeOz
@@ -126,7 +123,6 @@ extension Stanford360Standard {
                 }
             }
 
-            // Convert to array while maintaining order
             let weeklyData = weekDaysOrder.map { day in
                 DailyHydrationData(dayName: day, intakeOz: hydrationMap[day] ?? 0.0)
             }
@@ -151,24 +147,24 @@ extension Stanford360Standard {
             }
             let totalDaysInMonth = monthRange.count
 
-            var dailyData: [String: Double] = [:] // Key: "01", "02", ..., "31"
+            var dailyData: [String: Double] = [:]
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "dd" // Format to "01", "02", ..., "31"
+            dateFormatter.dateFormat = "dd"
 
-            for day in 1...totalDaysInMonth { // ✅ Fetch only this month's days
+            for day in 1...totalDaysInMonth {
                 var components = calendar.dateComponents([.year, .month], from: today)
                 components.day = day
                 if let date = calendar.date(from: components) {
                     let hydrationDocRef = try await hydrationDocument(date: date)
                     let document = try await hydrationDocRef.getDocument()
 
-                    let dayString = String(format: "%02d", day) // Ensure "01", "02", ..., "31"
+                    let dayString = String(format: "%02d", day)
 
                     if document.exists, let data = document.data() {
                         let intakeOz = data["amountOz"] as? Double ?? 0.0
                         dailyData[dayString] = intakeOz
                     } else {
-                        dailyData[dayString] = 0.0 // If no data, assume 0 oz intake
+                        dailyData[dayString] = 0.0
                     }
                 }
             }
@@ -179,7 +175,7 @@ extension Stanford360Standard {
                 if let day1 = Int($0.dayName), let day2 = Int($1.dayName) {
                     return day1 < day2
                 }
-                return false // Handle unexpected cases gracefully
+                return false
             }
         } catch {
             print("❌ Error fetching monthly hydration data: \(error)")
