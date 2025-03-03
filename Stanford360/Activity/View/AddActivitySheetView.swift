@@ -16,6 +16,7 @@ struct AddActivitySheet: View {
     @Environment(Stanford360Standard.self) private var standard
     @Environment(PatientManager.self) private var patientManager
     @Environment(ActivityManager.self) private var activityManager
+    @Environment(ActivityScheduler.self) var activityScheduler
     
     // Activity properties that can be initialized for editing
     @State private var activeMinutes: String
@@ -176,6 +177,7 @@ struct AddActivitySheet: View {
         activityManager.activities.append(newActivity)
         patientManager.updateActivityMinutes(activityManager.getTodayTotalMinutes())
         await standard.addActivityToFirestore(activity: newActivity)
+        await activityScheduler.userLoggedActivity(activityMinutes: activityManager.getTodayTotalMinutes())
     }
     
     private func updateActivity() async {

@@ -759,6 +759,9 @@
     "Yearly Protein Intake" : {
 
     },
+    "You have %lld minutes left to reach your goal of 60 minutes!" : {
+
+    },
     "You haven't logged any activity in the last 4 hours. Time to get moving!" : {
 
     },
