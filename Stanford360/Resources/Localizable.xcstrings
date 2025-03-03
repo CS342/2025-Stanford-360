@@ -108,12 +108,6 @@
     "Activity Time" : {
 
     },
-    "Add Activity Button" : {
-
-    },
-    "Add Protein Button" : {
-
-    },
     "Add Your Activity! 🎯" : {
 
     },
@@ -404,6 +398,9 @@
     "Minutes" : {
 
     },
+    "Month" : {
+
+    },
     "Monthly Hydration" : {
 
     },
@@ -665,6 +662,9 @@
     "Weekly Hydration" : {
 
     },
+    "Weekly Protein Intake" : {
+
+    },
     "WELCOME_AREA1_DESCRIPTION" : {
       "localizations" : {
         "en" : {
@@ -709,6 +709,9 @@
 
     },
     "When did you do it?" : {
+
+    },
+    "Yearly Protein Intake" : {
 
     },
     "You haven't logged any activity in the last 4 hours. Time to get moving!" : {
