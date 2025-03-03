@@ -105,10 +105,10 @@
     "Activity Progress" : {
 
     },
-    "Activity Time" : {
+    "Activity Recommendations" : {
 
     },
-    "Add Activity Button" : {
+    "Activity Time" : {
 
     },
     "Add Your Activity! 🎯" : {
@@ -128,6 +128,9 @@
       }
     },
     "Cancel" : {
+
+    },
+    "Choose activities from each category for a balanced routine" : {
 
     },
     "Choose from Library" : {
