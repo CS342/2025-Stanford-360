@@ -31,14 +31,19 @@ struct DashboardView: View {
 					}
 				}
 		}
+		.toolbar {
+			if account != nil {
+				AccountButton(isPresented: $presentingAccount)
+			}
+		}
 		.task {
 			await loadPatientData()
 		}
 	}
-	
+
 	init(presentingAccount: Binding<Bool>) {
-		self._presentingAccount = presentingAccount
-	}
+        self._presentingAccount = presentingAccount
+    }
 	
 	/// Loads the patient's activities, hydration, and meals into their respective managers and updates the patient's data accordingly
 	func loadPatientData() async {

@@ -27,20 +27,18 @@
 //    }
 //
 //    func testReadDailyActivity() async throws {
-//        let expectedActivity = HealthKitActivity(date: Date(), steps: 5000, activeMinutes: 30, caloriesBurned: 200, activityType: "HealthKit")
+//        let expectedActivity = HealthKitActivity(date: Date(), steps: 5000, activeMinutes: 30, activityType: "HealthKit")
 //        mockHealthStore.stepCount = 5000
 //        mockHealthStore.activeMinutes = 30
-//        mockHealthStore.caloriesBurned = 200
 //
 //        let activity = try await healthKitManager.readDailyActivity(for: Date())
 //
 //        XCTAssertEqual(activity.steps, expectedActivity.steps)
 //        XCTAssertEqual(activity.activeMinutes, expectedActivity.activeMinutes)
-//        XCTAssertEqual(activity.caloriesBurned, expectedActivity.caloriesBurned)
 //    }
 //
 //    func testSaveActivity() async throws {
-//        let activity = Activity(date: Date(), steps: 8000, activeMinutes: 60, caloriesBurned: 400, activityType: "Manual")
+//        let activity = Activity(date: Date(), steps: 8000, activeMinutes: 60, activityType: "Manual")
 //
 //        try await healthKitManager.saveActivity(activity)
 //
@@ -53,7 +51,6 @@
 //    var saveCalled = false
 //    var stepCount = 0
 //    var activeMinutes = 0
-//    var caloriesBurned = 0
 //
 //    override func requestAuthorization(toShare typesToShare: Set<HKSampleType>?, read typesToRead: Set<HKObjectType>?, completion: @escaping (Bool, Error?) -> Void) {
 //        requestAuthorizationCalled = true
@@ -81,8 +78,6 @@
 //            return Double(stepCount)
 //        case HKObjectType.quantityType(forIdentifier: .appleExerciseTime)!:
 //            return Double(activeMinutes)
-//        case HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!:
-//            return Double(caloriesBurned)
 //        default:
 //            return 0
 //        }

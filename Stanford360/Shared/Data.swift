@@ -16,28 +16,24 @@ let activitiesData = [
 		date: Calendar.current.date(byAdding: .day, value: -2, to: Date()) ?? Date(),
 		steps: 4000,
 		activeMinutes: 40,
-		caloriesBurned: 0,
 		activityType: "Walking"
 	),
 	Activity(
 		date: Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date(),
 		steps: 2000,
 		activeMinutes: 20,
-		caloriesBurned: 0,
 		activityType: "Walking"
 	),
 	Activity(
 		date: Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date(),
 		steps: 1000,
 		activeMinutes: 10,
-		caloriesBurned: 0,
 		activityType: "Walking"
 	),
 	Activity(
 		date: Date.now,
 		steps: 5500,
 		activeMinutes: 55,
-		caloriesBurned: 0,
 		activityType: "Walking"
 	)
 ]

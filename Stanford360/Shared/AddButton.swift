@@ -12,9 +12,11 @@
 
 import SwiftUI
 
-struct AddButton: View {
+struct IconButton: View {
 	@Binding var showingAddItem: Bool
+	var imageName: String
 	var imageAccessibilityLabel: String
+	var color: Color
 	
 	var body: some View {
 		VStack {
@@ -22,9 +24,9 @@ struct AddButton: View {
 			HStack {
 				Spacer()
 				Button(action: { showingAddItem = true }) {
-					Image(systemName: "plus.circle.fill")
+					Image(systemName: imageName)
 						.font(.system(size: 56))
-						.foregroundColor(.blue)
+						.foregroundColor(color)
 						.shadow(radius: 3)
 						.background(Circle().fill(.white))
 						.accessibilityLabel(imageAccessibilityLabel)
@@ -37,5 +39,5 @@ struct AddButton: View {
 
 #Preview {
 	@Previewable @State var showingAddItem: Bool = false
-	AddButton(showingAddItem: $showingAddItem, imageAccessibilityLabel: "Add Activity Button")
+	IconButton(showingAddItem: $showingAddItem, imageName: "plus.circle.fill", imageAccessibilityLabel: "Add Activity Button", color: .blue)
 }

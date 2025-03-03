@@ -105,7 +105,13 @@
     "Activity Progress" : {
 
     },
+    "Activity Recommendations" : {
+
+    },
     "Activity Time" : {
+
+    },
+    "Add Activity Button" : {
 
     },
     "Add Your Activity! 🎯" : {
@@ -125,6 +131,9 @@
       }
     },
     "Cancel" : {
+
+    },
+    "Choose activities from each category for a balanced routine" : {
 
     },
     "Choose from Library" : {
@@ -189,6 +198,15 @@
 
     },
     "Day" : {
+
+    },
+    "Delete" : {
+
+    },
+    "Edit" : {
+
+    },
+    "Edit Your Activity! 📝" : {
 
     },
     "Enable HealthKit in Settings to auto-track steps, or log activities manually." : {
@@ -655,6 +673,9 @@
           }
         }
       }
+    },
+    "Update Activity! 🔄" : {
+
     },
     "View" : {
 

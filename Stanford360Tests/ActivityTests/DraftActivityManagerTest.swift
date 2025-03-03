@@ -69,21 +69,18 @@
 //                    date: today,
 //                    steps: 6000,
 //                    activeMinutes: 60,
-//                    caloriesBurned: 250,
 //                    activityType: "Running"
 //                ),
 //                Activity(
 //                    date: yesterday,
 //                    steps: 7000,
 //                    activeMinutes: 70,
-//                    caloriesBurned: 280,
 //                    activityType: "Cycling"
 //                ),
 //                Activity(
 //                    date: twoDaysAgo,
 //                    steps: 9000,
 //                    activeMinutes: 90,
-//                    caloriesBurned: 220,
 //                    activityType: "Walking"
 //                )
 //            ]
@@ -106,9 +103,9 @@
 //           if let threeDaysAgo = Calendar.current.date(byAdding: .day, value: -3, to: today),
 //              let fiveDaysAgo = Calendar.current.date(byAdding: .day, value: -5, to: today) {
 //               let activities = [
-//                   Activity(date: today, steps: 8000, activeMinutes: 80, caloriesBurned: 300, activityType: "Running"),
-//                   Activity(date: threeDaysAgo, steps: 7000, activeMinutes: 70, caloriesBurned: 280, activityType: "Cycling"),
-//                   Activity(date: fiveDaysAgo, steps: 10000, activeMinutes: 100, caloriesBurned: 350, activityType: "Swimming")
+//                   Activity(date: today, steps: 8000, activeMinutes: 80, activityType: "Running"),
+//                   Activity(date: threeDaysAgo, steps: 7000, activeMinutes: 70, activityType: "Cycling"),
+//                   Activity(date: fiveDaysAgo, steps: 10000, activeMinutes: 100,  activityType: "Swimming")
 //               ]
 //               
 //               manager.activities = activities
