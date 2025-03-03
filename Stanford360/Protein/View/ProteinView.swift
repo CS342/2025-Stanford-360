@@ -32,7 +32,7 @@ struct ProteinView: View {
 					.padding(20)
 				}
 				
-				AddButton(showingAddItem: $showingAddProtein, imageAccessibilityLabel: "Add Protein Button")
+				IconButton(showingAddItem: $showingAddProtein, imageName: "plus.circle.fill", imageAccessibilityLabel: "Add Protein Button", color: .blue)
 			}
 			.navigationTitle("My Protein 🍗")
 			.toolbar {
