@@ -47,7 +47,7 @@ extension Stanford360Standard {
 			try await activityDocRef.setData(activityData, merge: true)
 			
 			logger.debug("Activity stored successfully")
-            await ActivityScheduler().userLoggedActivity()
+//            await activityScheduler.userLoggedActivity()
 		} catch {
 			logger.error("Could not store activity: \(error)")
 		}
