@@ -39,4 +39,8 @@ struct Activity: Identifiable, Codable, @unchecked Sendable {
         self.activityType = activityType
         self.userId = userId
     }
+    
+    enum CodingKeys: String, CodingKey {
+        case date, steps, activeMinutes, caloriesBurned, activityType, userId
+    }
 }
