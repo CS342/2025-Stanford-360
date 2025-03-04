@@ -16,12 +16,14 @@ import Spezi
 class PatientManager: Module, EnvironmentAccessible {
 	var patient: Patient
 	
-	init(patient: Patient = Patient(
-		weight: Measurement(value: 0, unit: .pounds),
-		activityMinutes: 0,
-		hydrationOunces: 0,
-		proteinGrams: 0
-	)) {
+	init(
+		patient: Patient = Patient(
+			weight: Measurement(value: 0, unit: .pounds),
+			activityMinutes: 0,
+			hydrationOunces: 0,
+			proteinGrams: 0
+		)
+	) {
 		self.patient = patient
 	}
 	

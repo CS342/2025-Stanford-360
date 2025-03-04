@@ -12,6 +12,7 @@
 import Foundation
 
 struct Patient {
+	// periphery:ignore - weight will be stored to firestore in a follow up pr
 	var weight: Measurement<UnitMass>
 	var activityMinutes: Int
 	var hydrationOunces: Double

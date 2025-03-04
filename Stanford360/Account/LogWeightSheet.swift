@@ -9,10 +9,12 @@
 // SPDX-License-Identifier: MIT
 //
 
+import Foundation
 import SwiftUI
 
 struct LogWeightSheet: View {
 	@Environment(PatientManager.self) var patientManager
+	@Environment(PatientScheduler.self) var patientScheduler
 	
 	@Binding var weight: String
 	@Binding var showSheet: Bool
@@ -27,7 +29,10 @@ struct LogWeightSheet: View {
 				
 				Button("Save") {
 					if let weightValue = Double(weight) {
-						patientManager.updateWeight(Double(weight) ?? 0)
+						patientScheduler.maybeClearNotifications(loggedWeightTimestamp: .now)
+						patientManager.updateWeight(weightValue)
+					} else {
+						print("Please enter a valid weight value.")
 					}
 					weight = ""
 					showSheet = false
