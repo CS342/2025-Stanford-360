@@ -13,14 +13,13 @@ import SwiftUI
 
 struct HomeView: View {
 	enum Tabs: String {
-		case home
+		case dashboard
 		case hydration
 		case protein
 		case activity
-		case dashboard
 	}
 	
-	@AppStorage(StorageKeys.homeTabSelection) private var selectedTab = Tabs.home
+	@AppStorage(StorageKeys.homeTabSelection) private var selectedTab = Tabs.dashboard
 	@AppStorage(StorageKeys.tabViewCustomization) private var tabViewCustomization = TabViewCustomization()
 	
 	@Environment(AppNavigationState.self) private var navigationState
@@ -29,10 +28,10 @@ struct HomeView: View {
 	
 	var body: some View {
 		TabView(selection: $selectedTab) {
-			Tab("Home", systemImage: "house.fill", value: .home) {
-				FeedView(presentingAccount: $presentingAccount)
+			Tab("Dashboard", systemImage: "target", value: .dashboard) {
+				DashboardView(presentingAccount: $presentingAccount)
 			}
-			.customizationID("home.home")
+			.customizationID("home.dashboard")
 			
 			Tab("Activity", systemImage: "figure.walk", value: .activity) {
 				ActivityView(presentingAccount: $presentingAccount)
@@ -48,11 +47,6 @@ struct HomeView: View {
 				ProteinView(presentingAccount: $presentingAccount)
 			}
 			.customizationID("home.protein")
-			
-			Tab("Dashboard", systemImage: "target", value: .dashboard) {
-				DashboardView(presentingAccount: $presentingAccount)
-			}
-			.customizationID("home.dashboard")
 		}
 		.tabViewStyle(.sidebarAdaptable)
 		.tabViewCustomization($tabViewCustomization)
@@ -68,9 +62,6 @@ struct HomeView: View {
 			}
 		)) {
 			AccountSheet()
-		}
-		.onAppear {
-			print("✅ HomeView loaded, showAccountSheet: \(navigationState.showAccountSheet)")
 		}
 		.accountRequired(!FeatureFlags.disableFirebase && !FeatureFlags.skipOnboarding) {
 			AccountSheet()
