@@ -137,7 +137,7 @@ struct DayTimelineView: View {
 }
 
 #Preview {
-	@Previewable @State var selectedTab = HomeView.Tabs.home
+	@Previewable @State var selectedTab = HomeView.Tabs.dashboard
 	
 	DayTimelineView(selectedTab: $selectedTab)
 }
