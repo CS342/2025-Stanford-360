@@ -16,7 +16,7 @@ import SwiftUI
 struct Stanford360: App {
     @UIApplicationDelegateAdaptor(Stanford360Delegate.self) var appDelegate
     @AppStorage(StorageKeys.onboardingFlowComplete) var completedOnboardingFlow = false
-    
+	    
     var body: some Scene {
         WindowGroup {
             ZStack {

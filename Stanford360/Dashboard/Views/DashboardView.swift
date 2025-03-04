@@ -37,7 +37,6 @@ struct DashboardView: View {
 			}
 		}
 		.task {
-			print(patientManager.patient.weight)
 			await loadPatientData()
 		}
 	}

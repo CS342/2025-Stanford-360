@@ -53,6 +53,7 @@ class Stanford360Delegate: SpeziAppDelegate {
 			
 			OnboardingDataSource()
 			Notifications()
+			AppNavigationState()
 			
 			// Schedulers
 			Stanford360Scheduler()

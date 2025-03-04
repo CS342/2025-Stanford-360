@@ -131,7 +131,7 @@
       }
     },
     "Analyzing meals..." : {
-    
+
     },
     "Balanced Plate Recommendations" : {
 
@@ -227,10 +227,10 @@
     "flame" : {
 
     },
-    "fork" : {
-    
-    },
     "Food in common restaurants recommendations" : {
+
+    },
+    "fork" : {
 
     },
     "fork_background" : {
@@ -563,7 +563,7 @@
 
     },
     "plus.circle" : {
-    
+
     },
     "Produce In Season Recommendations" : {
 
@@ -721,9 +721,6 @@
     "Today" : {
 
     },
-    "Today's Activities" : {
-
-    },
     "Unsupported Event" : {
       "localizations" : {
         "en" : {
@@ -741,6 +738,9 @@
 
     },
     "Week" : {
+
+    },
+    "Weekly Check-In" : {
 
     },
     "Weekly Hydration" : {

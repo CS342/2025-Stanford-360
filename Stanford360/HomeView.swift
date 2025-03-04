@@ -23,6 +23,8 @@ struct HomeView: View {
 	@AppStorage(StorageKeys.homeTabSelection) private var selectedTab = Tabs.home
 	@AppStorage(StorageKeys.tabViewCustomization) private var tabViewCustomization = TabViewCustomization()
 	
+	@Environment(AppNavigationState.self) private var navigationState
+	
 	@State private var presentingAccount = false
 	
 	var body: some View {
@@ -56,6 +58,19 @@ struct HomeView: View {
 		.tabViewCustomization($tabViewCustomization)
 		.sheet(isPresented: $presentingAccount) {
 			AccountSheet(dismissAfterSignIn: false) // presentation was user initiated, do not automatically dismiss
+		}
+		.sheet(isPresented: Binding(
+			get: { navigationState.showAccountSheet },
+			set: { newValue in
+				if !newValue {
+					navigationState.showAccountSheet = false
+				}
+			}
+		)) {
+			AccountSheet()
+		}
+		.onAppear {
+			print("✅ HomeView loaded, showAccountSheet: \(navigationState.showAccountSheet)")
 		}
 		.accountRequired(!FeatureFlags.disableFirebase && !FeatureFlags.skipOnboarding) {
 			AccountSheet()
