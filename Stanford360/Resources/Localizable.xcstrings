@@ -131,7 +131,7 @@
       }
     },
     "Analyzing meals..." : {
-    
+
     },
     "Balanced Plate Recommendations" : {
 
@@ -227,10 +227,10 @@
     "flame" : {
 
     },
-    "fork" : {
-    
-    },
     "Food in common restaurants recommendations" : {
+
+    },
+    "fork" : {
 
     },
     "fork_background" : {
@@ -458,6 +458,9 @@
     "Monthly Hydration" : {
 
     },
+    "Monthly Protein Intake" : {
+
+    },
     "My Active Journey 🏃‍♂️" : {
 
     },
@@ -563,7 +566,7 @@
 
     },
     "plus.circle" : {
-    
+
     },
     "Produce In Season Recommendations" : {
 
@@ -721,9 +724,6 @@
     "Today" : {
 
     },
-    "Today's Activities" : {
-
-    },
     "Unsupported Event" : {
       "localizations" : {
         "en" : {
@@ -796,9 +796,6 @@
 
     },
     "When did you do it?" : {
-
-    },
-    "Yearly Protein Intake" : {
 
     },
     "You have %lld minutes left to reach your goal of 60 minutes!" : {

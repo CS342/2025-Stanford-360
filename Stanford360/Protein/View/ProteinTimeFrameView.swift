@@ -17,13 +17,12 @@ struct ProteinTimeFrameView: View {
     var body: some View {
 		VStack {
 			TimeFramePicker(selectedTimeFrame: $selectedTimeFrame)
-						
 			TabView(selection: $selectedTimeFrame) {
-				ProteinTodayView()
+                ProteinDailyView()
 					.tag(TimeFrame.today)
-				ProteinWeekView()
+				ProteinWeeklyView()
 					.tag(TimeFrame.week)
-				ProteinMonthView()
+				ProteinMonthlyView()
 					.tag(TimeFrame.month)
 			}
 			.tabViewStyle(PageTabViewStyle())
