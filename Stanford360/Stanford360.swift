@@ -17,11 +17,13 @@ struct Stanford360: App {
     @UIApplicationDelegateAdaptor(Stanford360Delegate.self) var appDelegate
     @AppStorage(StorageKeys.onboardingFlowComplete) var completedOnboardingFlow = false
     
+    @State private var activityManager = ActivityManager()
+    
     var body: some Scene {
         WindowGroup {
             ZStack {
                 if completedOnboardingFlow {
-                    HomeView()
+                    HomeView().environment(activityManager)
                 } else {
                     EmptyView()
                 }

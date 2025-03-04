@@ -24,7 +24,7 @@ struct HomeView: View {
     @AppStorage(StorageKeys.tabViewCustomization) private var tabViewCustomization = TabViewCustomization()
 
     @State private var presentingAccount = false
-    @State private var activityManager = ActivityManager()
+    @Environment(ActivityManager.self) private var activityManager
     
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -34,7 +34,7 @@ struct HomeView: View {
 			.customizationID("home.home")
 
             Tab("Activity", systemImage: "figure.walk", value: .activity) {
-                ActivityView()
+                ActivityView().environment(activityManager)
             }
             .customizationID("home.activity")
 			

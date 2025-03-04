@@ -56,12 +56,16 @@ class HealthKitManager {
         guard let endDate = calendar.date(byAdding: .day, value: 1, to: startDate) else {
             throw HealthKitError.dateCalculationFailed
         }
+        print("[HealthKitManager] - readDailyActivity from: \(startDate) to: \(endDate)")
         
         async let steps = fetchSteps(startDate: startDate, endDate: endDate)
         async let activeMinutes = fetchActiveMinutes(startDate: startDate, endDate: endDate)
         async let calories = fetchCalories(startDate: startDate, endDate: endDate)
         
+        
         let (stepCount, minutes, caloriesBurned) = try await (steps, activeMinutes, calories)
+        
+        print("[HealthKitManager] - readDailyActivity { steps: \(stepCount), activeMinutes: \(minutes), caloriesBurned: \(caloriesBurned) }")
         
         return HealthKitActivity(
             date: date,
@@ -112,7 +116,10 @@ class HealthKitManager {
                 quantitySamplePredicate: predicate,
                 options: .cumulativeSum
             ) { _, result, error in
-                if let error = error {
+                if let error = error as? HKError, error.errorCode == HKError.Code.errorNoData.rawValue {
+                    continuation.resume(returning: 0)
+                    return
+                } else if let error = error {
                     continuation.resume(throwing: error)
                     return
                 }
@@ -164,6 +171,7 @@ class HealthKitManager {
     
     /// Fetches and converts HealthKit data into an Activity object
     func fetchAndConvertHealthKitData(for date: Date) async throws -> Activity {
+        print("[HealthKitManager] - fetchAndConvertHealthKitData for date: \(date)")
         let healthKitActivity = try await readDailyActivity(for: date)
         
         // Calculate active minutes based on steps (100 steps ≈ 1 minute of activity)

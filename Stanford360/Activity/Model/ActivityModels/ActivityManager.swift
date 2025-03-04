@@ -23,7 +23,7 @@ enum TimeFrame {
 
 @MainActor
 @Observable
-class ActivityManager {
+class ActivityManager: Module, EnvironmentAccessible {
     // MARK: - Properties
     var activities: [Activity] = []
     let standard: Stanford360Standard
@@ -44,22 +44,22 @@ class ActivityManager {
     
     // Make this public so ActivityView can access it
     func loadActivities() async {
-        do {
-            let calendar = Calendar.current
-            guard let thirtyDaysAgo = calendar.date(byAdding: .day, value: -30, to: Date()) else {
-                return
-            }
-            
-            let fetchedActivities = try await standard.fetchActivitiesInRange(
-                from: thirtyDaysAgo,
-                to: Date()
-            )
-            
-            activities = fetchedActivities.sorted { $0.date > $1.date }
-            print("Loaded \(activities.count) activities from Firestore")
-        } catch {
-            print("Failed to load activities from Firestore: \(error)")
-        }
+//        do {
+//            let calendar = Calendar.current
+//            guard let thirtyDaysAgo = calendar.date(byAdding: .day, value: -30, to: Date()) else {
+//                return
+//            }
+//            
+//            let fetchedActivities = try await standard.fetchActivitiesInRange(
+//                from: thirtyDaysAgo,
+//                to: Date()
+//            )
+//            
+//            activities = fetchedActivities.sorted { $0.date > $1.date }
+//            print("Loaded \(activities.count) activities from Firestore")
+//        } catch {
+//            print("Failed to load activities from Firestore: \(error)")
+//        }
     }
     
     // MARK: - Methods
@@ -71,6 +71,7 @@ class ActivityManager {
     }
     
     func setupHealthKit() {
+        print("[ActivityManager] [setupHealthKit] - Setting up HK")
         Task {
             do {
                 try await healthKitManager.requestAuthorization()
@@ -118,6 +119,7 @@ class ActivityManager {
     }
 
     func logActivityToView(_ activity: Activity) {
+        print("[ActivityManager] Logging activity: \(activity.activityType)")
         activities.append(activity)
         
         Task {

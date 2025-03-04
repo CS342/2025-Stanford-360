@@ -20,7 +20,7 @@ struct ActivityView: View {
     }
     
     // State properties grouped together
-    @State private var activityManager = ActivityManager()
+    @Environment(ActivityManager.self) private var activityManager
     @State private var showingAddActivity = false
     @State private var selectedTimeFrame: TimeFrame = .today
     @State private var showHealthKitAlert = false
