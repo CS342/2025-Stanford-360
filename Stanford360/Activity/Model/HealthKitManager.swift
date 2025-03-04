@@ -17,7 +17,6 @@ enum HealthKitError: Error {
     case dateCalculationFailed
     case fetchingStepsFailed
     case fetchingActiveMinutesFailed
-    case fetchingCaloriesFailed
 }
 
 @MainActor
@@ -60,15 +59,13 @@ class HealthKitManager: Module, EnvironmentAccessible {
         
         async let steps = fetchSteps(startDate: startDate, endDate: endDate)
         async let activeMinutes = fetchActiveMinutes(startDate: startDate, endDate: endDate)
-        async let calories = fetchCalories(startDate: startDate, endDate: endDate)
         
-        let (stepCount, minutes, caloriesBurned) = try await (steps, activeMinutes, calories)
+        let (stepCount, minutes) = try await (steps, activeMinutes)
         
         return HealthKitActivity(
             date: date,
             steps: stepCount,
             activeMinutes: minutes,
-            caloriesBurned: caloriesBurned,
             activityType: "HealthKit"
         )
     }
@@ -92,14 +89,6 @@ class HealthKitManager: Module, EnvironmentAccessible {
         }
         let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictStartDate)
         return Int(try await fetchQuantitySum(for: exerciseType, unit: .minute(), predicate: predicate))
-    }
-
-    private func fetchCalories(startDate: Date, endDate: Date) async throws -> Int {
-        guard let calorieType = HKObjectType.quantityType(forIdentifier: .activeEnergyBurned) else {
-            throw HealthKitError.fetchingCaloriesFailed
-        }
-        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictStartDate)
-        return Int(try await fetchQuantitySum(for: calorieType, unit: .kilocalorie(), predicate: predicate))
     }
     
     private func fetchQuantitySum(
@@ -177,7 +166,6 @@ class HealthKitManager: Module, EnvironmentAccessible {
             date: date,
             steps: healthKitActivity.steps,
             activeMinutes: convertedActiveMinutes,
-            caloriesBurned: healthKitActivity.caloriesBurned,
             activityType: "HealthKit Import"
         )
     }

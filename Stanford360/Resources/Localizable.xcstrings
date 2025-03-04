@@ -60,6 +60,9 @@
     "💧 Stay Hydrated!" : {
 
     },
+    "📝 Weekly Check-In" : {
+
+    },
     "ACCOUNT_SETUP_DESCRIPTION" : {
       "localizations" : {
         "en" : {
@@ -105,6 +108,9 @@
     "Activity Progress" : {
 
     },
+    "Activity Recommendations" : {
+
+    },
     "Activity Time" : {
 
     },
@@ -125,9 +131,15 @@
       }
     },
     "Analyzing meals..." : {
+    
+    },
+    "Balanced Plate Recommendations" : {
 
     },
     "Cancel" : {
+
+    },
+    "Choose activities from each category for a balanced routine" : {
 
     },
     "Choose from Library" : {
@@ -200,6 +212,12 @@
     "Delete" : {
 
     },
+    "Edit" : {
+
+    },
+    "Edit Your Activity! 📝" : {
+
+    },
     "Enable HealthKit in Settings to auto-track steps, or log activities manually." : {
 
     },
@@ -210,6 +228,9 @@
 
     },
     "fork" : {
+    
+    },
+    "Food in common restaurants recommendations" : {
 
     },
     "fork_background" : {
@@ -397,6 +418,9 @@
         }
       }
     },
+    "Let's keep track of your journey! It's time to fill out your updates." : {
+
+    },
     "License Information" : {
       "localizations" : {
         "en" : {
@@ -410,7 +434,13 @@
     "Log Water Intake" : {
 
     },
+    "Log Weight" : {
+
+    },
     "Log your water intake" : {
+
+    },
+    "Meal Recommendations" : {
 
     },
     "Metric" : {
@@ -497,6 +527,9 @@
     "OK" : {
 
     },
+    "On occasions when you eat out, the following are healthier suggestions from common chain restaurants" : {
+
+    },
     "Onboarding" : {
       "localizations" : {
         "en" : {
@@ -530,6 +563,9 @@
 
     },
     "plus.circle" : {
+    
+    },
+    "Produce In Season Recommendations" : {
 
     },
     "protein" : {
@@ -547,7 +583,13 @@
     "Protein Progress" : {
 
     },
+    "Protein Recommendations" : {
+
+    },
     "Remaining" : {
+
+    },
+    "Save" : {
 
     },
     "Save Meal" : {
@@ -692,6 +734,9 @@
         }
       }
     },
+    "Update Activity! 🔄" : {
+
+    },
     "View" : {
 
     },
@@ -702,6 +747,9 @@
 
     },
     "Weekly Protein Intake" : {
+
+    },
+    "Weight (lbs)" : {
 
     },
     "WELCOME_AREA1_DESCRIPTION" : {
@@ -751,6 +799,9 @@
 
     },
     "Yearly Protein Intake" : {
+
+    },
+    "You have %lld minutes left to reach your goal of 60 minutes!" : {
 
     },
     "You haven't logged any activity in the last 4 hours. Time to get moving!" : {

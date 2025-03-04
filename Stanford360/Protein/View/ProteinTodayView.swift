@@ -1,5 +1,8 @@
 //
-// This source file is part of the Stanford 360 based on the Stanford Spezi Template Application project
+//  ProteinTodayView.swift
+//  Stanford360
+//
+//  Created by Kelly Bonilla Guzmán on 3/2/25.
 //
 // SPDX-FileCopyrightText: 2025 Stanford University
 //
@@ -13,7 +16,7 @@ struct ProteinTodayView: View {
 	
 	var body: some View {
 		DailyRecordView(currentValue: proteinManager.getTodayTotalGrams(), maxValue: 60)
-			.frame(height: 200)
+			.frame(height: 220)
 			.frame(maxWidth: .infinity, alignment: .center)
 			.padding(.top, 50) // Add spacing to prevent overlap
 			.padding(.bottom, 20) // Ensure separation

@@ -15,10 +15,11 @@ struct ProteinView: View {
 	@Environment(Account.self) private var account: Account?
     
     @State private var showingAddProtein = false
+    @State private var showingInfo = false
     @State private var isCardAnimating = false
     
 	@Binding private var presentingAccount: Bool
-    
+	
 	var body: some View {
 		NavigationStack {
 			ZStack {
@@ -32,7 +33,7 @@ struct ProteinView: View {
 					.padding(20)
 				}
 				
-				AddButton(showingAddItem: $showingAddProtein, imageAccessibilityLabel: "Add Protein Button")
+				buttons
 			}
 			.navigationTitle("My Protein 🍗")
 			.toolbar {
@@ -43,16 +44,45 @@ struct ProteinView: View {
 			.sheet(isPresented: $showingAddProtein) {
 				AddMealView()
 			}
+      .sheet(isPresented: $showingInfo) {
+          MealRecsSheet()
+      }
 		}
 		.task {
 			await loadMeals()
 		}
 	}
     
+    private var buttons: some View {
+        ZStack {
+            HStack {
+                IconButton(
+                    showingAddItem: $showingInfo,
+                    imageName: "questionmark.circle.fill",
+                    imageAccessibilityLabel: "Meal Recommendation Button",
+                    color: .green
+                )
+                .padding(.trailing, 70)
+                Spacer()
+            }
+            
+            HStack {
+                Spacer()
+                IconButton(
+                    showingAddItem: $showingAddProtein,
+                    imageName: "plus.circle.fill",
+                    imageAccessibilityLabel: "Add Protein Button",
+                    color: .blue
+                )
+                .padding(.trailing, 10)
+            }
+        }
+    }
+    
 	private var mealsCardView: some View {
         VStack(alignment: .leading, spacing: 20) {
             mealsHeaderView
-            mealsList()
+            mealsList
                 .opacity(isCardAnimating ? 1 : 0)
                 .offset(y: isCardAnimating ? 0 : 50)
                 .onAppear {
@@ -85,7 +115,6 @@ struct ProteinView: View {
     }
     
     func mealsList() -> some View {
-        // ScrollView {
         VStack(spacing: 16) {
             if proteinManager.meals.isEmpty {
                 emptyMealsView()
@@ -99,7 +128,6 @@ struct ProteinView: View {
                 .fill(Color(UIColor.secondarySystemGroupedBackground))
         )
         .shadow(color: Color.black.opacity(0.05), radius: 10)
-        // }
     }
 
 
@@ -179,9 +207,9 @@ struct ProteinView: View {
     }
 }
 
-// #if DEBUG
-// #Preview {
-//	@Previewable @State var presentingAccount = false
-//    ProteinView(presentingAccount: $presentingAccount)
-// }
-// #endif
+#if DEBUG
+#Preview {
+	@Previewable @State var presentingAccount = false
+    ProteinView(presentingAccount: $presentingAccount)
+}
+#endif

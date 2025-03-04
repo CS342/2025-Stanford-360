@@ -19,7 +19,6 @@ final class HealthKitActivityTests: XCTestCase {
             date: date,
             steps: 1000,
             activeMinutes: 30,
-            caloriesBurned: 100,
             activityType: "HealthKit"
         )
         
@@ -30,7 +29,6 @@ final class HealthKitActivityTests: XCTestCase {
         XCTAssertEqual(activity.date, date)
         XCTAssertEqual(activity.steps, 1000)
         XCTAssertEqual(activity.activeMinutes, 30)
-        XCTAssertEqual(activity.caloriesBurned, 100)
         XCTAssertEqual(activity.activityType, "HealthKit")
     }
 }
