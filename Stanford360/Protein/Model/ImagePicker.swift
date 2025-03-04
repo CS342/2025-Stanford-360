@@ -6,9 +6,9 @@
 // SPDX-License-Identifier: MIT
 //
 
-//import SwiftUI
+// import SwiftUI
 //
-//struct ImagePicker: UIViewControllerRepresentable {
+// struct ImagePicker: UIViewControllerRepresentable {
 //    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 //        var parent: ImagePicker
 //        
@@ -46,12 +46,12 @@
 //    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {
 //        // Nothing to do here
 //    }
-//}
+// }
 
-import SwiftUI
 import CoreML
-@preconcurrency import Vision
+import SwiftUI
 import UIKit
+@preconcurrency import Vision
 
 struct ImagePicker: UIViewControllerRepresentable {
     // Coordinator handles image picker delegate methods and image classification
@@ -93,7 +93,7 @@ struct ImagePicker: UIViewControllerRepresentable {
             }
 
             // Load MobileNetV2 ML model
-            guard let model = try? VNCoreMLModel(for: MobileNetV2().model) else {
+            guard let model = try? VNCoreMLModel(for: MobileNetV2(configuration: MLModelConfiguration()).model) else {
                 self.handleError("Failed to load MobileNetV2 model")
                 return
             }
@@ -146,9 +146,8 @@ struct ImagePicker: UIViewControllerRepresentable {
                 do {
                     try handler.perform([request])
                 } catch {
-                    // Fix: Use await when calling handleError from outside the actor context
                     Task { @MainActor in
-                        await self.handleError("Failed to perform classification: \(error.localizedDescription)")
+                        self.handleError("Failed to perform classification: \(error.localizedDescription)")
                     }
                 }
             }

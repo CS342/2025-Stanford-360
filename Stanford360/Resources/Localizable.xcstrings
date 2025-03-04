@@ -124,6 +124,9 @@
         }
       }
     },
+    "Analyzing image..." : {
+
+    },
     "Cancel" : {
 
     },
@@ -300,6 +303,9 @@
 
     },
     "Hydration Progress" : {
+
+    },
+    "Image Analysis Results:" : {
 
     },
     "Intake" : {
@@ -504,6 +510,9 @@
     "Open Settings" : {
 
     },
+    "pencil" : {
+
+    },
     "Please fill out the Social Support Questionnaire every day." : {
       "localizations" : {
         "en" : {
@@ -518,6 +527,9 @@
 
     },
     "Please upload your meal, you are doing great!🎉🎉🎉" : {
+
+    },
+    "plus.circle" : {
 
     },
     "protein" : {

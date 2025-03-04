@@ -6,12 +6,13 @@
 // SPDX-License-Identifier: MIT
 //
 
+import Combine
 import CoreML
-@preconcurrency import Vision
 import SwiftUI
 import UIKit
-import Combine
+@preconcurrency import Vision
 
+@MainActor
 class ImageClassifier: ObservableObject {
     // MARK: - Published Properties
     @Published var image: UIImage?
@@ -22,7 +23,7 @@ class ImageClassifier: ObservableObject {
     @Published var errorMessage: String?
     
     // MARK: - Internal Properties
-    private let confidenceThreshold: Float = 0.5
+    private let confidenceThreshold: Float = 0.7
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Initialization
@@ -53,8 +54,7 @@ class ImageClassifier: ObservableObject {
             return
         }
 
-        // 使用方式 1：直接使用 MobileNetV2 类
-        guard let model = try? VNCoreMLModel(for: MobileNetV2().model) else {
+        guard let model = try? VNCoreMLModel(for: MobileNetV2(configuration: MLModelConfiguration()).model) else {
             self.handleError("Failed to load MobileNetV2 model")
             return
         }
@@ -99,7 +99,7 @@ class ImageClassifier: ObservableObject {
             do {
                 try handler.perform([request])
             } catch {
-                self.handleError("Failed to perform classification: \(error.localizedDescription)")
+                print("Failed to perform classification: \(error.localizedDescription)")
             }
         }
     }
