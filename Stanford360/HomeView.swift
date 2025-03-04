@@ -40,7 +40,8 @@ struct HomeView: View {
 			.customizationID("home.activity")
 			
 			Tab("Hydration", systemImage: "drop.fill", value: .hydration) {
-				HydrationTrackerView(presentingAccount: $presentingAccount)
+                HydrationTrackerView(presentingAccount: $presentingAccount)
+                // HydrationTrackerView()
 			}
 			.customizationID("home.hydration")
 			

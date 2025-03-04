@@ -10,88 +10,35 @@ import FirebaseFirestore
 import SwiftUI
 
 extension Stanford360Standard {
-    /// Store hydration document under hydrationLog
-    private func hydrationDocument(date: Date) async throws -> DocumentReference {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        let dateString = formatter.string(from: date)
-        return try await configuration.userDocumentReference
-            .collection("hydrationLogs")
-            .document(dateString)
-    }
-    
-    /// Add or Update Hydration Log
-    func addOrUpdateHydrationLog(hydrationLog: HydrationLog) async {
+    func storeHydrationLog(_ hydrationLog: HydrationLog) async {
+        guard let logID = hydrationLog.id else {
+            print("❌ Hydration Log ID is nil.")
+            return
+        }
+        
         do {
-            let currentDate = Date()
-
-            let hydrationDocRef = try await hydrationDocument(date: currentDate)
-
-            // Update or create the document
-            try await hydrationDocRef.setData(from: hydrationLog, merge: true)
+            let docRef = try await configuration.userDocumentReference
+            try await docRef.collection("hydrationLogs").document(logID).setData(from: hydrationLog)
         } catch {
-            print("❌ Error updating hydration log: \(error)")
+            print("❌ Error writing hydration log to Firestore: \(error)")
         }
     }
     
-    /// Fetches the hydration log for the current date
-    @MainActor
-    func fetchHydrationLog() async throws -> HydrationLog? {
+    func fetchHydrationLogs() async -> [HydrationLog] {
+        var hydrationLogs: [HydrationLog] = []
+        
         do {
-            let currentDate = Date()
-            let hydrationDocRef = try await hydrationDocument(date: currentDate)
-            print("✅ Current's date: \(currentDate)")
-
-            let document = try await hydrationDocRef.getDocument()
-
-            // Check if document exists
-            if document.exists, let data = document.data() {
-                // Extract each field safely
-                let amountOz = data["amountOz"] as? Double ?? 0.0
-                let streak = data["streak"] as? Int ?? 0
-                let lastTriggeredMilestone = data["lastTriggeredMilestone"] as? Double ?? 0.0
-                let lastHydrationDate = (data["lastHydrationDate"] as? Timestamp)?.dateValue() ?? Date()
-                let isStreakUpdated = data["isStreakUpdated"] as? Bool ?? false
-
-                return HydrationLog(
-                    amountOz: amountOz,
-                    streak: streak,
-                    lastTriggeredMilestone: lastTriggeredMilestone,
-                    lastHydrationDate: lastHydrationDate,
-                    isStreakUpdated: isStreakUpdated,
-                    id: document.documentID
-                )
-            } else {
-                print("⚠️ No hydration log found for today.")
-                return nil
+            let docRef = try await configuration.userDocumentReference
+            let logsSnapshot = try await docRef.collection("hydrationLogs").getDocuments()
+            
+            hydrationLogs = try logsSnapshot.documents.compactMap { doc in
+                try doc.data(as: HydrationLog.self)
             }
         } catch {
-            print("❌ Error fetching hydration log: \(error)")
-            return nil
+            print("❌ Error fetching hydration logs from Firestore: \(error)")
         }
-    }
-    
-    @MainActor
-    func fetchYesterdayStreak() async -> Int {
-        do {
-            let calendar = Calendar.current
-            let today = calendar.startOfDay(for: Date())
-            let yesterday = calendar.date(byAdding: .day, value: -1, to: today) ?? today
-            let hydrationDocRef = try await hydrationDocument(date: yesterday)
-            
-            let document = try await hydrationDocRef.getDocument()
-            
-            if document.exists, let data = document.data() {
-                let yesterdayStreak = data["streak"] as? Int ?? 0
-                let yesterdayIntake = data["amountOz"] as? Double ?? 0.0
-                
-                return yesterdayIntake >= 60 ? yesterdayStreak : 0
-            } else {
-                return 0
-            }
-        } catch {
-            return 0
-        }
+        
+        return hydrationLogs
     }
     
     @MainActor
@@ -100,41 +47,35 @@ extension Stanford360Standard {
             let calendar = Calendar.current
             let today = calendar.startOfDay(for: Date())
 
-            // 📌 Create default structure with all 7 days
-            let weekDaysOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-            var hydrationMap: [String: Double] = [:]
-
-            for dayName in weekDaysOrder {
-                hydrationMap[dayName] = 0.0  // Default 0 intake
+            let weekday = calendar.component(.weekday, from: today)
+            let daysSinceSunday = weekday - 1
+            guard let sunday = calendar.date(byAdding: .day, value: -daysSinceSunday, to: today) else {
+                print("❌ Failed to calculate start of the week (Sunday)")
+                return []
             }
 
-            for dayOffset in 0..<7 {
-                if let date = calendar.date(byAdding: .day, value: -dayOffset, to: today) {
-                    let hydrationDocRef = try await hydrationDocument(date: date)
-                    let document = try await hydrationDocRef.getDocument()
+            var hydrationMap: [String: Double] = [:]
+            let weekDaysOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
-                    if document.exists, let data = document.data() {
-                        let intakeOz = data["amountOz"] as? Double ?? 0.0
-                        // let dayName = DateFormatter.localizedString(from: date, dateStyle: .short, timeStyle: .none)
+            for dayName in weekDaysOrder {
+                hydrationMap[dayName] = 0.0
+            }
 
-                        // 🌟 Use correct abbreviation
-                        if let weekdayIndex = calendar.dateComponents([.weekday], from: date).weekday {
-                            let correctedDayName = weekDaysOrder[weekdayIndex - 1]  // Convert to Sun–Sat
-                            hydrationMap[correctedDayName] = intakeOz
-                        }
-                    }
+            let hydrationLogs = await fetchHydrationLogs()
+
+            for log in hydrationLogs {
+                let logDate = calendar.startOfDay(for: log.timestamp)
+                if logDate >= sunday, logDate <= today {
+                    let dayName = weekDaysOrder[calendar.component(.weekday, from: logDate) - 1]
+                    hydrationMap[dayName, default: 0.0] += log.hydrationOunces
                 }
             }
 
-            // Convert to array while maintaining order
             let weeklyData = weekDaysOrder.map { day in
                 DailyHydrationData(dayName: day, intakeOz: hydrationMap[day] ?? 0.0)
             }
 
             return weeklyData
-        } catch {
-            print("❌ Error fetching weekly hydration data: \(error)")
-            return []
         }
     }
 
@@ -144,46 +85,31 @@ extension Stanford360Standard {
             let calendar = Calendar.current
             let today = calendar.startOfDay(for: Date())
 
-            // Get the range of days in the current month
             guard let monthRange = calendar.range(of: .day, in: .month, for: today) else {
                 print("❌ Failed to retrieve month range")
                 return []
             }
             let totalDaysInMonth = monthRange.count
 
-            var dailyData: [String: Double] = [:] // Key: "01", "02", ..., "31"
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "dd" // Format to "01", "02", ..., "31"
+            var dailyData: [String: Double] = [:]
 
-            for day in 1...totalDaysInMonth { // ✅ Fetch only this month's days
-                var components = calendar.dateComponents([.year, .month], from: today)
-                components.day = day
-                if let date = calendar.date(from: components) {
-                    let hydrationDocRef = try await hydrationDocument(date: date)
-                    let document = try await hydrationDocRef.getDocument()
+            let hydrationLogs = await fetchHydrationLogs()
 
-                    let dayString = String(format: "%02d", day) // Ensure "01", "02", ..., "31"
+            for log in hydrationLogs {
+                let logDate = calendar.startOfDay(for: log.timestamp)
+                let dayString = String(format: "%02d", calendar.component(.day, from: logDate))
 
-                    if document.exists, let data = document.data() {
-                        let intakeOz = data["amountOz"] as? Double ?? 0.0
-                        dailyData[dayString] = intakeOz
-                    } else {
-                        dailyData[dayString] = 0.0 // If no data, assume 0 oz intake
-                    }
+                if calendar.isDate(logDate, equalTo: today, toGranularity: .month) {
+                    dailyData[dayString, default: 0.0] += log.hydrationOunces
                 }
             }
 
-            // Convert dictionary to array of DailyHydrationData
-            let monthData = dailyData.map { DailyHydrationData(dayName: $0.key, intakeOz: $0.value) }
-            return monthData.sorted {
-                if let day1 = Int($0.dayName), let day2 = Int($1.dayName) {
-                    return day1 < day2
-                }
-                return false // Handle unexpected cases gracefully
+            let monthData = (1...totalDaysInMonth).map { day -> DailyHydrationData in
+                let dayString = String(format: "%02d", day)
+                return DailyHydrationData(dayName: dayString, intakeOz: dailyData[dayString] ?? 0.0)
             }
-        } catch {
-            print("❌ Error fetching monthly hydration data: \(error)")
-            return []
+
+            return monthData
         }
     }
 }

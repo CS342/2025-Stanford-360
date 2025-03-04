@@ -18,70 +18,39 @@ extension HydrationTrackerView {
         }
 
         errorMessage = nil
+        let now = Date()
+        let lastRecordedMilestone = hydrationManager.getLatestMilestone()
 
-        do {
-            let fetchedLog = try await standard.fetchHydrationLog()
-            var newTotalIntake = amount
-            var newStreak = streak ?? 0
-            let lastHydrationDate = Date()
-            var isStreakUpdated = fetchedLog?.isStreakUpdated ?? false
+        hydrationManager.addHydrationLog(amount: amount, timestamp: now)
 
-            // Update total intake and streak
-            if let existingLog = fetchedLog {
-                newTotalIntake += existingLog.amountOz
-                if newTotalIntake >= 60 && !isStreakUpdated {
-                    newStreak += 1
-                    isStreakUpdated = true
-                    streakJustUpdated = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        streakJustUpdated = false
-                    }
-                }
-            } else {
-                if newTotalIntake >= 60 {
-                    newStreak += 1
-                    isStreakUpdated = true
-                    streakJustUpdated = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        streakJustUpdated = false
-                    }
-                }
-            }
+        await storeFirestoreLog(amount, now)
 
-            // Update Firestore
-            await updateFirestoreLog(newTotalIntake, newStreak, isStreakUpdated, lastHydrationDate)
+        let todayTotalIntake = hydrationManager.getTodayHydrationOunces()
+        totalIntake = todayTotalIntake
+        streak = hydrationManager.streak
 
-            totalIntake = newTotalIntake
-			patientManager.updateHydrationOunces(newTotalIntake)
-            streak = newStreak
-            
-            let updatedWeeklyData = await standard.fetchWeeklyHydrationData()
-            let updatedMonthlyData = await standard.fetchMonthlyHydrationData()
-            withAnimation {
-                weeklyData = updatedWeeklyData
-                monthlyData = updatedMonthlyData
-            }
-            
-            await hydrationScheduler.userLoggedWaterIntake()
-            
-            displayMilestoneMessage(newTotalIntake: newTotalIntake, lastMilestone: fetchedLog?.lastTriggeredMilestone ?? 0)
-        } catch {
-            print("❌ Error updating hydration log: \(error)")
+        patientManager.updateHydrationOunces(todayTotalIntake)
+        
+        let updatedWeeklyData = await standard.fetchWeeklyHydrationData()
+        let updatedMonthlyData = await standard.fetchMonthlyHydrationData()
+        withAnimation {
+            weeklyData = updatedWeeklyData
+            monthlyData = updatedMonthlyData
         }
+
+        await hydrationScheduler.userLoggedWaterIntake()
+        
+        // Check and display milestone messages
+        displayMilestoneMessage(newTotalIntake: todayTotalIntake, lastMilestone: lastRecordedMilestone)
+
         selectedAmount = nil
         intakeAmount = ""
     }
-    
-    private func updateFirestoreLog(_ newTotalIntake: Double, _ newStreak: Int, _ isStreakUpdated: Bool, _ lastHydrationDate: Date) async {
-        let updatedLog = HydrationLog(
-            amountOz: newTotalIntake,
-            streak: newStreak,
-            lastTriggeredMilestone: max(totalIntake, newTotalIntake),
-            lastHydrationDate: lastHydrationDate,
-            isStreakUpdated: isStreakUpdated
-        )
 
-        await standard.addOrUpdateHydrationLog(hydrationLog: updatedLog)
+    // MARK: - Store new hydration log in Firestore
+    private func storeFirestoreLog(_ amount: Double, _ timestamp: Date) async {
+        let newLog = HydrationLog(hydrationOunces: amount, timestamp: timestamp)
+        await standard.storeHydrationLog(newLog)
     }
     
     // MARK: - Helper Function: Display Milestone Message
@@ -99,35 +68,6 @@ extension HydrationTrackerView {
                     self.isSpecialMilestone = false
                 }
             }
-        }
-    }
-
-
-    // MARK: - Fetch Hydration Data
-    func fetchHydrationData() async {
-        do {
-            let fetchedLog = try await standard.fetchHydrationLog()
-            if streak == nil {
-                let yesterdayStreak = await standard.fetchYesterdayStreak()
-                streak = yesterdayStreak
-            }
-
-            let calendar = Calendar.current
-            let today = calendar.startOfDay(for: Date())
-
-            if let log = fetchedLog, calendar.isDate(log.lastHydrationDate, inSameDayAs: today) {
-                totalIntake = log.amountOz
-				patientManager.updateHydrationOunces(log.amountOz)
-                streak = log.streak
-            }
-
-            // 🔹 Fetch Weekly Data Again to Refresh Graph
-            let updatedWeeklyData = await standard.fetchWeeklyHydrationData()
-            withAnimation {
-                weeklyData = updatedWeeklyData
-            }
-        } catch {
-            print("❌ Error fetching hydration data: \(error)")
         }
     }
 
