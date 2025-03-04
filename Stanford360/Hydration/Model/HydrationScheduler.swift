@@ -47,12 +47,6 @@ final class HydrationScheduler: Module, DefaultInitializable, EnvironmentAccessi
             print("⏳ Skipping hydration reminder after 9 PM.")
             return
         }
-
-        // If it's before 9 AM, also skip scheduling
-        if hour < 9 {
-            print("⏳ Skipping hydration reminder before 9 AM.")
-            return
-        }
         
         // Schedule a new reminder
         do {

@@ -25,7 +25,7 @@ final class ActivityScheduler: Module, DefaultInitializable, EnvironmentAccessib
             try scheduler.createOrUpdateTask(
                 id: "activity-reminder",
                 title: "🏃 Keep Moving!",
-                instructions: "You haven't logged any activity in the last 4 hours. Time to get moving!",
+                instructions: "You haven't logged any activity in the last 5 hours. Time to get moving!",
                 category: Task.Category(rawValue: "Activity"),
                 schedule: .daily(hour: 9, minute: 0, startingAt: .today), // First reminder at 9 AM
                 scheduleNotifications: true
@@ -47,12 +47,6 @@ final class ActivityScheduler: Module, DefaultInitializable, EnvironmentAccessib
             return
         }
 
-        // If it's before 9 AM, also skip scheduling
-        if hour < 9 {
-            print("⏳ Skipping activity reminder before 9 AM.")
-            return
-        }
-        
         let remainingMinutes = max(0, 60 - activityMinutes)
 
         if remainingMinutes > 0 {
