@@ -407,6 +407,9 @@
     "Log Water Intake" : {
 
     },
+    "Log Weight" : {
+
+    },
     "Log your water intake" : {
 
     },
@@ -545,6 +548,9 @@
 
     },
     "Remaining" : {
+
+    },
+    "Save" : {
 
     },
     "Save Meal" : {
@@ -699,6 +705,9 @@
 
     },
     "Weekly Protein Intake" : {
+
+    },
+    "Weight (lbs)" : {
 
     },
     "WELCOME_AREA1_DESCRIPTION" : {

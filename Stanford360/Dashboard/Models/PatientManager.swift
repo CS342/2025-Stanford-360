@@ -17,11 +17,16 @@ class PatientManager: Module, EnvironmentAccessible {
 	var patient: Patient
 	
 	init(patient: Patient = Patient(
+		weight: Measurement(value: 0, unit: .pounds),
 		activityMinutes: 0,
 		hydrationOunces: 0,
 		proteinGrams: 0
 	)) {
 		self.patient = patient
+	}
+	
+	func updateWeight(_ pounds: Double) {
+		self.patient.weight = Measurement(value: pounds, unit: .pounds)
 	}
 	
 	func updateActivityMinutes(_ minutes: Int) {
