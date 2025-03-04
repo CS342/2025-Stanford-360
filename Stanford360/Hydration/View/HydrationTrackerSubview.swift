@@ -237,13 +237,14 @@ extension HydrationTrackerView {
 
     // MARK: - Streak Display
     func streakDisplay() -> some View {
-        VStack {
-            if let streak = streak, streak > 0 {
+        let currentStreak = hydrationManager.streak
+        return Group {
+            if currentStreak > 0 {
                 HStack {
                     Image(systemName: "flame.fill")
                         .foregroundColor(.orange)
                         .accessibilityLabel("Streak icon")
-                    Text("\(streak) Day Streak")
+                    Text("\(currentStreak) Day Streak")
                         .font(.headline)
                         .foregroundColor(.orange)
                         .scaleEffect(streakJustUpdated ? 1.2 : 1.0)
@@ -251,7 +252,11 @@ extension HydrationTrackerView {
                         .animation(.spring(response: 0.4, dampingFraction: 0.6), value: streakJustUpdated)
                 }
                 .padding(10)
-                .background(RoundedRectangle(cornerRadius: 12).fill(Color.orange.opacity(0.2)).shadow(radius: 2))
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.orange.opacity(0.2))
+                        .shadow(radius: 2)
+                )
                 .transition(.scale)
                 .accessibilityIdentifier("streakLabel")
             } else {

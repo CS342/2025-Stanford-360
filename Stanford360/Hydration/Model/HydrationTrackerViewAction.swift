@@ -19,16 +19,18 @@ extension HydrationTrackerView {
 
         errorMessage = nil
         let now = Date()
+        let lastRecordedMilestone = hydrationManager.getLatestMilestone()
 
-        hydrationManager.addHydrationLog(amount: amount, timestamp: now, previousStreak: streak ?? 0)
+        hydrationManager.addHydrationLog(amount: amount, timestamp: now)
+
+        await storeFirestoreLog(amount, now)
+
         let todayTotalIntake = hydrationManager.getTodayHydrationOunces()
-        let (latestStreak, isStreakUpdated) = hydrationManager.calculateStreak(previousStreak: streak ?? 0)
-        await updateFirestoreLog(todayTotalIntake, latestStreak, isStreakUpdated, now)
-
         totalIntake = todayTotalIntake
-        streak = latestStreak
-        patientManager.updateHydrationOunces(todayTotalIntake)
+        streak = hydrationManager.streak
 
+        patientManager.updateHydrationOunces(todayTotalIntake)
+        
         let updatedWeeklyData = await standard.fetchWeeklyHydrationData()
         let updatedMonthlyData = await standard.fetchMonthlyHydrationData()
         withAnimation {
@@ -37,23 +39,18 @@ extension HydrationTrackerView {
         }
 
         await hydrationScheduler.userLoggedWaterIntake()
-        displayMilestoneMessage(newTotalIntake: todayTotalIntake, lastMilestone: hydrationManager.getLatestLog()?.lastTriggeredMilestone ?? 0)
+        
+        // Check and display milestone messages
+        displayMilestoneMessage(newTotalIntake: todayTotalIntake, lastMilestone: lastRecordedMilestone)
 
         selectedAmount = nil
         intakeAmount = ""
     }
 
-    
-    private func updateFirestoreLog(_ newTotalIntake: Double, _ newStreak: Int, _ isStreakUpdated: Bool, _ lastHydrationDate: Date) async {
-        let updatedLog = HydrationLog(
-            amountOz: newTotalIntake,
-            streak: newStreak,
-            lastTriggeredMilestone: max(totalIntake, newTotalIntake),
-            lastHydrationDate: lastHydrationDate,
-            isStreakUpdated: isStreakUpdated
-        )
-
-        await standard.addOrUpdateHydrationLog(hydrationLog: updatedLog)
+    // MARK: - Store new hydration log in Firestore
+    private func storeFirestoreLog(_ amount: Double, _ timestamp: Date) async {
+        let newLog = HydrationLog(hydrationOunces: amount, timestamp: timestamp)
+        await standard.storeHydrationLog(newLog)
     }
     
     // MARK: - Helper Function: Display Milestone Message

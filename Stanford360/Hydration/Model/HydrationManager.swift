@@ -1,8 +1,5 @@
 //
-//  HydrationManager.swift
-//  Stanford360
-//
-//  Created by Kelly Bonilla Guzmán on 2/28/25.
+// This source file is part of the Stanford 360 based on the Stanford Spezi Template Application project
 //
 // SPDX-FileCopyrightText: 2025 Stanford University
 //
@@ -16,58 +13,58 @@ import Spezi
 class HydrationManager: Module, EnvironmentAccessible {
     var hydration: [HydrationLog] = []
 
+    var hydrationByDate: [Date: [HydrationLog]] {
+        var logsByDate: [Date: [HydrationLog]] = [:]
+        for log in hydration {
+            let normalizedDate = Calendar.current.startOfDay(for: log.timestamp)
+            logsByDate[normalizedDate, default: []].append(log)
+        }
+        return logsByDate
+    }
+    
+    var streak: Int {
+        calculateStreak()
+    }
+
     init(hydration: [HydrationLog] = []) {
         self.hydration = hydration
     }
 
-    // MARK: - Get today’s total hydration intake
     func getTodayHydrationOunces() -> Double {
         let today = Calendar.current.startOfDay(for: Date())
-        return hydration
-            .filter { Calendar.current.isDate($0.lastHydrationDate, inSameDayAs: today) }
-            .reduce(0) { $0 + $1.amountOz }
+        return hydrationByDate[today]?.reduce(0) { $0 + $1.hydrationOunces } ?? 0
     }
 
-    // MARK: - Get the latest hydration log
-    func getLatestLog() -> HydrationLog? {
-        hydration.max(by: { $0.lastHydrationDate < $1.lastHydrationDate })
-    }
-
-    // MARK: - Calculate the streak
-    func calculateStreak(previousStreak: Int) -> (streak: Int, isStreakUpdated: Bool) {
-        let todayTotalIntake = getTodayHydrationOunces()
-        var newStreak = getLatestLog()?.streak ?? previousStreak
-        var isStreakUpdated = getLatestLog()?.isStreakUpdated ?? false
-
-        let calendar = Calendar.current
-        let today = calendar.startOfDay(for: Date())
-
-        // If no logs today, use the previous day's streak
-        if let lastLog = getLatestLog(), !calendar.isDate(lastLog.lastHydrationDate, inSameDayAs: today) {
-            newStreak = previousStreak
-            isStreakUpdated = false
-        }
-
-        // Update streak if reaching 60 oz and it hasn't already been updated today
-        if todayTotalIntake >= 60 && !isStreakUpdated {
-            newStreak += 1
-            isStreakUpdated = true
-        }
-
-        return (newStreak, isStreakUpdated)
-    }
-
-    // MARK: - Add new hydration log
-    func addHydrationLog(amount: Double, timestamp: Date, previousStreak: Int) {
-        let (newStreak, isStreakUpdated) = calculateStreak(previousStreak: previousStreak)
-
-        let newLog = HydrationLog(
-            amountOz: amount,
-            streak: newStreak,
-            lastTriggeredMilestone: max(getTodayHydrationOunces(), amount),
-            lastHydrationDate: timestamp,
-            isStreakUpdated: isStreakUpdated
-        )
+    func addHydrationLog(amount: Double, timestamp: Date = Date()) {
+        let newLog = HydrationLog(hydrationOunces: amount, timestamp: timestamp)
         hydration.append(newLog)
+    }
+    
+    func getLatestMilestone() -> Double {
+        let totalIntake = getTodayHydrationOunces()
+        return Double((Int(totalIntake) / 20) * 20)
+    }
+    
+    func calculateStreak() -> Int {
+        let calendar = Calendar.current
+        var streakCount = 0
+        var currentDate = calendar.startOfDay(for: Date())
+        
+        while true {
+            let dailyIntake = hydrationByDate[currentDate]?.reduce(0) { $0 + $1.hydrationOunces } ?? 0.0
+            print("Date: \(currentDate) -> Daily Intake: \(dailyIntake)")
+            
+            if dailyIntake >= 60 {
+                streakCount += 1
+                guard let previousDate = calendar.date(byAdding: .day, value: -1, to: currentDate) else {
+                    break
+                }
+                currentDate = previousDate
+            } else {
+                break
+            }
+        }
+        print("Computed streak: \(streakCount)")
+        return streakCount
     }
 }
