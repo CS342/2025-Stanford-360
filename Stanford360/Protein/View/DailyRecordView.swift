@@ -52,7 +52,7 @@ struct DailyRecordView: View {
         Circle()
             .trim(from: 0.0, to: isAnimating ? CGFloat(progress) : 0)
             .stroke(style: StrokeStyle(
-                lineWidth: 35,
+                lineWidth: 30,
                 lineCap: .round
             ))
             .foregroundStyle(
@@ -83,7 +83,7 @@ struct DailyRecordView: View {
     private func infoText() -> some View {
         VStack(spacing: 8) {
             Text("\(currentValue, specifier: "%.f")")
-                .font(.system(size: 65, weight: .bold, design: .rounded))
+                .font(.system(size: 60, weight: .bold, design: .rounded))
                 .opacity(showText ? 1 : 0)
                 .scaleEffect(showText ? 1 : 0.5)
             
