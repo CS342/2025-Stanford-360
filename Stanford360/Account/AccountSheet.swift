@@ -32,6 +32,10 @@ struct AccountSheet: View {
                         } label: {
                             Text("License Information")
                         }
+						
+						Section(header: Text("Weekly Check-In")) {
+							LogWeightView()
+						}
                     }
                 } else {
                     AccountSetup { _ in

@@ -60,6 +60,9 @@
     "💧 Stay Hydrated!" : {
 
     },
+    "📝 Weekly Check-In" : {
+
+    },
     "ACCOUNT_SETUP_DESCRIPTION" : {
       "localizations" : {
         "en" : {
@@ -105,13 +108,10 @@
     "Activity Progress" : {
 
     },
+    "Activity Recommendations" : {
+
+    },
     "Activity Time" : {
-
-    },
-    "Add Activity Button" : {
-
-    },
-    "Add Protein Button" : {
 
     },
     "Add Your Activity! 🎯" : {
@@ -130,7 +130,16 @@
         }
       }
     },
+    "Analyzing meals..." : {
+
+    },
+    "Balanced Plate Recommendations" : {
+
+    },
     "Cancel" : {
+
+    },
+    "Choose activities from each category for a balanced routine" : {
 
     },
     "Choose from Library" : {
@@ -140,6 +149,9 @@
 
     },
     "circle" : {
+
+    },
+    "clock" : {
 
     },
     "Close" : {
@@ -197,13 +209,34 @@
     "Day" : {
 
     },
+    "Delete" : {
+
+    },
+    "Edit" : {
+
+    },
+    "Edit Your Activity! 📝" : {
+
+    },
     "Enable HealthKit in Settings to auto-track steps, or log activities manually." : {
 
     },
     "Enter %@" : {
 
     },
+    "flame" : {
+
+    },
+    "Food in common restaurants recommendations" : {
+
+    },
+    "fork" : {
+
+    },
     "fork_background" : {
+
+    },
+    "g" : {
 
     },
     "Goal" : {
@@ -296,7 +329,13 @@
     "Hydration Progress" : {
 
     },
+    "Image Analysis Results:" : {
+
+    },
     "Intake" : {
+
+    },
+    "Intake time" : {
 
     },
     "Interesting Modules" : {
@@ -382,6 +421,9 @@
         }
       }
     },
+    "Let's keep track of your journey! It's time to fill out your updates." : {
+
+    },
     "License Information" : {
       "localizations" : {
         "en" : {
@@ -395,7 +437,13 @@
     "Log Water Intake" : {
 
     },
+    "Log Weight" : {
+
+    },
     "Log your water intake" : {
+
+    },
+    "Meal Recommendations" : {
 
     },
     "Metric" : {
@@ -405,6 +453,9 @@
 
     },
     "Minutes" : {
+
+    },
+    "Month" : {
 
     },
     "Monthly Hydration" : {
@@ -444,6 +495,9 @@
     "No activities logged today" : {
 
     },
+    "No Image Available" : {
+
+    },
     "No meals logged yet." : {
 
     },
@@ -476,6 +530,9 @@
     "OK" : {
 
     },
+    "On occasions when you eat out, the following are healthier suggestions from common chain restaurants" : {
+
+    },
     "Onboarding" : {
       "localizations" : {
         "en" : {
@@ -487,6 +544,9 @@
       }
     },
     "Open Settings" : {
+
+    },
+    "pencil" : {
 
     },
     "Please fill out the Social Support Questionnaire every day." : {
@@ -505,10 +565,19 @@
     "Please upload your meal, you are doing great!🎉🎉🎉" : {
 
     },
+    "plus.circle" : {
+
+    },
+    "Produce In Season Recommendations" : {
+
+    },
     "protein" : {
 
     },
     "Protein" : {
+
+    },
+    "Protein Content" : {
 
     },
     "Protein Grams" : {
@@ -517,7 +586,13 @@
     "Protein Progress" : {
 
     },
+    "Protein Recommendations" : {
+
+    },
     "Remaining" : {
+
+    },
+    "Save" : {
 
     },
     "Save Meal" : {
@@ -535,6 +610,9 @@
           }
         }
       }
+    },
+    "selected_image" : {
+
     },
     "Social Support Questionnaire" : {
       "localizations" : {
@@ -646,9 +724,6 @@
     "Today" : {
 
     },
-    "Today's Activities" : {
-
-    },
     "Unsupported Event" : {
       "localizations" : {
         "en" : {
@@ -659,13 +734,25 @@
         }
       }
     },
+    "Update Activity! 🔄" : {
+
+    },
     "View" : {
 
     },
     "Week" : {
 
     },
+    "Weekly Check-In" : {
+
+    },
     "Weekly Hydration" : {
+
+    },
+    "Weekly Protein Intake" : {
+
+    },
+    "Weight (lbs)" : {
 
     },
     "WELCOME_AREA1_DESCRIPTION" : {
@@ -712,6 +799,12 @@
 
     },
     "When did you do it?" : {
+
+    },
+    "Yearly Protein Intake" : {
+
+    },
+    "You have %lld minutes left to reach your goal of 60 minutes!" : {
 
     },
     "You haven't logged any activity in the last 4 hours. Time to get moving!" : {

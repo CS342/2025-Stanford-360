@@ -73,7 +73,6 @@ struct ActivityChartView: View {
             date: Date(),
             steps: 8000,
             activeMinutes: 45,
-            caloriesBurned: 300,
             activityType: "Running"
         ),
         {
@@ -84,7 +83,6 @@ struct ActivityChartView: View {
                 date: date,
                 steps: 6000,
                 activeMinutes: 30,
-                caloriesBurned: 200,
                 activityType: "Walking"
             )
         }()
