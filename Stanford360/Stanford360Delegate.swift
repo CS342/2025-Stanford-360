@@ -51,17 +51,22 @@ class Stanford360Delegate: SpeziAppDelegate {
 				healthKit
 			}
 			
-			Stanford360Scheduler()
-			Scheduler()
-            HydrationScheduler()
 			OnboardingDataSource()
 			Notifications()
+			
+			// Schedulers
+			Stanford360Scheduler()
+			Scheduler()
+			PatientScheduler()
+			ActivityScheduler()
+			HydrationScheduler()
+			
+			// Managers
 			PatientManager()
 			ActivityManager()
 			HydrationManager()
 			ProteinManager()
 			HealthKitManager()
-			ActivityScheduler()
 		}
 	}
 	
@@ -103,21 +108,4 @@ class Stanford360Delegate: SpeziAppDelegate {
 			)
 		}
 	}
-	
-//	private func requestNotificationPermission() {
-//		let center = UNUserNotificationCenter.current()
-//		center.getNotificationSettings { settings in
-//			guard settings.authorizationStatus == .notDetermined else {
-//				return
-//			}
-//
-//			center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-//				if granted {
-//					print("Notification permission granted!")
-//				} else if let error = error {
-//					print("Failed to request notification permission: \(error)")
-//				}
-//			}
-//		}
-//	}
 }
