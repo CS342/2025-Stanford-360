@@ -76,6 +76,7 @@
 		A9DFE8A92ABE551400428242 /* AccountButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DFE8A82ABE551400428242 /* AccountButton.swift */; };
 		A9FE7AD02AA39BAB0077B045 /* AccountSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FE7ACF2AA39BAB0077B045 /* AccountSheet.swift */; };
 		C13ED86B2D656A0400033A55 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13ED8692D656A0400033A55 /* FeedView.swift */; };
+		C14F7E202D7704AE00916AAE /* AppNavigationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14F7E1F2D7704AE00916AAE /* AppNavigationState.swift */; };
 		C156248A2D6D6D9300298CEB /* DayTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15624892D6D6D9300298CEB /* DayTimelineView.swift */; };
 		C15624902D6D6E6E00298CEB /* InfiniteDayTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C156248F2D6D6E6E00298CEB /* InfiniteDayTimelineView.swift */; };
 		C15C64082D75CF8500979C62 /* LogWeightSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15C64072D75CF8500979C62 /* LogWeightSheet.swift */; };
@@ -148,6 +149,7 @@
 		A9DFE8A82ABE551400428242 /* AccountButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountButton.swift; sourceTree = "<group>"; };
 		A9FE7ACF2AA39BAB0077B045 /* AccountSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSheet.swift; sourceTree = "<group>"; };
 		C13ED8692D656A0400033A55 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
+		C14F7E1F2D7704AE00916AAE /* AppNavigationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationState.swift; sourceTree = "<group>"; };
 		C15624892D6D6D9300298CEB /* DayTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTimelineView.swift; sourceTree = "<group>"; };
 		C156248F2D6D6E6E00298CEB /* InfiniteDayTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfiniteDayTimelineView.swift; sourceTree = "<group>"; };
 		C15C64072D75CF8500979C62 /* LogWeightSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogWeightSheet.swift; sourceTree = "<group>"; };
@@ -331,6 +333,7 @@
 				2FE5DC3B29EDD7D0004B9AB4 /* Schedule */,
 				2FE5DC3C29EDD7DA004B9AB4 /* SharedContext */,
 				2FC9759D2978E30800BA99FE /* Supporting Files */,
+				C14F7E1F2D7704AE00916AAE /* AppNavigationState.swift */,
 			);
 			path = Stanford360;
 			sourceTree = "<group>";
@@ -629,6 +632,7 @@
 				653A2551283387FE005D4D48 /* Stanford360.swift in Sources */,
 				2FE5DC3629EDD7CA004B9AB4 /* HealthKitPermissions.swift in Sources */,
 				C15C640A2D75CFF700979C62 /* LogWeightView.swift in Sources */,
+				C14F7E202D7704AE00916AAE /* AppNavigationState.swift in Sources */,
 				2F65B44E2A3B8B0600A36932 /* NotificationPermissions.swift in Sources */,
 				2FE5DC2629EDD38A004B9AB4 /* Contacts.swift in Sources */,
 			);

@@ -16,8 +16,9 @@ import SpeziViews
 import UserNotifications
 
 @Observable
-final class PatientScheduler: Module, DefaultInitializable, EnvironmentAccessible {
+final class PatientScheduler: Module, DefaultInitializable, EnvironmentAccessible, NotificationHandler {
 	@Dependency(Scheduler.self) @ObservationIgnored private var scheduler
+	@Dependency(AppNavigationState.self) @ObservationIgnored private var navigationState
 	
 	@MainActor var viewState: ViewState = .idle
 	
@@ -55,6 +56,32 @@ final class PatientScheduler: Module, DefaultInitializable, EnvironmentAccessibl
 			viewState = .error(AnyLocalizedError(error: error, defaultErrorDescription: "Failed to create or update scheduled tasks."))
 		}
 	}
+	
+	func handleNotificationAction(_ response: UNNotificationResponse) {
+		print("✅ handleNotificationAction called with response: \(response)")
+		
+		let userInfo = response.notification.request.content.userInfo
+		print("🔍 userInfo: \(userInfo)")
+		
+		if let taskId = userInfo["edu.stanford.spezi.scheduler.notification.taskId"] as? String {
+			print("✅ Extracted taskId: \(taskId)")
+			navigateToView(for: taskId)
+		} else {
+			print("❌ Failed to extract taskId")
+		}
+	}
+	
+	@MainActor
+	private func navigateToView(for taskId: String) {
+		switch taskId {
+		case saturdayWeightNotificationTaskID, sundayWeightNotificationTaskID:
+			print("✅ Setting showAccountSheet to true")
+			navigationState.showAccountSheet = true
+		default:
+			break
+		}
+	}
+	
 	
 	/// Handles notifications after a user has logged their weight
 	///
