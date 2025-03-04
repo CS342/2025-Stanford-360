@@ -82,7 +82,7 @@ struct ProteinView: View {
 	private var mealsCardView: some View {
         VStack(alignment: .leading, spacing: 20) {
             mealsHeaderView
-            mealsList
+            mealsList()
                 .opacity(isCardAnimating ? 1 : 0)
                 .offset(y: isCardAnimating ? 0 : 50)
                 .onAppear {
