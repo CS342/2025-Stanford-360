@@ -54,8 +54,8 @@ class ImageClassifier: ObservableObject {
             return
         }
 
-        guard let model = try? VNCoreMLModel(for: MobileNetV2(configuration: MLModelConfiguration()).model) else {
-            self.handleError("Failed to load MobileNetV2 model")
+        guard let model = try? VNCoreMLModel(for: SeeFood(configuration: MLModelConfiguration()).model) else {
+            self.handleError("Failed to load SeeFood model")
             return
         }
 

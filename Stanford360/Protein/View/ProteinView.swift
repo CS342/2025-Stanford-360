@@ -68,7 +68,7 @@ struct ProteinView: View {
             Text("Daily Meals")
                 .font(.title2.bold())
             Spacer()
-            Text("\(proteinManager.meals.count) Meals Logged")
+            Text("\(proteinManager.todayMeals.count) Meals Logged")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .padding(.horizontal, 12)

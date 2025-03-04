@@ -1,5 +1,8 @@
 //
-// This source file is part of the Stanford 360 based on the Stanford Spezi Template Application project
+//  DashboardChart.swift
+//  Stanford360
+//
+//  Created by Kelly Bonilla Guzmán on 3/2/25.
 //
 // SPDX-FileCopyrightText: 2025 Stanford University
 //
@@ -32,6 +35,7 @@ struct AddMealView: View {
     @State private var classificationOptions: [String] = []
     @State private var isProcessing: Bool = false
     @State private var errorMessage: String?
+    @StateObject private var classifier = ImageClassifier()
     
     var body: some View {
         NavigationView {
@@ -46,11 +50,16 @@ struct AddMealView: View {
                 sourceSelectionButtons
             }
             .onChange(of: selectedImage) { _, newImage in
-                if newImage != nil { classifyImage(newImage!) }
+                // classifier.image = newImage
+                if let image = newImage {
+                    classification(image: image)
+                } else {
+                    print("No image selected")
+                }
             }
             .onChange(of: highestConfidenceClassification) { _, newValue in
                 if let classification = newValue, !classification.isEmpty {
-                    // add classification result to mealname and allow user to edit it
+                    // upate mealName according to the result，allow user to edit it
                     mealName = formatClassificationName(classification)
                 }
             }
@@ -134,31 +143,27 @@ extension AddMealView {
 extension AddMealView {
     var classificationResultsView: some View {
         Group {
-            if isProcessing {
-                Text("Analyzing image...").font(.subheadline).foregroundColor(.secondary).padding(.top)
-            } else if let errorMsg = errorMessage {
+            if classifier.isProcessing {
+                Text("Analyzing meals...").font(.subheadline).foregroundColor(.secondary).padding(.top)
+            } else if let errorMsg = classifier.errorMessage {
                 Text(errorMsg).font(.subheadline).foregroundColor(.red).padding(.top)
-            } else if !classificationOptions.isEmpty {
-                classificationOptionsView
-            }
-        }
-    }
-    
-    var classificationOptionsView: some View {
-        VStack(alignment: .leading) {
-            Text("Image Analysis Results:").font(.headline).padding(.horizontal)
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    ForEach(classificationOptions, id: \.self) { option in
-                        Text(option)
-                            .font(.subheadline)
-                            .padding(8)
-                            .background(RoundedRectangle(cornerRadius: 8).fill(Color.blue.opacity(0.1)))
+            } else if !classifier.classificationOptions.isEmpty {
+                VStack(alignment: .leading) {
+                    Text("Image Analysis Results:").font(.headline).padding(.horizontal)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(classifier.classificationOptions, id: \ .self) { option in
+                                Text(option)
+                                    .font(.subheadline)
+                                    .padding(8)
+                                    .background(RoundedRectangle(cornerRadius: 8).fill(Color.blue.opacity(0.1)))
+                            }
+                        }
+                        .padding(.horizontal)
                     }
+                    .padding(.bottom)
                 }
-                .padding(.horizontal)
             }
-            .padding(.bottom)
         }
     }
 }
@@ -240,58 +245,68 @@ extension AddMealView {
 
 
 extension AddMealView {
-    func classifyImage(_ image: UIImage) {
-        // Trigger manual classification using ImageClassifier
-        isProcessing = true
-        errorMessage = nil
+    // convert A image to cv Pixel Buffer with 224*224
+    func convertImage(image: UIImage) -> CVPixelBuffer? {
+        let newSize = CGSize(width: 224.0, height: 224.0)
+        UIGraphicsBeginImageContext(newSize)
+        image.draw(in: CGRect(origin: CGPoint.zero, size: newSize))
         
-        // Convert UIImage to CIImage for Vision framework
-        guard let ciImage = CIImage(image: image) else {
-            errorMessage = "Could not process image"
-            isProcessing = false
-            return
+        guard let resizedImage = UIGraphicsGetImageFromCurrentImageContext() else {
+            return nil
         }
-
-        // Load MobileNetV2 ML model
-        guard let model = try? VNCoreMLModel(for: MobileNetV2(configuration: MLModelConfiguration()).model) else {
-            errorMessage = "Could not load ML model"
-            isProcessing = false
-            return
+        
+        UIGraphicsEndImageContext()
+        
+        let attributes = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
+                  kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
+        var pixelBuffer: CVPixelBuffer?
+        let status = CVPixelBufferCreate(kCFAllocatorDefault,
+                                         Int(newSize.width),
+                                         Int(newSize.height),
+                                         kCVPixelFormatType_32ARGB,
+                                         attributes,
+                                         &pixelBuffer)
+        
+        guard let createdPixelBuffer = pixelBuffer, status == kCVReturnSuccess else {
+            return nil
         }
-
-        // Create classification request
-        let request = VNCoreMLRequest(model: model) { request, error in
-            if let error = error {
-                DispatchQueue.main.async { [self] in
-                    self.errorMessage = "Analysis failed"
-                    self.isProcessing = false
-                }
-                return
-            }
-
-            guard let results = request.results as? [VNClassificationObservation] else {
-                DispatchQueue.main.async {
-                    self.errorMessage = "Could not process results"
-                    self.isProcessing = false
-                }
-                return
-            }
-
-            DispatchQueue.main.async {
-                self.processClassificationResults(results)
-            }
+        
+        CVPixelBufferLockBaseAddress(createdPixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
+        let pixelData = CVPixelBufferGetBaseAddress(createdPixelBuffer)
+        
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        guard let context = CGContext(data: pixelData,
+                                      width: Int(newSize.width),
+                                      height: Int(newSize.height),
+                                      bitsPerComponent: 8,
+                                      bytesPerRow: CVPixelBufferGetBytesPerRow(createdPixelBuffer),
+                                      space: colorSpace,
+                                      bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue) else {
+            return nil
         }
+        
+        context.translateBy(x: 0, y: newSize.height)
+        context.scaleBy(x: 1.0, y: -1.0)
+        
+        UIGraphicsPushContext(context)
+        resizedImage.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+        UIGraphicsPopContext()
+        CVPixelBufferUnlockBaseAddress(createdPixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
+        
+        return createdPixelBuffer
+    }
+}
 
-        // Execute request
-        let handler = VNImageRequestHandler(ciImage: ciImage)
-        DispatchQueue.global(qos: .userInitiated).async {
+extension AddMealView {
+    func classification(image: UIImage) {
+        let mobilenet = MobileNetV2()
+        if let imagebuffer = convertImage(image: image) {
             do {
-                try handler.perform([request])
+                let prediction = try mobilenet.prediction(image: imagebuffer)
+                print(prediction.classLabel)
+                highestConfidenceClassification = prediction.classLabel
             } catch {
-                DispatchQueue.main.async {
-                    self.errorMessage = "Image analysis failed"
-                    self.isProcessing = false
-                }
+                print("ERROR prediction ", error)
             }
         }
     }
