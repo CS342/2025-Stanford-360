@@ -54,24 +54,24 @@ extension Stanford360Standard {
 
     
     // Fetch meals by day
-    func fetchMealsByDay() async -> [Meal] {
-        var meals: [Meal] = []
-        do {
-            let today = Date()
-            let docRef = try await configuration.userDocumentReference
-            let mealsSnapshot = try await docRef.collection("meals").getDocuments()
-            meals = try mealsSnapshot.documents.compactMap { doc in
-                let meal = try doc.data(as: Meal.self)
-                if Calendar.current.isDate(meal.timestamp, inSameDayAs: today) {
-                    return meal
-                }
-                return nil
-            }
-        } catch {
-            print("Error fetching meals by day: \(error)")
-        }
-        return meals
-    }
+//    func fetchMealsByDay() async -> [Meal] {
+//        var meals: [Meal] = []
+//        do {
+//            let today = Date()
+//            let docRef = try await configuration.userDocumentReference
+//            let mealsSnapshot = try await docRef.collection("meals").getDocuments()
+//            meals = try mealsSnapshot.documents.compactMap { doc in
+//                let meal = try doc.data(as: Meal.self)
+//                if Calendar.current.isDate(meal.timestamp, inSameDayAs: today) {
+//                    return meal
+//                }
+//                return nil
+//            }
+//        } catch {
+//            print("Error fetching meals by day: \(error)")
+//        }
+//        return meals
+//    }
     
     func deleteMealByID(byID id: String) async {
         do {

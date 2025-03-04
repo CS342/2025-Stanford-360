@@ -16,8 +16,8 @@ import UIKit
 class ImageClassifier: ObservableObject {
     // MARK: - Published Properties
     @Published var image: UIImage?
-    @Published var classificationResults: String = "No results yet"
-    @Published var highestConfidenceClassification: String?
+    // @Published var classificationResults: String = "No results yet"
+    // @Published var highestConfidenceClassification: String?
     @Published var classificationOptions: [String] = []
     @Published var isProcessing: Bool = false
     @Published var errorMessage: String?
@@ -60,7 +60,9 @@ class ImageClassifier: ObservableObject {
         }
 
         let request = VNCoreMLRequest(model: model) { [weak self] request, error in
-            guard let self = self else { return }
+            guard let self = self else {
+                return
+            }
             
             if let error = error {
                 self.handleError("Classification failed: \(error.localizedDescription)")
@@ -75,23 +77,23 @@ class ImageClassifier: ObservableObject {
             let validResults = results.filter { $0.confidence >= self.confidenceThreshold }
             let topResults = validResults.prefix(3)
             
-            DispatchQueue.main.async {
-                self.classificationOptions = topResults.map {
-                    "\($0.identifier) (\(String(format: "%.1f", $0.confidence * 100))%)"
-                }
-                
-                if let highestResult = topResults.first {
-                    self.highestConfidenceClassification = highestResult.identifier
-                    self.classificationResults = """
-                        Top Match: \(highestResult.identifier)
-                        Confidence: \(Int(highestResult.confidence * 100))%
-                        """
-                } else {
-                    self.classificationResults = "No confident matches found"
-                }
-                
-                self.isProcessing = false
-            }
+//            DispatchQueue.main.async {
+//                self.classificationOptions = topResults.map {
+//                    "\($0.identifier) (\(String(format: "%.1f", $0.confidence * 100))%)"
+//                }
+//                
+//                if let highestResult = topResults.first {
+//                    // self.highestConfidenceClassification = highestResult.identifier
+//                    self.classificationResults = """
+//                        Top Match: \(highestResult.identifier)
+//                        Confidence: \(Int(highestResult.confidence * 100))%
+//                        """
+//                } else {
+//                    self.classificationResults = "No confident matches found"
+//                }
+//                
+//                self.isProcessing = false
+//            }
         }
 
         let handler = VNImageRequestHandler(ciImage: ciImage)
@@ -108,19 +110,19 @@ class ImageClassifier: ObservableObject {
     private func handleError(_ message: String) {
         DispatchQueue.main.async {
             self.errorMessage = message
-            self.classificationResults = "Error occurred"
+            // self.classificationResults = "Error occurred"
             self.isProcessing = false
         }
     }
     
-    func reset() {
-        DispatchQueue.main.async {
-            self.image = nil
-            self.classificationResults = "No results yet"
-            self.highestConfidenceClassification = nil
-            self.classificationOptions = []
-            self.errorMessage = nil
-            self.isProcessing = false
-        }
-    }
+//    func reset() {
+//        DispatchQueue.main.async {
+//            self.image = nil
+//            self.classificationResults = "No results yet"
+//            self.highestConfidenceClassification = nil
+//            self.classificationOptions = []
+//            self.errorMessage = nil
+//            self.isProcessing = false
+//        }
+//    }
 }

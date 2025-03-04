@@ -18,7 +18,7 @@ struct ProteinView: View {
     @State private var isCardAnimating = false
     
 	@Binding private var presentingAccount: Bool
-	
+    
 	var body: some View {
 		NavigationStack {
 			ZStack {
@@ -80,6 +80,10 @@ struct ProteinView: View {
         }
     }
     
+    init(presentingAccount: Binding<Bool>) {
+        self._presentingAccount = presentingAccount
+    }
+    
     func mealsList() -> some View {
         // ScrollView {
         VStack(spacing: 16) {
@@ -125,10 +129,6 @@ struct ProteinView: View {
                     .fill(Color(UIColor.secondarySystemGroupedBackground))
             )
     }
-	
-	init(presentingAccount: Binding<Bool>) {
-		self._presentingAccount = presentingAccount
-	}
     
     private func mealsContentView() -> some View {
         ForEach(proteinManager.todayMeals, id: \.id) { meal in

@@ -1,8 +1,8 @@
 //
-//  DashboardChart.swift
+//  AddMealView.swift
 //  Stanford360
 //
-//  Created by Kelly Bonilla Guzmán on 3/2/25.
+//  Created by Jiayu Chang on 3/2/25.
 //
 // SPDX-FileCopyrightText: 2025 Stanford University
 //
@@ -257,15 +257,19 @@ extension AddMealView {
         
         UIGraphicsEndImageContext()
         
-        let attributes = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
-                  kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
+        let attributes = [
+            kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
+            kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue
+        ] as CFDictionary
         var pixelBuffer: CVPixelBuffer?
-        let status = CVPixelBufferCreate(kCFAllocatorDefault,
-                                         Int(newSize.width),
-                                         Int(newSize.height),
-                                         kCVPixelFormatType_32ARGB,
-                                         attributes,
-                                         &pixelBuffer)
+        let status = CVPixelBufferCreate(
+            kCFAllocatorDefault,
+            Int(newSize.width),
+            Int(newSize.height),
+            kCVPixelFormatType_32ARGB,
+            attributes,
+            &pixelBuffer
+        )
         
         guard let createdPixelBuffer = pixelBuffer, status == kCVReturnSuccess else {
             return nil
@@ -275,13 +279,15 @@ extension AddMealView {
         let pixelData = CVPixelBufferGetBaseAddress(createdPixelBuffer)
         
         let colorSpace = CGColorSpaceCreateDeviceRGB()
-        guard let context = CGContext(data: pixelData,
-                                      width: Int(newSize.width),
-                                      height: Int(newSize.height),
-                                      bitsPerComponent: 8,
-                                      bytesPerRow: CVPixelBufferGetBytesPerRow(createdPixelBuffer),
-                                      space: colorSpace,
-                                      bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue) else {
+        guard let context = CGContext(
+            data: pixelData,
+            width: Int(newSize.width),
+            height: Int(newSize.height),
+            bitsPerComponent: 8,
+            bytesPerRow: CVPixelBufferGetBytesPerRow(createdPixelBuffer),
+            space: colorSpace,
+            bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue
+        ) else {
             return nil
         }
         
@@ -299,7 +305,10 @@ extension AddMealView {
 
 extension AddMealView {
     func classification(image: UIImage) {
-        let mobilenet = MobileNetV2()
+        guard let mobilenet = try? MobileNetV2(configuration: MLModelConfiguration()) else {
+            print("ERROR: Failed to initialize MobileNetV2 model")
+            return
+        }
         if let imagebuffer = convertImage(image: image) {
             do {
                 let prediction = try mobilenet.prediction(image: imagebuffer)
@@ -311,28 +320,30 @@ extension AddMealView {
         }
     }
     
-    func processClassificationResults(_ results: [VNClassificationObservation]) {
-        let validResults = results.filter { $0.confidence >= 0.5 }
-        let topResults = validResults.prefix(3)
-        
-        classificationOptions = topResults.map {
-            "\($0.identifier) (\(String(format: "%.1f", $0.confidence * 100))%)"
-        }
-        
-        if let highestResult = topResults.first {
-            highestConfidenceClassification = highestResult.identifier
-            classificationResults = "Top Match: \(highestResult.identifier)"
-        } else {
-            classificationResults = "No confident matches found"
-        }
-        
-        isProcessing = false
-    }
-    
+//    func processClassificationResults(_ results: [VNClassificationObservation]) {
+//        let validResults = results.filter { $0.confidence >= 0.5 }
+//        let topResults = validResults.prefix(3)
+//        
+//        classificationOptions = topResults.map {
+//            "\($0.identifier) (\(String(format: "%.1f", $0.confidence * 100))%)"
+//        }
+//        
+//        if let highestResult = topResults.first {
+//            highestConfidenceClassification = highestResult.identifier
+//            classificationResults = "Top Match: \(highestResult.identifier)"
+//        } else {
+//            classificationResults = "No confident matches found"
+//        }
+//        
+//        isProcessing = false
+//    }
+//    
     func formatClassificationName(_ classification: String) -> String {
         classification
-            .split(separator: ",").first?
-            .split(separator: "_").joined(separator: " ")
+            .split(separator: ",")
+            .first?
+            .split(separator: "_")
+            .joined(separator: " ")
             .capitalized ?? classification
     }
 }
