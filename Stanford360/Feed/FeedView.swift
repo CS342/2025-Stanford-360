@@ -16,7 +16,7 @@ import SwiftUI
 
 struct FeedView: View {
 	@Environment(Account.self) private var account: Account?
-	@AppStorage(StorageKeys.homeTabSelection) private var selectedTab = HomeView.Tabs.home
+	@AppStorage(StorageKeys.homeTabSelection) private var selectedTab = HomeView.Tabs.dashboard
 	
 	@Binding private var presentingAccount: Bool
 	

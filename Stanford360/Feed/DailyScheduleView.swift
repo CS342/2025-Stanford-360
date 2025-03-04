@@ -265,7 +265,7 @@ struct DailyScheduleView: View {
 }
 
 #Preview {
-	@Previewable @State var selectedTab = HomeView.Tabs.home
+	@Previewable @State var selectedTab = HomeView.Tabs.dashboard
 	@Previewable @State var date = Date.now
 	@Previewable @State var taskStore = TaskStore()
 	
