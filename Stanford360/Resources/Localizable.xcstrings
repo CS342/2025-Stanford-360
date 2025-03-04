@@ -60,6 +60,9 @@
     "💧 Stay Hydrated!" : {
 
     },
+    "📝 Weekly Check-In" : {
+
+    },
     "ACCOUNT_SETUP_DESCRIPTION" : {
       "localizations" : {
         "en" : {
@@ -393,6 +396,9 @@
           }
         }
       }
+    },
+    "Let's keep track of your journey! It's time to fill out your updates." : {
+
     },
     "License Information" : {
       "localizations" : {
