@@ -50,6 +50,7 @@ struct AddMealView: View {
             }
             .onChange(of: highestConfidenceClassification) { _, newValue in
                 if let classification = newValue, !classification.isEmpty {
+                    // add classification result to mealname and allow user to edit it
                     mealName = formatClassificationName(classification)
                 }
             }
