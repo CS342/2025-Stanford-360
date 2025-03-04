@@ -130,6 +130,9 @@
         }
       }
     },
+    "Analyzing meals..." : {
+    
+    },
     "Balanced Plate Recommendations" : {
 
     },
@@ -146,6 +149,9 @@
 
     },
     "circle" : {
+
+    },
+    "clock" : {
 
     },
     "Close" : {
@@ -218,10 +224,19 @@
     "Enter %@" : {
 
     },
+    "flame" : {
+
+    },
+    "fork" : {
+    
+    },
     "Food in common restaurants recommendations" : {
 
     },
     "fork_background" : {
+
+    },
+    "g" : {
 
     },
     "Goal" : {
@@ -311,7 +326,13 @@
     "Hydration Progress" : {
 
     },
+    "Image Analysis Results:" : {
+
+    },
     "Intake" : {
+
+    },
+    "Intake time" : {
 
     },
     "Interesting Modules" : {
@@ -471,6 +492,9 @@
     "No activities logged today" : {
 
     },
+    "No Image Available" : {
+
+    },
     "No meals logged yet." : {
 
     },
@@ -519,6 +543,9 @@
     "Open Settings" : {
 
     },
+    "pencil" : {
+
+    },
     "Please fill out the Social Support Questionnaire every day." : {
       "localizations" : {
         "en" : {
@@ -535,6 +562,9 @@
     "Please upload your meal, you are doing great!🎉🎉🎉" : {
 
     },
+    "plus.circle" : {
+    
+    },
     "Produce In Season Recommendations" : {
 
     },
@@ -542,6 +572,9 @@
 
     },
     "Protein" : {
+
+    },
+    "Protein Content" : {
 
     },
     "Protein Grams" : {
@@ -574,6 +607,9 @@
           }
         }
       }
+    },
+    "selected_image" : {
+
     },
     "Social Support Questionnaire" : {
       "localizations" : {

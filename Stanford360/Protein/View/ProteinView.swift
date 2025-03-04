@@ -44,9 +44,9 @@ struct ProteinView: View {
 			.sheet(isPresented: $showingAddProtein) {
 				AddMealView()
 			}
-            .sheet(isPresented: $showingInfo) {
-                MealRecsSheet()
-            }
+      .sheet(isPresented: $showingInfo) {
+          MealRecsSheet()
+      }
 		}
 		.task {
 			await loadMeals()
@@ -82,7 +82,7 @@ struct ProteinView: View {
 	private var mealsCardView: some View {
         VStack(alignment: .leading, spacing: 20) {
             mealsHeaderView
-            mealsList
+            mealsList()
                 .opacity(isCardAnimating ? 1 : 0)
                 .offset(y: isCardAnimating ? 0 : 50)
                 .onAppear {
@@ -98,7 +98,7 @@ struct ProteinView: View {
             Text("Daily Meals")
                 .font(.title2.bold())
             Spacer()
-            Text("\(proteinManager.meals.count) Meals Logged")
+            Text("\(proteinManager.todayMeals.count) Meals Logged")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .padding(.horizontal, 12)
@@ -110,29 +110,16 @@ struct ProteinView: View {
         }
     }
     
-	private var mealsList: some View {
+    init(presentingAccount: Binding<Bool>) {
+        self._presentingAccount = presentingAccount
+    }
+    
+    func mealsList() -> some View {
         VStack(spacing: 16) {
             if proteinManager.meals.isEmpty {
-                Text("No meals logged yet.")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, minHeight: 60)
-                    .background(
-                        RoundedRectangle(cornerRadius: 16)
-                            .fill(Color(UIColor.secondarySystemGroupedBackground))
-                    )
+                emptyMealsView()
             } else {
-                ForEach(proteinManager.meals) { meal in
-                    mealRowView(
-                        mealName: meal.name,
-                        protein: "\(meal.proteinGrams)g",
-                        time: meal.timestamp.formatted(date: .omitted, time: .shortened),
-                        isCompleted: true
-                    )
-                    if meal.id != proteinManager.meals.last?.id {
-                        Divider()
-                    }
-                }
+                mealsContentView()
             }
         }
         .padding()
@@ -142,10 +129,55 @@ struct ProteinView: View {
         )
         .shadow(color: Color.black.opacity(0.05), radius: 10)
     }
-	
-	init(presentingAccount: Binding<Bool>) {
-		self._presentingAccount = presentingAccount
-	}
+
+
+    private func deleteButton(for meal: Meal) -> some View {
+        Button(role: .destructive) {
+            if let mealID = meal.id {
+//                withAnimation {
+//                    proteinManager.deleteMeal(byID: mealID)
+//                }
+                Task {
+                    await standard.deleteMealByID(byID: mealID)
+                }
+            }
+        } label: {
+            Label("Delete", systemImage: "trash")
+        }
+    }
+
+    
+    private func emptyMealsView() -> some View {
+        Text("No meals logged yet.")
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
+            .frame(maxWidth: .infinity, minHeight: 60)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color(UIColor.secondarySystemGroupedBackground))
+            )
+    }
+    
+    private func mealsContentView() -> some View {
+        ForEach(proteinManager.todayMeals, id: \.id) { meal in
+            NavigationLink(destination: MealDetailView(meal: meal)) {
+                mealRowView(
+                    mealName: meal.name,
+                    protein: "\(meal.proteinGrams)g",
+                    time: meal.timestamp.formatted(date: .omitted, time: .shortened),
+                    isCompleted: true
+                )
+            }
+            .contentShape(Rectangle())
+            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                deleteButton(for: meal)
+            }
+
+            if meal.id != proteinManager.meals.last?.id {
+                Divider()
+            }
+        }
+    }
     
     func mealRowView(mealName: String, protein: String, time: String, isCompleted: Bool) -> some View {
         HStack {

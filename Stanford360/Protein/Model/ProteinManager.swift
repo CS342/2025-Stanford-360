@@ -13,6 +13,10 @@ import Spezi
 @Observable
 class ProteinManager: Module, EnvironmentAccessible {
 	var meals: [Meal]
+    var todayMeals: [Meal] {
+        let today = Calendar.current.startOfDay(for: Date())
+        return mealsByDate[today] ?? []
+    }
 	var mealsByDate: [Date: [Meal]] {
 		var mealsByDate: [Date: [Meal]] = [:]
 		for meal in meals {
@@ -39,8 +43,8 @@ class ProteinManager: Module, EnvironmentAccessible {
 	}
 	
 	// Add a new meal to the list
-	func addMeal(name: String, proteinGrams: Double, /*imageURL: String? = nil, */timestamp: Date = Date()) {
-		let newMeal = Meal(name: name, proteinGrams: proteinGrams, /*imageURL: imageURL,*/ timestamp: timestamp)
+	func addMeal(name: String, proteinGrams: Double, imageURL: String? = nil, timestamp: Date = Date()) {
+		let newMeal = Meal(name: name, proteinGrams: proteinGrams, imageURL: imageURL, timestamp: timestamp)
 		meals.append(newMeal)
 	}
 	
