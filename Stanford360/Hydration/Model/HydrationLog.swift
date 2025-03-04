@@ -10,16 +10,16 @@ import FirebaseFirestore
 import Foundation
 
 // MARK: - Hydration Log Model
-struct HydrationLog: Identifiable, Codable {
+struct HydrationIntake: Identifiable, Codable, @unchecked Sendable {
     @DocumentID var id: String?
-    var amountOz: Double
+    var hydrationOunces: Double
     var streak: Int
     var lastTriggeredMilestone: Double
-    var lastHydrationDate: Date
+    var lastHydrationDate: Date	// eventually edit to date and move this var's purpose to the manager
     var isStreakUpdated: Bool
 
     init(
-        amountOz: Double,
+		hydrationOunces: Double,
         streak: Int,
         lastTriggeredMilestone: Double,
         lastHydrationDate: Date,
@@ -27,7 +27,7 @@ struct HydrationLog: Identifiable, Codable {
         id: String? = UUID().uuidString
     ) {
         self.id = id
-        self.amountOz = amountOz
+        self.hydrationOunces = hydrationOunces
         self.streak = streak
         self.lastTriggeredMilestone = lastTriggeredMilestone
         self.lastHydrationDate = lastHydrationDate

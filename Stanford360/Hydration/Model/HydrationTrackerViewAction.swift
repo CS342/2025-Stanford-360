@@ -28,7 +28,7 @@ extension HydrationTrackerView {
 
             // Update total intake and streak
             if let existingLog = fetchedLog {
-                newTotalIntake += existingLog.amountOz
+                newTotalIntake += existingLog.hydrationOunces
                 if newTotalIntake >= 60 && !isStreakUpdated {
                     newStreak += 1
                     isStreakUpdated = true
@@ -73,8 +73,8 @@ extension HydrationTrackerView {
     }
     
     private func updateFirestoreLog(_ newTotalIntake: Double, _ newStreak: Int, _ isStreakUpdated: Bool, _ lastHydrationDate: Date) async {
-        let updatedLog = HydrationLog(
-            amountOz: newTotalIntake,
+		let updatedLog = HydrationIntake(
+			hydrationOunces: newTotalIntake,
             streak: newStreak,
             lastTriggeredMilestone: max(totalIntake, newTotalIntake),
             lastHydrationDate: lastHydrationDate,
@@ -116,8 +116,8 @@ extension HydrationTrackerView {
             let today = calendar.startOfDay(for: Date())
 
             if let log = fetchedLog, calendar.isDate(log.lastHydrationDate, inSameDayAs: today) {
-                totalIntake = log.amountOz
-				patientManager.updateHydrationOunces(log.amountOz)
+                totalIntake = log.hydrationOunces
+				patientManager.updateHydrationOunces(log.hydrationOunces)
                 streak = log.streak
             }
 

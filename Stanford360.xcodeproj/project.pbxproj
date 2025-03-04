@@ -160,9 +160,9 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		4F8EA0B92D680A4400A94137 /* Activity */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Activity; sourceTree = "<group>"; };
 		4FF18DDD2D5FAB5E00E13832 /* ActivityTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ActivityTests; sourceTree = "<group>"; };
+		C14F7ED42D771A4800916AAE /* Hydration */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Hydration; sourceTree = "<group>"; };
 		C1C1E6432D6E9A25007D38F0 /* Dashboard */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Dashboard; sourceTree = "<group>"; };
 		C1C1EAA42D73BB87007D38F0 /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
-		C1EFB0572D52F8E8008A6669 /* Hydration */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Hydration; sourceTree = "<group>"; };
 		C1EFB0682D52FA2C008A6669 /* Protein */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Protein; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -316,7 +316,7 @@
 				C13ED86A2D656A0400033A55 /* Feed */,
 				4F8EA0B92D680A4400A94137 /* Activity */,
 				C1EFB0682D52FA2C008A6669 /* Protein */,
-				C1EFB0572D52F8E8008A6669 /* Hydration */,
+				C14F7ED42D771A4800916AAE /* Hydration */,
 				2FC975A72978F11A00BA99FE /* HomeView.swift */,
 				653A2550283387FE005D4D48 /* Stanford360.swift */,
 				2F5E32BC297E05EA003432F8 /* Stanford360Delegate.swift */,
@@ -416,9 +416,9 @@
 			);
 			fileSystemSynchronizedGroups = (
 				4F8EA0B92D680A4400A94137 /* Activity */,
+				C14F7ED42D771A4800916AAE /* Hydration */,
 				C1C1E6432D6E9A25007D38F0 /* Dashboard */,
 				C1C1EAA42D73BB87007D38F0 /* Shared */,
-				C1EFB0572D52F8E8008A6669 /* Hydration */,
 				C1EFB0682D52FA2C008A6669 /* Protein */,
 			);
 			name = Stanford360;

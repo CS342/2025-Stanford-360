@@ -102,9 +102,6 @@
     "Activity Breakdown" : {
 
     },
-    "Activity Minutes" : {
-
-    },
     "Activity Progress" : {
 
     },
@@ -131,7 +128,7 @@
       }
     },
     "Analyzing meals..." : {
-    
+
     },
     "Balanced Plate Recommendations" : {
 
@@ -227,10 +224,10 @@
     "flame" : {
 
     },
-    "fork" : {
-    
-    },
     "Food in common restaurants recommendations" : {
+
+    },
+    "fork" : {
 
     },
     "fork_background" : {
@@ -303,6 +300,9 @@
           }
         }
       }
+    },
+    "Hello, World!" : {
+
     },
     "HL7 FHIR" : {
       "localizations" : {
@@ -563,7 +563,7 @@
 
     },
     "plus.circle" : {
-    
+
     },
     "Produce In Season Recommendations" : {
 
@@ -575,9 +575,6 @@
 
     },
     "Protein Content" : {
-
-    },
-    "Protein Grams" : {
 
     },
     "Protein Progress" : {
@@ -719,9 +716,6 @@
 
     },
     "Today" : {
-
-    },
-    "Today's Activities" : {
 
     },
     "Unsupported Event" : {

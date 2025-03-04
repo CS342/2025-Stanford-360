@@ -12,10 +12,20 @@
 import Foundation
 import Spezi
 
+@Observable
 class HydrationManager: Module, EnvironmentAccessible {
-	var hydration: [HydrationLog]
+	var hydration: [HydrationIntake]
+	var hydrationByDate: [Date: [HydrationIntake]] {
+		var hydrationByDate: [Date: [HydrationIntake]] = [:]
+		for hydrationIntake in hydration {
+			let normalizedDate = Calendar.current.startOfDay(for: hydrationIntake.lastHydrationDate)
+			hydrationByDate[normalizedDate, default: []].append(hydrationIntake)
+		}
+		
+		return hydrationByDate
+	}
 	
-	init(hydration: [HydrationLog] = []) {
+	init(hydration: [HydrationIntake] = []) {
 		self.hydration = hydration
 	}
 	
@@ -25,6 +35,10 @@ class HydrationManager: Module, EnvironmentAccessible {
 		
 		return hydration
 			.filter { calendar.isDate($0.lastHydrationDate, inSameDayAs: today) }
-			.reduce(0) { $0 + $1.amountOz }
+			.reduce(0) { $0 + $1.hydrationOunces }
+	}
+	
+	func getTotalHydrationOunces(_ hydration: [HydrationIntake]) -> Double {
+		hydration.reduce(0) { $0 + $1.hydrationOunces }
 	}
 }

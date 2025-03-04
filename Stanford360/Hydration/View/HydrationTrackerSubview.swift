@@ -290,8 +290,19 @@ extension HydrationTrackerView {
                 return
             }
             intakeAmount = String(selected)
+			let hydrationIntake = HydrationIntake(
+				hydrationOunces: Double(intakeAmount) ?? 0,
+				streak: 0,
+				lastTriggeredMilestone: 0,
+				lastHydrationDate: Date(),
+				isStreakUpdated: false
+			)
+			
+			hydrationManager.hydration.append(hydrationIntake)
+			
             Task {
-                await logWaterIntake()
+				await standard.storeHydrationIntake(hydrationIntake)
+//                await logWaterIntake()
             }
         }) {
             Text("Log Water Intake")

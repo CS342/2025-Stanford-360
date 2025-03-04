@@ -45,6 +45,10 @@ class ActivityManager: Module, EnvironmentAccessible {
 	func getTotalActivityMinutes(_ activities: [Activity]) -> Int {
 		activities.reduce(0) { $0 + $1.activeMinutes }
 	}
+	
+	func getTotalActivityMinutes(_ activities: [Activity]) -> Double {
+		Double(activities.reduce(0) { $0 + $1.activeMinutes })
+	}
 
 //    // Method to edit an existing activity
 //    func editActivity(_ updatedActivity: Activity) {

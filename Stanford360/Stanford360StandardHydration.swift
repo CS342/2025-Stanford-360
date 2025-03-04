@@ -21,14 +21,14 @@ extension Stanford360Standard {
     }
     
     /// Add or Update Hydration Log
-    func addOrUpdateHydrationLog(hydrationLog: HydrationLog) async {
+    func addOrUpdateHydrationLog(hydrationLog: HydrationIntake) async {
         do {
             let currentDate = Date()
 
             let hydrationDocRef = try await hydrationDocument(date: currentDate)
 
             // Update or create the document
-            try await hydrationDocRef.setData(from: hydrationLog, merge: true)
+//            try await hydrationDocRef.setData(from: HydrationIntake, merge: true)
         } catch {
             print("❌ Error updating hydration log: \(error)")
         }
@@ -36,7 +36,7 @@ extension Stanford360Standard {
     
     /// Fetches the hydration log for the current date
     @MainActor
-    func fetchHydrationLog() async throws -> HydrationLog? {
+    func fetchHydrationLog() async throws -> HydrationIntake? {
         do {
             let currentDate = Date()
             let hydrationDocRef = try await hydrationDocument(date: currentDate)
@@ -47,14 +47,14 @@ extension Stanford360Standard {
             // Check if document exists
             if document.exists, let data = document.data() {
                 // Extract each field safely
-                let amountOz = data["amountOz"] as? Double ?? 0.0
+                let hydrationOunces = data["hydrationOunces"] as? Double ?? 0.0
                 let streak = data["streak"] as? Int ?? 0
                 let lastTriggeredMilestone = data["lastTriggeredMilestone"] as? Double ?? 0.0
                 let lastHydrationDate = (data["lastHydrationDate"] as? Timestamp)?.dateValue() ?? Date()
                 let isStreakUpdated = data["isStreakUpdated"] as? Bool ?? false
 
-                return HydrationLog(
-                    amountOz: amountOz,
+                return HydrationIntake(
+					hydrationOunces: hydrationOunces,
                     streak: streak,
                     lastTriggeredMilestone: lastTriggeredMilestone,
                     lastHydrationDate: lastHydrationDate,
@@ -83,7 +83,7 @@ extension Stanford360Standard {
             
             if document.exists, let data = document.data() {
                 let yesterdayStreak = data["streak"] as? Int ?? 0
-                let yesterdayIntake = data["amountOz"] as? Double ?? 0.0
+                let yesterdayIntake = data["hydrationOunces"] as? Double ?? 0.0
                 
                 return yesterdayIntake >= 60 ? yesterdayStreak : 0
             } else {
@@ -114,7 +114,7 @@ extension Stanford360Standard {
                     let document = try await hydrationDocRef.getDocument()
 
                     if document.exists, let data = document.data() {
-                        let intakeOz = data["amountOz"] as? Double ?? 0.0
+                        let intakeOz = data["hydrationOunces"] as? Double ?? 0.0
                         // let dayName = DateFormatter.localizedString(from: date, dateStyle: .short, timeStyle: .none)
 
                         // 🌟 Use correct abbreviation
@@ -165,7 +165,7 @@ extension Stanford360Standard {
                     let dayString = String(format: "%02d", day) // Ensure "01", "02", ..., "31"
 
                     if document.exists, let data = document.data() {
-                        let intakeOz = data["amountOz"] as? Double ?? 0.0
+                        let intakeOz = data["hydrationOunces"] as? Double ?? 0.0
                         dailyData[dayString] = intakeOz
                     } else {
                         dailyData[dayString] = 0.0 // If no data, assume 0 oz intake

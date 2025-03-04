@@ -14,7 +14,7 @@ import Foundation
 
 struct PatientData: @unchecked Sendable {
 	let activities: [Activity]
-	let hydration: [HydrationLog]
+	let hydration: [HydrationIntake]
 	let meals: [Meal]
 }
 
@@ -23,7 +23,7 @@ extension Stanford360Standard {
 	func fetchPatientData() async throws -> PatientData {
 		let docRef = try await configuration.userDocumentReference
 		var activities: [Activity] = []
-		var hydration: [HydrationLog] = []
+		var hydration: [HydrationIntake] = []
 		var meals: [Meal] = []
 		
 		do {
@@ -41,7 +41,7 @@ extension Stanford360Standard {
 			}
 			
 			hydration = try hydrationSnapshot.documents.compactMap { doc in
-				try doc.data(as: HydrationLog.self)
+				try doc.data(as: HydrationIntake.self)
 			}
 			
 			meals = try mealsSnapshot.documents.compactMap { doc in

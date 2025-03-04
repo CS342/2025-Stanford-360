@@ -12,6 +12,7 @@ import SwiftUI
 struct HydrationTrackerView: View {
 	@Environment(PatientManager.self) var patientManager
     @Environment(Stanford360Standard.self) var standard
+	@Environment(HydrationManager.self) var hydrationManager
     @Environment(HydrationScheduler.self) var hydrationScheduler
 
     // MARK: - State
@@ -70,6 +71,9 @@ struct HydrationTrackerView: View {
 					AccountButton(isPresented: $presentingAccount)
 				}
 			}
+			.task {
+				await loadHydration()
+			}
 			.onAppear {
 				Task {
 					await fetchHydrationData()
@@ -86,6 +90,11 @@ struct HydrationTrackerView: View {
     init(presentingAccount: Binding<Bool>) {
         self._presentingAccount = presentingAccount
     }
+	
+	func loadHydration() async {
+		hydrationManager.hydration = await standard.fetchHydration()
+		print(hydrationManager.hydration)
+	}
 }
 
 // MARK: - Preview
