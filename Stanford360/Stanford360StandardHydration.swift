@@ -100,33 +100,36 @@ extension Stanford360Standard {
             let calendar = Calendar.current
             let today = calendar.startOfDay(for: Date())
 
-            // 📌 Create default structure with all 7 days
+            let weekday = calendar.component(.weekday, from: today)
+            let daysSinceSunday = weekday - 1
+            guard let sunday = calendar.date(byAdding: .day, value: -daysSinceSunday, to: today) else {
+                print("❌ Failed to calculate start of the week (Sunday)")
+                return []
+            }
+
             let weekDaysOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
             var hydrationMap: [String: Double] = [:]
 
             for dayName in weekDaysOrder {
-                hydrationMap[dayName] = 0.0  // Default 0 intake
+                hydrationMap[dayName] = 0.0
             }
 
             for dayOffset in 0..<7 {
-                if let date = calendar.date(byAdding: .day, value: -dayOffset, to: today) {
+                if let date = calendar.date(byAdding: .day, value: dayOffset, to: sunday), date <= today {
                     let hydrationDocRef = try await hydrationDocument(date: date)
                     let document = try await hydrationDocRef.getDocument()
 
                     if document.exists, let data = document.data() {
                         let intakeOz = data["amountOz"] as? Double ?? 0.0
-                        // let dayName = DateFormatter.localizedString(from: date, dateStyle: .short, timeStyle: .none)
 
-                        // 🌟 Use correct abbreviation
                         if let weekdayIndex = calendar.dateComponents([.weekday], from: date).weekday {
-                            let correctedDayName = weekDaysOrder[weekdayIndex - 1]  // Convert to Sun–Sat
+                            let correctedDayName = weekDaysOrder[weekdayIndex - 1]  // Sunday = index 0
                             hydrationMap[correctedDayName] = intakeOz
                         }
                     }
                 }
             }
 
-            // Convert to array while maintaining order
             let weeklyData = weekDaysOrder.map { day in
                 DailyHydrationData(dayName: day, intakeOz: hydrationMap[day] ?? 0.0)
             }
@@ -151,9 +154,9 @@ extension Stanford360Standard {
             }
             let totalDaysInMonth = monthRange.count
 
-            var dailyData: [String: Double] = [:] // Key: "01", "02", ..., "31"
+            var dailyData: [String: Double] = [:]
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "dd" // Format to "01", "02", ..., "31"
+            dateFormatter.dateFormat = "dd"
 
             for day in 1...totalDaysInMonth { // ✅ Fetch only this month's days
                 var components = calendar.dateComponents([.year, .month], from: today)

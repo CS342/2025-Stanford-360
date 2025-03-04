@@ -10,7 +10,7 @@ import FirebaseFirestore
 import Foundation
 
 // MARK: - Hydration Log Model
-struct HydrationLog: Identifiable, Codable {
+struct HydrationLog: Identifiable, Codable, @unchecked Sendable {
     @DocumentID var id: String?
     var amountOz: Double
     var streak: Int

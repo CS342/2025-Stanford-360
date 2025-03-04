@@ -35,40 +35,46 @@ final class HydrationScheduler: Module, DefaultInitializable, EnvironmentAccessi
         }
     }
 
-    // MARK: - Called when the user logs water intake to reschedule reminders.
+    // MARK: - Called when the user logs water intake to reschedule reminders.    
     @MainActor
-    func userLoggedWaterIntake() async {
-        let now = Date()
-        let calendar = Calendar.current
-        let hour = calendar.component(.hour, from: now)
-        
-        // If it's after 9 PM, don't schedule new reminders
-        if hour >= 21 {
-            print("⏳ Skipping hydration reminder after 9 PM.")
-            return
-        }
+        func userLoggedWaterIntake() async {
+            let now = Date()
+            let calendar = Calendar.current
 
-        // If it's before 9 AM, also skip scheduling
-        if hour < 9 {
-            print("⏳ Skipping hydration reminder before 9 AM.")
-            return
+            let currentHour = calendar.component(.hour, from: now)
+            
+            if currentHour >= 21 {
+                print("⏳ Skipping hydration reminder after 9 PM.")
+                return
+            }
+            if currentHour < 3 {
+                print("⏳ Skipping hydration reminder before 3 AM.")
+                return
+            }
+
+            guard let reminderDate = calendar.date(byAdding: .hour, value: 4, to: now) else {
+                print("❌ Failed to calculate reminder date")
+                return
+            }
+            
+            let reminderHour = calendar.component(.hour, from: reminderDate)
+            let reminderMinute = calendar.component(.minute, from: reminderDate)
+
+            do {
+                try scheduler.createOrUpdateTask(
+                    id: "hydration-reminder",
+                    title: "💧 Stay Hydrated!",
+                    instructions: "You haven't logged any water intake in the last 4 hours. Drink up!",
+                    category: Task.Category(rawValue: "Hydration"),
+                    schedule: .daily(
+                        hour: reminderHour,
+                        minute: reminderMinute,
+                        startingAt: reminderDate
+                    ),
+                    scheduleNotifications: true
+                )
+            } catch {
+                print("❌ Error scheduling reminder: \(error)")
+            }
         }
-        
-        // Schedule a new reminder
-        do {
-            try scheduler.createOrUpdateTask(
-                id: "hydration-reminder",
-                title: "💧 Stay Hydrated!",
-                instructions: "You haven't logged any water intake in the last 4 hours. Drink up!",
-                category: Task.Category(rawValue: "Hydration"),
-                schedule: .daily(
-                    hour: Calendar.current.component(.hour, from: now) + 4,
-                    minute: Calendar.current.component(.minute, from: now),
-                    startingAt: .now
-                ),
-                scheduleNotifications: true
-            )
-        } catch {
-        }
-    }
 }

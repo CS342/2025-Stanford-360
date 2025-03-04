@@ -18,59 +18,31 @@ extension HydrationTrackerView {
         }
 
         errorMessage = nil
+        let now = Date()
 
-        do {
-            let fetchedLog = try await standard.fetchHydrationLog()
-            var newTotalIntake = amount
-            var newStreak = streak ?? 0
-            let lastHydrationDate = Date()
-            var isStreakUpdated = fetchedLog?.isStreakUpdated ?? false
+        hydrationManager.addHydrationLog(amount: amount, timestamp: now, previousStreak: streak ?? 0)
+        let todayTotalIntake = hydrationManager.getTodayHydrationOunces()
+        let (latestStreak, isStreakUpdated) = hydrationManager.calculateStreak(previousStreak: streak ?? 0)
+        await updateFirestoreLog(todayTotalIntake, latestStreak, isStreakUpdated, now)
 
-            // Update total intake and streak
-            if let existingLog = fetchedLog {
-                newTotalIntake += existingLog.amountOz
-                if newTotalIntake >= 60 && !isStreakUpdated {
-                    newStreak += 1
-                    isStreakUpdated = true
-                    streakJustUpdated = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        streakJustUpdated = false
-                    }
-                }
-            } else {
-                if newTotalIntake >= 60 {
-                    newStreak += 1
-                    isStreakUpdated = true
-                    streakJustUpdated = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        streakJustUpdated = false
-                    }
-                }
-            }
+        totalIntake = todayTotalIntake
+        streak = latestStreak
+        patientManager.updateHydrationOunces(todayTotalIntake)
 
-            // Update Firestore
-            await updateFirestoreLog(newTotalIntake, newStreak, isStreakUpdated, lastHydrationDate)
-
-            totalIntake = newTotalIntake
-			patientManager.updateHydrationOunces(newTotalIntake)
-            streak = newStreak
-            
-            let updatedWeeklyData = await standard.fetchWeeklyHydrationData()
-            let updatedMonthlyData = await standard.fetchMonthlyHydrationData()
-            withAnimation {
-                weeklyData = updatedWeeklyData
-                monthlyData = updatedMonthlyData
-            }
-            
-            await hydrationScheduler.userLoggedWaterIntake()
-            
-            displayMilestoneMessage(newTotalIntake: newTotalIntake, lastMilestone: fetchedLog?.lastTriggeredMilestone ?? 0)
-        } catch {
-            print("❌ Error updating hydration log: \(error)")
+        let updatedWeeklyData = await standard.fetchWeeklyHydrationData()
+        let updatedMonthlyData = await standard.fetchMonthlyHydrationData()
+        withAnimation {
+            weeklyData = updatedWeeklyData
+            monthlyData = updatedMonthlyData
         }
+
+        await hydrationScheduler.userLoggedWaterIntake()
+        displayMilestoneMessage(newTotalIntake: todayTotalIntake, lastMilestone: hydrationManager.getLatestLog()?.lastTriggeredMilestone ?? 0)
+
         selectedAmount = nil
         intakeAmount = ""
     }
+
     
     private func updateFirestoreLog(_ newTotalIntake: Double, _ newStreak: Int, _ isStreakUpdated: Bool, _ lastHydrationDate: Date) async {
         let updatedLog = HydrationLog(
@@ -99,35 +71,6 @@ extension HydrationTrackerView {
                     self.isSpecialMilestone = false
                 }
             }
-        }
-    }
-
-
-    // MARK: - Fetch Hydration Data
-    func fetchHydrationData() async {
-        do {
-            let fetchedLog = try await standard.fetchHydrationLog()
-            if streak == nil {
-                let yesterdayStreak = await standard.fetchYesterdayStreak()
-                streak = yesterdayStreak
-            }
-
-            let calendar = Calendar.current
-            let today = calendar.startOfDay(for: Date())
-
-            if let log = fetchedLog, calendar.isDate(log.lastHydrationDate, inSameDayAs: today) {
-                totalIntake = log.amountOz
-				patientManager.updateHydrationOunces(log.amountOz)
-                streak = log.streak
-            }
-
-            // 🔹 Fetch Weekly Data Again to Refresh Graph
-            let updatedWeeklyData = await standard.fetchWeeklyHydrationData()
-            withAnimation {
-                weeklyData = updatedWeeklyData
-            }
-        } catch {
-            print("❌ Error fetching hydration data: \(error)")
         }
     }
 

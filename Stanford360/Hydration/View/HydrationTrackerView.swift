@@ -10,9 +10,12 @@
 import SwiftUI
 
 struct HydrationTrackerView: View {
-	@Environment(PatientManager.self) var patientManager
-    @Environment(Stanford360Standard.self) var standard
-    @Environment(HydrationScheduler.self) var hydrationScheduler
+    // MARK: - TimeFrame Enum
+    enum HydrationTimeFrame {
+        case today
+        case week
+        case month
+    }
 
     // MARK: - State
     @State var intakeAmount: String = ""
@@ -21,9 +24,10 @@ struct HydrationTrackerView: View {
     @State var totalIntake: Double = 0.0
     @State var streak: Int?
     @State var selectedAmount: Double?
+    @State var isStreakUpdated: Bool = false
     @State var streakJustUpdated = false
     @State var isSpecialMilestone: Bool = false
-    @State var selectedTimeFrame: TimeFrame = .today
+    @State var selectedTimeFrame: HydrationTimeFrame = .today
     @State var weeklyData: [DailyHydrationData] = []
     @State var monthlyData: [DailyHydrationData] = []
     @State var selectedDate: String?
@@ -35,6 +39,11 @@ struct HydrationTrackerView: View {
     var maxWeeklyIntake: Double {
         max(100, weeklyData.map { $0.intakeOz }.max() ?? 0)
     }
+
+    @Environment(Stanford360Standard.self) var standard
+    @Environment(HydrationScheduler.self) var hydrationScheduler
+    @Environment(PatientManager.self) var patientManager
+    @Environment(HydrationManager.self) var hydrationManager
     @Environment(Account.self) private var account: Account?
     @Binding private var presentingAccount: Bool
 
@@ -49,43 +58,71 @@ struct HydrationTrackerView: View {
     ]
 
     // MARK: - Body
-	var body: some View {
-		NavigationView {
-			VStack(spacing: 20) {
-				TimeFramePicker(selectedTimeFrame: $selectedTimeFrame)
-				
-				TabView(selection: $selectedTimeFrame) {
-					todayView()
-						.tag(TimeFrame.today)
-					weeklyView()
-						.tag(TimeFrame.week)
-					monthlyView()
-						.tag(TimeFrame.month)
-				}
-				.tabViewStyle(PageTabViewStyle())
-			}
-			.navigationTitle("My Hydration 💧")
-			.toolbar {
-				if account != nil {
-					AccountButton(isPresented: $presentingAccount)
-				}
-			}
-			.onAppear {
-				Task {
-					await fetchHydrationData()
-					weeklyData = await standard.fetchWeeklyHydrationData()
-					monthlyData = await standard.fetchMonthlyHydrationData()
-				}
-			}
-			.onTapGesture {
-				UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-			}
-		}
-	}
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(spacing: 20) {
+                    hydrationPeriodPicker()
+                    
+                    switch selectedTimeFrame {
+                    case .today:
+                        todayView()
+                    case .week:
+                        weeklyView()
+                    case .month:
+                        monthlyView()
+                    }
+                }
+            }
+            .navigationTitle("My Hydration 💧")
+            .toolbar {
+                if account != nil {
+                    AccountButton(isPresented: $presentingAccount)
+                }
+            }
+            .onAppear {
+                Task {
+                    await loadHydrationLogs()
+                }
+            }
+            .contentShape(Rectangle())
+            .onTapGesture {
+                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+            }
+        }
+    }
     
     init(presentingAccount: Binding<Bool>) {
-        self._presentingAccount = presentingAccount
+            self._presentingAccount = presentingAccount
     }
+    
+    func loadHydrationLogs() async {
+            do {
+                if let fetchedLog = try await standard.fetchHydrationLog() {
+                    hydrationManager.hydration = [fetchedLog]
+                    totalIntake = fetchedLog.amountOz
+                    streak = fetchedLog.streak
+                    isStreakUpdated = fetchedLog.isStreakUpdated
+                    patientManager.updateHydrationOunces(fetchedLog.amountOz)
+                } else {
+                    hydrationManager.hydration = []
+                    totalIntake = 0
+                    isStreakUpdated = false
+
+                    // Fetch yesterday's streak if no data exists for today
+                    let yesterdayStreak = await standard.fetchYesterdayStreak()
+                    streak = yesterdayStreak
+                }
+            } catch {
+                print("❌ Error fetching hydration logs: \(error)")
+                hydrationManager.hydration = []
+                isStreakUpdated = false
+            }
+
+            // Fetch weekly and monthly hydration data
+            weeklyData = await standard.fetchWeeklyHydrationData()
+            monthlyData = await standard.fetchMonthlyHydrationData()
+        }
 }
 
 // MARK: - Preview

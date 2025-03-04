@@ -17,6 +17,17 @@ struct DailyHydrationData: Identifiable {
 }
 
 extension HydrationTrackerView {
+    // MARK: - Hydration Period Picker
+    func hydrationPeriodPicker() -> some View {
+        Picker("Hydration Period", selection: $selectedTimeFrame) {
+            Text("Today").tag(HydrationTimeFrame.today)
+            Text("This Week").tag(HydrationTimeFrame.week)
+            Text("This Month").tag(HydrationTimeFrame.month)
+        }
+        .pickerStyle(SegmentedPickerStyle())
+        .padding(.horizontal)
+    }
+    
     // MARK: - "Today" Tab Content
     func todayView() -> some View {
         VStack(spacing: 20) {
@@ -44,7 +55,6 @@ extension HydrationTrackerView {
                 }
         }
         .padding()
-		.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 
     // MARK: - Weekly Chart View
@@ -139,7 +149,6 @@ extension HydrationTrackerView {
                 }
         }
         .padding()
-		.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 
     // MARK: - Chart View
@@ -192,6 +201,17 @@ extension HydrationTrackerView {
                 }
             }
         }
+    }
+    
+    private func goalLine() -> some ChartContent {
+        RuleMark(y: .value("Goal", 60))
+            .foregroundStyle(.red)
+            .lineStyle(StrokeStyle(lineWidth: 1, dash: [5]))
+            .annotation(position: .top, alignment: .leading) {
+                Text("Goal")
+                    .font(.caption)
+                    .foregroundColor(.red)
+            }
     }
 
     // MARK: - Circular Progress Bar
