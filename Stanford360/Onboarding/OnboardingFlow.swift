@@ -14,8 +14,7 @@ import SpeziOnboarding
 import class SpeziScheduler.Scheduler
 import SwiftUI
 
-
-/// Displays an multi-step onboarding flow for the Stanford 360.
+/// Displays a multi-step onboarding flow for the Stanford 360.
 struct OnboardingFlow: View {
     @Environment(HealthKit.self) private var healthKitDataSource
 
@@ -39,15 +38,16 @@ struct OnboardingFlow: View {
     
     var body: some View {
         OnboardingStack(onboardingFlowComplete: $completedOnboardingFlow) {
-            Welcome()
-            InterestingModules()
+            // Welcome()
+            // InterestingModules()
+            KidsOnboarding() // New onboarding view for kids
             
             if !FeatureFlags.disableFirebase {
                 AccountOnboarding()
             }
             
             #if !(targetEnvironment(simulator) && (arch(i386) || arch(x86_64)))
-                Consent()
+                // Consent()
             #endif
             
             if HKHealthStore.isHealthDataAvailable() && !healthKitAuthorization {

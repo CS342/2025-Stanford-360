@@ -16,7 +16,7 @@ struct ProgressBar: View {
 	let color: Color
 	
 	var body: some View {
-		ProgressView(value: progress)
+		ProgressView(value: min(progress, 1))
 			.tint(color)
 			.background(Color.progressBackground)
 	}

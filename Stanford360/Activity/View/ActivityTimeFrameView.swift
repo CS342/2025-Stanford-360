@@ -81,14 +81,14 @@ struct ActivityTimeFrameView: View {
 						ActivityCardView(activity: activity)
 					}
 				}
-				.listStyle(PlainListStyle())
+				 .listStyle(PlainListStyle())
 			} else {
 				List {
 					Text("No activities logged today")
 						.foregroundColor(.gray)
 						.padding()
 				}
-				.listStyle(PlainListStyle())
+				 .listStyle(PlainListStyle())
 			}
 		}
 		.padding(.top, 20)
@@ -97,8 +97,6 @@ struct ActivityTimeFrameView: View {
 	private var weeklyView: some View {
 		VStack(spacing: 20) {
 			ActivityChartView(
-				activities: activityManager.getWeeklySummary(),
-				title: "Weekly Progress",
 				isWeekly: true
 			)
 		}
@@ -124,8 +122,6 @@ struct ActivityTimeFrameView: View {
 	private var monthlyView: some View {
 		VStack(spacing: 20) {
 			ActivityChartView(
-				activities: activityManager.getMonthlyActivities(),
-				title: "Monthly Progress",
 				isWeekly: false
 			)
 		}

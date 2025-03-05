@@ -28,6 +28,26 @@ class ActivityManager: Module, EnvironmentAccessible {
 		
 		return activitiesByDate
 	}
+
+    // Streak Calculation
+    var streak: Int {
+        let calendar = Calendar.current
+        var streakCount = 0
+        var currentDate = Date()
+
+        while let activitiesForDate = activitiesByDate[calendar.startOfDay(for: currentDate)] {
+            let totalMinutes = getTotalActivityMinutes(activitiesForDate)
+            if totalMinutes >= 60 {
+                streakCount += 1
+            } else {
+                break // Stop counting if the total minutes are not over 60
+            }
+            // Move to the previous day
+            currentDate = calendar.date(byAdding: .day, value: -1, to: currentDate) ?? currentDate
+        }
+
+        return streakCount
+    }
     
     // MARK: - Initialization
 	init(activities: [Activity] = []) {
@@ -46,23 +66,6 @@ class ActivityManager: Module, EnvironmentAccessible {
 		activities.reduce(0) { $0 + $1.activeMinutes }
 	}
 
-//    // Method to edit an existing activity
-//    func editActivity(_ updatedActivity: Activity) {
-//        if let index = activities.firstIndex(where: { $0.id == updatedActivity.id }) {
-//            activities[index] = updatedActivity
-//        }
-//    }
-//
-//    // Method to delete an activity
-//    func deleteActivity(_ activity: Activity) {
-//        activities.removeAll { $0.id == activity.id }
-//    }
-    
-//    func getTodayActivity() -> Activity? {
-//        let today = Calendar.current.startOfDay(for: Date())
-//        return activities.first { Calendar.current.startOfDay(for: $0.date) == today }
-//    }
-    
     func getWeeklySummary() -> [Activity] {
         let calendar = Calendar.current
         guard let oneWeekAgo = calendar.date(byAdding: .day, value: -7, to: Date()) else {
@@ -80,26 +83,7 @@ class ActivityManager: Module, EnvironmentAccessible {
             .filter { $0.date >= oneMonthAgo }
             .sorted { $0.date < $1.date }
     }
-    
-//    func checkStreak() -> Int {
-//        var streak = 0
-//        let calendar = Calendar.current
-//        let sortedActivities = activities.sorted(by: { $0.date > $1.date })
-//        var previousDate: Date?
-//        
-//        for activity in sortedActivities {
-//            let activityDate = calendar.startOfDay(for: activity.date)
-//            if let prev = previousDate, calendar.date(byAdding: .day, value: -1, to: prev) != activityDate {
-//                break
-//            }
-//            if activity.activeMinutes >= 60 {
-//                streak += 1
-//                previousDate = activityDate
-//            }
-//        }
-//        return streak
-//    }
-//    
+       
     func triggerMotivation() -> String {
         if getTodayTotalMinutes() >= 60 {
             return "🎉 Amazing! You've reached your daily goal of 60 minutes!"
@@ -110,13 +94,6 @@ class ActivityManager: Module, EnvironmentAccessible {
             return "Start your activity today and move towards your goal! 💪"
         }
     }
-    
-//    private func loadFromStorage() {
-//        if let data = UserDefaults.standard.data(forKey: "activities"),
-//           let decoded = try? JSONDecoder().decode([Activity].self, from: data) {
-//            activities = decoded
-//        }
-//    }
     
     func saveToStorage() {
         do {

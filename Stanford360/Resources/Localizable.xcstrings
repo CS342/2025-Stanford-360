@@ -175,6 +175,7 @@
 
     },
     "CONSENT_LOADING_ERROR" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -185,6 +186,7 @@
       }
     },
     "Contact" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -252,6 +254,12 @@
     "g" : {
 
     },
+    "Get Fun Suggestions 🎈" : {
+
+    },
+    "Get reminders and congrats to keep you on track!" : {
+
+    },
     "Goal" : {
 
     },
@@ -288,6 +296,7 @@
 
     },
     "HealthKit Data Source" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -318,6 +327,7 @@
       }
     },
     "HL7 FHIR" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -346,6 +356,7 @@
 
     },
     "Interesting Modules" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -356,6 +367,7 @@
       }
     },
     "INTERESTING_MODULES_AREA1_DESCRIPTION" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -366,6 +378,7 @@
       }
     },
     "INTERESTING_MODULES_AREA2_DESCRIPTION" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -376,6 +389,7 @@
       }
     },
     "INTERESTING_MODULES_AREA3_DESCRIPTION" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -386,6 +400,7 @@
       }
     },
     "INTERESTING_MODULES_AREA4_DESCRIPTION" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -396,6 +411,7 @@
       }
     },
     "INTERESTING_MODULES_SUBTITLE" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -412,6 +428,7 @@
 
     },
     "Learn More" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -432,6 +449,12 @@
       }
     },
     "Let's get moving!" : {
+    
+    },
+    "Let's explore how to stay active and healthy!" : {
+
+    },
+    "Let's Get Started!" : {
 
     },
     "Let's keep track of your journey! It's time to fill out your updates." : {
@@ -495,6 +518,9 @@
     "Navigate to task details" : {
 
     },
+    "Need ideas for activities or meals? Just click the green '?' button for suggestions." : {
+
+    },
     "Next" : {
       "localizations" : {
         "en" : {
@@ -553,6 +579,7 @@
 
     },
     "Onboarding" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -605,6 +632,9 @@
     "Protein Recommendations" : {
 
     },
+    "Reach Your Goals 🎯" : {
+
+    },
     "Remaining" : {
 
     },
@@ -641,6 +671,7 @@
       }
     },
     "Spezi Modules" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -661,6 +692,7 @@
       }
     },
     "Stanford 360" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -680,10 +712,17 @@
         }
       }
     },
+    "Stay Motivated! 🎉" : {
+
+    },
+    "Streak" : {
+
+    },
     "Streak icon" : {
 
     },
     "Swift Package Manager" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -703,6 +742,7 @@
 
     },
     "The Spezi Framework" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -740,6 +780,12 @@
     "Today" : {
 
     },
+    "Total Minutes" : {
+
+    },
+    "Track your progress with the 60/60/60 rule: 60 minutes of activity, 60 oz of water, and 60 grams of protein daily!" : {
+
+    },
     "Unsupported Event" : {
       "localizations" : {
         "en" : {
@@ -771,7 +817,11 @@
     "Weight (lbs)" : {
 
     },
+    "Welcome to Your Health Adventure! 🎉" : {
+
+    },
     "WELCOME_AREA1_DESCRIPTION" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -782,6 +832,7 @@
       }
     },
     "WELCOME_AREA2_DESCRIPTION" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -792,6 +843,7 @@
       }
     },
     "WELCOME_AREA3_DESCRIPTION" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -802,6 +854,7 @@
       }
     },
     "WELCOME_SUBTITLE" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

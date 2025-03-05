@@ -27,7 +27,7 @@ final class HydrationScheduler: Module, DefaultInitializable, EnvironmentAccessi
                 title: "💧 Stay Hydrated!",
                 instructions: "You haven't logged any water intake in the last 4 hours. Drink up!",
                 category: Task.Category(rawValue: "Hydration"),
-                schedule: .daily(hour: 9, minute: 0, startingAt: .today), // First reminder at 9 AM
+                schedule: .daily(hour: 7, minute: 0, startingAt: .today), // First reminder at 7 AM
                 scheduleNotifications: true
             )
         } catch {

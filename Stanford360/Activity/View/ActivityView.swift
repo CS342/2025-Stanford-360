@@ -123,9 +123,6 @@ struct ActivityView: View {
 	func loadActivities() async {
 		activityManager.activities = await standard.fetchActivities()
 		
-		// update patient's activities
-		patientManager.updateActivityMinutes(activityManager.getTodayTotalMinutes())
-		
 		// fetch from healthkit
 		do {
 			try await healthKitManager.requestAuthorization()
@@ -133,6 +130,9 @@ struct ActivityView: View {
 		} catch {
 			print("Failed to setup HealthKit: \(error.localizedDescription)")
 		}
+        
+        // update patient's activities
+        patientManager.updateActivityMinutes(activityManager.getTodayTotalMinutes())
 	}
     
     // Retrieve data from HealthKit and convert it to an Activity
