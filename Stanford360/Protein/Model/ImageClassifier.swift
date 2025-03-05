@@ -75,7 +75,7 @@ class ImageClassifier: ObservableObject {
             }
 
             let validResults = results.filter { $0.confidence >= self.confidenceThreshold }
-            let topResults = validResults.prefix(3)
+            // let topResults = validResults.prefix(3)
             
 //            DispatchQueue.main.async {
 //                self.classificationOptions = topResults.map {

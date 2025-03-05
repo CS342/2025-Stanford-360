@@ -30,15 +30,7 @@ extension HydrationTrackerView {
         streak = hydrationManager.streak
 
         patientManager.updateHydrationOunces(todayTotalIntake)
-        
-        let updatedWeeklyData = await standard.fetchWeeklyHydrationData()
-        let updatedMonthlyData = await standard.fetchMonthlyHydrationData()
-        withAnimation {
-            weeklyData = updatedWeeklyData
-            monthlyData = updatedMonthlyData
-        }
-
-        await hydrationScheduler.userLoggedWaterIntake()
+        await hydrationScheduler.rescheduleHydrationNotifications()
         
         // Check and display milestone messages
         displayMilestoneMessage(newTotalIntake: todayTotalIntake, lastMilestone: lastRecordedMilestone)
