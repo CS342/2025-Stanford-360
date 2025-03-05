@@ -25,16 +25,14 @@ extension HydrationTrackerView {
 
         await storeFirestoreLog(amount, now)
 
-        let todayTotalIntake = hydrationManager.getTodayHydrationOunces()
-        totalIntake = todayTotalIntake
-        streak = hydrationManager.streak
+        let todayHydrationOunces = hydrationManager.getTodayHydrationOunces()
 
-        patientManager.updateHydrationOunces(todayTotalIntake)
+        patientManager.updateHydrationOunces(todayHydrationOunces)
 
         await hydrationScheduler.rescheduleHydrationNotifications()
 
         // Check and display milestone messages
-        displayMilestoneMessage(newTotalIntake: todayTotalIntake, lastMilestone: lastRecordedMilestone)
+        displayMilestoneMessage(newTotalIntake: todayHydrationOunces, lastMilestone: lastRecordedMilestone)
 
         selectedAmount = nil
         intakeAmount = ""

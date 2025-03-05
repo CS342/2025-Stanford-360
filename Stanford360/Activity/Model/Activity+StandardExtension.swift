@@ -52,23 +52,6 @@ extension Stanford360Standard {
 			logger.error("Could not store activity: \(error)")
 		}
 	}
-	
-	func fetchActivities() async -> [Activity] {
-		var activities: [Activity] = []
-		
-		do {
-			let docRef = try await configuration.userDocumentReference
-			let activitiesSnapshot = try await docRef.collection("activities").getDocuments()
-			
-			activities = try activitiesSnapshot.documents.compactMap { doc in
-				try doc.data(as: Activity.self)
-			}
-		} catch {
-			print("Error fetching activities from Firestore: \(error)")
-		}
-		
-		return activities
-	}
 
 	/// Updates an activity in both Firestore
 	func updateActivityFirestore(activity: Activity) async {
