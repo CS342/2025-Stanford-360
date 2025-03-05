@@ -30,12 +30,15 @@ struct ActivityCardView: View {
                 .font(.title3)
                 .foregroundStyle(.blue)
         }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color.white)
-                .shadow(radius: 2)
-        )
+        // .background(
+        //     RoundedRectangle(cornerRadius: 12)
+        //         .fill(Color.white)
+        //         .shadow(radius: 2)
+        // )
+        .padding(16)
+		.background(Color.cardBackground)
+		.cornerRadius(15)
+		.shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 4)
         .swipeActions(edge: .leading, allowsFullSwipe: true) {
             Button {
                 showingAddActivitySheet = true

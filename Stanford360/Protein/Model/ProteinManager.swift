@@ -27,6 +27,27 @@ class ProteinManager: Module, EnvironmentAccessible {
 		return mealsByDate
 	}
 	
+    
+    // Streak Calculation
+    var streak: Int {
+        let calendar = Calendar.current
+        var streakCount = 0
+        var currentDate = Date()
+
+        while let mealsByDate = mealsByDate[calendar.startOfDay(for: currentDate)] {
+            let totalGrams = getTotalProteinGrams(mealsByDate)
+            if totalGrams >= 60 {
+                streakCount += 1
+            } else {
+                break // Stop counting if the total minutes are not over 60
+            }
+            // Move to the previous day
+            currentDate = calendar.date(byAdding: .day, value: -1, to: currentDate) ?? currentDate
+        }
+
+        return streakCount
+    }
+    
 	init(meals: [Meal] = []) {
 		self.meals = meals
 	}

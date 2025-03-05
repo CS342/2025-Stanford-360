@@ -54,6 +54,7 @@
 		4F331D212D5C34B000CCC8AA /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 4F331D202D5C34B000CCC8AA /* FirebaseAuth */; };
 		4FA061BE2D4AF594008DE21A /* HealthKitOnFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 4FA061BD2D4AF594008DE21A /* HealthKitOnFHIR */; };
 		4FA061C02D4AF59C008DE21A /* ResearchKitOnFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 4FA061BF2D4AF59C008DE21A /* ResearchKitOnFHIR */; };
+		4FC5EF042D78162800BFDFFD /* KidsOnboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC5EF032D78162800BFDFFD /* KidsOnboarding.swift */; };
 		4FCAD0592D5AAD20007324A6 /* ActivityViewUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCAD0582D5AAD20007324A6 /* ActivityViewUITest.swift */; };
 		5680DD3E2AB8CD84004E6D4A /* ContributionsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5680DD3D2AB8CD84004E6D4A /* ContributionsTest.swift */; };
 		56E708352BB06B7100B08F0A /* SpeziLicense in Frameworks */ = {isa = PBXBuildFile; productRef = 56E708342BB06B7100B08F0A /* SpeziLicense */; };
@@ -133,6 +134,7 @@
 		2FF53D8C2A8729D600042B76 /* Stanford360Standard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stanford360Standard.swift; sourceTree = "<group>"; };
 		459A2CA22D6FD9DB00D429E9 /* Stanford360StandardHydration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stanford360StandardHydration.swift; sourceTree = "<group>"; };
 		45E038222D503BFA009D07E2 /* HydrationTrackerViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydrationTrackerViewTests.swift; sourceTree = "<group>"; };
+		4FC5EF032D78162800BFDFFD /* KidsOnboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KidsOnboarding.swift; sourceTree = "<group>"; };
 		4FCAD0582D5AAD20007324A6 /* ActivityViewUITest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewUITest.swift; sourceTree = "<group>"; };
 		5680DD3D2AB8CD84004E6D4A /* ContributionsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributionsTest.swift; sourceTree = "<group>"; };
 		653A254D283387FE005D4D48 /* Stanford360.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stanford360.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -252,6 +254,7 @@
 				2FE5DC2F29EDD7CA004B9AB4 /* Consent.swift */,
 				2FE5DC3029EDD7CA004B9AB4 /* HealthKitPermissions.swift */,
 				2F65B44D2A3B8B0600A36932 /* NotificationPermissions.swift */,
+				4FC5EF032D78162800BFDFFD /* KidsOnboarding.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -615,6 +618,7 @@
 				2FE5DC3729EDD7CA004B9AB4 /* OnboardingFlow.swift in Sources */,
 				2F1AC9DF2B4E840E00C24973 /* Stanford360.docc in Sources */,
 				C156248A2D6D6D9300298CEB /* DayTimelineView.swift in Sources */,
+				4FC5EF042D78162800BFDFFD /* KidsOnboarding.swift in Sources */,
 				2FF53D8D2A8729D600042B76 /* Stanford360Standard.swift in Sources */,
 				C1CF13DA2D6D76BE0057BC77 /* ScheduleTask.swift in Sources */,
 				A9720E432ABB68CC00872D23 /* AccountSetupHeader.swift in Sources */,

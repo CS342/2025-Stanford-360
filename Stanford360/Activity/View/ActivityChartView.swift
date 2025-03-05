@@ -12,9 +12,8 @@ import Charts
 import SwiftUI
 
 struct ActivityChartView: View {
-    let activities: [Activity]
-    let title: String
-    let isWeekly: Bool
+    @Environment(ActivityManager.self) private var activityManager
+    var isWeekly: Bool
     
     // Add colors for different activities
     private let activityColors: [String: Color] = [
@@ -31,75 +30,98 @@ struct ActivityChartView: View {
     ]
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text(title)
-                .font(.headline)
-                .padding(.horizontal)
-            
+        VStack {
+            if isWeekly {
+                weeklyChart
+            } else {
+                monthlyChart
+            }
+        }
+    }
+    
+    private var weeklyChart: some View {
+        let timeFrame = TimeFrame.week
+        let startDateAxis = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? timeFrame.dateRange().start
+        
+        return Group {
             Chart {
-                ForEach(activities) { activity in
-                    if isWeekly {
-                        BarMark(
-                            x: .value("Date", activity.date, unit: .day),
-                            y: .value("Minutes", activity.activeMinutes)
-                        )
-                        .foregroundStyle(activityColors[activity.activityType] ?? .blue)
-                    } else {
-                        LineMark(
-                            x: .value("Date", activity.date, unit: .day),
-                            y: .value("Minutes", activity.activeMinutes)
-                        )
-                        .foregroundStyle(activityColors[activity.activityType] ?? .blue)
-                        .symbol {
-                            Circle()
-                                .fill(activityColors[activity.activityType] ?? .blue)
-                                .frame(width: 8, height: 8)
-                        }
-                    }
+                let weeklyActivities = activityManager.getWeeklySummary()
+                ForEach(weeklyActivities) { activity in
+                    BarMark(
+                        x: .value("Date", activity.date, unit: .day),
+                        y: .value("Minutes", activity.activeMinutes)
+                    )
+                    .foregroundStyle(activityColors[activity.activityType] ?? .blue)
                 }
-                
                 goalLine()
             }
             .frame(height: 200)
             .padding()
+            .chartYScale(domain: 0...150)
+            .chartXAxis {
+                AxisMarks(values: .automatic) { value in
+                    if let date = value.as(Date.self) {
+                        AxisValueLabel {
+                            Text(date, format: .dateTime.weekday().day())
+                        }
+                    }
+                }
+            }
+            .chartXScale(domain: startDateAxis...Date())
+        }
+    }
+    
+    private var monthlyChart: some View {
+        let timeFrame = TimeFrame.month
+        let startDateAxis = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? timeFrame.dateRange().start
+
+        return Group {
+            Chart {
+                let monthlyActivities = activityManager.getMonthlyActivities()
+                let activitiesByDate = Dictionary(grouping: monthlyActivities) { Calendar.current.startOfDay(for: $0.date) }
+
+                ForEach(activitiesByDate.keys.sorted(), id: \.self) { date in
+                    let totalMinutes = activityManager.getTotalActivityMinutes(activitiesByDate[date] ?? [])
+                    
+                    LineMark(
+                        x: .value("Date", date),
+                        y: .value("Total Minutes", totalMinutes)
+                    )
+                    .foregroundStyle(Color.activityColor)
+                    .symbol {
+                        Circle()
+                            .fill(Color.activityColor)
+                            .frame(width: 8, height: 8)
+                    }
+                }
+                goalLine()
+            }
+            .frame(height: 200)
+            .padding()
+            .chartYScale(domain: 0...150)
+            .chartXAxis {
+                AxisMarks(values: .automatic) { value in
+                    if let date = value.as(Date.self) {
+                        AxisValueLabel {
+                            Text(date, format: .dateTime.month().day())
+                        }
+                    }
+                }
+            }
+            .chartXScale(domain: startDateAxis...Date())
         }
     }
 }
 
 #Preview {
-    // Sample activities for the last week
-    let sampleActivities: [Activity] = [
-        Activity(
-            date: Date(),
-            steps: 8000,
-            activeMinutes: 45,
-            activityType: "Running"
-        ),
-        {
-            guard let date = Calendar.current.date(byAdding: .day, value: -1, to: Date()) else {
-                fatalError("Failed to generate date")
-            }
-            return Activity(
-                date: date,
-                steps: 6000,
-                activeMinutes: 30,
-                activityType: "Walking"
-            )
-        }()
-    ]
-
-    return VStack {
+    VStack {
         // Preview weekly chart
         ActivityChartView(
-            activities: sampleActivities,
-            title: "Weekly Progress",
             isWeekly: true
         )
         
         // Preview monthly chart
         ActivityChartView(
-            activities: sampleActivities,
-            title: "Monthly Progress",
             isWeekly: false
         )
     }
