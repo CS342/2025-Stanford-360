@@ -37,7 +37,7 @@ final class HydrationScheduler: Module, DefaultInitializable, EnvironmentAccessi
 
     // MARK: - Called when the user logs water intake to reschedule reminders.    
     @MainActor
-        func userLoggedWaterIntake() async {
+        func rescheduleHydrationNotifications() async {
             let now = Date()
             let calendar = Calendar.current
 

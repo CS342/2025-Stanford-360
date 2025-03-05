@@ -20,19 +20,19 @@ extension HydrationTrackerView {
     // MARK: - "Today" Tab Content
     func todayView() -> some View {
         VStack(spacing: 20) {
-			PercentageRing(
-				currentValue: Int(hydrationManager.getTodayHydrationOunces()),
-				maxValue: 60,
-				iconName: "drop.fill",
-				ringWidth: 25,
-				backgroundColor: .hydrationColorBackground,
-				foregroundColors: [.hydrationColor, .hydrationColorGradient],
-				unitLabel: "ounces",
-				iconSize: 13,
-				showProgressTextInCenter: true
-			)
-			.frame(height: 210)
-			.padding(.top, 15)
+            PercentageRing(
+                currentValue: Int(hydrationManager.getTodayHydrationOunces()),
+                maxValue: 60,
+                iconName: "drop.fill",
+                ringWidth: 25,
+                backgroundColor: .hydrationColorBackground,
+                foregroundColors: [.hydrationColor, .hydrationColorGradient],
+                unitLabel: "ounces",
+                iconSize: 13,
+                showProgressTextInCenter: true
+            )
+            .frame(height: 210)
+            .padding(.top, 15)
             streakDisplay()
             presetButtonsGrid()
             logButton()
@@ -202,17 +202,6 @@ extension HydrationTrackerView {
                 }
             }
         }
-    }
-    
-    private func goalLine() -> some ChartContent {
-        RuleMark(y: .value("Goal", 60))
-            .foregroundStyle(.red)
-            .lineStyle(StrokeStyle(lineWidth: 1, dash: [5]))
-            .annotation(position: .top, alignment: .leading) {
-                Text("Goal")
-                    .font(.caption)
-                    .foregroundColor(.red)
-            }
     }
 
     // MARK: - Streak Display
