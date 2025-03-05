@@ -37,11 +37,16 @@ struct ActivityChartView: View {
                 monthlyChart
             }
         }
+        .padding(.horizontal, 20)
     }
     
     private var weeklyChart: some View {
         let timeFrame = TimeFrame.week
-        return Group {
+        let startDateAxis = Calendar.current.date(byAdding: .day, value: -6, to: Date()) ?? timeFrame.dateRange().start
+        
+        return HStack(spacing: 0) {
+            Spacer().frame(width: 20)
+            
             Chart {
                 let weeklyActivities = activityManager.getWeeklySummary()
                 ForEach(weeklyActivities) { activity in
@@ -54,7 +59,6 @@ struct ActivityChartView: View {
                 goalLine()
             }
             .frame(height: 200)
-            .padding()
             .chartYScale(domain: 0...150)
             .chartXAxis {
                 AxisMarks(values: .automatic) { value in
@@ -65,21 +69,25 @@ struct ActivityChartView: View {
                     }
                 }
             }
-            .chartXScale(domain: timeFrame.dateRange().start...timeFrame.dateRange().end)
+            .chartXScale(domain: startDateAxis...Date())
+            
+            Spacer().frame(width: 20)
         }
     }
     
     private var monthlyChart: some View {
         let timeFrame = TimeFrame.month
+        let startDateAxis = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? timeFrame.dateRange().start
+
         return Group {
             Chart {
                 let monthlyActivities = activityManager.getMonthlyActivities()
                 let activitiesByDate = Dictionary(grouping: monthlyActivities) { Calendar.current.startOfDay(for: $0.date) }
-                
+
                 ForEach(activitiesByDate.keys.sorted(), id: \.self) { date in
                     let totalMinutes = activityManager.getTotalActivityMinutes(activitiesByDate[date] ?? [])
                     
-                    PointMark(
+                    LineMark(
                         x: .value("Date", date),
                         y: .value("Total Minutes", totalMinutes)
                     )
@@ -93,7 +101,6 @@ struct ActivityChartView: View {
                 goalLine()
             }
             .frame(height: 200)
-            .padding()
             .chartYScale(domain: 0...150)
             .chartXAxis {
                 AxisMarks(values: .automatic) { value in
@@ -104,7 +111,7 @@ struct ActivityChartView: View {
                     }
                 }
             }
-            .chartXScale(domain: timeFrame.dateRange().start...timeFrame.dateRange().end)
+            .chartXScale(domain: startDateAxis...Date())
         }
     }
 }

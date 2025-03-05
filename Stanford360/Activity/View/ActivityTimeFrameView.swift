@@ -97,7 +97,6 @@ struct ActivityTimeFrameView: View {
 	private var weeklyView: some View {
 		VStack(spacing: 20) {
 			ActivityChartView(
-				title: "Weekly Progress",
 				isWeekly: true
 			)
 		}
@@ -123,7 +122,6 @@ struct ActivityTimeFrameView: View {
 	private var monthlyView: some View {
 		VStack(spacing: 20) {
 			ActivityChartView(
-				title: "Monthly Progress",
 				isWeekly: false
 			)
 		}
