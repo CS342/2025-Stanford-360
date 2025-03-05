@@ -12,7 +12,7 @@ import Spezi
 @Observable
 class HydrationManager: Module, EnvironmentAccessible {
     var hydration: [HydrationLog] = []
-
+    
     var hydrationByDate: [Date: [HydrationLog]] {
         var logsByDate: [Date: [HydrationLog]] = [:]
         for log in hydration {
@@ -29,28 +29,43 @@ class HydrationManager: Module, EnvironmentAccessible {
     // Streak Calculation
     var streak2: Int {
         let calendar = Calendar.current
+        let now = Date()
+        let todayStart = calendar.startOfDay(for: now)
+        
+        // Safely calculate yesterday
+        guard let previousDate = calendar.date(byAdding: .day, value: -1, to: todayStart) else {
+            return 0 // error
+        }
+        var dateToCheck = previousDate
+        
+        // Calculate streak for previous days
         var streakCount = 0
-        var currentDate = Date()
-
-        while let logsByDate = hydrationByDate[calendar.startOfDay(for: currentDate)] {
-            let totalLogs = getTotalHydrationOunces(logsByDate)
-            if totalLogs >= 60 {
+        while let logs = hydrationByDate[dateToCheck] {
+            let ounces = getTotalHydrationOunces(logs)
+            if ounces >= 60 {
                 streakCount += 1
             } else {
-                break // Stop counting if the total minutes are not over 60
+                break
             }
-            // Move to the previous day
-            currentDate = calendar.date(byAdding: .day, value: -1, to: currentDate) ?? currentDate
+            guard let newDate = calendar.date(byAdding: .day, value: -1, to: dateToCheck) else {
+                return 0 // error
+            }
+            dateToCheck = newDate
         }
-
+        
+        // Handle today's activity separately
+        if let todaysLogs = hydrationByDate[todayStart],
+           getTotalHydrationOunces(todaysLogs) >= 60 {
+            streakCount += 1
+        }
+        
         return streakCount
     }
     
-
     init(hydration: [HydrationLog] = []) {
         self.hydration = hydration
     }
-
+    
     func getTodayHydrationOunces() -> Double {
         let today = Calendar.current.startOfDay(for: Date())
         return hydrationByDate[today]?.reduce(0) { $0 + $1.hydrationOunces } ?? 0
@@ -59,7 +74,7 @@ class HydrationManager: Module, EnvironmentAccessible {
     func getTotalHydrationOunces(_ logs: [HydrationLog]) -> Double {
         logs.reduce(0) { $0 + $1.hydrationOunces }
     }
-
+    
     func addHydrationLog(amount: Double, timestamp: Date = Date()) {
         let newLog = HydrationLog(hydrationOunces: amount, timestamp: timestamp)
         hydration.append(newLog)

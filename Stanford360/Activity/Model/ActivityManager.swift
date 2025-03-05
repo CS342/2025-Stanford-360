@@ -19,39 +19,55 @@ import UserNotifications
 class ActivityManager: Module, EnvironmentAccessible {
     // MARK: - Properties
     var activities: [Activity] = []
-	var activitiesByDate: [Date: [Activity]] {
-		var activitiesByDate: [Date: [Activity]] = [:]
-		for activity in activities {
-			let normalizedDate = Calendar.current.startOfDay(for: activity.date)
-			activitiesByDate[normalizedDate, default: []].append(activity)
-		}
-		
-		return activitiesByDate
-	}
-
+    var activitiesByDate: [Date: [Activity]] {
+        var activitiesByDate: [Date: [Activity]] = [:]
+        for activity in activities {
+            let normalizedDate = Calendar.current.startOfDay(for: activity.date)
+            activitiesByDate[normalizedDate, default: []].append(activity)
+        }
+        
+        return activitiesByDate
+    }
+    
     // Streak Calculation
     var streak: Int {
         let calendar = Calendar.current
+        let now = Date()
+        let todayStart = calendar.startOfDay(for: now)
+        
+        // Safely calculate yesterday
+        guard let previousDate = calendar.date(byAdding: .day, value: -1, to: todayStart) else {
+            return 0 // error
+        }
+        var dateToCheck = previousDate
+        
+        // Calculate streak for previous days
         var streakCount = 0
-        var currentDate = Date()
-
-        while let activitiesForDate = activitiesByDate[calendar.startOfDay(for: currentDate)] {
-            let totalMinutes = getTotalActivityMinutes(activitiesForDate)
-            if totalMinutes >= 60 {
+        while let activities = activitiesByDate[dateToCheck] {
+            let minutes = getTotalActivityMinutes(activities)
+            if minutes >= 60 {
                 streakCount += 1
             } else {
-                break // Stop counting if the total minutes are not over 60
+                break
             }
-            // Move to the previous day
-            currentDate = calendar.date(byAdding: .day, value: -1, to: currentDate) ?? currentDate
+            guard let newDate = calendar.date(byAdding: .day, value: -1, to: dateToCheck) else {
+                return 0 // error
+            }
+            dateToCheck = newDate
         }
-
+        
+        // Handle today's activity separately
+        if let todaysActivities = activitiesByDate[todayStart],
+           getTotalActivityMinutes(todaysActivities) >= 60 {
+            streakCount += 1
+        }
+        
         return streakCount
     }
     
     // MARK: - Initialization
-	init(activities: [Activity] = []) {
-		self.activities = activities
+    init(activities: [Activity] = []) {
+        self.activities = activities
     }
     
     // MARK: - Methods
@@ -61,11 +77,11 @@ class ActivityManager: Module, EnvironmentAccessible {
             .filter { Calendar.current.isDate($0.date, inSameDayAs: today) }
             .reduce(0) { $0 + $1.activeMinutes }
     }
-	
-	func getTotalActivityMinutes(_ activities: [Activity]) -> Int {
-		activities.reduce(0) { $0 + $1.activeMinutes }
-	}
-
+    
+    func getTotalActivityMinutes(_ activities: [Activity]) -> Int {
+        activities.reduce(0) { $0 + $1.activeMinutes }
+    }
+    
     func getWeeklySummary() -> [Activity] {
         let calendar = Calendar.current
         guard let oneWeekAgo = calendar.date(byAdding: .day, value: -7, to: Date()) else {
@@ -83,7 +99,7 @@ class ActivityManager: Module, EnvironmentAccessible {
             .filter { $0.date >= oneMonthAgo }
             .sorted { $0.date < $1.date }
     }
-       
+    
     func triggerMotivation() -> String {
         if getTodayTotalMinutes() >= 60 {
             return "🎉 Amazing! You've reached your daily goal of 60 minutes!"
