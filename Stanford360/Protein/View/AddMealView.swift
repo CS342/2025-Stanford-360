@@ -50,8 +50,8 @@ struct AddMealView: View {
                 sourceSelectionButtons
             }
             .onChange(of: selectedImage) { _, newImage in
-//                classifier.image = newImage
-                classifier.classifyImage(newImage)
+                classifier.image = newImage
+                // classifier.classifyImage(newImage)
 //                if let image = newImage {
 //                    classification(image: image)
 //                } else {
