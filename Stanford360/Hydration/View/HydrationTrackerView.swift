@@ -19,9 +19,7 @@ struct HydrationTrackerView: View {
     @State var selectedAmount: Double?
     @State var streakJustUpdated = false
     @State var isSpecialMilestone: Bool = false
-	@State var selectedTimeFrame: TimeFrame = .today
-    @State var weeklyData: [DailyHydrationData] = []
-    @State var monthlyData: [DailyHydrationData] = []
+    @State var selectedTimeFrame: TimeFrame = .today
     @State var selectedDate: String?
     @State var selectedIntake: Double?
     @State var selectedPosition: CGPoint?
@@ -30,6 +28,37 @@ struct HydrationTrackerView: View {
     }
     var maxWeeklyIntake: Double {
         max(100, weeklyData.map { $0.intakeOz }.max() ?? 0)
+    }
+    
+    var weeklyData: [DailyHydrationData] {
+        let calendar = Calendar.current
+        let weekdaySymbols = calendar.shortWeekdaySymbols
+        var weeklyIntake: [String: Double] = weekdaySymbols.reduce(into: [:]) { $0[$1] = 0 }
+
+        for log in hydrationManager.hydration where calendar.isDate(log.timestamp, equalTo: Date(), toGranularity: .weekOfYear) {
+            let weekday = calendar.component(.weekday, from: log.timestamp)
+            let dayName = weekdaySymbols[weekday - 1]
+            weeklyIntake[dayName, default: 0] += log.hydrationOunces
+        }
+
+        return weekdaySymbols.map { dayName in
+            DailyHydrationData(dayName: dayName, intakeOz: weeklyIntake[dayName] ?? 0)
+        }
+    }
+
+    var monthlyData: [DailyHydrationData] {
+        var monthlyIntake: [String: Double] = [:]
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd"
+
+        for log in hydrationManager.hydration {
+            let day = dateFormatter.string(from: log.timestamp)
+            monthlyIntake[day, default: 0] += log.hydrationOunces
+        }
+
+        return monthlyIntake.keys.sorted().map { day in
+            DailyHydrationData(dayName: day, intakeOz: monthlyIntake[day] ?? 0)
+        }
     }
 
     @Environment(Stanford360Standard.self) var standard
@@ -54,7 +83,7 @@ struct HydrationTrackerView: View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 20) {
-					TimeFramePicker(selectedTimeFrame: $selectedTimeFrame)
+                    TimeFramePicker(selectedTimeFrame: $selectedTimeFrame)
                     
                     switch selectedTimeFrame {
                     case .today:
@@ -99,11 +128,7 @@ struct HydrationTrackerView: View {
 
         totalIntake = hydrationManager.getTodayHydrationOunces()
         patientManager.updateHydrationOunces(totalIntake)
-
         streak = hydrationManager.streak
-
-        weeklyData = await standard.fetchWeeklyHydrationData()
-        monthlyData = await standard.fetchMonthlyHydrationData()
     }
 }
 

@@ -308,9 +308,6 @@
         }
       }
     },
-    "Hello World" : {
-
-    },
     "HL7 FHIR" : {
       "localizations" : {
         "en" : {
@@ -474,7 +471,7 @@
     "My Hydration 💧" : {
 
     },
-    "My Protein 🍗" : {
+    "My Protein 🍴" : {
 
     },
     "Navigate to task details" : {
