@@ -61,9 +61,6 @@
     "🎉 Goal Reached! Stay Hydrated! 🎉" : {
 
     },
-    "🏃 Keep Moving!" : {
-
-    },
     "💧 Stay Hydrated!" : {
 
     },
@@ -137,6 +134,9 @@
         }
       }
     },
+    "Almost done!" : {
+
+    },
     "Analyzing meals..." : {
 
     },
@@ -170,6 +170,9 @@
           }
         }
       }
+    },
+    "Congrats!" : {
+
     },
     "CONSENT_LOADING_ERROR" : {
       "extractionState" : "stale",
@@ -221,6 +224,9 @@
     "Delete" : {
 
     },
+    "Don't forget your 60 minutes of daily activity!" : {
+
+    },
     "Edit" : {
 
     },
@@ -258,6 +264,9 @@
 
     },
     "Goal: 60 minutes per day" : {
+
+    },
+    "Good Morning!" : {
 
     },
     "Grant Access" : {
@@ -415,6 +424,9 @@
     "Invalid Date" : {
 
     },
+    "Keep going!" : {
+
+    },
     "Learn More" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -435,6 +447,9 @@
           }
         }
       }
+    },
+    "Let's get moving!" : {
+    
     },
     "Let's explore how to stay active and healthy!" : {
 
@@ -483,6 +498,9 @@
 
     },
     "Monthly Protein Intake" : {
+
+    },
+    "Move. Drink. Eat. Can you score 360 today? 🎯🏆" : {
 
     },
     "My Active Journey 🏃‍♂️" : {
@@ -852,16 +870,19 @@
     "When did you do it?" : {
 
     },
-    "You have %lld minutes left to reach your goal of 60 minutes!" : {
-
-    },
-    "You haven't logged any activity in the last 4 hours. Time to get moving!" : {
+    "You have %lld minutes of activity remaining!" : {
 
     },
     "You haven't logged any water intake in the last 4 hours. Drink up!" : {
 
     },
     "You need %@ oz more to reach your goal!" : {
+
+    },
+    "You're halfway there!" : {
+
+    },
+    "You've completed 60 minutes of activity!" : {
 
     },
     "Your Account" : {
