@@ -46,7 +46,6 @@ struct ActivityChartView: View {
         
         return HStack(spacing: 0) {
             Spacer().frame(width: 20)
-            
             Chart {
                 let weeklyActivities = activityManager.getWeeklySummary()
                 ForEach(weeklyActivities) { activity in

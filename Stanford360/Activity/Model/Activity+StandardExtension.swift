@@ -34,7 +34,7 @@ extension Stanford360Standard {
 	}
 
 	/// Adds a new activity to Firestore
-	func addActivityToFirestore(activity: Activity) async {
+	func addActivityToFirestore(_ activity: Activity) async {
 		do {
 			let activityData: [String: Any] = [
 				"steps": activity.steps,

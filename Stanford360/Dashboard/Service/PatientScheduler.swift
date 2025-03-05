@@ -22,12 +22,15 @@ final class PatientScheduler: Module, DefaultInitializable, EnvironmentAccessibl
 	
 	@MainActor var viewState: ViewState = .idle
 	
+	private let dailyMorningNotificationTaskID = "daily-morning-notification"
 	private let saturdayWeightNotificationTaskID = "saturday-weight-notification"
 	private let sundayWeightNotificationTaskID = "sunday-weight-notification"
 	
 	init() {}
 	
 	func configure() {
+		scheduleDailyMorningNotification()
+		
 		// this notification will be cancelled if the user logs their weight on Saturday before 9 AM
 		scheduleWeeklyWeightNotifications(
 			taskId: saturdayWeightNotificationTaskID,
@@ -39,6 +42,21 @@ final class PatientScheduler: Module, DefaultInitializable, EnvironmentAccessibl
 			taskId: saturdayWeightNotificationTaskID,
 			weekday: .sunday
 		)
+	}
+	
+	@MainActor
+	private func scheduleDailyMorningNotification() {
+		do {
+			try scheduler.createOrUpdateTask(
+				id: dailyMorningNotificationTaskID,
+				title: "Good Morning!",
+				instructions: "Move. Drink. Eat. Can you score 360 today? 🎯🏆",
+				schedule: .daily(hour: 7, minute: 0, startingAt: .today),
+				scheduleNotifications: true
+			)
+		} catch {
+			viewState = .error(AnyLocalizedError(error: error, defaultErrorDescription: "Failed to create or update scheduled tasks."))
+		}
 	}
 	
 	/// Schedules notifications weekly on Saturday and Sundays at 9 AM, reminding the user to fill out their "updates" (weight)
