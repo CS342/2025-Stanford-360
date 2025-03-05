@@ -20,9 +20,6 @@
     "%lld" : {
 
     },
-    "%lld / 60 oz" : {
-
-    },
     "%lld Day Streak" : {
 
     },
@@ -37,6 +34,16 @@
     },
     "%lld oz water" : {
 
+    },
+    "%lld/%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld/%2$lld"
+          }
+        }
+      }
     },
     "%lld/%lld completed" : {
       "localizations" : {
@@ -242,9 +249,6 @@
     "Goal" : {
 
     },
-    "Goal: %.f g" : {
-
-    },
     "Goal: 60 minutes per day" : {
 
     },
@@ -304,6 +308,9 @@
         }
       }
     },
+    "Hello World" : {
+
+    },
     "HL7 FHIR" : {
       "localizations" : {
         "en" : {
@@ -318,9 +325,6 @@
 
     },
     "Hydration" : {
-
-    },
-    "Hydration Period" : {
 
     },
     "Hydration Progress" : {
@@ -569,9 +573,6 @@
 
     },
     "Produce In Season Recommendations" : {
-
-    },
-    "protein" : {
 
     },
     "Protein" : {

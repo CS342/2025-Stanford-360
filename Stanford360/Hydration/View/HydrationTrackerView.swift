@@ -10,13 +10,6 @@
 import SwiftUI
 
 struct HydrationTrackerView: View {
-    // MARK: - TimeFrame Enum
-    enum HydrationTimeFrame {
-        case today
-        case week
-        case month
-    }
-
     // MARK: - State
     @State var intakeAmount: String = ""
     @State var errorMessage: String?
@@ -26,7 +19,7 @@ struct HydrationTrackerView: View {
     @State var selectedAmount: Double?
     @State var streakJustUpdated = false
     @State var isSpecialMilestone: Bool = false
-    @State var selectedTimeFrame: HydrationTimeFrame = .today
+	@State var selectedTimeFrame: TimeFrame = .today
     @State var weeklyData: [DailyHydrationData] = []
     @State var monthlyData: [DailyHydrationData] = []
     @State var selectedDate: String?
@@ -61,7 +54,7 @@ struct HydrationTrackerView: View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 20) {
-                    hydrationPeriodPicker()
+					TimeFramePicker(selectedTimeFrame: $selectedTimeFrame)
                     
                     switch selectedTimeFrame {
                     case .today:
