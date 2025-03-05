@@ -102,7 +102,10 @@ class HealthKitManager: Module, EnvironmentAccessible {
                 quantitySamplePredicate: predicate,
                 options: .cumulativeSum
             ) { _, result, error in
-                if let error = error {
+                if let error = error as? HKError, error.errorCode == HKError.Code.errorNoData.rawValue {
+                    continuation.resume(returning: 0)
+                    return
+                } else if let error = error {
                     continuation.resume(throwing: error)
                     return
                 }
