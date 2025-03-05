@@ -25,6 +25,27 @@ class HydrationManager: Module, EnvironmentAccessible {
     var streak: Int {
         calculateStreak()
     }
+    
+    // Streak Calculation
+    var streak2: Int {
+        let calendar = Calendar.current
+        var streakCount = 0
+        var currentDate = Date()
+
+        while let logsByDate = hydrationByDate[calendar.startOfDay(for: currentDate)] {
+            let totalLogs = getTotalHydrationOunces(logsByDate)
+            if totalLogs >= 60 {
+                streakCount += 1
+            } else {
+                break // Stop counting if the total minutes are not over 60
+            }
+            // Move to the previous day
+            currentDate = calendar.date(byAdding: .day, value: -1, to: currentDate) ?? currentDate
+        }
+
+        return streakCount
+    }
+    
 
     init(hydration: [HydrationLog] = []) {
         self.hydration = hydration
@@ -33,6 +54,10 @@ class HydrationManager: Module, EnvironmentAccessible {
     func getTodayHydrationOunces() -> Double {
         let today = Calendar.current.startOfDay(for: Date())
         return hydrationByDate[today]?.reduce(0) { $0 + $1.hydrationOunces } ?? 0
+    }
+    
+    func getTotalHydrationOunces(_ logs: [HydrationLog]) -> Double {
+        logs.reduce(0) { $0 + $1.hydrationOunces }
     }
 
     func addHydrationLog(amount: Double, timestamp: Date = Date()) {
