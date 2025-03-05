@@ -56,9 +56,18 @@ struct ActivityTimeFrameView: View {
 	
 	private var todayView: some View {
 		VStack {
-			DailyProgressView(activeMinutes: activityManager.getTodayTotalMinutes())
-				.frame(height: 200)
-				.padding(.top, 20)
+			PercentageRing(
+				currentValue: activityManager.getTodayTotalMinutes(),
+				maxValue: 60,
+				iconName: "figure.walk",
+				ringWidth: 25,
+				backgroundColor: Color.activityColorBackground,
+				foregroundColors: [Color.activityColor, Color.activityColorGradient],
+				unitLabel: "minutes",
+				iconSize: 13,
+				showProgressTextInCenter: true
+			)
+			.frame(maxHeight: 210)
 		}
 	}
 	

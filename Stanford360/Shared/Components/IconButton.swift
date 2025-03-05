@@ -1,5 +1,5 @@
 //
-//  AddButton.swift
+//  IconButton.swift
 //  Stanford360
 //
 //  Created by Kelly Bonilla Guzmán on 3/2/25.
