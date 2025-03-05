@@ -37,13 +37,15 @@ struct ActivityChartView: View {
                 monthlyChart
             }
         }
+        .padding(.horizontal, 20)
     }
     
     private var weeklyChart: some View {
         let timeFrame = TimeFrame.week
-        let startDateAxis = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? timeFrame.dateRange().start
+        let startDateAxis = Calendar.current.date(byAdding: .day, value: -6, to: Date()) ?? timeFrame.dateRange().start
         
-        return Group {
+        return HStack(spacing: 0) {
+            Spacer().frame(width: 20)
             Chart {
                 let weeklyActivities = activityManager.getWeeklySummary()
                 ForEach(weeklyActivities) { activity in
@@ -56,7 +58,6 @@ struct ActivityChartView: View {
                 goalLine()
             }
             .frame(height: 200)
-            .padding()
             .chartYScale(domain: 0...150)
             .chartXAxis {
                 AxisMarks(values: .automatic) { value in
@@ -68,6 +69,8 @@ struct ActivityChartView: View {
                 }
             }
             .chartXScale(domain: startDateAxis...Date())
+            
+            Spacer().frame(width: 20)
         }
     }
     
@@ -97,7 +100,6 @@ struct ActivityChartView: View {
                 goalLine()
             }
             .frame(height: 200)
-            .padding()
             .chartYScale(domain: 0...150)
             .chartXAxis {
                 AxisMarks(values: .automatic) { value in

@@ -19,7 +19,7 @@ struct KidsOnboarding: View {
 
     var body: some View {
         OnboardingView(
-            title: "Welcome to Your Health Adventure! 🎉",
+            title: "Welcome to Stanford360! 🎉",
             subtitle: "Let's explore how to stay active and healthy!",
             areas: [
                 OnboardingInformationView.Content(
