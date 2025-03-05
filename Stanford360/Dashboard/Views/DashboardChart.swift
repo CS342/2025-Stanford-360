@@ -15,6 +15,7 @@ import SwiftUI
 
 struct DashboardChart: View {
 	@Environment(ActivityManager.self) private var activityManager
+	@Environment(HydrationManager.self) private var hydrationManager
 	@Environment(ProteinManager.self) private var proteinManager
 	
 	var timeFrame: TimeFrame
@@ -22,6 +23,15 @@ struct DashboardChart: View {
 	private var filteredActivities: [Date] {
 		let (startDate, endDate) = timeFrame.dateRange()
 		return Array(activityManager.activitiesByDate.keys)
+			.filter { date in
+				date >= startDate && date <= endDate
+			}
+			.sorted()
+	}
+	
+	private var filteredHydration: [Date] {
+		let (startDate, endDate) = timeFrame.dateRange()
+		return Array(hydrationManager.hydrationByDate.keys)
 			.filter { date in
 				date >= startDate && date <= endDate
 			}
@@ -46,12 +56,18 @@ struct DashboardChart: View {
 						y: .value("Activity Minutes", activityManager.getTotalActivityMinutes(activities)),
 						series: .value("Metric", "Activity")
 					)
-					.foregroundStyle(Color.activityColor)
-					.symbol {
-						Circle()
-							.fill(Color.activityColor)
-							.frame(width: 8, height: 8)
-					}
+					.applyChartStyle(color: Color.activityColor)
+				}
+			}
+			
+			ForEach(filteredHydration, id: \.self) { date in
+				if let hydration = hydrationManager.hydrationByDate[date] {
+					LineMark(
+						x: .value("Week", date),
+						y: .value("Hydration Ounces", hydrationManager.getTotalHydrationOunces(hydration)),
+						series: .value("Metric", "Hydration")
+					)
+					.applyChartStyle(color: Color.hydrationColor)
 				}
 			}
 			
@@ -62,12 +78,7 @@ struct DashboardChart: View {
 						y: .value("Protein Grams", proteinManager.getTotalProteinGrams(meals)),
 						series: .value("Metric", "Protein")
 					)
-					.foregroundStyle(Color.proteinColor)
-					.symbol {
-						Circle()
-							.fill(Color.proteinColor)
-							.frame(width: 8, height: 8)
-					}
+					.applyChartStyle(color: Color.proteinColor)
 				}
 			}
 			
@@ -85,6 +96,18 @@ struct DashboardChart: View {
 			}
 		}
 		.chartXScale(domain: timeFrame.dateRange().start...timeFrame.dateRange().end)
+	}
+}
+
+extension LineMark {
+	func applyChartStyle(color: Color) -> some ChartContent {
+		self
+			.foregroundStyle(color)
+			.symbol {
+				Circle()
+					.fill(color)
+					.frame(width: 8, height: 8)
+			}
 	}
 }
 
