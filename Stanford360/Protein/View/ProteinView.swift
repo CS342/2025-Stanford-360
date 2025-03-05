@@ -35,7 +35,7 @@ struct ProteinView: View {
 				
 				buttons
 			}
-			.navigationTitle("My Protein 🍗")
+			.navigationTitle("My Protein 🍴")
 			.toolbar {
 				if account != nil {
 					AccountButton(isPresented: $presentingAccount)

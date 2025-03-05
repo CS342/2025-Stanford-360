@@ -119,8 +119,12 @@ class ActivityManager: Module, EnvironmentAccessible {
 //    }
     
     func saveToStorage() {
-        if let data = try? JSONEncoder().encode(activities) {
+        do {
+            let data = try JSONEncoder().encode(activities)
             UserDefaults.standard.set(data, forKey: "activities")
+            print("[ActivityManager] [saveToStorage] Successfully saved activities to UserDefaults")
+        } catch {
+            print("[ActivityManager] [saveToStorage] Error ❌ : \(error)")
         }
     }
 }
