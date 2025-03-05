@@ -344,9 +344,10 @@ extension HydrationTrackerView {
 
     // MARK: - Goal Suggestion Display
     func suggestionDisplay() -> some View {
-        if totalIntake < 60 {
+		let todayHydrationOunces = hydrationManager.getTodayHydrationOunces()
+        if todayHydrationOunces < 60 {
             return AnyView(
-                Text("You need \(String(format: "%.1f", 60 - totalIntake)) oz more to reach your goal!")
+                Text("You need \(String(format: "%.1f", 60 - todayHydrationOunces)) oz more to reach your goal!")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                     .accessibilityIdentifier("suggestionLabel")

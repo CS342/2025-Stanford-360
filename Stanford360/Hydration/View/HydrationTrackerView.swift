@@ -14,8 +14,6 @@ struct HydrationTrackerView: View {
     @State var intakeAmount: String = ""
     @State var errorMessage: String?
     @State var milestoneMessage: String?
-    @State var totalIntake: Double = 0.0
-    @State var streak: Int?
     @State var selectedAmount: Double?
     @State var streakJustUpdated = false
     @State var isSpecialMilestone: Bool = false
@@ -101,34 +99,15 @@ struct HydrationTrackerView: View {
                     AccountButton(isPresented: $presentingAccount)
                 }
             }
-            .onAppear {
-                Task {
-                    await loadHydrationLogs()
-                }
-            }
-            .contentShape(Rectangle())
-            .onTapGesture {
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-            }
+			.contentShape(Rectangle())
+			.onTapGesture {
+				UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+			}
         }
     }
     
     init(presentingAccount: Binding<Bool>) {
             self._presentingAccount = presentingAccount
-    }
-    
-    func loadHydrationLogs() async {
-        let fetchedLogs = await standard.fetchHydrationLogs()
-        
-        if !fetchedLogs.isEmpty {
-            hydrationManager.hydration = fetchedLogs
-        } else {
-            hydrationManager.hydration = []
-        }
-
-        totalIntake = hydrationManager.getTodayHydrationOunces()
-        patientManager.updateHydrationOunces(totalIntake)
-        streak = hydrationManager.streak
     }
 }
 

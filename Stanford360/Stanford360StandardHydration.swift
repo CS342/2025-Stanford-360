@@ -23,21 +23,4 @@ extension Stanford360Standard {
             print("❌ Error writing hydration log to Firestore: \(error)")
         }
     }
-    
-    func fetchHydrationLogs() async -> [HydrationLog] {
-        var hydrationLogs: [HydrationLog] = []
-        
-        do {
-            let docRef = try await configuration.userDocumentReference
-            let logsSnapshot = try await docRef.collection("hydrationLogs").getDocuments()
-            
-            hydrationLogs = try logsSnapshot.documents.compactMap { doc in
-                try doc.data(as: HydrationLog.self)
-            }
-        } catch {
-            print("❌ Error fetching hydration logs from Firestore: \(error)")
-        }
-        
-        return hydrationLogs
-    }
 }

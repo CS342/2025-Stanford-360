@@ -113,20 +113,4 @@ extension Stanford360Standard {
             return nil
         }
     }
-	
-	func fetchMeals() async -> [Meal] {
-		var meals: [Meal] = []
-		
-		do {
-			let docRef = try await configuration.userDocumentReference
-			let mealsSnapshot = try await docRef.collection("meals").getDocuments()
-			meals = try mealsSnapshot.documents.compactMap { doc in
-				try doc.data(as: Meal.self)
-			}
-		} catch {
-			print("Error fetching meal from Firestore: \(error)")
-		}
-		
-		return meals
-	}
 }

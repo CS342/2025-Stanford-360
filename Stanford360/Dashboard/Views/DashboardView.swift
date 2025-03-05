@@ -13,11 +13,6 @@
 import SwiftUI
 
 struct DashboardView: View {
-	@Environment(Stanford360Standard.self) private var standard
-	@Environment(PatientManager.self) private var patientManager
-	@Environment(ActivityManager.self) private var activityManager
-	@Environment(HydrationManager.self) private var hydrationManager
-	@Environment(ProteinManager.self) private var proteinManager
 	@Environment(Account.self) private var account: Account?
 	@Binding private var presentingAccount: Bool
 	
@@ -36,31 +31,11 @@ struct DashboardView: View {
 				AccountButton(isPresented: $presentingAccount)
 			}
 		}
-		.task {
-			await loadPatientData()
-		}
 	}
 
 	init(presentingAccount: Binding<Bool>) {
         self._presentingAccount = presentingAccount
     }
-	
-	/// Loads the patient's activities, hydration, and meals into their respective managers and updates the patient's data accordingly
-	func loadPatientData() async {
-		let patientData = try? await standard.fetchPatientData()
-		
-		activityManager.activities = patientData?.activities ?? []
-		let activityMinutes = activityManager.getTodayTotalMinutes()
-		patientManager.updateActivityMinutes(activityMinutes)
-		
-		hydrationManager.hydration = patientData?.hydration ?? []
-		let hydrationOunces = hydrationManager.getTodayHydrationOunces()
-		patientManager.updateHydrationOunces(hydrationOunces)
-		
-		proteinManager.meals = patientData?.meals ?? []
-		let proteinGrams = proteinManager.getTodayTotalGrams()
-		patientManager.updateProteinGrams(proteinGrams)
-	}
 }
 
 #Preview {
