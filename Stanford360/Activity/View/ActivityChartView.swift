@@ -41,6 +41,8 @@ struct ActivityChartView: View {
     
     private var weeklyChart: some View {
         let timeFrame = TimeFrame.week
+        let startDateAxis = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? timeFrame.dateRange().start
+        
         return Group {
             Chart {
                 let weeklyActivities = activityManager.getWeeklySummary()
@@ -65,21 +67,23 @@ struct ActivityChartView: View {
                     }
                 }
             }
-            .chartXScale(domain: timeFrame.dateRange().start...timeFrame.dateRange().end)
+            .chartXScale(domain: startDateAxis...Date())
         }
     }
     
     private var monthlyChart: some View {
         let timeFrame = TimeFrame.month
+        let startDateAxis = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? timeFrame.dateRange().start
+
         return Group {
             Chart {
                 let monthlyActivities = activityManager.getMonthlyActivities()
                 let activitiesByDate = Dictionary(grouping: monthlyActivities) { Calendar.current.startOfDay(for: $0.date) }
-                
+
                 ForEach(activitiesByDate.keys.sorted(), id: \.self) { date in
                     let totalMinutes = activityManager.getTotalActivityMinutes(activitiesByDate[date] ?? [])
                     
-                    PointMark(
+                    LineMark(
                         x: .value("Date", date),
                         y: .value("Total Minutes", totalMinutes)
                     )
@@ -104,7 +108,7 @@ struct ActivityChartView: View {
                     }
                 }
             }
-            .chartXScale(domain: timeFrame.dateRange().start...timeFrame.dateRange().end)
+            .chartXScale(domain: startDateAxis...Date())
         }
     }
 }
