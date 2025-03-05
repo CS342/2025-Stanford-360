@@ -156,6 +156,10 @@ struct AddActivitySheet: View {
         self.activityId = activity.id
         self.isEditing = true
     }
+	
+	private func getStepsFromMinutes(_ minutes: Int) -> Int {
+		minutes * 100
+	}
     
     private func saveNewActivity() async {
         // Validate date isn't in the future
@@ -165,7 +169,7 @@ struct AddActivitySheet: View {
         }
         
         let minutes = Int(activeMinutes) ?? 0
-        let estimatedSteps = minutes * 100
+		let estimatedSteps = getStepsFromMinutes(minutes)
         
         let newActivity = Activity(
             date: selectedDate,
@@ -173,11 +177,13 @@ struct AddActivitySheet: View {
             activeMinutes: minutes,
             activityType: selectedActivity
         )
-        
+		
+		let prevActivityMinutes = activityManager.getTodayTotalMinutes()
         activityManager.activities.append(newActivity)
-        patientManager.updateActivityMinutes(activityManager.getTodayTotalMinutes())
-        await standard.addActivityToFirestore(activity: newActivity)
-        await activityScheduler.userLoggedActivity(activityMinutes: activityManager.getTodayTotalMinutes())
+		let activityMinutes = activityManager.getTodayTotalMinutes()
+		patientManager.updateActivityMinutes(activityMinutes)
+        await standard.addActivityToFirestore(newActivity)
+		await activityScheduler.handleNotificationsOnLoggedActivity(prevActivityMinutes: prevActivityMinutes, newActivityMinutes: activityMinutes)
     }
     
     private func updateActivity() async {

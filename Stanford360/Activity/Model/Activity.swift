@@ -12,10 +12,6 @@ import FirebaseFirestore
 import Foundation
 import Spezi
 
-enum CodingKeys: String, CodingKey {
-   case date, steps, activeMinutes, caloriesBurned, activityType, userId
-}
-
 /// Represents a child's daily physical activity session.
 struct Activity: Identifiable, Codable, @unchecked Sendable {
     @DocumentID var id: String?
