@@ -25,6 +25,7 @@ class ImageClassifier: ObservableObject {
     // MARK: - Internal Properties
     private let confidenceThreshold: Float = 0.7
     private var cancellables = Set<AnyCancellable>()
+    private var predictionHandlers = [VNRequest: ImagePredictionHandler]()
     
     // MARK: - Initialization
     init() {
@@ -41,88 +42,102 @@ class ImageClassifier: ObservableObject {
             }
             .store(in: &cancellables)
     }
+    
+    func createImageClassifier() -> VNCoreMLModel {
+        // Use a default model configuration.
+        let defaultConfig = MLModelConfiguration()
+        // Create an instance of the image classifier's wrapper class.
+        let imageClassifierWrapper = try? SeeFood(configuration: defaultConfig)
+
+        guard let imageClassifier = imageClassifierWrapper else {
+            fatalError("App failed to create an image classifier model instance.")
+        }
+        // Get the underlying model instance.
+        let imageClassifierModel = imageClassifier.model
+
+        // Create a Vision instance using the image classifier's model instance.
+        guard let imageClassifierVisionModel = try? VNCoreMLModel(for: imageClassifierModel) else {
+            fatalError("App failed to create a `VNCoreMLModel` instance.")
+        }
+        return imageClassifierVisionModel
+    }
 
     // MARK: - Main Classification Method
-    func classifyImage(_ image: UIImage) {
+    func classifyImage(_ image: UIImage?) {
         DispatchQueue.main.async {
             self.isProcessing = true
             self.errorMessage = nil
         }
-        
-        guard let ciImage = CIImage(image: image) else {
+        guard let image = image,
+              let _ = CIImage(image: image) else {
             self.handleError("Could not create CIImage from UIImage")
             return
         }
-
-        guard let model = try? VNCoreMLModel(for: SeeFood(configuration: MLModelConfiguration()).model) else {
-            self.handleError("Failed to load SeeFood model")
-            return
-        }
-
-        let request = VNCoreMLRequest(model: model) { [weak self] request, error in
-            guard let self = self else {
-                return
-            }
-            
-            if let error = error {
-                self.handleError("Classification failed: \(error.localizedDescription)")
-                return
-            }
-
-            guard let results = request.results as? [VNClassificationObservation] else {
-                self.handleError("Could not process classification results")
-                return
-            }
-
-            let validResults = results.filter { $0.confidence >= self.confidenceThreshold }
-            let topResults = validResults.prefix(3)
-            
-//            DispatchQueue.main.async {
-//                self.classificationOptions = topResults.map {
-//                    "\($0.identifier) (\(String(format: "%.1f", $0.confidence * 100))%)"
-//                }
-//                
-//                if let highestResult = topResults.first {
-//                    // self.highestConfidenceClassification = highestResult.identifier
-//                    self.classificationResults = """
-//                        Top Match: \(highestResult.identifier)
-//                        Confidence: \(Int(highestResult.confidence * 100))%
-//                        """
-//                } else {
-//                    self.classificationResults = "No confident matches found"
-//                }
-//                
-//                self.isProcessing = false
-//            }
-        }
-
-        let handler = VNImageRequestHandler(ciImage: ciImage)
-        DispatchQueue.global(qos: .userInitiated).async {
-            do {
-                try handler.perform([request])
-            } catch {
-                print("Failed to perform classification: \(error.localizedDescription)")
-            }
+        
+        let imageClassifier = createImageClassifier()
+        
+        let imageClassificationRequest = VNCoreMLRequest(
+            model: imageClassifier,
+            completionHandler: { request, error in
+                if let error = error {
+                    print(error)
+                }
+                print(request.results)
+            })
+        
+        imageClassificationRequest.imageCropAndScaleOption = .centerCrop
+        
+        let handler = VNImageRequestHandler(cgImage: image.cgImage!, orientation: .up)
+        let requests: [VNRequest] = [imageClassificationRequest]
+        
+        do {
+            try handler.perform(requests)
+        } catch {
+            print(error)
         }
     }
     
-    // MARK: - Helper Methods
-    private func handleError(_ message: String) {
+    typealias ImagePredictionHandler = (_ predictions: [String]?) -> Void
+    
+    private func visionRequestHandler(_ request: VNRequest, error: Error?) {
+        // Remove the caller's handler from the dictionary and keep a reference to it.
+        guard let predictionHandler = predictionHandlers.removeValue(forKey: request) else {
+            fatalError("Every request must have a prediction handler.")
+        }
+
+        // Check for an error first.
+        if let error = error {
+            print("Vision image classification error...\n\n\(error.localizedDescription)")
+            return
+        }
+
+        // Check that the results aren't `nil`.
+        if request.results == nil {
+            print("Vision request had no results.")
+            return
+        }
+
+        // Cast the request's results as an `VNClassificationObservation` array.
+        guard let observations = request.results as? [VNClassificationObservation] else {
+            // Image classifiers, like MobileNet, only produce classification observations.
+            // However, other Core ML model types can produce other observations.
+            // For example, a style transfer model produces `VNPixelBufferObservation` instances.
+            print("VNRequest produced the wrong result type: \(type(of: request.results)).")
+            return
+        }
+
+        // Create a prediction array from the observations.
+        observations.forEach { observation in
+            // Convert each observation into an `ImagePredictor.Prediction` instance.
+            print(observation.identifier, observation.confidence)
+        }
+    }
+    
+    func handleError(_ message: String) {
         DispatchQueue.main.async {
             self.errorMessage = message
             // self.classificationResults = "Error occurred"
             self.isProcessing = false
         }
     }
-    
-//    func reset() {
-//        DispatchQueue.main.async {
-//            self.image = nil
-//            self.classificationResults = "No results yet"
-//            self.highestConfidenceClassification = nil
-//            self.classificationOptions = []
-//            self.errorMessage = nil
-//            self.isProcessing = false
-//        }
-//    }
 }

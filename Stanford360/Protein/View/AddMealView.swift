@@ -50,12 +50,13 @@ struct AddMealView: View {
                 sourceSelectionButtons
             }
             .onChange(of: selectedImage) { _, newImage in
-                // classifier.image = newImage
-                if let image = newImage {
-                    classification(image: image)
-                } else {
-                    print("No image selected")
-                }
+//                classifier.image = newImage
+                classifier.classifyImage(newImage)
+//                if let image = newImage {
+//                    classification(image: image)
+//                } else {
+//                    print("No image selected")
+//                }
             }
             .onChange(of: highestConfidenceClassification) { _, newValue in
                 if let classification = newValue, !classification.isEmpty {
