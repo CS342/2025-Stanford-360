@@ -26,7 +26,7 @@ struct LogWeightSheet: View {
 					.padding()
 				
 				Button("Save") {
-					if let weightValue = Double(weight) {
+                    if Double(weight) != nil {
 						patientManager.updateWeight(Double(weight) ?? 0)
 					}
 					weight = ""
