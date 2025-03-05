@@ -17,13 +17,20 @@ struct PercentageRing: View {
 	private static let ShadowRadius: CGFloat = 5
 	private static let ShadowOffsetMultiplier: CGFloat = ShadowRadius + 2
 	
+	private let currentValue: Int
+	private let maxValue: Int
+	private let unitLabel: String
+	private let iconName: String
+	private let iconSize: CGFloat
 	private let ringWidth: CGFloat
-	private let percent: Double
 	private let backgroundColor: Color
 	private let foregroundColors: [Color]
+	private let showProgressTextInCenter: Bool
 	private let startAngle: Double = -90
-	private let icon: Image?
-	private let iconSize: CGFloat
+	
+	private var percent: Double {
+		Double(currentValue) / Double(maxValue) * 100
+	}
 	
 	private var gradientStartAngle: Double {
 		self.percent >= 100 ? relativePercentageAngle - 360 : startAngle
@@ -66,33 +73,25 @@ struct PercentageRing: View {
 				
 				// shadow to show progress for percentages over 100%
 				if self.getShowShadow(frame: geometry.size) {
-					Circle()
-						.fill(self.lastGradientColor)
-						.frame(width: self.ringWidth, height: self.ringWidth, alignment: .center)
-						.offset(
-							x: self.getEndCircleLocation(frame: geometry.size).0,
-							y: self.getEndCircleLocation(frame: geometry.size).1
-						)
-						.shadow(
-							color: PercentageRing.ShadowColor,
-							radius: PercentageRing.ShadowRadius,
-							x: self.getEndCircleShadowOffset().0,
-							y: self.getEndCircleShadowOffset().1
-						)
+					shadow(geometry: geometry)
 				}
 				
-				// add icon at the end of the ring if provided
-				if let icon = self.icon {
-					icon
-						.resizable()
-						.aspectRatio(contentMode: .fit)
-						.frame(width: self.iconSize, height: self.iconSize)
-						.foregroundColor(.white)
-						.offset(
-							x: self.getEndCircleLocation(frame: geometry.size).0,
-							y: self.getEndCircleLocation(frame: geometry.size).1
-						)
-						.zIndex(1)
+				// add icon at the end of the ring
+				Image(systemName: iconName)
+					.resizable()
+					.aspectRatio(contentMode: .fit)
+					.frame(width: self.iconSize, height: self.iconSize)
+					.foregroundColor(.white)
+					.offset(
+						x: self.getEndCircleLocation(frame: geometry.size).0,
+						y: self.getEndCircleLocation(frame: geometry.size).1
+					)
+					.zIndex(1)
+					.accessibilityLabel(iconName)
+				
+				// optionally show progress text in center
+				if showProgressTextInCenter {
+					progressTextInCenter(geometry: geometry)
 				}
 			}
 		}
@@ -100,13 +99,55 @@ struct PercentageRing: View {
 		.padding(self.ringWidth / 2)
 	}
 	
-	init(ringWidth: CGFloat, percent: Double, backgroundColor: Color, foregroundColors: [Color], icon: Image? = nil, iconSize: CGFloat = 24) {
+	init(
+		currentValue: Int,
+		maxValue: Int,
+		iconName: String,
+		ringWidth: CGFloat,
+		backgroundColor: Color,
+		foregroundColors: [Color],
+		unitLabel: String = "",
+		iconSize: CGFloat = 24,
+		showProgressTextInCenter: Bool = false
+	) {
+		self.currentValue = currentValue
+		self.maxValue = maxValue
+		self.unitLabel = unitLabel
+		self.iconName = iconName
+		self.iconSize = iconSize
 		self.ringWidth = ringWidth
-		self.percent = percent
 		self.backgroundColor = backgroundColor
 		self.foregroundColors = foregroundColors
-		self.icon = icon
-		self.iconSize = iconSize
+		self.showProgressTextInCenter = showProgressTextInCenter
+	}
+	
+	private func shadow(geometry: GeometryProxy) -> some View {
+		Circle()
+			.fill(self.lastGradientColor)
+			.frame(width: self.ringWidth, height: self.ringWidth, alignment: .center)
+			.offset(
+				x: self.getEndCircleLocation(frame: geometry.size).0,
+				y: self.getEndCircleLocation(frame: geometry.size).1
+			)
+			.shadow(
+				color: PercentageRing.ShadowColor,
+				radius: PercentageRing.ShadowRadius,
+				x: self.getEndCircleShadowOffset().0,
+				y: self.getEndCircleShadowOffset().1
+			)
+	}
+	
+	private func progressTextInCenter(geometry: GeometryProxy) -> some View {
+		VStack(spacing: 4) {
+			Text("\(currentValue)/\(maxValue)")
+				.font(.system(size: min(geometry.size.width, geometry.size.height) * 0.2, weight: .bold, design: .rounded))
+				.minimumScaleFactor(0.5)
+			
+			Text(unitLabel)
+				.font(.system(size: min(geometry.size.width, geometry.size.height) * 0.1, design: .rounded))
+				.foregroundColor(.secondary)
+		}
+		.padding()
 	}
 	
 	// Returns the (x, y) location of the offset
@@ -152,11 +193,12 @@ extension Double {
 
 #Preview {
 	PercentageRing(
+		currentValue: 40,
+		maxValue: 60,
+		iconName: "figure.walk",
 		ringWidth: 50,
-		percent: 100,
-		backgroundColor: Color.green.opacity(0.2),
-		foregroundColors: [Color.green, Color(red: 0, green: 0.7, blue: 0)],
-		icon: Image(systemName: "figure.walk"),
+		backgroundColor: .activityColorBackground,
+		foregroundColors: [.activityColor, .activityColorGradient],
 		iconSize: 28
 	)
 }

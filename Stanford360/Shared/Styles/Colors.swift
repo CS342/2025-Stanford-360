@@ -22,8 +22,14 @@ extension Color {
 	static let textTertiary = Color(red: 0.63, green: 0.69, blue: 0.75, opacity: 1.0) // #A0AEC0
 	
 	static let activityColor = Color(red: 0.96, green: 0.40, blue: 0.40, opacity: 1.0) // #F56565
+	static let activityColorBackground = Color.activityColor.opacity(0.4)
+	static let activityColorGradient = Color.red
 	static let hydrationColor = Color(red: 0.26, green: 0.60, blue: 0.88, opacity: 1.0) // #4299E1
+	static let hydrationColorBackground = Color.hydrationColor.opacity(0.4)
+	static let hydrationColorGradient = Color.blue
 	static let proteinColor = Color(red: 0.28, green: 0.73, blue: 0.47, opacity: 1.0) // #48BB78
+	static let proteinColorBackground = Color.proteinColor.opacity(0.4)
+	static let proteinColorGradient = Color.green
 	
 	//	dashboard view colors
 	static let cardBackground = Color.white

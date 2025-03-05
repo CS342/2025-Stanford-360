@@ -27,11 +27,12 @@ struct ProgressRings: View {
 			// Activity Ring
 			let activityRingSize = baseRingSize + (ringSpacing + ringWidth) * 4
 			PercentageRing(
+				currentValue: patient.activityMinutes,
+				maxValue: 60,
+				iconName: "figure.walk",
 				ringWidth: ringWidth,
-				percent: Double(patient.activityMinutes) / 60 * 100,
-				backgroundColor: .activityColor.opacity(0.4),
-				foregroundColors: [.activityColor, .red],
-				icon: Image(systemName: "figure.walk"),
+				backgroundColor: .activityColorBackground,
+				foregroundColors: [.activityColor, .activityColorGradient],
 				iconSize: iconSize + 2
 			)
 			.frame(width: activityRingSize, height: activityRingSize)
@@ -40,11 +41,12 @@ struct ProgressRings: View {
 			// Hydration Ring
 			let hydrationRingSize = baseRingSize + (ringSpacing + ringWidth) * 2
 			PercentageRing(
+				currentValue: Int(patient.hydrationOunces),
+				maxValue: 60,
+				iconName: "drop.fill",
 				ringWidth: ringWidth,
-				percent: Double(patient.hydrationOunces) / 60 * 100,
-				backgroundColor: .hydrationColor.opacity(0.4),
-				foregroundColors: [.hydrationColor, .blue],
-				icon: Image(systemName: "drop.fill"),
+				backgroundColor: .hydrationColorBackground,
+				foregroundColors: [.hydrationColor, .hydrationColorGradient],
 				iconSize: iconSize
 			)
 			.frame(width: hydrationRingSize, height: hydrationRingSize)
@@ -52,11 +54,12 @@ struct ProgressRings: View {
 			
 			// Protein Ring
 			PercentageRing(
+				currentValue: Int(patient.proteinGrams),
+				maxValue: 60,
+				iconName: "fork.knife",
 				ringWidth: ringWidth,
-				percent: Double(patient.proteinGrams) / 60 * 100,
-				backgroundColor: .proteinColor.opacity(0.4),
-				foregroundColors: [.proteinColor, .green],
-				icon: Image(systemName: "fork.knife"),
+				backgroundColor: .proteinColorBackground,
+				foregroundColors: [.proteinColor, .proteinColorGradient],
 				iconSize: iconSize
 			)
 			.frame(width: baseRingSize, height: baseRingSize)

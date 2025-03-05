@@ -20,7 +20,19 @@ extension HydrationTrackerView {
     // MARK: - "Today" Tab Content
     func todayView() -> some View {
         VStack(spacing: 20) {
-            progressBar()
+			PercentageRing(
+				currentValue: Int(hydrationManager.getTodayHydrationOunces()),
+				maxValue: 60,
+				iconName: "drop.fill",
+				ringWidth: 25,
+				backgroundColor: .hydrationColorBackground,
+				foregroundColors: [.hydrationColor, .hydrationColorGradient],
+				unitLabel: "ounces",
+				iconSize: 13,
+				showProgressTextInCenter: true
+			)
+			.frame(height: 210)
+			.padding(.top, 15)
             streakDisplay()
             presetButtonsGrid()
             logButton()
@@ -190,27 +202,6 @@ extension HydrationTrackerView {
                 }
             }
         }
-    }
-
-    // MARK: - Circular Progress Bar
-    func progressBar() -> some View {
-        ZStack {
-            Circle()
-                .stroke(lineWidth: 10)
-                .opacity(0.3)
-                .foregroundColor(.gray)
-            Circle()
-                .trim(from: 0.0, to: min(CGFloat(totalIntake) / 60.0, 1.0))
-                .stroke(Color.blue, style: StrokeStyle(lineWidth: 10, lineCap: .round))
-                .rotationEffect(.degrees(-90))
-                .animation(.easeOut(duration: 1.0), value: totalIntake)
-
-            Text("\(Int(totalIntake)) / 60 oz")
-                .font(.title3)
-                .foregroundColor(.blue)
-                .accessibilityIdentifier("progressBarLabel")
-        }
-        .frame(width: 140, height: 140)
     }
 
     // MARK: - Streak Display

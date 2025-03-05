@@ -18,7 +18,7 @@ struct ProteinTimeFrameView: View {
 		VStack {
 			TimeFramePicker(selectedTimeFrame: $selectedTimeFrame)
 			TabView(selection: $selectedTimeFrame) {
-                ProteinDailyView()
+                ProteinTodayView()
 					.tag(TimeFrame.today)
 				ProteinWeeklyView()
 					.tag(TimeFrame.week)
