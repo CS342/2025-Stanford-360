@@ -34,47 +34,74 @@ final class HydrationScheduler: Module, DefaultInitializable, EnvironmentAccessi
             viewState = .error(AnyLocalizedError(error: error, defaultErrorDescription: "Failed to create hydration reminder."))
         }
     }
-
-    // MARK: - Called when the user logs water intake to reschedule reminders.    
+    
+    // MARK: - Called when the user logs water intake to reschedule reminders.
     @MainActor
-        func rescheduleHydrationNotifications() async {
-            let now = Date()
-            let calendar = Calendar.current
-
-            let currentHour = calendar.component(.hour, from: now)
-            
-            if currentHour >= 21 {
-                print("⏳ Skipping hydration reminder after 9 PM.")
-                return
-            }
-            if currentHour < 3 {
-                print("⏳ Skipping hydration reminder before 3 AM.")
-                return
-            }
-
-            guard let reminderDate = calendar.date(byAdding: .hour, value: 4, to: now) else {
-                print("❌ Failed to calculate reminder date")
-                return
-            }
-            
-            let reminderHour = calendar.component(.hour, from: reminderDate)
-            let reminderMinute = calendar.component(.minute, from: reminderDate)
-
-            do {
-                try scheduler.createOrUpdateTask(
-                    id: "hydration-reminder",
-                    title: "💧 Stay Hydrated!",
-                    instructions: "You haven't logged any water intake in the last 4 hours. Drink up!",
-                    category: Task.Category(rawValue: "Hydration"),
-                    schedule: .daily(
-                        hour: reminderHour,
-                        minute: reminderMinute,
-                        startingAt: reminderDate
-                    ),
-                    scheduleNotifications: true
-                )
-            } catch {
-                print("❌ Error scheduling reminder: \(error)")
-            }
+    func rescheduleHydrationNotifications() async {
+        let now = Date()
+        let calendar = Calendar.current
+        let currentHour = calendar.component(.hour, from: now)
+        
+        // Skip scheduling reminders between 8 AM and 3 PM
+        if currentHour >= 8 && currentHour < 15 {
+            print("⏳ Skipping immediate reminder, will schedule at 3:30 PM.")
+            let secondsUntilReminder = TimeInterval((15 - currentHour) * 3600 + 30 * 60) // 3:30 PM
+            let reminderDate = Date().addingTimeInterval(secondsUntilReminder)
+            await scheduleHydrationReminder(at: reminderDate)
+            return
         }
+
+        // Schedule next reminder after 4 hours if within allowed range
+        guard let reminderDate = calendar.date(byAdding: .hour, value: 4, to: now) else {
+            return
+        }
+        
+        let reminderHour = calendar.component(.hour, from: reminderDate)
+        
+        // Cancel any hydration reminder scheduled at midnight or later
+        if reminderHour >= 24 {
+            await cancelScheduledReminder()
+            return
+        }
+
+        await scheduleHydrationReminder(at: reminderDate)
+    }
+
+    // MARK: - Schedule a Hydration Reminder
+    @MainActor
+    private func scheduleHydrationReminder(at date: Date) async {
+        let calendar = Calendar.current
+        let reminderHour = calendar.component(.hour, from: date)
+        let reminderMinute = calendar.component(.minute, from: date)
+
+        do {
+            try scheduler.createOrUpdateTask(
+                id: "hydration-reminder",
+                title: "💧 Stay Hydrated!",
+                instructions: "It's been a while since you last logged water. Time to hydrate!",
+                category: Task.Category(rawValue: "Hydration"),
+                schedule: .daily(
+                    hour: reminderHour,
+                    minute: reminderMinute,
+                    startingAt: date
+                ),
+                scheduleNotifications: true
+            )
+        } catch {
+        }
+    }
+
+    // MARK: - Cancel Hydration Reminder
+    @MainActor
+    private func cancelScheduledReminder() async {
+        do {
+            try scheduler.deleteTasks(
+                try scheduler.queryTasks(
+                    for: Date()..<Date().addingTimeInterval(60 * 60 * 24),
+                    predicate: #Predicate { $0.id == "hydration-reminder" }
+                )
+            )
+        } catch {
+        }
+    }
 }
