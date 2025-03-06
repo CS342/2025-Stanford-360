@@ -11,6 +11,8 @@
 
 import Combine
 import CoreML
+import SpeziLLM
+import SpeziLLMLocal
 import SwiftUI
 import UIKit
 @preconcurrency import Vision
@@ -19,7 +21,10 @@ struct AddMealView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(Stanford360Standard.self) private var standard
     @Environment(ProteinManager.self) private var proteinManager
+    @Environment(LLMRunner.self) var runner
     
+    // LLM runner state for protein
+    @State var proteinGram = ""
     // Original state variables
     @State private var mealName: String = ""
     @State private var proteinAmount: String = ""
@@ -28,13 +33,14 @@ struct AddMealView: View {
     @State private var sourceType: UIImagePickerController.SourceType = .photoLibrary
     @State private var isLoading = false
     @State private var showSourceSelection = false
-    
+    // SpeziLLM
     // Image classification state
     @State private var classificationResults: String = "No results yet"
     @State private var highestConfidenceClassification: String?
     @State private var classificationOptions: [String] = []
     @State private var isProcessing: Bool = false
     @State private var errorMessage: String?
+    @StateObject private var promptTemplate = ProteinPromptConstructor()
     @StateObject private var classifier = ImageClassifier()
     
     var body: some View {
@@ -58,12 +64,13 @@ struct AddMealView: View {
 //                    print("No image selected")
 //                }
             }
-            .onChange(of: highestConfidenceClassification) { _, newValue in
-                if let classification = newValue, !classification.isEmpty {
-                    // upate mealName according to the result，allow user to edit it
-                    mealName = formatClassificationName(classification)
-                }
-            }
+//            .onChange(of: highestConfidenceClassification) { _, newValue in
+//                if let classification = newValue, !classification.isEmpty {
+//                    // upate mealName according to the result，allow user to edit it
+//                    mealName = formatClassificationName(classification)
+//                }
+//            }
+            
         }
     }
 }
@@ -346,6 +353,25 @@ extension AddMealView {
             .split(separator: "_")
             .joined(separator: " ")
             .capitalized ?? classification
+    }
+}
+
+extension AddMealView {
+    func getMealProtein(Mealname: String){
+        var prompt = promptTemplate.constructPrompt(mealName: Mealname)
+        let llmSession: LLMLocalSession = runner(
+            with: LLMLocalSchema(
+                parameters: .init(
+                    modelType: .llama3_8B_4bit,
+                    systemPrompt: prompt
+                )
+            )
+        )
+        do {
+            for try await token in try await llmSession.generate(){
+                proteinGram.append(token)
+            }
+        }
     }
 }
 
