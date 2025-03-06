@@ -27,7 +27,16 @@ struct HydrationControlPanel: View {
     var body: some View {
         VStack(spacing: 10) {
             HydrationAmountSelector(selectedAmount: $selectedAmount, errorMessage: $errorMessage)
-            logButton()
+            
+            HStack(spacing: 10) {
+                logButton()
+                    .frame(maxWidth: 0.7 * UIScreen.main.bounds.width)
+                HydrationRecallButton()
+                    .frame(width: 30, height: 30)
+                    .alignmentGuide(.firstTextBaseline) { $0[.bottom] }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+                        
             errorDisplay()
             suggestionDisplay()
             HydrationMilestoneView(milestoneMessage: $milestoneMessage, isSpecialMilestone: $isSpecialMilestone)
