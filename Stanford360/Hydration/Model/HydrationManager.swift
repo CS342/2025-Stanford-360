@@ -72,7 +72,6 @@ class HydrationManager: Module, EnvironmentAccessible {
         
         while true {
             let dailyIntake = hydrationByDate[currentDate]?.reduce(0) { $0 + $1.hydrationOunces } ?? 0.0
-            print("Date: \(currentDate) -> Daily Intake: \(dailyIntake)")
             
             if dailyIntake >= 60 {
                 streakCount += 1
@@ -84,7 +83,6 @@ class HydrationManager: Module, EnvironmentAccessible {
                 break
             }
         }
-        print("Computed streak: \(streakCount)")
         return streakCount
     }
 }
