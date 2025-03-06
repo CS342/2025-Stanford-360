@@ -27,10 +27,18 @@ struct HydrationControlPanel: View {
     var body: some View {
         VStack(spacing: 10) {
             HydrationAmountSelector(selectedAmount: $selectedAmount, errorMessage: $errorMessage)
-            logButton()
+            
+            HStack(spacing: 10) {
+                logButton()
+                    .frame(maxWidth: 0.7 * UIScreen.main.bounds.width)
+                HydrationRecallButton()
+                    .frame(width: 30, height: 30)
+                    .alignmentGuide(.firstTextBaseline) { $0[.bottom] }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+                        
             errorDisplay()
             suggestionDisplay()
-            HydrationMilestoneView(milestoneMessage: $milestoneMessage, isSpecialMilestone: $isSpecialMilestone)
         }
         .padding(.horizontal)
     }
@@ -117,45 +125,12 @@ struct HydrationControlPanel: View {
         errorMessage = nil
         streak = hydrationManager.streak
         await hydrationScheduler.rescheduleHydrationNotifications()
-        displayMilestoneMessage(newTotalIntake: todayIntake, lastMilestone: lastRecordedMilestone)
-
+        hydrationManager.milestoneManager.displayMilestoneMessage(
+            newTotal: hydrationManager.getTodayTotalOunces(),
+            lastMilestone: lastRecordedMilestone,
+            unit: "oz of water"
+        )
         selectedAmount = nil
         intakeAmount = ""
-    }
-    
-    // MARK: - Helper Function: Display Milestone Message
-    func displayMilestoneMessage(newTotalIntake: Double, lastMilestone: Double) {
-        let milestoneData = checkMilestones(newTotalIntake: newTotalIntake, lastMilestone: lastMilestone)
-        
-        if let message = milestoneData.message {
-            withAnimation {
-                self.milestoneMessage = message
-                self.isSpecialMilestone = milestoneData.isSpecial
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                withAnimation {
-                    self.milestoneMessage = nil
-                    self.isSpecialMilestone = false
-                }
-            }
-        }
-    }
-
-    // MARK: - Check Milestones
-    func checkMilestones(newTotalIntake: Double, lastMilestone: Double) -> (message: String?, isSpecial: Bool) {
-        var latestMessage: String?
-        var isSpecialMilestone = false
-
-        for milestone in stride(from: 20, through: newTotalIntake, by: 20) where milestone > lastMilestone {
-            if milestone == 60 && lastMilestone < 60 {
-                latestMessage = "🎉🎉 Amazing! You've reached 60 oz today! Keep up the great work! 🎉🎉"
-                isSpecialMilestone = true
-            } else {
-                latestMessage = "🎉 Great job! You've reached \(Int(milestone)) oz of water today!"
-                isSpecialMilestone = false
-            }
-        }
-
-        return (latestMessage, isSpecialMilestone)
     }
 }

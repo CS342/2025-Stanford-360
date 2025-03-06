@@ -23,4 +23,20 @@ extension Stanford360Standard {
             print("❌ Error writing hydration log to Firestore: \(error)")
         }
     }
+    
+    @MainActor
+    func deleteHydrationLog(_ hydrationLog: HydrationLog) async {
+        guard let logID = hydrationLog.id else {
+            print("❌ Hydration Log ID is nil.")
+            return
+        }
+        
+        do {
+            let docRef = try await configuration.userDocumentReference
+            try await docRef.collection("hydrationLogs").document(logID).delete()
+            print("✅ Successfully deleted hydration log: \(logID)")
+        } catch {
+            print("❌ Error deleting hydration log from Firestore: \(error)")
+        }
+    }
 }

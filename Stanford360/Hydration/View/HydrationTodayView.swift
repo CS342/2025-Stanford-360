@@ -12,7 +12,7 @@ struct HydrationTodayView: View {
     @Environment(HydrationManager.self) private var hydrationManager
 
     var body: some View {
-        VStack(spacing: 10) {
+        ZStack {
             PercentageRing(
                 currentValue: Int(hydrationManager.getTodayTotalOunces()),
                 maxValue: 60,
@@ -26,10 +26,13 @@ struct HydrationTodayView: View {
             )
             .frame(height: 210)
             .padding(.top, 15)
-
+            
+            MilestoneMessageView(unit: "oz of water")
+                .environmentObject(hydrationManager.milestoneManager)
+                .offset(y: -100)
+            
             HydrationStreakView()
-            .frame(minHeight: 40)
-            .padding(.bottom, 10)
+            .offset(y: 110)
         }
     }
 }

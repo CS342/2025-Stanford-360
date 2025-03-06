@@ -423,6 +423,7 @@ extension AddMealView {
         isLoading = true
         defer { isLoading = false }
         var meal = Meal(name: mealName, proteinGrams: Double(proteinAmount) ?? 0)
+        let lastRecordedMilestone = proteinManager.getLatestMilestone()
         
 //        if let image = selectedImage {
 //            if let imageURL = await standard.uploadImageToFirebase(image, imageName: meal.id ?? UUID().uuidString) {
@@ -434,5 +435,10 @@ extension AddMealView {
         
 		proteinManager.meals.append(meal)
         await standard.storeMeal(meal/*, selectedImage: selectedImage*/)
+        proteinManager.milestoneManager.displayMilestoneMessage(
+                newTotal: proteinManager.getTodayTotalGrams(),
+                lastMilestone: lastRecordedMilestone,
+                unit: "grams of protein"
+            )
     }
 }
