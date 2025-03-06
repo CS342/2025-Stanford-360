@@ -13,6 +13,7 @@ import Spezi
 @Observable
 class ProteinManager: Module, EnvironmentAccessible {
 	var meals: [Meal]
+    let milestoneManager = MilestoneManager()
     var todayMeals: [Meal] {
         let today = Calendar.current.startOfDay(for: Date())
         return mealsByDate[today] ?? []
@@ -62,6 +63,11 @@ class ProteinManager: Module, EnvironmentAccessible {
 	func getTotalProteinGrams(_ meals: [Meal]) -> Double {
 		meals.reduce(0) { $0 + $1.proteinGrams }
 	}
+    
+    func getLatestMilestone() -> Double {
+        let totalIntake = getTodayTotalGrams()
+        return milestoneManager.getLatestMilestone(total: totalIntake)
+    }
 	
 	// Add a new meal to the list
 //	func addMeal(name: String, proteinGrams: Double, imageURL: String? = nil, timestamp: Date = Date()) {

@@ -8,21 +8,21 @@
 
 import SwiftUI
 
-struct HydrationMilestoneView: View {
-    @Binding var milestoneMessage: String?
-    @Binding var isSpecialMilestone: Bool
+struct MilestoneMessageView: View {
+    @EnvironmentObject var milestoneManager: MilestoneManager
+    let unit: String
 
     var body: some View {
-        if let message = milestoneMessage {
+        if let message = milestoneManager.milestoneMessage {
             Text(message)
-                .foregroundColor(isSpecialMilestone ? .orange : .blue)
+                .foregroundColor(milestoneManager.isSpecialMilestone ? .orange : .blue)
                 .font(.headline)
                 .multilineTextAlignment(.center)
                 .lineLimit(nil)
                 .padding(12)
                 .background(RoundedRectangle(cornerRadius: 10).fill(Color.white).shadow(radius: 2))
                 .transition(.scale)
-                .accessibilityIdentifier("milestoneMessageLabel")
+                .accessibilityIdentifier("\(unit)MilestoneMessageLabel")
         } else {
             EmptyView()
         }
