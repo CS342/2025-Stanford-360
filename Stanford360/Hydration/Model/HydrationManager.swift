@@ -12,6 +12,7 @@ import Spezi
 @Observable
 class HydrationManager: Module, EnvironmentAccessible {
     var hydration: [HydrationLog] = []
+    let milestoneManager = MilestoneManager()
 
     var hydrationByDate: [Date: [HydrationLog]] {
         var logsByDate: [Date: [HydrationLog]] = [:]
@@ -60,9 +61,16 @@ class HydrationManager: Module, EnvironmentAccessible {
         logs.reduce(0) { $0 + $1.hydrationOunces }
     }
     
+    /*
     func getLatestMilestone() -> Double {
         let totalIntake = getTodayTotalOunces()
         return Double((Int(totalIntake) / 20) * 20)
+    }
+     */
+    
+    func getLatestMilestone() -> Double {
+        let totalIntake = getTodayTotalOunces()
+        return milestoneManager.getLatestMilestone(total: totalIntake)
     }
     
     func calculateStreak() -> Int {
