@@ -56,6 +56,7 @@
 		4D614E922D79D04200874C73 /* SpeziLLMLocal in Frameworks */ = {isa = PBXBuildFile; productRef = 4D614E912D79D04200874C73 /* SpeziLLMLocal */; };
 		4D614E942D79D04200874C73 /* SpeziLLMLocalDownload in Frameworks */ = {isa = PBXBuildFile; productRef = 4D614E932D79D04200874C73 /* SpeziLLMLocalDownload */; };
 		4D614E962D79D04200874C73 /* SpeziLLMOpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 4D614E952D79D04200874C73 /* SpeziLLMOpenAI */; };
+		4D614E9C2D79D75200874C73 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 4D614E9B2D79D75200874C73 /* OpenAI */; };
 		4F331D212D5C34B000CCC8AA /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 4F331D202D5C34B000CCC8AA /* FirebaseAuth */; };
 		4FA061BE2D4AF594008DE21A /* HealthKitOnFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 4FA061BD2D4AF594008DE21A /* HealthKitOnFHIR */; };
 		4FA061C02D4AF59C008DE21A /* ResearchKitOnFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 4FA061BF2D4AF59C008DE21A /* ResearchKitOnFHIR */; };
@@ -190,6 +191,7 @@
 				2FB099B12A875DF100B20952 /* FirebaseFirestore in Frameworks */,
 				4F331D212D5C34B000CCC8AA /* FirebaseAuth in Frameworks */,
 				4D614E902D79D04200874C73 /* SpeziLLMFog in Frameworks */,
+				4D614E9C2D79D75200874C73 /* OpenAI in Frameworks */,
 				A94DDFFD2CBD1190004930BD /* SpeziNotifications in Frameworks */,
 				A9D83F962B083794000D0C78 /* SpeziFirebaseAccountStorage in Frameworks */,
 				2FB099B62A875E2B00B20952 /* HealthKitOnFHIR in Frameworks */,
@@ -468,6 +470,7 @@
 				4D614E912D79D04200874C73 /* SpeziLLMLocal */,
 				4D614E932D79D04200874C73 /* SpeziLLMLocalDownload */,
 				4D614E952D79D04200874C73 /* SpeziLLMOpenAI */,
+				4D614E9B2D79D75200874C73 /* OpenAI */,
 			);
 			productName = Stanford360;
 			productReference = 653A254D283387FE005D4D48 /* Stanford360.app */;
@@ -574,6 +577,7 @@
 				A94DDFFB2CBD1190004930BD /* XCRemoteSwiftPackageReference "SpeziNotifications" */,
 				4DD4BE262D79AF3300B5FFC0 /* XCRemoteSwiftPackageReference "SpeziLLM" */,
 				4DD4BE2A2D79C04F00B5FFC0 /* XCRemoteSwiftPackageReference "llama.cpp" */,
+				4D614E9A2D79D75200874C73 /* XCRemoteSwiftPackageReference "OpenAI" */,
 			);
 			productRefGroup = 653A254E283387FE005D4D48 /* Products */;
 			projectDirPath = "";
@@ -1302,6 +1306,14 @@
 				minimumVersion = 0.3.5;
 			};
 		};
+		4D614E9A2D79D75200874C73 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MacPaw/OpenAI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.6;
+			};
+		};
 		4DD4BE262D79AF3300B5FFC0 /* XCRemoteSwiftPackageReference "SpeziLLM" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/StanfordSpezi/SpeziLLM.git";
@@ -1474,6 +1486,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4DD4BE262D79AF3300B5FFC0 /* XCRemoteSwiftPackageReference "SpeziLLM" */;
 			productName = SpeziLLMOpenAI;
+		};
+		4D614E9B2D79D75200874C73 /* OpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4D614E9A2D79D75200874C73 /* XCRemoteSwiftPackageReference "OpenAI" */;
+			productName = OpenAI;
 		};
 		4F331D202D5C34B000CCC8AA /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
