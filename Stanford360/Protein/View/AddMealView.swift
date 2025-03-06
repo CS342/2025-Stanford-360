@@ -24,7 +24,6 @@ struct AddMealView: View {
     @Environment(LLMRunner.self) var runner
     
     // LLM runner state for protein
-    @State var proteinGram = ""
     // Original state variables
     @State private var mealName: String = ""
     @State private var proteinAmount: String = ""
@@ -43,13 +42,47 @@ struct AddMealView: View {
     @StateObject private var promptTemplate = ProteinPromptConstructor()
     @StateObject private var classifier = ImageClassifier()
     
+//    var body: some View {
+//        NavigationView {
+//            ZStack {
+//                Color(UIColor.systemGroupedBackground).ignoresSafeArea()
+//                mainContent
+//            }
+//            .toolbar { ToolbarItem(placement: .navigationBarLeading) { Button("Cancel") { dismiss() } } }
+//            .overlay { if isLoading { loadingView } }
+//            .sheet(isPresented: $showingImagePicker) { imagePicker }
+//            .confirmationDialog("Choose Image Source", isPresented: $showSourceSelection, titleVisibility: .visible) {
+//                sourceSelectionButtons
+//            }
+//            .onChange(of: selectedImage) { _, newImage in
+//                classifier.image = newImage
+//                // classifier.classifyImage(newImage)
+////                if let image = newImage {
+////                    classification(image: image)
+////                } else {
+////                    print("No image selected")
+////                }
+//            }
+////            .onChange(of: highestConfidenceClassification) { _, newValue in
+////                if let classification = newValue, !classification.isEmpty {
+////                    // upate mealName according to the result，allow user to edit it
+////                    mealName = formatClassificationName(classification)
+////                }
+////            }
+//            
+//        }
+//    }
     var body: some View {
         NavigationView {
             ZStack {
                 Color(UIColor.systemGroupedBackground).ignoresSafeArea()
                 mainContent
             }
-            .toolbar { ToolbarItem(placement: .navigationBarLeading) { Button("Cancel") { dismiss() } } }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") { dismiss() }
+                }
+            }
             .overlay { if isLoading { loadingView } }
             .sheet(isPresented: $showingImagePicker) { imagePicker }
             .confirmationDialog("Choose Image Source", isPresented: $showSourceSelection, titleVisibility: .visible) {
@@ -57,20 +90,16 @@ struct AddMealView: View {
             }
             .onChange(of: selectedImage) { _, newImage in
                 classifier.image = newImage
-                // classifier.classifyImage(newImage)
-//                if let image = newImage {
-//                    classification(image: image)
-//                } else {
-//                    print("No image selected")
-//                }
             }
-//            .onChange(of: highestConfidenceClassification) { _, newValue in
-//                if let classification = newValue, !classification.isEmpty {
-//                    // upate mealName according to the result，allow user to edit it
-//                    mealName = formatClassificationName(classification)
-//                }
-//            }
-            
+            .onChange(of: mealName) { newMealName in
+                if !newMealName.isEmpty {
+                    Task {
+                        await getMealProtein(meal: newMealName)
+                    }
+                } else {
+                    proteinAmount = ""
+                }
+            }
         }
     }
 }
@@ -357,23 +386,37 @@ extension AddMealView {
 }
 
 extension AddMealView {
-    func getMealProtein(Mealname: String){
-        var prompt = promptTemplate.constructPrompt(mealName: Mealname)
+    func getMealProtein(meal: String) async {
+        await MainActor.run {
+            self.proteinAmount = ""
+        }
+        let prompt = promptTemplate.constructPrompt(mealName: meal)
+//        let llmSession: LLMLocalSession = runner(
+//            with: LLMLocalSchema(
+//                model: <#LLMLocalModel#>, parameters: .init(
+//                    modelType: .llama3_8B_4bit,
+//                    systemPrompt: prompt
+//                )
+//            )
+//        )
         let llmSession: LLMLocalSession = runner(
             with: LLMLocalSchema(
-                parameters: .init(
-                    modelType: .llama3_8B_4bit,
-                    systemPrompt: prompt
-                )
+                model: .llama3_8B_4bit
             )
         )
         do {
-            for try await token in try await llmSession.generate(){
-                proteinGram.append(token)
+            for try await token in try await llmSession.generate() {
+                await MainActor.run {
+                    self.proteinAmount.append(token)
+                }
             }
+            print("Protein extracted is ", proteinAmount)
+        } catch {
+            print("Error generating protein: \(error)")
         }
     }
 }
+
 
 extension AddMealView {
     func saveMeal() async {

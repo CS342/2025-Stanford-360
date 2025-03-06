@@ -11,7 +11,7 @@
 
 import Foundation
 
-class ProteinPromptConstructor: ObservableObject{
+class ProteinPromptConstructor: ObservableObject {
     func constructPrompt(mealName: String) -> String {
         let prompt = """
         You are an expert in nutritional science with a focus on dietary needs for children aged 10-15.
