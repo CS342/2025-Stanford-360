@@ -20,6 +20,9 @@
     "%lld" : {
 
     },
+    "%lld Day Streak" : {
+
+    },
     "%lld Meals Logged" : {
 
     },
@@ -424,6 +427,9 @@
     "Invalid Date" : {
 
     },
+    "It's been a while since you last logged water. Time to hydrate!" : {
+
+    },
     "Keep going!" : {
 
     },
@@ -716,6 +722,9 @@
 
     },
     "Streak" : {
+
+    },
+    "Streak icon" : {
 
     },
     "Swift Package Manager" : {
