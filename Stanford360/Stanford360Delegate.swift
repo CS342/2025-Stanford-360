@@ -15,6 +15,8 @@ import SpeziFirebaseAccountStorage
 import SpeziFirebaseStorage
 import SpeziFirestore
 import SpeziHealthKit
+import SpeziLLM
+import SpeziLLMLocal
 import SpeziNotifications
 import SpeziOnboarding
 import SpeziScheduler
@@ -50,7 +52,7 @@ class Stanford360Delegate: SpeziAppDelegate {
 			if HKHealthStore.isHealthDataAvailable() {
 				healthKit
 			}
-			
+            
 			OnboardingDataSource()
 			Notifications()
 			AppNavigationState()
