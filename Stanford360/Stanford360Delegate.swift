@@ -15,6 +15,8 @@ import SpeziFirebaseAccountStorage
 import SpeziFirebaseStorage
 import SpeziFirestore
 import SpeziHealthKit
+import SpeziLLM
+import SpeziLLMLocal
 import SpeziNotifications
 import SpeziOnboarding
 import SpeziScheduler
@@ -68,6 +70,10 @@ class Stanford360Delegate: SpeziAppDelegate {
 			ProteinManager()
 			HealthKitManager()
 			PatientManager()
+            
+            LLMRunner {
+                LLMLocalPlatform()
+            }
 		}
 	}
 	
