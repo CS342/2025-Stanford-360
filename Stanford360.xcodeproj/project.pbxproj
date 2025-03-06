@@ -49,7 +49,6 @@
 		2FE5DC9C29EDD9EF004B9AB4 /* XCTHealthKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE5DC9B29EDD9EF004B9AB4 /* XCTHealthKit */; };
 		2FE5DCB129EE6107004B9AB4 /* AccountOnboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5DCAC29EE6107004B9AB4 /* AccountOnboarding.swift */; };
 		2FF53D8D2A8729D600042B76 /* Stanford360Standard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF53D8C2A8729D600042B76 /* Stanford360Standard.swift */; };
-		459A2CA32D6FD9DF00D429E9 /* Stanford360StandardHydration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459A2CA22D6FD9DB00D429E9 /* Stanford360StandardHydration.swift */; };
 		45E038232D503C0F009D07E2 /* HydrationTrackerViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E038222D503BFA009D07E2 /* HydrationTrackerViewTests.swift */; };
 		4F331D212D5C34B000CCC8AA /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 4F331D202D5C34B000CCC8AA /* FirebaseAuth */; };
 		4FA061BE2D4AF594008DE21A /* HealthKitOnFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 4FA061BD2D4AF594008DE21A /* HealthKitOnFHIR */; };
@@ -132,7 +131,6 @@
 		2FE5DC5529EDD811004B9AB4 /* SocialSupportQuestionnaire.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SocialSupportQuestionnaire.json; sourceTree = "<group>"; };
 		2FE5DCAC29EE6107004B9AB4 /* AccountOnboarding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountOnboarding.swift; sourceTree = "<group>"; };
 		2FF53D8C2A8729D600042B76 /* Stanford360Standard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stanford360Standard.swift; sourceTree = "<group>"; };
-		459A2CA22D6FD9DB00D429E9 /* Stanford360StandardHydration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stanford360StandardHydration.swift; sourceTree = "<group>"; };
 		45E038222D503BFA009D07E2 /* HydrationTrackerViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydrationTrackerViewTests.swift; sourceTree = "<group>"; };
 		4FC5EF032D78162800BFDFFD /* KidsOnboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KidsOnboarding.swift; sourceTree = "<group>"; };
 		4FCAD0582D5AAD20007324A6 /* ActivityViewUITest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewUITest.swift; sourceTree = "<group>"; };
@@ -326,7 +324,6 @@
 				653A2550283387FE005D4D48 /* Stanford360.swift */,
 				2F5E32BC297E05EA003432F8 /* Stanford360Delegate.swift */,
 				2FF53D8C2A8729D600042B76 /* Stanford360Standard.swift */,
-				459A2CA22D6FD9DB00D429E9 /* Stanford360StandardHydration.swift */,
 				2F4E23822989D51F0013F3D9 /* Stanford360TestingSetup.swift */,
 				A9720E412ABB68B300872D23 /* Account */,
 				2FE5DC2729EDD38D004B9AB4 /* Contacts */,
@@ -632,7 +629,6 @@
 				2F5E32BD297E05EA003432F8 /* Stanford360Delegate.swift in Sources */,
 				2FE5DC5229EDD7FA004B9AB4 /* Stanford360Scheduler.swift in Sources */,
 				A9FE7AD02AA39BAB0077B045 /* AccountSheet.swift in Sources */,
-				459A2CA32D6FD9DF00D429E9 /* Stanford360StandardHydration.swift in Sources */,
 				653A2551283387FE005D4D48 /* Stanford360.swift in Sources */,
 				2FE5DC3629EDD7CA004B9AB4 /* HealthKitPermissions.swift in Sources */,
 				C15C640A2D75CFF700979C62 /* LogWeightView.swift in Sources */,

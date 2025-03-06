@@ -85,4 +85,14 @@ class HydrationManager: Module, EnvironmentAccessible {
         }
         return streakCount
     }
+    
+    func recallLastIntake() {
+        let today = Calendar.current.startOfDay(for: Date())
+
+        if let lastLogIndex = hydration.lastIndex(where: {
+            Calendar.current.startOfDay(for: $0.timestamp) == today
+        }) {
+            hydration.remove(at: lastLogIndex)
+        }
+    }
 }
