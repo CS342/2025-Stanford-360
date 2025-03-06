@@ -355,22 +355,15 @@ extension AddMealView {
         defer { isLoading = false }
         var meal = Meal(name: mealName, proteinGrams: Double(proteinAmount) ?? 0)
         
-        if let image = selectedImage {
-            if let imageURL = await standard.uploadImageToFirebase(image, imageName: meal.id ?? UUID().uuidString) {
-                meal.imageURL = imageURL
-            } else {
-                return
-            }
-        }
+//        if let image = selectedImage {
+//            if let imageURL = await standard.uploadImageToFirebase(image, imageName: meal.id ?? UUID().uuidString) {
+//                meal.imageURL = imageURL
+//            } else {
+//                return
+//            }
+//        }
         
-        await standard.storeMeal(meal, selectedImage: selectedImage)
-        await MainActor.run {
-            proteinManager.addMeal(
-                name: meal.name,
-                proteinGrams: meal.proteinGrams,
-                imageURL: meal.imageURL
-            )
-            dismiss()
-        }
+		proteinManager.meals.append(meal)
+        await standard.storeMeal(meal/*, selectedImage: selectedImage*/)
     }
 }

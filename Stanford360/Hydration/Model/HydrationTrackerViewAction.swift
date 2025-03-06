@@ -17,18 +17,14 @@ extension HydrationTrackerView {
             return
         }
 
-        errorMessage = nil
-        let now = Date()
-        let lastRecordedMilestone = hydrationManager.getLatestMilestone()
-
-        hydrationManager.addHydrationLog(amount: amount, timestamp: now)
-
-        await storeFirestoreLog(amount, now)
-
-        let todayHydrationOunces = hydrationManager.getTodayHydrationOunces()
-
-        patientManager.updateHydrationOunces(todayHydrationOunces)
-
+		let hydrationLog = HydrationLog(hydrationOunces: amount, timestamp: Date())
+		hydrationManager.hydration.append(hydrationLog)
+		await standard.storeHydrationLog(hydrationLog)
+		
+		errorMessage = nil
+		let now = Date()
+		let lastRecordedMilestone = hydrationManager.getLatestMilestone()
+        let todayHydrationOunces = hydrationManager.getTodayTotalOunces()
         await hydrationScheduler.rescheduleHydrationNotifications()
 
         // Check and display milestone messages
@@ -36,12 +32,6 @@ extension HydrationTrackerView {
 
         selectedAmount = nil
         intakeAmount = ""
-    }
-
-    // MARK: - Store new hydration log in Firestore
-    private func storeFirestoreLog(_ amount: Double, _ timestamp: Date) async {
-        let newLog = HydrationLog(hydrationOunces: amount, timestamp: timestamp)
-        await standard.storeHydrationLog(newLog)
     }
     
     // MARK: - Helper Function: Display Milestone Message

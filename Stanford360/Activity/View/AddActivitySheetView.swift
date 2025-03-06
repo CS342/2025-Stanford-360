@@ -14,7 +14,6 @@ import SwiftUI
 struct AddActivitySheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(Stanford360Standard.self) private var standard
-    @Environment(PatientManager.self) private var patientManager
     @Environment(ActivityManager.self) private var activityManager
     @Environment(ActivityScheduler.self) var activityScheduler
     
@@ -181,7 +180,6 @@ struct AddActivitySheet: View {
 		let prevActivityMinutes = activityManager.getTodayTotalMinutes()
         activityManager.activities.append(newActivity)
 		let activityMinutes = activityManager.getTodayTotalMinutes()
-		patientManager.updateActivityMinutes(activityMinutes)
         await standard.addActivityToFirestore(newActivity)
 		await activityScheduler.handleNotificationsOnLoggedActivity(prevActivityMinutes: prevActivityMinutes, newActivityMinutes: activityMinutes)
     }
@@ -214,9 +212,6 @@ struct AddActivitySheet: View {
             activityManager.activities = updatedActivities
         }
 //        activityManager.activities.editActivity(updatedActivity)
-        
-        // Update patient manager with new totals
-        patientManager.updateActivityMinutes(activityManager.getTodayTotalMinutes())
     }
 }
 

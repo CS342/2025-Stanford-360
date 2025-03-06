@@ -51,7 +51,7 @@ class HydrationManager: Module, EnvironmentAccessible {
         self.hydration = hydration
     }
 
-    func getTodayHydrationOunces() -> Double {
+    func getTodayTotalOunces() -> Double {
         let today = Calendar.current.startOfDay(for: Date())
         return hydrationByDate[today]?.reduce(0) { $0 + $1.hydrationOunces } ?? 0
     }
@@ -59,14 +59,9 @@ class HydrationManager: Module, EnvironmentAccessible {
     func getTotalHydrationOunces(_ logs: [HydrationLog]) -> Double {
         logs.reduce(0) { $0 + $1.hydrationOunces }
     }
-
-    func addHydrationLog(amount: Double, timestamp: Date = Date()) {
-        let newLog = HydrationLog(hydrationOunces: amount, timestamp: timestamp)
-        hydration.append(newLog)
-    }
     
     func getLatestMilestone() -> Double {
-        let totalIntake = getTodayHydrationOunces()
+        let totalIntake = getTodayTotalOunces()
         return Double((Int(totalIntake) / 20) * 20)
     }
     

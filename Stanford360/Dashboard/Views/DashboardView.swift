@@ -32,10 +32,10 @@ struct DashboardView: View {
 			}
 		}
 	}
-
+	
 	init(presentingAccount: Binding<Bool>) {
-        self._presentingAccount = presentingAccount
-    }
+		self._presentingAccount = presentingAccount
+	}
 }
 
 #Preview {
@@ -43,10 +43,7 @@ struct DashboardView: View {
 	@Previewable @State var presentingAccount = false
 	
 	@Previewable @State var patientManager = PatientManager(patient: Patient(
-		weight: Measurement(value: 0, unit: .pounds),
-		activityMinutes: 50,
-		hydrationOunces: 40,
-		proteinGrams: 10
+		weight: Measurement(value: 0, unit: .pounds)
 	))
 	
 	@Previewable @State var activityManager = ActivityManager(activities: activitiesData)
