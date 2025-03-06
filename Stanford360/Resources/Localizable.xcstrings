@@ -20,6 +20,9 @@
     "%lld" : {
 
     },
+    "%lld Day Streak" : {
+
+    },
     "%lld Meals Logged" : {
 
     },
@@ -722,6 +725,9 @@
 
     },
     "Streak" : {
+
+    },
+    "Streak icon" : {
 
     },
     "Swift Package Manager" : {
