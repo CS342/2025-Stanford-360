@@ -64,10 +64,10 @@ class ProteinManager: Module, EnvironmentAccessible {
 	}
 	
 	// Add a new meal to the list
-	func addMeal(name: String, proteinGrams: Double, imageURL: String? = nil, timestamp: Date = Date()) {
-		let newMeal = Meal(name: name, proteinGrams: proteinGrams, imageURL: imageURL, timestamp: timestamp)
-		meals.append(newMeal)
-	}
+//	func addMeal(name: String, proteinGrams: Double, imageURL: String? = nil, timestamp: Date = Date()) {
+//		let newMeal = Meal(name: name, proteinGrams: proteinGrams, imageURL: imageURL, timestamp: timestamp)
+//		meals.append(newMeal)
+//	}
 	
 	// Delete a meal from the list by its name
 	//	func deleteMeal(byName name: String) {

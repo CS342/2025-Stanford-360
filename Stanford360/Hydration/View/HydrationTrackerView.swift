@@ -61,7 +61,6 @@ struct HydrationTrackerView: View {
 
     @Environment(Stanford360Standard.self) var standard
     @Environment(HydrationScheduler.self) var hydrationScheduler
-    @Environment(PatientManager.self) var patientManager
     @Environment(HydrationManager.self) var hydrationManager
     @Environment(Account.self) private var account: Account?
     @Binding private var presentingAccount: Bool

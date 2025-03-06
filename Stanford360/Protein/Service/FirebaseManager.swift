@@ -24,28 +24,28 @@ extension Stanford360Standard {
 //			print("Error writing meal to Firestore: \(error)")
 //		}
 //	}
-    func storeMeal(_ meal: Meal, selectedImage: UIImage?) async {
+	func storeMeal(_ meal: Meal/*, selectedImage: UIImage?*/) async {
         guard let mealID = meal.id else {
             print("❌ Meal ID is nil.")
             return
         }
 
-        var updatedMeal = meal
-
-        // If an image is selected, upload the image and get its download URL
-        if let image = selectedImage {
-            if let imageURL = await uploadImageToFirebase(image, imageName: meal.name) {
-                updatedMeal.imageURL = imageURL
-                print("✅ Image URL uploaded: \(imageURL)")
-            } else {
-                print("❌ Failed to upload image.")
-            }
-        }
+//        var updatedMeal = meal
+//
+//        // If an image is selected, upload the image and get its download URL
+//        if let image = selectedImage {
+//            if let imageURL = await uploadImageToFirebase(image, imageName: meal.name) {
+//                updatedMeal.imageURL = imageURL
+//                print("✅ Image URL uploaded: \(imageURL)")
+//            } else {
+//                print("❌ Failed to upload image.")
+//            }
+//        }
 
         // store the Meal to Firestore
         do {
             let docRef = try await configuration.userDocumentReference
-            try await docRef.collection("meals").document(mealID).setData(from: updatedMeal)
+            try await docRef.collection("meals").document(mealID).setData(from: meal)
             print("✅ Meal saved to Firestore with ID: \(mealID)")
         } catch {
             print("❌ Error writing meal to Firestore: \(error)")
@@ -87,30 +87,30 @@ extension Stanford360Standard {
         }
     }
     
-    func uploadImageToFirebase(_ image: UIImage, imageName: String) async -> String? {
-        guard let imageData = image.jpegData(compressionQuality: 0.8)
-        else {
-            return nil
-        }
-        let uniqueImageName = "\(UUID().uuidString)_\(imageName)"
-        let storageRef = Storage.storage().reference().child("meal_images/\(uniqueImageName).jpg")
-        
-        do {
-            try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
-                storageRef.putData(imageData, metadata: nil) { _, error in
-                    if let error = error {
-                        continuation.resume(throwing: error)
-                    } else {
-                        continuation.resume(returning: ())
-                    }
-                }
-            }
-            let downloadURL = try await storageRef.downloadURL()
-            print("✅ Image successfully uploaded to: \(downloadURL)")
-            return downloadURL.absoluteString
-        } catch {
-            print("❌ Error uploading image: \(error)")
-            return nil
-        }
-    }
+//    func uploadImageToFirebase(_ image: UIImage, imageName: String) async -> String? {
+//        guard let imageData = image.jpegData(compressionQuality: 0.8)
+//        else {
+//            return nil
+//        }
+//        let uniqueImageName = "\(UUID().uuidString)_\(imageName)"
+//        let storageRef = Storage.storage().reference().child("meal_images/\(uniqueImageName).jpg")
+//        
+//        do {
+//            try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+//                storageRef.putData(imageData, metadata: nil) { _, error in
+//                    if let error = error {
+//                        continuation.resume(throwing: error)
+//                    } else {
+//                        continuation.resume(returning: ())
+//                    }
+//                }
+//            }
+//            let downloadURL = try await storageRef.downloadURL()
+//            print("✅ Image successfully uploaded to: \(downloadURL)")
+//            return downloadURL.absoluteString
+//        } catch {
+//            print("❌ Error uploading image: \(error)")
+//            return nil
+//        }
+//    }
 }

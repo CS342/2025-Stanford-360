@@ -21,7 +21,7 @@ extension HydrationTrackerView {
     func todayView() -> some View {
         VStack(spacing: 20) {
             PercentageRing(
-                currentValue: Int(hydrationManager.getTodayHydrationOunces()),
+                currentValue: Int(hydrationManager.getTodayTotalOunces()),
                 maxValue: 60,
                 iconName: "drop.fill",
                 ringWidth: 25,
@@ -344,7 +344,7 @@ extension HydrationTrackerView {
 
     // MARK: - Goal Suggestion Display
     func suggestionDisplay() -> some View {
-		let todayHydrationOunces = hydrationManager.getTodayHydrationOunces()
+		let todayHydrationOunces = hydrationManager.getTodayTotalOunces()
         if todayHydrationOunces < 60 {
             return AnyView(
                 Text("You need \(String(format: "%.1f", 60 - todayHydrationOunces)) oz more to reach your goal!")

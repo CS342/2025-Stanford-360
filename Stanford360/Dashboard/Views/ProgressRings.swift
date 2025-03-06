@@ -13,7 +13,9 @@
 import SwiftUI
 
 struct ProgressRings: View {
-	@Environment(PatientManager.self) private var patientManager
+	@Environment(ActivityManager.self) private var activityManager
+	@Environment(HydrationManager.self) private var hydrationManager
+	@Environment(ProteinManager.self) private var proteinManager
 	
 	private let ringWidth: CGFloat = 35
 	private let ringSpacing: CGFloat = 5
@@ -21,13 +23,11 @@ struct ProgressRings: View {
 	private let iconSize: CGFloat = 16
 	
 	var body: some View {
-		let patient = patientManager.patient
-		
 		ZStack {
 			// Activity Ring
 			let activityRingSize = baseRingSize + (ringSpacing + ringWidth) * 4
 			PercentageRing(
-				currentValue: patient.activityMinutes,
+				currentValue: activityManager.getTodayTotalMinutes(),
 				maxValue: 60,
 				iconName: "figure.walk",
 				ringWidth: ringWidth,
@@ -41,7 +41,7 @@ struct ProgressRings: View {
 			// Hydration Ring
 			let hydrationRingSize = baseRingSize + (ringSpacing + ringWidth) * 2
 			PercentageRing(
-				currentValue: Int(patient.hydrationOunces),
+				currentValue: Int(hydrationManager.getTodayTotalOunces()),
 				maxValue: 60,
 				iconName: "drop.fill",
 				ringWidth: ringWidth,
@@ -54,7 +54,7 @@ struct ProgressRings: View {
 			
 			// Protein Ring
 			PercentageRing(
-				currentValue: Int(patient.proteinGrams),
+				currentValue: Int(proteinManager.getTodayTotalGrams()),
 				maxValue: 60,
 				iconName: "fork.knife",
 				ringWidth: ringWidth,
@@ -71,13 +71,5 @@ struct ProgressRings: View {
 }
 
 #Preview {
-	@Previewable @State var patientManager = PatientManager(patient: Patient(
-		weight: Measurement(value: 0, unit: .pounds),
-		activityMinutes: 30,
-		hydrationOunces: 40,
-		proteinGrams: 10
-	))
-	
 	ProgressRings()
-		.environment(patientManager)
 }
