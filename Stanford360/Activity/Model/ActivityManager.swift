@@ -19,6 +19,7 @@ import UserNotifications
 class ActivityManager: Module, EnvironmentAccessible {
     // MARK: - Properties
     var activities: [Activity] = []
+    let milestoneManager = MilestoneManager()
 	var activitiesByDate: [Date: [Activity]] {
 		var activitiesByDate: [Date: [Activity]] = [:]
 		for activity in activities {
@@ -65,6 +66,11 @@ class ActivityManager: Module, EnvironmentAccessible {
 	func getTotalActivityMinutes(_ activities: [Activity]) -> Int {
 		activities.reduce(0) { $0 + $1.activeMinutes }
 	}
+    
+    func getLatestMilestone() -> Double {
+        let totalIntake = Double(getTodayTotalMinutes())
+        return milestoneManager.getLatestMilestone(total: totalIntake)
+    }
 
     func getWeeklySummary() -> [Activity] {
         let calendar = Calendar.current

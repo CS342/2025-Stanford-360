@@ -29,7 +29,7 @@ struct HydrationTodayView: View {
             
             MilestoneMessageView(unit: "oz of water")
                 .environmentObject(hydrationManager.milestoneManager)
-                .offset(y: -100)
+                .offset(y: -90)
             
             HydrationStreakView()
             .offset(y: 110)
