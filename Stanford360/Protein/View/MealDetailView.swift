@@ -6,11 +6,14 @@
 // SPDX-License-Identifier: MIT
 //
 
- import SwiftUI
+import SwiftUI
 
- struct MealDetailView: View {
+struct MealDetailView: View {
     let meal: Meal
-    
+    @Environment(Stanford360Standard.self) private var standard
+    @Environment(ProteinManager.self) private var proteinManager
+    @Environment(\.dismiss) private var dismiss
+
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
@@ -28,6 +31,9 @@
                     
                     // Meal Timestamp Card
                     timeInfoCard
+                    
+                    // Delete Button
+                    deleteButton(for: meal)
                 }
                 .padding(.horizontal)
             }
@@ -148,4 +154,23 @@
             placeholderImage
         }
     }
- }
+    
+    private func deleteButton(for meal: Meal) -> some View {
+        Button(role: .destructive) {
+            print(meal)
+            Task {
+                await standard.deleteMeal(meal)
+                print("protein meals before")
+                print(proteinManager.meals)
+                var updatedMeals = proteinManager.meals
+                updatedMeals.removeAll { $0.id == meal.id }
+                proteinManager.meals = updatedMeals
+                print("protein meals after")
+                print(proteinManager.meals)
+            }
+            dismiss()
+        } label: {
+            Label("Delete", systemImage: "trash")
+        }
+    }
+}

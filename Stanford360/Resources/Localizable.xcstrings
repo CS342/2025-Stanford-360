@@ -251,9 +251,6 @@
     "fork" : {
 
     },
-    "fork_background" : {
-
-    },
     "g" : {
 
     },
@@ -482,6 +479,9 @@
     "Log your water intake" : {
 
     },
+    "Meal Date" : {
+
+    },
     "Meal Recommendations" : {
 
     },
@@ -611,7 +611,7 @@
     "Please select a date and time that isn't in the future." : {
 
     },
-    "Please upload your meal, you are doing great!🎉🎉🎉" : {
+    "Please upload your meal, you are doing great!🎉" : {
 
     },
     "plus.circle" : {
@@ -662,9 +662,6 @@
           }
         }
       }
-    },
-    "selected_image" : {
-
     },
     "Social Support Questionnaire" : {
       "localizations" : {
@@ -874,6 +871,9 @@
 
     },
     "When did you do it?" : {
+
+    },
+    "When did you have this meal?" : {
 
     },
     "You haven't logged any water intake in the last 4 hours. Drink up!" : {
