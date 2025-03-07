@@ -11,10 +11,11 @@ import SwiftUI
 
 struct HydrationMonthlyView: View {
     @Environment(HydrationManager.self) private var hydrationManager
-
+    /*
     @State private var selectedDate: String?
     @State private var selectedIntake: Double?
     @State private var selectedPosition: CGPoint?
+    */
 
     private var maxMonthlyIntake: Double {
         max(200, monthlyData.map { $0.intakeOz }.max() ?? 0)
@@ -71,6 +72,7 @@ struct HydrationMonthlyView: View {
                 AxisMarks(values: .automatic) { _ in }
             }
             .frame(height: 200)
+            /*
             .overlay(
                 ChartInteractionHelper.hoverTooltip(
                     selectedDate: selectedDate,
@@ -87,6 +89,7 @@ struct HydrationMonthlyView: View {
                     selectedPosition: $selectedPosition
                 )
             }
+            */
         }
         .padding()
     }

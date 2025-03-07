@@ -11,10 +11,11 @@ import SwiftUI
 
 struct HydrationWeeklyView: View {
     @Environment(HydrationManager.self) private var hydrationManager
-    
+    /*
     @State private var selectedDate: String?
     @State private var selectedIntake: Double?
     @State private var selectedPosition: CGPoint?
+    */
 
     private var weeklyData: [DailyHydrationData] {
         let calendar = Calendar.current
@@ -59,6 +60,7 @@ struct HydrationWeeklyView: View {
             }
             .chartYScale(domain: 0...maxWeeklyIntake)
             .frame(height: 200)
+            /*
             .overlay(
                 ChartInteractionHelper.hoverTooltip(
                     selectedDate: selectedDate,
@@ -75,6 +77,7 @@ struct HydrationWeeklyView: View {
                     selectedPosition: $selectedPosition
                 )
             }
+            */
         }
         .padding()
     }
