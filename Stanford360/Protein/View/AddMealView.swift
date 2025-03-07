@@ -11,6 +11,8 @@
 
 import Combine
 import CoreML
+import SpeziLLM
+import SpeziLLMLocal
 import SwiftUI
 import UIKit
 @preconcurrency import Vision
@@ -19,7 +21,9 @@ struct AddMealView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(Stanford360Standard.self) private var standard
     @Environment(ProteinManager.self) private var proteinManager
+    @Environment(LLMRunner.self) var runner
     
+    // LLM runner state for protein
     // Original state variables
     @State private var mealName: String = ""
     @State private var proteinAmount: String = ""
@@ -28,22 +32,57 @@ struct AddMealView: View {
     @State private var sourceType: UIImagePickerController.SourceType = .photoLibrary
     @State private var isLoading = false
     @State private var showSourceSelection = false
-    
+    // SpeziLLM
     // Image classification state
     @State private var classificationResults: String = "No results yet"
     @State private var highestConfidenceClassification: String?
     @State private var classificationOptions: [String] = []
     @State private var isProcessing: Bool = false
     @State private var errorMessage: String?
+    @StateObject private var promptTemplate = ProteinPromptConstructor()
     @StateObject private var classifier = ImageClassifier()
     
+//    var body: some View {
+//        NavigationView {
+//            ZStack {
+//                Color(UIColor.systemGroupedBackground).ignoresSafeArea()
+//                mainContent
+//            }
+//            .toolbar { ToolbarItem(placement: .navigationBarLeading) { Button("Cancel") { dismiss() } } }
+//            .overlay { if isLoading { loadingView } }
+//            .sheet(isPresented: $showingImagePicker) { imagePicker }
+//            .confirmationDialog("Choose Image Source", isPresented: $showSourceSelection, titleVisibility: .visible) {
+//                sourceSelectionButtons
+//            }
+//            .onChange(of: selectedImage) { _, newImage in
+//                classifier.image = newImage
+//                // classifier.classifyImage(newImage)
+////                if let image = newImage {
+////                    classification(image: image)
+////                } else {
+////                    print("No image selected")
+////                }
+//            }
+////            .onChange(of: highestConfidenceClassification) { _, newValue in
+////                if let classification = newValue, !classification.isEmpty {
+////                    // upate mealName according to the result，allow user to edit it
+////                    mealName = formatClassificationName(classification)
+////                }
+////            }
+//            
+//        }
+//    }
     var body: some View {
         NavigationView {
             ZStack {
                 Color(UIColor.systemGroupedBackground).ignoresSafeArea()
                 mainContent
             }
-            .toolbar { ToolbarItem(placement: .navigationBarLeading) { Button("Cancel") { dismiss() } } }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") { dismiss() }
+                }
+            }
             .overlay { if isLoading { loadingView } }
             .sheet(isPresented: $showingImagePicker) { imagePicker }
             .confirmationDialog("Choose Image Source", isPresented: $showSourceSelection, titleVisibility: .visible) {
@@ -51,17 +90,14 @@ struct AddMealView: View {
             }
             .onChange(of: selectedImage) { _, newImage in
                 classifier.image = newImage
-                // classifier.classifyImage(newImage)
-//                if let image = newImage {
-//                    classification(image: image)
-//                } else {
-//                    print("No image selected")
-//                }
             }
-            .onChange(of: highestConfidenceClassification) { _, newValue in
-                if let classification = newValue, !classification.isEmpty {
-                    // upate mealName according to the result，allow user to edit it
-                    mealName = formatClassificationName(classification)
+            .onChange(of: mealName) { newMealName in
+                if !newMealName.isEmpty {
+                    Task {
+                        await getMealProtein(meal: newMealName)
+                    }
+                } else {
+                    proteinAmount = ""
                 }
             }
         }
@@ -348,6 +384,39 @@ extension AddMealView {
             .capitalized ?? classification
     }
 }
+
+extension AddMealView {
+    func getMealProtein(meal: String) async {
+        await MainActor.run {
+            self.proteinAmount = ""
+        }
+        let prompt = promptTemplate.constructPrompt(mealName: meal)
+//        let llmSession: LLMLocalSession = runner(
+//            with: LLMLocalSchema(
+//                model: <#LLMLocalModel#>, parameters: .init(
+//                    modelType: .llama3_8B_4bit,
+//                    systemPrompt: prompt
+//                )
+//            )
+//        )
+        let llmSession: LLMLocalSession = runner(
+            with: LLMLocalSchema(
+                model: .llama3_8B_4bit
+            )
+        )
+        do {
+            for try await token in try await llmSession.generate() {
+                await MainActor.run {
+                    self.proteinAmount.append(token)
+                }
+            }
+            print("Protein extracted is ", proteinAmount)
+        } catch {
+            print("Error generating protein: \(error)")
+        }
+    }
+}
+
 
 extension AddMealView {
     func saveMeal() async {
