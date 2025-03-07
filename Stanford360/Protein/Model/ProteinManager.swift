@@ -64,10 +64,10 @@ class ProteinManager: Module, EnvironmentAccessible {
 		meals.reduce(0) { $0 + $1.proteinGrams }
 	}
     
-    func getLatestMilestone() -> Double {
-        let totalIntake = getTodayTotalGrams()
-        return milestoneManager.getLatestMilestone(total: totalIntake)
-    }
+//    func getLatestMilestone() -> Double {
+//        let totalIntake = getTodayTotalGrams()
+//        return milestoneManager.getLatestMilestone(total: totalIntake)
+//    }
 	
 	// Add a new meal to the list
 //	func addMeal(name: String, proteinGrams: Double, imageURL: String? = nil, timestamp: Date = Date()) {

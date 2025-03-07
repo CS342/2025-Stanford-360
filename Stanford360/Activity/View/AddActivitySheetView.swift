@@ -27,12 +27,6 @@ struct AddActivitySheet: View {
     private var activityId: String?
     private var isEditing: Bool
     
-    let activityTypes = [
-        "Walking 🚶‍♂️", "Running 🏃‍♂️", "Swimming 🏊‍♂️",
-        "Dancing 💃", "Basketball 🏀", "Soccer ⚽️",
-        "Cycling 🚲", "Other 🌟"
-    ]
-    
     var body: some View {
         NavigationStack {
             VStack(spacing: 25) {
@@ -85,15 +79,23 @@ struct AddActivitySheet: View {
         VStack(alignment: .leading) {
             Text("What did you do?")
                 .font(.headline)
-            
-            Picker("Activity", selection: $selectedActivity) {
-                ForEach(activityTypes, id: \.self) { activity in
-                    Text(activity)
+
+            let activities = [
+                ("Walking", "figure.walk"),
+                ("Running", "figure.run"),
+                ("Dancing", "figure.dance"),
+                ("Sports", "soccerball"),
+                ("PE", "person.3"),
+                ("Other", "questionmark")
+            ]
+
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                ForEach(activities, id: \.0) { activity in
+                    ActivityButtonView(activityName: activity.0, iconName: activity.1, selectedActivity: $selectedActivity)
                 }
             }
-            .pickerStyle(.wheel)
+            .padding(.horizontal)
         }
-        .padding()
     }
     
     private var minutesInputSection: some View {
