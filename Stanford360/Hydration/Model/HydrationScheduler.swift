@@ -12,15 +12,9 @@ import SpeziScheduler
 import SpeziViews
 import UserNotifications
 
-@Observable
-final class HydrationScheduler: Module, DefaultInitializable, EnvironmentAccessible {
-    @Dependency(Scheduler.self) @ObservationIgnored private var scheduler
-
-    @MainActor var viewState: ViewState = .idle
-
-    init() {}
-
-    func configure() {
+extension Stanford360Scheduler {
+	@MainActor
+    func configureHydrationScheduler() {
         do {
             try scheduler.createOrUpdateTask(
                 id: "hydration-reminder",

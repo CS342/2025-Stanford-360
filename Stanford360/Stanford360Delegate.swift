@@ -58,9 +58,6 @@ class Stanford360Delegate: SpeziAppDelegate {
 			// Schedulers
 			Stanford360Scheduler()
 			Scheduler()
-			PatientScheduler()
-			ActivityScheduler()
-			HydrationScheduler()
 			
 			// Managers
 			ActivityManager()

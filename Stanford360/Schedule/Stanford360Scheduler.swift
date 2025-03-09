@@ -16,27 +16,31 @@ import class ModelsR4.QuestionnaireResponse
 
 @Observable
 final class Stanford360Scheduler: Module, DefaultInitializable, EnvironmentAccessible {
-    @Dependency(Scheduler.self) @ObservationIgnored private var scheduler
+    @Dependency(Scheduler.self) @ObservationIgnored internal var scheduler
+	// periphery:ignore - todo(kelly) - investigate further
+	@Dependency(AppNavigationState.self) @ObservationIgnored internal var navigationState
 
     @MainActor var viewState: ViewState = .idle
+	
+	internal let dailyMorningNotificationTaskID = "daily-morning-notification"
+	internal let saturdayWeightNotificationTaskID = "saturday-weight-notification"
+	internal let sundayWeightNotificationTaskID = "sunday-weight-notification"
+	
+	internal let belowHalfActivity5PMNotificationTaskID = "below-half-activity-5pm-notif"
+	internal let halfActivity5PMNotificationTaskID = "half-activity-5pm-notif"
+	internal let fullActivity5PMNotificationTaskID = "full-activity-5pm-notif"
+	internal let halfActivityImmediateNotificationTaskID = "half-activity-immediate-notif"
+	internal let fullActivityImmediateNotificationTaskID = "full-activity-immediate-notif"
+		
+	internal let dateRange1Day: Range<Date> = Date()..<Date().addingTimeInterval(60 * 60 * 24 * 1)
 
     init() {}
     
     /// Add or update the current list of task upon app startup.
     func configure() {
-        do {
-            try scheduler.createOrUpdateTask(
-                id: "social-support-questionnaire",
-                title: "Social Support Questionnaire",
-                instructions: "Please fill out the Social Support Questionnaire every day.",
-                category: .questionnaire,
-                schedule: .daily(hour: 8, minute: 0, startingAt: .today)
-            ) { context in
-                context.questionnaire = Bundle.main.questionnaire(withName: "SocialSupportQuestionnaire")
-            }
-        } catch {
-            viewState = .error(AnyLocalizedError(error: error, defaultErrorDescription: "Failed to create or update scheduled tasks."))
-        }
+        configurePatientScheduler()
+		configureActivityScheduler()
+		configureHydrationScheduler()
     }
 }
 

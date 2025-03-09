@@ -15,20 +15,9 @@ import SpeziScheduler
 import SpeziViews
 import UserNotifications
 
-@Observable
-final class PatientScheduler: Module, DefaultInitializable, EnvironmentAccessible, NotificationHandler {
-	@Dependency(Scheduler.self) @ObservationIgnored private var scheduler
-	@Dependency(AppNavigationState.self) @ObservationIgnored private var navigationState
-	
-	@MainActor var viewState: ViewState = .idle
-	
-	private let dailyMorningNotificationTaskID = "daily-morning-notification"
-	private let saturdayWeightNotificationTaskID = "saturday-weight-notification"
-	private let sundayWeightNotificationTaskID = "sunday-weight-notification"
-	
-	init() {}
-	
-	func configure() {
+extension Stanford360Scheduler {
+	@MainActor
+	func configurePatientScheduler() {
 		scheduleDailyMorningNotification()
 		
 		// this notification will be cancelled if the user logs their weight on Saturday before 9 AM
@@ -75,6 +64,8 @@ final class PatientScheduler: Module, DefaultInitializable, EnvironmentAccessibl
 		}
 	}
 	
+	// periphery:ignore - todo(kelly) - investigate further
+	@MainActor
 	func handleNotificationAction(_ response: UNNotificationResponse) {
 		print("✅ handleNotificationAction called with response: \(response)")
 		
@@ -89,6 +80,7 @@ final class PatientScheduler: Module, DefaultInitializable, EnvironmentAccessibl
 		}
 	}
 	
+	// periphery:ignore - todo(kelly) - investigate further
 	@MainActor
 	private func navigateToView(for taskId: String) {
 		switch taskId {
