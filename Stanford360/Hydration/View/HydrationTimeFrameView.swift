@@ -22,7 +22,7 @@ struct HydrationTimeFrameView: View {
                 HydrationMonthlyView()
                     .tag(TimeFrame.month)
             }
-            .tabViewStyle(PageTabViewStyle())
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .frame(height: 250)
         }
     }
