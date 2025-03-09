@@ -9,11 +9,11 @@
 // SPDX-License-Identifier: MIT
 //
 
-import SwiftUI
 import Combine
 import CoreML
 import SpeziLLM
 import SpeziLLMLocal
+import SwiftUI
 import UIKit
 @preconcurrency import Vision
 
@@ -22,7 +22,7 @@ struct AddMealView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(Stanford360Standard.self) private var standard
     @Environment(ProteinManager.self) private var proteinManager
-    // @Environment(LLMRunner.self) var runner
+    @Environment(LLMRunner.self) var runner
     
     // MARK: - State
     @State private var mealName: String = ""
@@ -94,15 +94,15 @@ struct AddMealView: View {
             }
             
             // Whenever mealName changes, we trigger getMealProtein if mealName is non-empty
-//            .onChange(of: mealName) { newMealName in
-//                if !newMealName.isEmpty {
-//                    Task {
-//                        await getMealProtein(meal: newMealName)
-//                    }
-//                } else {
-//                    proteinAmount = ""
-//                }
-//            }
+            .onChange(of: mealName) { newMealName in
+                if !newMealName.isEmpty {
+                    Task {
+                        await getMealProtein(meal: newMealName)
+                    }
+                } else {
+                    proteinAmount = ""
+                }
+            }
             
             // Listen for keyboard height changes to avoid overlap
             .onReceive(Publishers.keyboardHeight) { height in
@@ -212,13 +212,6 @@ extension AddMealView {
             .padding(.top)
     }
     
-    // MARK: - Subview: Error Display
-    private func errorView(_ errorMsg: String) -> some View {
-        Text(errorMsg)
-            .font(.subheadline)
-            .foregroundColor(.red)
-            .padding(.top)
-    }
     
     // MARK: - Subview: Classification Buttons
     private var classificationButtonsView: some View {
@@ -250,6 +243,14 @@ extension AddMealView {
         }
     }
     
+    // MARK: - Subview: Error Display
+    private func errorView(_ errorMsg: String) -> some View {
+        Text(errorMsg)
+            .font(.subheadline)
+            .foregroundColor(.red)
+            .padding(.top)
+    }
+    
     // MARK: - Utility
     func formatClassificationName(_ classification: String) -> String {
         classification
@@ -273,7 +274,12 @@ extension AddMealView {
     }
     
     var saveButton: some View {
-        Button(action: { Task { await saveMeal() } }) {
+        Button(action: {
+            Task {
+                await saveMeal()
+                dismiss()
+            }
+        }) {
             Text("Save Meal")
                 .font(.headline)
                 .foregroundColor(.white)
@@ -351,36 +357,45 @@ extension AddMealView {
 
 // MARK: - Networking / LLM
 extension AddMealView {
-    /// Retrieves protein info for a given meal by calling the local LLM.
-//    func getMealProtein(meal: String) async {
-//        await MainActor.run {
-//            self.proteinAmount = ""
-//        }
-//        
-//        let prompt = promptTemplate.constructPrompt(mealName: meal)
-//        
+    // Retrieves protein info for a given meal by calling the local LLM.
+    func getMealProtein(meal: String) async {
+        await MainActor.run {
+            self.proteinAmount = ""
+        }
+        
+        let prompt = promptTemplate.constructPrompt(mealName: meal)
+        
 //        let llmSession: LLMLocalSession = runner(
 //            with: LLMLocalSchema(model: .llama3_8B_4bit)
 //        )
-//        
-//        do {
-//            for try await token in try await llmSession.generate() {
-//                await MainActor.run {
-//                    self.proteinAmount.append(token)
-//                }
-//            }
-//            print("Protein extracted is \(proteinAmount)")
-//        } catch {
-//            print("Error generating protein: \(error)")
-//        }
-//    }
+        let llmSession: LLMLocalSession = runner(
+            with: LLMLocalSchema(
+                model: .llama3_8B_4bit,
+                parameters: .init(
+                    systemPrompt: "You're a helpful assistant that answers questions from users."
+                )
+            )
+        )
+        
+        do {
+            for try await token in try await llmSession.generate() {
+                await MainActor.run {
+                    self.proteinAmount.append(token)
+                }
+            }
+            print("Protein extracted is \(proteinAmount)")
+        } catch {
+            print("Error generating protein: \(error)")
+        }
+    }
     
     /// Saves the meal data to your model and possibly to a server or local storage
     func saveMeal() async {
         isLoading = true
         defer { isLoading = false }
         var meal = Meal(name: mealName, proteinGrams: Double(proteinAmount) ?? 0)
-        let lastRecordedMilestone = proteinManager.getLatestMilestone()       
+        let lastRecordedMilestone = proteinManager.getLatestMilestone()
+    
         proteinManager.meals.append(meal)
         await standard.storeMeal(meal)
         proteinManager.milestoneManager.displayMilestoneMessage(
@@ -390,6 +405,7 @@ extension AddMealView {
         )
         
         await MainActor.run {
+            isLoading = false
             dismiss()
         }
     }

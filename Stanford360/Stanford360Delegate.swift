@@ -56,20 +56,19 @@ class Stanford360Delegate: SpeziAppDelegate {
 			OnboardingDataSource()
 			Notifications()
 			AppNavigationState()
-			
-			// Schedulers
 			Stanford360Scheduler()
 			Scheduler()
 			PatientScheduler()
 			ActivityScheduler()
 			HydrationScheduler()
-			
-			// Managers
 			ActivityManager()
 			HydrationManager()
 			ProteinManager()
 			HealthKitManager()
 			PatientManager()
+            LLMRunner {
+                LLMLocalPlatform()
+            }
 		}
 	}
 	
