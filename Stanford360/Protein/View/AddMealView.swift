@@ -20,7 +20,6 @@ struct AddMealView: View {
     @Environment(Stanford360Standard.self) private var standard
     @Environment(ProteinManager.self) private var proteinManager
     
-    // Original state variables
     @State private var mealName: String = ""
     @State private var proteinAmount: String = ""
     @State private var showingImagePicker = false
@@ -28,6 +27,7 @@ struct AddMealView: View {
     @State private var sourceType: UIImagePickerController.SourceType = .photoLibrary
     @State private var isLoading = false
     @State private var showSourceSelection = false
+    @State private var mealDate = Date()
     
     // Image classification state
     @State private var classificationResults: String = "No results yet"
@@ -40,27 +40,38 @@ struct AddMealView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color(UIColor.systemGroupedBackground).ignoresSafeArea()
-                mainContent
+                ScrollView {
+                    mainContent
+                    // Add overall horizontal & vertical padding here
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 20)
+                }
             }
-            .toolbar { ToolbarItem(placement: .navigationBarLeading) { Button("Cancel") { dismiss() } } }
-            .overlay { if isLoading { loadingView } }
-            .sheet(isPresented: $showingImagePicker) { imagePicker }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") { dismiss() }
+                }
+            }
+            .overlay {
+                if isLoading { loadingView }
+            }
+            .sheet(isPresented: $showingImagePicker) {
+                imagePicker
+            }
             .confirmationDialog("Choose Image Source", isPresented: $showSourceSelection, titleVisibility: .visible) {
                 sourceSelectionButtons
             }
             .onChange(of: selectedImage) { _, newImage in
                 classifier.image = newImage
                 // classifier.classifyImage(newImage)
-//                if let image = newImage {
-//                    classification(image: image)
-//                } else {
-//                    print("No image selected")
-//                }
+                //                if let image = newImage {
+                //                    classification(image: image)
+                //                } else {
+                //                    print("No image selected")
+                //                }
             }
             .onChange(of: highestConfidenceClassification) { _, newValue in
                 if let classification = newValue, !classification.isEmpty {
-                    // upate mealName according to the result，allow user to edit it
                     mealName = formatClassificationName(classification)
                 }
             }
@@ -68,130 +79,179 @@ struct AddMealView: View {
     }
 }
 
-
+// MARK: - Main Content
 extension AddMealView {
     var mainContent: some View {
-        VStack(spacing: 0) {
+        // Provide consistent spacing between sections
+        VStack(spacing: 20) {
             imageView
             classificationResultsView
+            datePickerSection
             formFields
             saveButton
         }
     }
     
+    //    var imageView: some View {
+    //        ZStack {
+    //            if let uiImage = selectedImage {
+    //                // If the user has selected an image
+    //                Image(uiImage: uiImage)
+    //                    .resizable()
+    //                    .scaledToFill()
+    //            } else {
+    //                // Default image & overlay
+    //                Image("fork.knife.circle.fill")
+    //                    .resizable()
+    //                    .scaledToFill()
+    //                    .overlay {
+    //                        VStack(spacing: 10) {
+    //                            Text("Please upload your meal, you are doing great!🎉")
+    //                                .font(.headline)
+    //                                .foregroundColor(.white)
+    //                                .padding()
+    //                                .background(RoundedRectangle(cornerRadius: 10)
+    //                                    .fill(Color.black.opacity(0.6)))
+    //
+    //                            addImageButton
+    //                        }
+    //                    }
+    //            }
+    //        }
+    //        .frame(height: 400)
+    //        .clipped()
+    //        .overlay(alignment: .bottomTrailing) {
+    //            // Show edit button only if user has an image
+    //            if selectedImage != nil {
+    //                editButton
+    //                    .padding()
+    //            }
+    //        }
+    //    }
+    
     var imageView: some View {
         ZStack {
-            if let image = selectedImage {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(height: 400)
-                    .clipped()
-                    .accessibilityLabel("selected_image")
-                    .overlay(alignment: .bottomTrailing) {
-                        editButton.padding()
-                    }
-            } else {
-                defaultImageView
+            // Background image (either selected or default)
+            Group {
+                if let uiImage = selectedImage {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .scaledToFill()
+                } else {
+                    Image("fork.knife.circle.fill")
+                        .resizable()
+                        .scaledToFill()
+                }
             }
-        }
-        .padding()
-    }
-    
-    var defaultImageView: some View {
-        Image("fork.knife.circle.fill")
-            .resizable()
-            .scaledToFill()
-            .frame(height: 400)
-            .clipped()
-            .accessibilityLabel("fork_background")
-            .overlay {
-                VStack(spacing: 10) {
-                    Text("Please upload your meal, you are doing great!🎉🎉🎉")
+            // 1) If there is NO selected image, show the “upload” overlay
+            if selectedImage == nil {
+                VStack {
+                    Text("Please upload your meal, you are doing great!🎉")
                         .font(.headline)
                         .foregroundColor(.white)
                         .padding()
-                        .background(RoundedRectangle(cornerRadius: 10).fill(Color.black.opacity(0.6)))
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.black.opacity(0.6))
+                        )
                     addImageButton
                 }
             }
-    }
-    
-    var addImageButton: some View {
-        Button(action: { showSourceSelection = true }) {
-            Image(systemName: "plus.circle.fill")
-                .font(.system(size: 50))
-                .foregroundColor(.blue)
-                .background(Circle().fill(Color.white))
-                .shadow(radius: 5)
-                .accessibilityLabel("plus.circle")
         }
-    }
-    
-    var editButton: some View {
-        Button(action: { showSourceSelection = true }) {
-            Image(systemName: "pencil.circle.fill")
-                .font(.system(size: 50))
-                .foregroundColor(.blue)
-                .background(Circle().fill(Color.white))
-                .shadow(radius: 5)
-                .accessibilityLabel("pencil")
+        .frame(height: 400)
+        .clipped()
+        // 2) If there IS a selected image, show the edit button bottom-right
+        .overlay(alignment: .bottomTrailing) {
+            if selectedImage != nil {
+                editButton
+                    .padding()
+            }
         }
     }
 }
 
-
+// MARK: - Classification Results
 extension AddMealView {
     var classificationResultsView: some View {
         Group {
             if classifier.isProcessing {
-                Text("Analyzing meals...").font(.subheadline).foregroundColor(.secondary).padding(.top)
+                Text("Analyzing meals...")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
             } else if let errorMsg = classifier.errorMessage {
-                Text(errorMsg).font(.subheadline).foregroundColor(.red).padding(.top)
+                Text(errorMsg)
+                    .font(.subheadline)
+                    .foregroundColor(.red)
             } else if !classifier.classificationOptions.isEmpty {
                 VStack(alignment: .leading) {
-                    Text("Image Analysis Results:").font(.headline).padding(.horizontal)
+                    Text("Image Analysis Results:")
+                        .font(.headline)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
-                            ForEach(classifier.classificationOptions, id: \ .self) { option in
+                            ForEach(classifier.classificationOptions, id: \.self) { option in
                                 Text(option)
                                     .font(.subheadline)
                                     .padding(8)
-                                    .background(RoundedRectangle(cornerRadius: 8).fill(Color.blue.opacity(0.1)))
+                                    .background(RoundedRectangle(cornerRadius: 8)
+                                        .fill(Color.blue.opacity(0.1)))
                             }
                         }
-                        .padding(.horizontal)
                     }
-                    .padding(.bottom)
                 }
             }
         }
     }
 }
 
-
+// MARK: - Form Fields
 extension AddMealView {
     var formFields: some View {
-        VStack(spacing: 24) {
+        VStack(alignment: .leading, spacing: 24) {
             inputField(title: "Meal Name", text: $mealName)
             inputField(title: "Protein Amount (g)", text: $proteinAmount, keyboardType: .decimalPad)
         }
-        .padding()
     }
     
     var saveButton: some View {
-        Button(action: { Task { await saveMeal() } }) {
+        Button(action: {
+            Task {
+                await saveMeal()
+            }
+            dismiss()
+        }) {
             Text("Save Meal")
                 .font(.headline)
-                .foregroundStyle(.white)
+                .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 16).fill(isValidInput ? Color.blue : Color.gray))
-                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(isValidInput ? Color.blue : Color.gray)
+                )
         }
         .disabled(!isValidInput)
     }
-    
+}
+
+// MARK: - Date Picker
+extension AddMealView {
+    var datePickerSection: some View {
+        VStack(alignment: .leading) {
+            Text("When did you have this meal?")
+                .font(.headline)
+            DatePicker(
+                "Meal Date",
+                selection: $mealDate,
+                in: ...Date(),
+                displayedComponents: [.date, .hourAndMinute]
+            )
+            .datePickerStyle(.compact)
+        }
+    }
+}
+
+// MARK: - Helpers
+extension AddMealView {
     var loadingView: some View {
         ProgressView()
             .scaleEffect(1.5)
@@ -221,29 +281,76 @@ extension AddMealView {
                 sourceType = .camera
                 showingImagePicker = true
             }
-            Button("Cancel", role: .cancel) { }
+            Button("Cancel", role: .cancel) {}
         }
     }
     
     var isValidInput: Bool {
-        if let proteinValue = Double(proteinAmount) {
-            return !mealName.isEmpty && proteinValue > 0
+        guard let proteinValue = Double(proteinAmount), proteinValue > 0 else {
+            return false
         }
-        return false
+        return !mealName.isEmpty
+    }
+    
+    var editButton: some View {
+        Button(action: { showSourceSelection = true }) {
+            Image(systemName: "pencil.circle.fill")
+                .font(.system(size: 50))
+                .foregroundColor(.blue)
+                .background(Circle().fill(Color.white))
+                .shadow(radius: 5)
+                .accessibilityLabel("pencil")
+        }
+    }
+    
+    var addImageButton: some View {
+        Button(action: { showSourceSelection = true }) {
+            Image(systemName: "plus.circle.fill")
+                .font(.system(size: 50))
+                .foregroundColor(.blue)
+                .background(Circle().fill(Color.white))
+                .shadow(radius: 5)
+                .accessibilityLabel("plus.circle")
+        }
+    }
+    
+    func saveMeal() async {
+//        isLoading = true
+//        defer { isLoading = false }
+        let meal = Meal(name: mealName, proteinGrams: Double(proteinAmount) ?? 0, timestamp: mealDate)
+        
+        //        if let image = selectedImage {
+        //            if let imageURL = await standard.uploadImageToFirebase(image, imageName: meal.id ?? UUID().uuidString) {
+        //                meal.imageURL = imageURL
+        //            } else {
+        //                return
+        //            }
+        //        }
+        
+        proteinManager.meals.append(meal)
+        await standard.storeMeal(meal /*, selectedImage: selectedImage*/)
     }
     
     func inputField(title: String, text: Binding<String>, keyboardType: UIKeyboardType = .default) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(title).font(.headline).foregroundStyle(.secondary)
+        VStack(alignment: .leading, spacing: 10) {
+            Text(title)
+                .font(.headline)
+                .foregroundColor(.secondary)
             TextField("Enter \(title.lowercased())", text: text)
                 .keyboardType(keyboardType)
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 12).fill(Color(UIColor.secondarySystemGroupedBackground)))
-                .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray.opacity(0.2), lineWidth: 1))
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color(UIColor.secondarySystemGroupedBackground))
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+                )
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
-
 
 // extension AddMealView {
 //    // convert A image to cv Pixel Buffer with 224*224
@@ -251,13 +358,13 @@ extension AddMealView {
 //        let newSize = CGSize(width: 224.0, height: 224.0)
 //        UIGraphicsBeginImageContext(newSize)
 //        image.draw(in: CGRect(origin: CGPoint.zero, size: newSize))
-//        
+//
 //        guard let resizedImage = UIGraphicsGetImageFromCurrentImageContext() else {
 //            return nil
 //        }
-//        
+//
 //        UIGraphicsEndImageContext()
-//        
+//
 //        let attributes = [
 //            kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
 //            kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue
@@ -271,14 +378,14 @@ extension AddMealView {
 //            attributes,
 //            &pixelBuffer
 //        )
-//        
+//
 //        guard let createdPixelBuffer = pixelBuffer, status == kCVReturnSuccess else {
 //            return nil
 //        }
-//        
+//
 //        CVPixelBufferLockBaseAddress(createdPixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
 //        let pixelData = CVPixelBufferGetBaseAddress(createdPixelBuffer)
-//        
+//
 //        let colorSpace = CGColorSpaceCreateDeviceRGB()
 //        guard let context = CGContext(
 //            data: pixelData,
@@ -291,54 +398,54 @@ extension AddMealView {
 //        ) else {
 //            return nil
 //        }
-//        
+//
 //        context.translateBy(x: 0, y: newSize.height)
 //        context.scaleBy(x: 1.0, y: -1.0)
-//        
+//
 //        UIGraphicsPushContext(context)
 //        resizedImage.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
 //        UIGraphicsPopContext()
 //        CVPixelBufferUnlockBaseAddress(createdPixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
-//        
+//
 //        return createdPixelBuffer
 //    }
 // }
 
 extension AddMealView {
-//    func classification(image: UIImage) {
-//        guard let mobilenet = try? MobileNetV2(configuration: MLModelConfiguration()) else {
-//            print("ERROR: Failed to initialize MobileNetV2 model")
-//            return
-//        }
-//        if let imagebuffer = convertImage(image: image) {
-//            do {
-//                let prediction = try mobilenet.prediction(image: imagebuffer)
-//                print(prediction.classLabel)
-//                highestConfidenceClassification = prediction.classLabel
-//            } catch {
-//                print("ERROR prediction ", error)
-//            }
-//        }
-//    }
-    
-//    func processClassificationResults(_ results: [VNClassificationObservation]) {
-//        let validResults = results.filter { $0.confidence >= 0.5 }
-//        let topResults = validResults.prefix(3)
-//        
-//        classificationOptions = topResults.map {
-//            "\($0.identifier) (\(String(format: "%.1f", $0.confidence * 100))%)"
-//        }
-//        
-//        if let highestResult = topResults.first {
-//            highestConfidenceClassification = highestResult.identifier
-//            classificationResults = "Top Match: \(highestResult.identifier)"
-//        } else {
-//            classificationResults = "No confident matches found"
-//        }
-//        
-//        isProcessing = false
-//    }
-//    
+    //    func classification(image: UIImage) {
+    //        guard let mobilenet = try? MobileNetV2(configuration: MLModelConfiguration()) else {
+    //            print("ERROR: Failed to initialize MobileNetV2 model")
+    //            return
+    //        }
+    //        if let imagebuffer = convertImage(image: image) {
+    //            do {
+    //                let prediction = try mobilenet.prediction(image: imagebuffer)
+    //                print(prediction.classLabel)
+    //                highestConfidenceClassification = prediction.classLabel
+    //            } catch {
+    //                print("ERROR prediction ", error)
+    //            }
+    //        }
+    //    }
+    //
+    //    func processClassificationResults(_ results: [VNClassificationObservation]) {
+    //        let validResults = results.filter { $0.confidence >= 0.5 }
+    //        let topResults = validResults.prefix(3)
+    //
+    //        classificationOptions = topResults.map {
+    //            "\($0.identifier) (\(String(format: "%.1f", $0.confidence * 100))%)"
+    //        }
+    //
+    //        if let highestResult = topResults.first {
+    //            highestConfidenceClassification = highestResult.identifier
+    //            classificationResults = "Top Match: \(highestResult.identifier)"
+    //        } else {
+    //            classificationResults = "No confident matches found"
+    //        }
+    //
+    //        isProcessing = false
+    //    }
+    //
     func formatClassificationName(_ classification: String) -> String {
         classification
             .split(separator: ",")
@@ -346,30 +453,5 @@ extension AddMealView {
             .split(separator: "_")
             .joined(separator: " ")
             .capitalized ?? classification
-    }
-}
-
-extension AddMealView {
-    func saveMeal() async {
-        isLoading = true
-        defer { isLoading = false }
-        var meal = Meal(name: mealName, proteinGrams: Double(proteinAmount) ?? 0)
-        let lastRecordedMilestone = proteinManager.getLatestMilestone()
-        
-//        if let image = selectedImage {
-//            if let imageURL = await standard.uploadImageToFirebase(image, imageName: meal.id ?? UUID().uuidString) {
-//                meal.imageURL = imageURL
-//            } else {
-//                return
-//            }
-//        }
-        
-		proteinManager.meals.append(meal)
-        await standard.storeMeal(meal/*, selectedImage: selectedImage*/)
-        proteinManager.milestoneManager.displayMilestoneMessage(
-                newTotal: proteinManager.getTodayTotalGrams(),
-                lastMilestone: lastRecordedMilestone,
-                unit: "grams of protein"
-            )
     }
 }

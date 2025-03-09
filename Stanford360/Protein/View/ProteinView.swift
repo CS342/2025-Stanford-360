@@ -17,6 +17,7 @@ struct ProteinView: View {
 	@State private var showingAddProtein = false
 	@State private var showingInfo = false
 	@State private var isCardAnimating = false
+	@State private var isPerformingAction = false
 	
 	@Binding private var presentingAccount: Bool
 	
@@ -131,17 +132,18 @@ struct ProteinView: View {
 	
 	private func deleteButton(for meal: Meal) -> some View {
 		Button(role: .destructive) {
-			if let mealID = meal.id {
-				//                withAnimation {
-				//                    proteinManager.deleteMeal(byID: mealID)
-				//                }
-				Task {
-					await standard.deleteMealByID(byID: mealID)
-				}
-			}
+			isPerformingAction = true
+            Task {
+                await standard.deleteMeal(meal)
+                var updatedMeals = proteinManager.meals
+                updatedMeals.removeAll { $0.id == meal.id }
+                proteinManager.meals = updatedMeals
+                isPerformingAction = false
+            }
 		} label: {
 			Label("Delete", systemImage: "trash")
 		}
+		.disabled(isPerformingAction)
 	}
 	
 	

@@ -25,8 +25,10 @@ extension Stanford360Standard {
 //		}
 //	}
 	func storeMeal(_ meal: Meal/*, selectedImage: UIImage?*/) async {
+        print("storing meal id to firestore")
+        print(meal)
         guard let mealID = meal.id else {
-            print("❌ Meal ID is nil.")
+            print("Meal ID is nil.")
             return
         }
 
@@ -44,14 +46,13 @@ extension Stanford360Standard {
 
         // store the Meal to Firestore
         do {
-            let docRef = try await configuration.userDocumentReference
-            try await docRef.collection("meals").document(mealID).setData(from: meal)
-            print("✅ Meal saved to Firestore with ID: \(mealID)")
+            let mealDocRef = try await mealDocument(mealId: meal.id ?? UUID().uuidString)
+            try await mealDocRef.setData(from: meal, merge: true)
+            print("Meal saved to Firestore with ID: \(mealID)")
         } catch {
-            print("❌ Error writing meal to Firestore: \(error)")
+            print("Error writing meal to Firestore: \(error)")
         }
     }
-
     
     // Fetch meals by day
 //    func fetchMealsByDay() async -> [Meal] {
@@ -73,19 +74,42 @@ extension Stanford360Standard {
 //        return meals
 //    }
     
-    func deleteMealByID(byID id: String) async {
+    private func mealDocument(mealId: String = UUID().uuidString) async throws -> DocumentReference {
+        let docRef = try await configuration.userDocumentReference
+        return docRef
+            .collection("meals")
+            .document(mealId)
+    }
+    
+    func deleteMeal(_ meal: Meal) async {
+        print("trying to delete meal in firestore")
+        print(meal)
         do {
-            let userDocRef = try await configuration.userDocumentReference
-            try await userDocRef
-                .collection("meals")
-                .document(id)
-                .delete()
+            let mealDocRef = try await mealDocument(mealId: meal.id ?? UUID().uuidString)
+            print("meal doc ref")
+            print(mealDocRef)
+            try await mealDocRef.delete()
+            print("deleted meal from firestore")
             
-            print("✅ Successfully deleted meal with ID: \(id) from Firebase and local data.")
+            logger.debug("Meal deleted successfully")
         } catch {
-            print("❌ Error deleting meal from Firebase: \(error)")
+            logger.error("Could not delete meal: \(error)")
         }
     }
+//    
+//    func deleteMealByID(byID id: String) async {
+//        do {
+//            let userDocRef = try await configuration.userDocumentReference
+//            try await userDocRef
+//                .collection("meals")
+//                .document(id)
+//                .delete()
+//            
+//            print("✅ Successfully deleted meal with ID: \(id) from Firebase and local data.")
+//        } catch {
+//            print("❌ Error deleting meal from Firebase: \(error)")
+//        }
+//    }
     
 //    func uploadImageToFirebase(_ image: UIImage, imageName: String) async -> String? {
 //        guard let imageData = image.jpegData(compressionQuality: 0.8)
