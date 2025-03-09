@@ -10,7 +10,7 @@ import SwiftUI
 
 struct HydrationControlPanel: View {
     @Environment(HydrationManager.self) private var hydrationManager
-    @Environment(HydrationScheduler.self) private var hydrationScheduler
+	@Environment(Stanford360Scheduler.self) private var scheduler
     @Environment(Stanford360Standard.self) var standard
     
     @State var intakeAmount: String = ""
@@ -124,7 +124,7 @@ struct HydrationControlPanel: View {
 
         errorMessage = nil
         streak = hydrationManager.streak
-        await hydrationScheduler.rescheduleHydrationNotifications()
+        await scheduler.rescheduleHydrationNotifications()
         hydrationManager.milestoneManager.displayMilestoneMessage(
             newTotal: hydrationManager.getTodayTotalOunces(),
             lastMilestone: lastRecordedMilestone,

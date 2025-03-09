@@ -41,7 +41,7 @@ struct AddMealView: View {
     @State private var errorMessage: String?
     
     // Prompt construction and classification logic
-    @StateObject private var promptTemplate = ProteinPromptConstructor()
+    // @StateObject private var promptTemplate = ProteinPromptConstructor()
     @StateObject private var classifier = ImageClassifier()
     
     // Dynamically adjusts bottom padding to avoid keyboard overlap
@@ -94,15 +94,15 @@ struct AddMealView: View {
             }
             
             // Whenever mealName changes, we trigger getMealProtein if mealName is non-empty
-            .onChange(of: mealName) { newMealName in
-                if !newMealName.isEmpty {
-                    Task {
-                        await getMealProtein(meal: newMealName)
-                    }
-                } else {
-                    proteinAmount = ""
-                }
-            }
+//            .onChange(of: mealName) { newMealName in
+//                if !newMealName.isEmpty {
+//                    Task {
+//                        await getMealProtein(meal: newMealName)
+//                    }
+//                } else {
+//                    proteinAmount = ""
+//                }
+//            }
             
             // Listen for keyboard height changes to avoid overlap
             .onReceive(Publishers.keyboardHeight) { height in
@@ -358,42 +358,42 @@ extension AddMealView {
 // MARK: - Networking / LLM
 extension AddMealView {
     // Retrieves protein info for a given meal by calling the local LLM.
-    func getMealProtein(meal: String) async {
-        await MainActor.run {
-            self.proteinAmount = ""
-        }
-        
-        let prompt = promptTemplate.constructPrompt(mealName: meal)
-        
+//    func getMealProtein(meal: String) async {
+//        await MainActor.run {
+//            self.proteinAmount = ""
+//        }
+//        
+//        let prompt = promptTemplate.constructPrompt(mealName: meal)
+//        
+////        let llmSession: LLMLocalSession = runner(
+////            with: LLMLocalSchema(model: .llama3_8B_4bit)
+////        )
 //        let llmSession: LLMLocalSession = runner(
-//            with: LLMLocalSchema(model: .llama3_8B_4bit)
+//            with: LLMLocalSchema(
+//                model: .llama3_8B_4bit,
+//                parameters: .init(
+//                    systemPrompt: "You're a helpful assistant that answers questions from users."
+//                )
+//            )
 //        )
-        let llmSession: LLMLocalSession = runner(
-            with: LLMLocalSchema(
-                model: .llama3_8B_4bit,
-                parameters: .init(
-                    systemPrompt: "You're a helpful assistant that answers questions from users."
-                )
-            )
-        )
-        
-        do {
-            for try await token in try await llmSession.generate() {
-                await MainActor.run {
-                    self.proteinAmount.append(token)
-                }
-            }
-            print("Protein extracted is \(proteinAmount)")
-        } catch {
-            print("Error generating protein: \(error)")
-        }
-    }
+//        
+//        do {
+//            for try await token in try await llmSession.generate() {
+//                await MainActor.run {
+//                    self.proteinAmount.append(token)
+//                }
+//            }
+//            print("Protein extracted is \(proteinAmount)")
+//        } catch {
+//            print("Error generating protein: \(error)")
+//        }
+//    }
     
     /// Saves the meal data to your model and possibly to a server or local storage
     func saveMeal() async {
         isLoading = true
         defer { isLoading = false }
-        var meal = Meal(name: mealName, proteinGrams: Double(proteinAmount) ?? 0)
+        let meal = Meal(name: mealName, proteinGrams: Double(proteinAmount) ?? 0)
         let lastRecordedMilestone = proteinManager.getLatestMilestone()
     
         proteinManager.meals.append(meal)
