@@ -68,6 +68,10 @@ struct ActivityTimeFrameView: View {
 				showProgressTextInCenter: true
 			)
 			.frame(maxHeight: 210)
+            
+            MilestoneMessageView(unit: "minutes of activity")
+                .environmentObject(activityManager.milestoneManager)
+                .offset(y: -175)
 		}
 	}
 	

@@ -42,13 +42,12 @@ class PatientManager: Module, EnvironmentAccessible {
 		
 		activityManager.activities = patientData?.activities ?? []
 		await fetchHealthKitData()
-		let activityMinutes = activityManager.getTodayTotalMinutes()
 		
+		// HydrationLog model was modified, thus, migration is needed
+		await standard.migrateHydrationLogs()
 		hydrationManager.hydration = patientData?.hydration ?? []
-		let hydrationOunces = hydrationManager.getTodayTotalOunces()
 		
 		proteinManager.meals = patientData?.meals ?? []
-		let proteinGrams = proteinManager.getTodayTotalGrams()
 	}
 	
 	func fetchHealthKitData() async {

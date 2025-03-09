@@ -379,10 +379,15 @@ extension AddMealView {
     func saveMeal() async {
         isLoading = true
         defer { isLoading = false }
-        
-        let meal = Meal(name: mealName, proteinGrams: Double(proteinAmount) ?? 0)
+        var meal = Meal(name: mealName, proteinGrams: Double(proteinAmount) ?? 0)
+        let lastRecordedMilestone = proteinManager.getLatestMilestone()       
         proteinManager.meals.append(meal)
         await standard.storeMeal(meal)
+        proteinManager.milestoneManager.displayMilestoneMessage(
+                newTotal: proteinManager.getTodayTotalGrams(),
+                lastMilestone: lastRecordedMilestone,
+                unit: "grams of protein"
+        )
         
         await MainActor.run {
             dismiss()
