@@ -12,23 +12,9 @@ import SpeziScheduler
 import SpeziViews
 import UserNotifications
 
-@Observable
-final class ActivityScheduler: Module, DefaultInitializable, EnvironmentAccessible {
-	@Dependency(Scheduler.self) @ObservationIgnored private var scheduler
-	
-	@MainActor var viewState: ViewState = .idle
-	
-	private let belowHalfActivity5PMNotificationTaskID = "below-half-activity-5pm-notif"
-	private let halfActivity5PMNotificationTaskID = "half-activity-5pm-notif"
-	private let fullActivity5PMNotificationTaskID = "full-activity-5pm-notif"
-	private let halfActivityImmediateNotificationTaskID = "half-activity-immediate-notif"
-	private let fullActivityImmediateNotificationTaskID = "full-activity-immediate-notif"
-		
-	private let dateRange1Day: Range<Date> = Date()..<Date().addingTimeInterval(60 * 60 * 24 * 1)
-	
-	init() {}
-	
-	func configure() {
+extension Stanford360Scheduler {
+	@MainActor
+	func configureActivityScheduler() {
 		// Schedules a notification every day at 5 PM encouraging the user to complete their 60 minutes of activity
 		do {
 			try scheduler.createOrUpdateTask(

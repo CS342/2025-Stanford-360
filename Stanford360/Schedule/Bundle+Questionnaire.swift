@@ -9,7 +9,7 @@
 import Foundation
 import SpeziQuestionnaire
 
-
+// periphery:ignore - comes with SpeziTemplateApplication
 extension Foundation.Bundle {
     func questionnaire(withName name: String) -> Questionnaire {
         guard let resourceURL = self.url(forResource: name, withExtension: "json") else {
