@@ -13,23 +13,14 @@
 import SwiftUI
 
 struct DashboardView: View {
-	@Environment(Account.self) private var account: Account?
 	@Binding private var presentingAccount: Bool
 	
 	var body: some View {
 		NavigationView {
 			DashboardTimeFrameView()
-				.navigationTitle("My Dashboard")
 				.toolbar {
-					if account != nil {
-						AccountButton(isPresented: $presentingAccount)
-					}
+					Toolbar(presentingAccount: $presentingAccount, title: "My Dashboard")
 				}
-		}
-		.toolbar {
-			if account != nil {
-				AccountButton(isPresented: $presentingAccount)
-			}
 		}
 	}
 	
