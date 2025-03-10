@@ -13,14 +13,11 @@ import FirebaseAuth
 @_spi(TestingSupport) import SpeziAccount
 import SwiftUI
 
-/// Simple UI for tracking kids' activity.
 struct ActivityView: View {
-	@Environment(ActivityManager.self) private var activityManager
 	@Environment(HealthKitManager.self) private var healthKitManager
 	
 	// State properties grouped together
 	@State private var showingAddActivity = false
-	@State private var showingInfo = false
 	@State private var showHealthKitAlert = false
 	@Binding private var presentingAccount: Bool
 	
@@ -32,9 +29,7 @@ struct ActivityView: View {
 						healthKitWarningBanner
 					}
 					
-					ActivityTimeFrameView(
-						activityManager: activityManager
-					)
+					ActivityTabView()
 				}
 				
 				buttons
@@ -44,9 +39,6 @@ struct ActivityView: View {
 			}
 			.sheet(isPresented: $showingAddActivity) {
 				AddActivitySheet()
-			}
-			.sheet(isPresented: $showingInfo) {
-				ActivityRecsSheet()
 			}
 			.alert("HealthKit Access Required", isPresented: $showHealthKitAlert) {
 				Button("Open Settings", role: .none) {
@@ -63,17 +55,6 @@ struct ActivityView: View {
 	
 	private var buttons: some View {
 		ZStack {
-			HStack {
-				IconButton(
-					showingAddItem: $showingInfo,
-					imageName: "questionmark.circle.fill",
-					imageAccessibilityLabel: "Activity Recommendation Button",
-					color: .green
-				)
-				.padding(.trailing, 70)
-				Spacer()
-			}
-			
 			HStack {
 				Spacer()
 				IconButton(
