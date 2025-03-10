@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>BGTaskSchedulerPermittedIdentifiers</key>
-	<array>
-		<string>com.stanford360.activityReminder</string>
-	</array>
 	<key>CFBundleAllowMixedLocalizations</key>
 	<true/>
 	<key>FirebaseAppDelegateProxyEnabled</key>
@@ -25,5 +21,13 @@
 		<string>processing</string>
 		<string>remote-notification</string>
 	</array>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.stanford360.activityReminder</string>
+	</array>
+	<key>NSHealthShareUsageDescription</key>
+	<string>We need access to your health data to track your activities and provide personalized insights.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>We need permission to save your activities to HealthKit to keep your health data in sync.</string>
 </dict>
 </plist>
