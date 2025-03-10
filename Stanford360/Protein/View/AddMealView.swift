@@ -24,8 +24,7 @@ struct AddMealView: View {
     @Environment(ProteinManager.self) private var proteinManager
     @Environment(LLMRunner.self) var runner
     
-    // LLM runner state for protein
-    // Original state variables
+    // MARK: - State
     @State private var mealName: String = ""
     @State private var proteinAmount: String = ""
     @State private var showingImagePicker = false
@@ -33,49 +32,21 @@ struct AddMealView: View {
     @State private var sourceType: UIImagePickerController.SourceType = .photoLibrary
     @State private var isLoading = false
     @State private var showSourceSelection = false
-    // Dynamically adjusts bottom padding to avoid keyboard overlap
-    @State private var keyboardOffset: CGFloat = 0
-    // SpeziLLM
+    
     // Image classification state
     @State private var classificationResults: String = "No results yet"
     @State private var highestConfidenceClassification: String?
     @State private var classificationOptions: [String] = []
     @State private var isProcessing: Bool = false
     @State private var errorMessage: String?
-    @StateObject private var promptTemplate = ProteinPromptConstructor()
+    
+    // Prompt construction and classification logic
+    // @StateObject private var promptTemplate = ProteinPromptConstructor()
     @StateObject private var classifier = ImageClassifier()
     
+    // Dynamically adjusts bottom padding to avoid keyboard overlap
+    @State private var keyboardOffset: CGFloat = 0
     
-//    var body: some View {
-//        NavigationView {
-//            ZStack {
-//                Color(UIColor.systemGroupedBackground).ignoresSafeArea()
-//                mainContent
-//            }
-//            .toolbar { ToolbarItem(placement: .navigationBarLeading) { Button("Cancel") { dismiss() } } }
-//            .overlay { if isLoading { loadingView } }
-//            .sheet(isPresented: $showingImagePicker) { imagePicker }
-//            .confirmationDialog("Choose Image Source", isPresented: $showSourceSelection, titleVisibility: .visible) {
-//                sourceSelectionButtons
-//            }
-//            .onChange(of: selectedImage) { _, newImage in
-//                classifier.image = newImage
-//                // classifier.classifyImage(newImage)
-////                if let image = newImage {
-////                    classification(image: image)
-////                } else {
-////                    print("No image selected")
-////                }
-//            }
-////            .onChange(of: highestConfidenceClassification) { _, newValue in
-////                if let classification = newValue, !classification.isEmpty {
-////                    // upate mealName according to the result，allow user to edit it
-////                    mealName = formatClassificationName(classification)
-////                }
-////            }
-//            
-//        }
-//    }
     var body: some View {
         NavigationView {
             // Use a ScrollView to make the content scrollable
@@ -99,8 +70,20 @@ struct AddMealView: View {
                     Button("Cancel") { dismiss() }
                 }
             }
-            .overlay { if isLoading { loadingView } }
-            .sheet(isPresented: $showingImagePicker) { imagePicker }
+            
+            // Show a loading overlay if needed
+            .overlay {
+                if isLoading {
+                    loadingView
+                }
+            }
+            
+            // Sheet for the image picker
+            .sheet(isPresented: $showingImagePicker) {
+                imagePicker
+            }
+            
+            // Dialog for choosing image source
             .confirmationDialog("Choose Image Source", isPresented: $showSourceSelection, titleVisibility: .visible) {
                 sourceSelectionButtons
             }
@@ -109,25 +92,24 @@ struct AddMealView: View {
             .onChange(of: selectedImage) { _, newImage in
                 classifier.image = newImage
             }
-            .onChange(of: mealName) { newMealName in
-                handleMealNameChange(newMealName)
-            }
+            
+            // Whenever mealName changes, we trigger getMealProtein if mealName is non-empty
+//            .onChange(of: mealName) { newMealName in
+//                if !newMealName.isEmpty {
+//                    Task {
+//                        await getMealProtein(meal: newMealName)
+//                    }
+//                } else {
+//                    proteinAmount = ""
+//                }
+//            }
+            
             // Listen for keyboard height changes to avoid overlap
             .onReceive(Publishers.keyboardHeight) { height in
                 withAnimation {
                     keyboardOffset = height
                 }
             }
-        }
-    }
-    
-    func handleMealNameChange(_ newMealName: String) {
-        if !newMealName.isEmpty {
-            Task {
-                await getMealProtein(meal: newMealName)
-            }
-        } else {
-            proteinAmount = ""
         }
     }
 }
@@ -373,61 +355,59 @@ extension AddMealView {
     }
 }
 
+// MARK: - Networking / LLM
 extension AddMealView {
-    func getMealProtein(meal: String) async {
-        await MainActor.run {
-            self.proteinAmount = ""
-        }
-        let prompt = promptTemplate.constructPrompt(mealName: meal)
-        let llmSession: LLMLocalSession = runner(
-            with: LLMLocalSchema(
-                model: .llama3_8B_4bit,
-                parameters: .init(
-                    systemPrompt: prompt
-                )
-            )
-        )
+    // Retrieves protein info for a given meal by calling the local LLM.
+//    func getMealProtein(meal: String) async {
+//        await MainActor.run {
+//            self.proteinAmount = ""
+//        }
+//        
+//        let prompt = promptTemplate.constructPrompt(mealName: meal)
+//        
+////        let llmSession: LLMLocalSession = runner(
+////            with: LLMLocalSchema(model: .llama3_8B_4bit)
+////        )
 //        let llmSession: LLMLocalSession = runner(
 //            with: LLMLocalSchema(
-//                model: .llama3_8B_4bit
+//                model: .llama3_8B_4bit,
+//                parameters: .init(
+//                    systemPrompt: "You're a helpful assistant that answers questions from users."
+//                )
 //            )
 //        )
-        do {
-            for try await token in try await llmSession.generate() {
-                await MainActor.run {
-                    self.proteinAmount.append(token)
-                }
-            }
-            print("Protein extracted is ", proteinAmount)
-        } catch {
-            print("Error generating protein: \(error)")
-        }
-    }
-}
-
-
-extension AddMealView {
+//        
+//        do {
+//            for try await token in try await llmSession.generate() {
+//                await MainActor.run {
+//                    self.proteinAmount.append(token)
+//                }
+//            }
+//            print("Protein extracted is \(proteinAmount)")
+//        } catch {
+//            print("Error generating protein: \(error)")
+//        }
+//    }
+    
+    /// Saves the meal data to your model and possibly to a server or local storage
     func saveMeal() async {
         isLoading = true
         defer { isLoading = false }
-        var meal = Meal(name: mealName, proteinGrams: Double(proteinAmount) ?? 0)
+        let meal = Meal(name: mealName, proteinGrams: Double(proteinAmount) ?? 0)
         let lastRecordedMilestone = proteinManager.getLatestMilestone()
-        
-//        if let image = selectedImage {
-//            if let imageURL = await standard.uploadImageToFirebase(image, imageName: meal.id ?? UUID().uuidString) {
-//                meal.imageURL = imageURL
-//            } else {
-//                return
-//            }
-//        }
-        
-		proteinManager.meals.append(meal)
-        await standard.storeMeal(meal/*, selectedImage: selectedImage*/)
+    
+        proteinManager.meals.append(meal)
+        await standard.storeMeal(meal)
         proteinManager.milestoneManager.displayMilestoneMessage(
                 newTotal: proteinManager.getTodayTotalGrams(),
                 lastMilestone: lastRecordedMilestone,
                 unit: "grams of protein"
-            )
+        )
+        
+        await MainActor.run {
+            isLoading = false
+            dismiss()
+        }
     }
 }
 
@@ -443,14 +423,14 @@ extension Publishers {
                 return rect.height
             }
             .eraseToAnyPublisher()
-        
+
         let willHide = NotificationCenter.default
             .publisher(for: UIResponder.keyboardWillHideNotification)
             .map { _ -> CGFloat in
                 0
             }
             .eraseToAnyPublisher()
-        
+
         // Merge the two publishers into a single stream of CGFloat
         return Publishers.Merge(willShow, willHide)
             .removeDuplicates()
