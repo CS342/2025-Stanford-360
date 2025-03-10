@@ -9,23 +9,14 @@
 @_spi(TestingSupport) import SpeziAccount
 import SwiftUI
 
-struct DailyHydrationData: Identifiable {
-	let id = UUID()
-	let dayName: String
-	let intakeOz: Double
-}
-
 struct HydrationView: View {
 	@Binding private var presentingAccount: Bool
 	
 	// MARK: - Body
 	var body: some View {
 		NavigationView {
-			ScrollView {
-				VStack(spacing: 20) {
-					HydrationTimeFrameView()
-					HydrationControlPanel()
-				}
+			VStack(spacing: 20) {
+				HydrationTabView()
 			}
 			.toolbar {
 				Toolbar(presentingAccount: $presentingAccount, title: "My Hydration 💧")
