@@ -14,10 +14,6 @@ import Spezi
 class ProteinManager: Module, EnvironmentAccessible {
 	var meals: [Meal]
     let milestoneManager = MilestoneManager()
-    var todayMeals: [Meal] {
-        let today = Calendar.current.startOfDay(for: Date())
-        return mealsByDate[today] ?? []
-    }
 	var mealsByDate: [Date: [Meal]] {
 		var mealsByDate: [Date: [Meal]] = [:]
 		for meal in meals {
@@ -53,6 +49,10 @@ class ProteinManager: Module, EnvironmentAccessible {
 		self.meals = meals
 	}
 	
+	func reverseSortMealsByDate(_ meals: [Meal]) -> [Meal] {
+		meals.sorted { $0.timestamp > $1.timestamp }
+	}
+	
 	func getTodayTotalGrams() -> Double {
 		let today = Date()
 		return meals
@@ -68,6 +68,17 @@ class ProteinManager: Module, EnvironmentAccessible {
         let totalIntake = getTodayTotalGrams()
         return milestoneManager.getLatestMilestone(total: totalIntake)
     }
+	
+	func triggerMotivation() -> String {
+		if getTodayTotalGrams() >= 60 {
+			return "🎉 Amazing! You've reached your daily goal of 60 grams!"
+		} else if getTodayTotalGrams() > 0 {
+			let remainingGrams = 60 - getTodayTotalGrams()
+			return "Keep going! Only \(String(format: "%.f", remainingGrams)) more grams to reach today's goal! 🚀"
+		} else {
+			return "Eat your protein today and move towards your goal! 💪"
+		}
+	}
 	
 	// Add a new meal to the list
 //	func addMeal(name: String, proteinGrams: Double, imageURL: String? = nil, timestamp: Date = Date()) {

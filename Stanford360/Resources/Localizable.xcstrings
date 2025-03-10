@@ -10,7 +10,7 @@
     "%lld" : {
 
     },
-    "%lld Meals Logged" : {
+    "%lld g" : {
 
     },
     "%lld min" : {
@@ -142,9 +142,6 @@
     "Choose Image Source" : {
 
     },
-    "circle" : {
-
-    },
     "clock" : {
 
     },
@@ -194,9 +191,6 @@
       }
     },
     "Continue Without HealthKit" : {
-
-    },
-    "Daily Meals" : {
 
     },
     "Dashboard" : {
@@ -503,7 +497,7 @@
     "No Image Available" : {
 
     },
-    "No meals logged yet." : {
+    "No meals logged today" : {
 
     },
     "No tasks" : {
