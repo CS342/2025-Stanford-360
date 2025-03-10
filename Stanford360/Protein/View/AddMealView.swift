@@ -11,16 +11,20 @@
 
 import Combine
 import CoreML
+import SpeziLLM
+import SpeziLLMLocal
 import SwiftUI
 import UIKit
 @preconcurrency import Vision
 
 struct AddMealView: View {
+    // MARK: - Environment
     @Environment(\.dismiss) private var dismiss
     @Environment(Stanford360Standard.self) private var standard
     @Environment(ProteinManager.self) private var proteinManager
+    @Environment(LLMRunner.self) var runner
     
-    // Original state variables
+    // MARK: - State
     @State private var mealName: String = ""
     @State private var proteinAmount: String = ""
     @State private var showingImagePicker = false
@@ -35,40 +39,82 @@ struct AddMealView: View {
     @State private var classificationOptions: [String] = []
     @State private var isProcessing: Bool = false
     @State private var errorMessage: String?
+    
+    // Prompt construction and classification logic
+    // @StateObject private var promptTemplate = ProteinPromptConstructor()
     @StateObject private var classifier = ImageClassifier()
+    
+    // Dynamically adjusts bottom padding to avoid keyboard overlap
+    @State private var keyboardOffset: CGFloat = 0
     
     var body: some View {
         NavigationView {
-            ZStack {
-                Color(UIColor.systemGroupedBackground).ignoresSafeArea()
-                mainContent
+            // Use a ScrollView to make the content scrollable
+            ScrollView {
+                ZStack {
+                    // Background color that ignores safe area
+                    Color(UIColor.systemGroupedBackground)
+                        .ignoresSafeArea()
+                    
+                    // Main content with padding around the edges
+                    mainContent
+                        .padding()
+                }
             }
-            .toolbar { ToolbarItem(placement: .navigationBarLeading) { Button("Cancel") { dismiss() } } }
-            .overlay { if isLoading { loadingView } }
-            .sheet(isPresented: $showingImagePicker) { imagePicker }
+            // Add bottom padding based on the current keyboard height
+            .padding(.bottom, keyboardOffset)
+            
+            // Navigation bar items
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") { dismiss() }
+                }
+            }
+            
+            // Show a loading overlay if needed
+            .overlay {
+                if isLoading {
+                    loadingView
+                }
+            }
+            
+            // Sheet for the image picker
+            .sheet(isPresented: $showingImagePicker) {
+                imagePicker
+            }
+            
+            // Dialog for choosing image source
             .confirmationDialog("Choose Image Source", isPresented: $showSourceSelection, titleVisibility: .visible) {
                 sourceSelectionButtons
             }
+            
+            // Update the classifier when a new image is selected
             .onChange(of: selectedImage) { _, newImage in
                 classifier.image = newImage
-                // classifier.classifyImage(newImage)
-//                if let image = newImage {
-//                    classification(image: image)
-//                } else {
-//                    print("No image selected")
-//                }
             }
-            .onChange(of: highestConfidenceClassification) { _, newValue in
-                if let classification = newValue, !classification.isEmpty {
-                    // upate mealName according to the result，allow user to edit it
-                    mealName = formatClassificationName(classification)
+            
+            // Whenever mealName changes, we trigger getMealProtein if mealName is non-empty
+//            .onChange(of: mealName) { newMealName in
+//                if !newMealName.isEmpty {
+//                    Task {
+//                        await getMealProtein(meal: newMealName)
+//                    }
+//                } else {
+//                    proteinAmount = ""
+//                }
+//            }
+            
+            // Listen for keyboard height changes to avoid overlap
+            .onReceive(Publishers.keyboardHeight) { height in
+                withAnimation {
+                    keyboardOffset = height
                 }
             }
         }
     }
 }
 
-
+// MARK: - Main Content
 extension AddMealView {
     var mainContent: some View {
         VStack(spacing: 0) {
@@ -111,7 +157,10 @@ extension AddMealView {
                         .font(.headline)
                         .foregroundColor(.white)
                         .padding()
-                        .background(RoundedRectangle(cornerRadius: 10).fill(Color.black.opacity(0.6)))
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.black.opacity(0.6))
+                        )
                     addImageButton
                 }
             }
@@ -140,36 +189,81 @@ extension AddMealView {
     }
 }
 
-
+// MARK: - Classification Results
 extension AddMealView {
+    // MARK: - Classification Results Entry Point
     var classificationResultsView: some View {
         Group {
             if classifier.isProcessing {
-                Text("Analyzing meals...").font(.subheadline).foregroundColor(.secondary).padding(.top)
+                analyzingView
             } else if let errorMsg = classifier.errorMessage {
-                Text(errorMsg).font(.subheadline).foregroundColor(.red).padding(.top)
+                errorView(errorMsg)
             } else if !classifier.classificationOptions.isEmpty {
-                VStack(alignment: .leading) {
-                    Text("Image Analysis Results:").font(.headline).padding(.horizontal)
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            ForEach(classifier.classificationOptions, id: \ .self) { option in
-                                Text(option)
-                                    .font(.subheadline)
-                                    .padding(8)
-                                    .background(RoundedRectangle(cornerRadius: 8).fill(Color.blue.opacity(0.1)))
-                            }
-                        }
-                        .padding(.horizontal)
-                    }
-                    .padding(.bottom)
-                }
+                classificationButtonsView
             }
         }
     }
+    
+    // MARK: - Subview: Analyzing Indicator
+    private var analyzingView: some View {
+        Text("Analyzing meals...")
+            .font(.subheadline)
+            .foregroundColor(.secondary)
+            .padding(.top)
+    }
+    
+    
+    // MARK: - Subview: Classification Buttons
+    private var classificationButtonsView: some View {
+        VStack(alignment: .leading) {
+            Text("Image Analysis Results:")
+                .font(.headline)
+                .padding(.horizontal)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(classifier.classificationOptions, id: \.self) { option in
+                        Button {
+                            // Update mealName with the tapped option
+                            mealName = formatClassificationName(option)
+                        } label: {
+                            Text(formatClassificationName(option))
+                                .font(.subheadline)
+                                .padding(8)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(Color.blue.opacity(0.1))
+                                )
+                        }
+                    }
+                }
+                .padding(.horizontal)
+            }
+            .padding(.bottom)
+        }
+    }
+    
+    // MARK: - Subview: Error Display
+    private func errorView(_ errorMsg: String) -> some View {
+        Text(errorMsg)
+            .font(.subheadline)
+            .foregroundColor(.red)
+            .padding(.top)
+    }
+    
+    // MARK: - Utility
+    func formatClassificationName(_ classification: String) -> String {
+        classification
+            .split(separator: ",")
+            .first?
+            .split(separator: "_")
+            .joined(separator: " ")
+            .capitalized
+        ?? classification
+    }
 }
 
-
+// MARK: - Form Fields
 extension AddMealView {
     var formFields: some View {
         VStack(spacing: 24) {
@@ -180,13 +274,21 @@ extension AddMealView {
     }
     
     var saveButton: some View {
-        Button(action: { Task { await saveMeal() } }) {
+        Button(action: {
+            Task {
+                await saveMeal()
+                dismiss()
+            }
+        }) {
             Text("Save Meal")
                 .font(.headline)
-                .foregroundStyle(.white)
+                .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 16).fill(isValidInput ? Color.blue : Color.gray))
+                .background(
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(isValidInput ? Color.blue : Color.gray)
+                )
                 .padding()
         }
         .disabled(!isValidInput)
@@ -225,6 +327,7 @@ extension AddMealView {
         }
     }
     
+    /// Checks if both the meal name is non-empty and the protein amount is a valid positive number
     var isValidInput: Bool {
         if let proteinValue = Double(proteinAmount) {
             return !mealName.isEmpty && proteinValue > 0
@@ -234,142 +337,103 @@ extension AddMealView {
     
     func inputField(title: String, text: Binding<String>, keyboardType: UIKeyboardType = .default) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(title).font(.headline).foregroundStyle(.secondary)
+            Text(title)
+                .font(.headline)
+                .foregroundColor(.secondary)
             TextField("Enter \(title.lowercased())", text: text)
                 .keyboardType(keyboardType)
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 12).fill(Color(UIColor.secondarySystemGroupedBackground)))
-                .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray.opacity(0.2), lineWidth: 1))
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color(UIColor.secondarySystemGroupedBackground))
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+                )
         }
     }
 }
 
-
-// extension AddMealView {
-//    // convert A image to cv Pixel Buffer with 224*224
-//    func convertImage(image: UIImage) -> CVPixelBuffer? {
-//        let newSize = CGSize(width: 224.0, height: 224.0)
-//        UIGraphicsBeginImageContext(newSize)
-//        image.draw(in: CGRect(origin: CGPoint.zero, size: newSize))
-//        
-//        guard let resizedImage = UIGraphicsGetImageFromCurrentImageContext() else {
-//            return nil
+// MARK: - Networking / LLM
+extension AddMealView {
+    // Retrieves protein info for a given meal by calling the local LLM.
+//    func getMealProtein(meal: String) async {
+//        await MainActor.run {
+//            self.proteinAmount = ""
 //        }
 //        
-//        UIGraphicsEndImageContext()
+//        let prompt = promptTemplate.constructPrompt(mealName: meal)
 //        
-//        let attributes = [
-//            kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
-//            kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue
-//        ] as CFDictionary
-//        var pixelBuffer: CVPixelBuffer?
-//        let status = CVPixelBufferCreate(
-//            kCFAllocatorDefault,
-//            Int(newSize.width),
-//            Int(newSize.height),
-//            kCVPixelFormatType_32ARGB,
-//            attributes,
-//            &pixelBuffer
+////        let llmSession: LLMLocalSession = runner(
+////            with: LLMLocalSchema(model: .llama3_8B_4bit)
+////        )
+//        let llmSession: LLMLocalSession = runner(
+//            with: LLMLocalSchema(
+//                model: .llama3_8B_4bit,
+//                parameters: .init(
+//                    systemPrompt: "You're a helpful assistant that answers questions from users."
+//                )
+//            )
 //        )
 //        
-//        guard let createdPixelBuffer = pixelBuffer, status == kCVReturnSuccess else {
-//            return nil
-//        }
-//        
-//        CVPixelBufferLockBaseAddress(createdPixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
-//        let pixelData = CVPixelBufferGetBaseAddress(createdPixelBuffer)
-//        
-//        let colorSpace = CGColorSpaceCreateDeviceRGB()
-//        guard let context = CGContext(
-//            data: pixelData,
-//            width: Int(newSize.width),
-//            height: Int(newSize.height),
-//            bitsPerComponent: 8,
-//            bytesPerRow: CVPixelBufferGetBytesPerRow(createdPixelBuffer),
-//            space: colorSpace,
-//            bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue
-//        ) else {
-//            return nil
-//        }
-//        
-//        context.translateBy(x: 0, y: newSize.height)
-//        context.scaleBy(x: 1.0, y: -1.0)
-//        
-//        UIGraphicsPushContext(context)
-//        resizedImage.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
-//        UIGraphicsPopContext()
-//        CVPixelBufferUnlockBaseAddress(createdPixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
-//        
-//        return createdPixelBuffer
-//    }
-// }
-
-extension AddMealView {
-//    func classification(image: UIImage) {
-//        guard let mobilenet = try? MobileNetV2(configuration: MLModelConfiguration()) else {
-//            print("ERROR: Failed to initialize MobileNetV2 model")
-//            return
-//        }
-//        if let imagebuffer = convertImage(image: image) {
-//            do {
-//                let prediction = try mobilenet.prediction(image: imagebuffer)
-//                print(prediction.classLabel)
-//                highestConfidenceClassification = prediction.classLabel
-//            } catch {
-//                print("ERROR prediction ", error)
+//        do {
+//            for try await token in try await llmSession.generate() {
+//                await MainActor.run {
+//                    self.proteinAmount.append(token)
+//                }
 //            }
+//            print("Protein extracted is \(proteinAmount)")
+//        } catch {
+//            print("Error generating protein: \(error)")
 //        }
 //    }
     
-//    func processClassificationResults(_ results: [VNClassificationObservation]) {
-//        let validResults = results.filter { $0.confidence >= 0.5 }
-//        let topResults = validResults.prefix(3)
-//        
-//        classificationOptions = topResults.map {
-//            "\($0.identifier) (\(String(format: "%.1f", $0.confidence * 100))%)"
-//        }
-//        
-//        if let highestResult = topResults.first {
-//            highestConfidenceClassification = highestResult.identifier
-//            classificationResults = "Top Match: \(highestResult.identifier)"
-//        } else {
-//            classificationResults = "No confident matches found"
-//        }
-//        
-//        isProcessing = false
-//    }
-//    
-    func formatClassificationName(_ classification: String) -> String {
-        classification
-            .split(separator: ",")
-            .first?
-            .split(separator: "_")
-            .joined(separator: " ")
-            .capitalized ?? classification
-    }
-}
-
-extension AddMealView {
+    /// Saves the meal data to your model and possibly to a server or local storage
     func saveMeal() async {
         isLoading = true
         defer { isLoading = false }
-        var meal = Meal(name: mealName, proteinGrams: Double(proteinAmount) ?? 0)
+        let meal = Meal(name: mealName, proteinGrams: Double(proteinAmount) ?? 0)
         let lastRecordedMilestone = proteinManager.getLatestMilestone()
-        
-//        if let image = selectedImage {
-//            if let imageURL = await standard.uploadImageToFirebase(image, imageName: meal.id ?? UUID().uuidString) {
-//                meal.imageURL = imageURL
-//            } else {
-//                return
-//            }
-//        }
-        
-		proteinManager.meals.append(meal)
-        await standard.storeMeal(meal/*, selectedImage: selectedImage*/)
+    
+        proteinManager.meals.append(meal)
+        await standard.storeMeal(meal)
         proteinManager.milestoneManager.displayMilestoneMessage(
                 newTotal: proteinManager.getTodayTotalGrams(),
                 lastMilestone: lastRecordedMilestone,
                 unit: "grams of protein"
-            )
+        )
+        
+        await MainActor.run {
+            isLoading = false
+            dismiss()
+        }
+    }
+}
+
+// MARK: - Keyboard Height Publisher
+extension Publishers {
+    static var keyboardHeight: AnyPublisher<CGFloat, Never> {
+        let willShow = NotificationCenter.default
+            .publisher(for: UIResponder.keyboardWillShowNotification)
+            .compactMap { notification -> CGFloat? in
+                guard let rect = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+                    return nil
+                }
+                return rect.height
+            }
+            .eraseToAnyPublisher()
+
+        let willHide = NotificationCenter.default
+            .publisher(for: UIResponder.keyboardWillHideNotification)
+            .map { _ -> CGFloat in
+                0
+            }
+            .eraseToAnyPublisher()
+
+        // Merge the two publishers into a single stream of CGFloat
+        return Publishers.Merge(willShow, willHide)
+            .removeDuplicates()
+            .eraseToAnyPublisher()
     }
 }
