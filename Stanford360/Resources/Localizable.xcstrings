@@ -10,6 +10,16 @@
     "%lld" : {
 
     },
+    "%lld %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld %2$@"
+          }
+        }
+      }
+    },
     "%lld Day Streak" : {
 
     },
@@ -17,12 +27,6 @@
 
     },
     "%lld min" : {
-
-    },
-    "%lld oz" : {
-
-    },
-    "%lld oz water" : {
 
     },
     "%lld/%lld" : {
