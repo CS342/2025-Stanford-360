@@ -1,5 +1,5 @@
 {
-  "originHash" : "68bcd4c1fdbb851cb164461ab726e1b39ba43756d949b6665c61a58edc581f81",
+  "originHash" : "db91c54ac80b4652c5d1b19cb32a4d0a53d2e435c933b5bd074867152f598a36",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -110,15 +110,6 @@
       }
     },
     {
-      "identity" : "gzipswift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/1024jp/GzipSwift",
-      "state" : {
-        "revision" : "731037f6cc2be2ec01562f6597c1d0aa3fe6fd05",
-        "version" : "6.0.1"
-      }
-    },
-    {
       "identity" : "healthkitonfhir",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/StanfordBDHG/HealthKitOnFHIR.git",
@@ -137,15 +128,6 @@
       }
     },
     {
-      "identity" : "jinja",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/johnmai-dev/Jinja",
-      "state" : {
-        "revision" : "bbddb92fc51ae420b87300298370fd1dfc308f73",
-        "version" : "1.1.1"
-      }
-    },
-    {
       "identity" : "leveldb",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/leveldb.git",
@@ -155,48 +137,12 @@
       }
     },
     {
-      "identity" : "llama.cpp",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/StanfordBDHG/llama.cpp.git",
-      "state" : {
-        "revision" : "6839853a321778906e210a33ee2c6aec52f34c97",
-        "version" : "0.3.3"
-      }
-    },
-    {
-      "identity" : "mlx-swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ml-explore/mlx-swift",
-      "state" : {
-        "revision" : "b990c58153af70eb0914bca7dd74401d341fa9ae",
-        "version" : "0.21.3"
-      }
-    },
-    {
-      "identity" : "mlx-swift-examples",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ml-explore/mlx-swift-examples",
-      "state" : {
-        "revision" : "6ef303b84ec69e2e1e1da68f2059e99ee1dcef4d",
-        "version" : "2.21.2"
-      }
-    },
-    {
       "identity" : "nanopb",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/nanopb.git",
       "state" : {
         "revision" : "b7e1104502eca3a213b46303391ca4d3bc8ddec1",
         "version" : "2.30910.0"
-      }
-    },
-    {
-      "identity" : "openai",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/StanfordBDHG/OpenAI",
-      "state" : {
-        "revision" : "1ad95dd531d7c854a3f98f588b0eb68fa83e8a8c",
-        "version" : "0.2.9"
       }
     },
     {
@@ -254,15 +200,6 @@
       }
     },
     {
-      "identity" : "spezichat",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/StanfordSpezi/SpeziChat",
-      "state" : {
-        "revision" : "021ec65df13c02176d43737b8587a41cd520a510",
-        "version" : "0.2.4"
-      }
-    },
-    {
       "identity" : "spezicontact",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/StanfordSpezi/SpeziContact.git",
@@ -308,15 +245,6 @@
       }
     },
     {
-      "identity" : "spezillm",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/StanfordSpezi/SpeziLLM.git",
-      "state" : {
-        "revision" : "4a86cbfaf8facf284bbe895972c3b916ad509933",
-        "version" : "0.9.2"
-      }
-    },
-    {
       "identity" : "spezinotifications",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/StanfordSpezi/SpeziNotifications.git",
@@ -350,15 +278,6 @@
       "state" : {
         "revision" : "deb213f0be235c8cb606e2bb1a195f475637df2d",
         "version" : "1.1.1"
-      }
-    },
-    {
-      "identity" : "spezispeech",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/StanfordSpezi/SpeziSpeech",
-      "state" : {
-        "revision" : "6c51d4165d2cabb6102aa61233c480fb75c167f6",
-        "version" : "1.1.2"
       }
     },
     {
@@ -449,15 +368,6 @@
       "state" : {
         "revision" : "cb53fa1bd3219b0b23ded7dfdd3b2baff266fd25",
         "version" : "600.0.0"
-      }
-    },
-    {
-      "identity" : "swift-transformers",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/huggingface/swift-transformers",
-      "state" : {
-        "revision" : "8a83416cc00ab07a5de9991e6ad817a9b8588d20",
-        "version" : "0.1.15"
       }
     },
     {

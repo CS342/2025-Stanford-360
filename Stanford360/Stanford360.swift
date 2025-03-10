@@ -9,8 +9,6 @@
 import FirebaseCore
 import Spezi
 import SpeziFirebaseAccount
-import SpeziLLM
-import SpeziLLMLocal
 import SpeziViews
 import SwiftUI
 
@@ -18,6 +16,7 @@ import SwiftUI
 struct Stanford360: App {
     @UIApplicationDelegateAdaptor(Stanford360Delegate.self) var appDelegate
     @AppStorage(StorageKeys.onboardingFlowComplete) var completedOnboardingFlow = false
+	    
     var body: some Scene {
         WindowGroup {
             ZStack {
