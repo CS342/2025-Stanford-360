@@ -10,20 +10,7 @@
     "%lld" : {
 
     },
-    "%lld %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$lld %2$@"
-          }
-        }
-      }
-    },
-    "%lld Day Streak" : {
-
-    },
-    "%lld Meals Logged" : {
+    "%lld g" : {
 
     },
     "%lld min" : {
@@ -106,9 +93,6 @@
     "Activity" : {
 
     },
-    "Activity Breakdown" : {
-
-    },
     "Activity Minutes" : {
 
     },
@@ -146,16 +130,10 @@
     "Cancel" : {
 
     },
-    "Choose activities from each category for a balanced routine" : {
-
-    },
     "Choose from Library" : {
 
     },
     "Choose Image Source" : {
-
-    },
-    "circle" : {
 
     },
     "clock" : {
@@ -170,6 +148,9 @@
           }
         }
       }
+    },
+    "Coming Soon!" : {
+
     },
     "CONSENT_LOADING_ERROR" : {
       "extractionState" : "stale",
@@ -206,13 +187,7 @@
     "Continue Without HealthKit" : {
 
     },
-    "Daily Meals" : {
-
-    },
     "Dashboard" : {
-
-    },
-    "Date" : {
 
     },
     "Day" : {
@@ -349,9 +324,6 @@
     "Image Analysis Results:" : {
 
     },
-    "Intake" : {
-
-    },
     "Intake time" : {
 
     },
@@ -482,16 +454,10 @@
     "Metric" : {
 
     },
-    "minutes" : {
-
-    },
     "Minutes" : {
 
     },
     "Month" : {
-
-    },
-    "Monthly Hydration" : {
 
     },
     "Monthly Protein Intake" : {
@@ -516,19 +482,16 @@
         }
       }
     },
-    "No activities logged this month." : {
-
-    },
-    "No activities logged this week." : {
-
-    },
     "No activities logged today" : {
+
+    },
+    "No hydration logged today" : {
 
     },
     "No Image Available" : {
 
     },
-    "No meals logged yet." : {
+    "No meals logged today" : {
 
     },
     "No tasks" : {
@@ -708,9 +671,6 @@
     "Streak" : {
 
     },
-    "Streak icon" : {
-
-    },
     "Swift Package Manager" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -770,10 +730,10 @@
     "Today" : {
 
     },
-    "Total Minutes" : {
+    "Track your progress with the 60/60/60 rule: 60 minutes of activity, 60 oz of water, and 60 grams of protein daily!" : {
 
     },
-    "Track your progress with the 60/60/60 rule: 60 minutes of activity, 60 oz of water, and 60 grams of protein daily!" : {
+    "Tracker Section" : {
 
     },
     "Unsupported Event" : {
@@ -792,13 +752,13 @@
     "View" : {
 
     },
+    "Water" : {
+
+    },
     "Week" : {
 
     },
     "Weekly Check-In" : {
-
-    },
-    "Weekly Hydration" : {
 
     },
     "Weekly Protein Intake" : {

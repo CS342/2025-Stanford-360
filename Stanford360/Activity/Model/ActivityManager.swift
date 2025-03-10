@@ -54,6 +54,10 @@ class ActivityManager: Module, EnvironmentAccessible {
 	init(activities: [Activity] = []) {
 		self.activities = activities
     }
+	
+	func reverseSortActivitiesByDate(_ activities: [Activity]) -> [Activity] {
+		activities.sorted { $0.date > $1.date }
+	}
     
     // MARK: - Methods
     func getTodayTotalMinutes() -> Int {
@@ -70,24 +74,6 @@ class ActivityManager: Module, EnvironmentAccessible {
     func getLatestMilestone() -> Double {
         let totalIntake = Double(getTodayTotalMinutes())
         return milestoneManager.getLatestMilestone(total: totalIntake)
-    }
-
-    func getWeeklySummary() -> [Activity] {
-        let calendar = Calendar.current
-        guard let oneWeekAgo = calendar.date(byAdding: .day, value: -7, to: Date()) else {
-            return []
-        }
-        return activities.filter { $0.date >= oneWeekAgo }
-    }
-    
-    func getMonthlyActivities() -> [Activity] {
-        let calendar = Calendar.current
-        guard let oneMonthAgo = calendar.date(byAdding: .month, value: -1, to: Date()) else {
-            return []
-        }
-        return activities
-            .filter { $0.date >= oneMonthAgo }
-            .sorted { $0.date < $1.date }
     }
        
     func triggerMotivation() -> String {
