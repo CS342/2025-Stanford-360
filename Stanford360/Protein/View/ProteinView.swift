@@ -12,7 +12,6 @@ import SwiftUI
 struct ProteinView: View {
 	@Environment(Stanford360Standard.self) private var standard
 	@Environment(ProteinManager.self) private var proteinManager
-	@Environment(Account.self) private var account: Account?
 	
 	@State private var showingAddProtein = false
 	@State private var showingInfo = false
@@ -36,11 +35,8 @@ struct ProteinView: View {
 				
 				buttons
 			}
-			.navigationTitle("My Protein 🍴")
 			.toolbar {
-				if account != nil {
-					AccountButton(isPresented: $presentingAccount)
-				}
+				Toolbar(presentingAccount: $presentingAccount, title: "My Protein 🍴")
 			}
 			.sheet(isPresented: $showingAddProtein) {
 				AddMealView()
