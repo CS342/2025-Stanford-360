@@ -7,17 +7,10 @@
     "%.f" : {
 
     },
-    "%@: %.1f oz" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@: %2$.1f oz"
-          }
-        }
-      }
-    },
     "%lld" : {
+
+    },
+    "%lld Day Streak" : {
 
     },
     "%lld Meals Logged" : {
@@ -55,7 +48,16 @@
     "%lld%%" : {
 
     },
+    "🎉 Congrats!" : {
+
+    },
     "🎉 Goal Reached! Stay Hydrated! 🎉" : {
+
+    },
+    "🏃 Keep Going!" : {
+
+    },
+    "🏃 Let's get moving!" : {
 
     },
     "💧 Stay Hydrated!" : {
@@ -131,9 +133,6 @@
         }
       }
     },
-    "Almost done!" : {
-
-    },
     "Analyzing meals..." : {
 
     },
@@ -167,9 +166,6 @@
           }
         }
       }
-    },
-    "Congrats!" : {
-
     },
     "CONSENT_LOADING_ERROR" : {
       "extractionState" : "stale",
@@ -427,9 +423,6 @@
     "It's been a while since you last logged water. Time to hydrate!" : {
 
     },
-    "Keep going!" : {
-
-    },
     "Learn More" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -452,9 +445,6 @@
       }
     },
     "Let's explore how to stay active and healthy!" : {
-
-    },
-    "Let's get moving!" : {
 
     },
     "Let's Get Started!" : {
@@ -599,6 +589,7 @@
 
     },
     "Please fill out the Social Support Questionnaire every day." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -638,6 +629,9 @@
     "Reach Your Goals 🎯" : {
 
     },
+    "Recall Last Intake" : {
+
+    },
     "Remaining" : {
 
     },
@@ -664,6 +658,7 @@
 
     },
     "Social Support Questionnaire" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -719,6 +714,9 @@
 
     },
     "Streak" : {
+
+    },
+    "Streak icon" : {
 
     },
     "Swift Package Manager" : {
@@ -870,16 +868,13 @@
     "When did you do it?" : {
 
     },
-    "You have %lld minutes of activity remaining!" : {
-
-    },
     "You haven't logged any water intake in the last 4 hours. Drink up!" : {
 
     },
     "You need %@ oz more to reach your goal!" : {
 
     },
-    "You're halfway there!" : {
+    "You're halfway to your 60 minute activity goal!" : {
 
     },
     "You've completed 60 minutes of activity!" : {

@@ -49,8 +49,12 @@
 		2FE5DC9C29EDD9EF004B9AB4 /* XCTHealthKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE5DC9B29EDD9EF004B9AB4 /* XCTHealthKit */; };
 		2FE5DCB129EE6107004B9AB4 /* AccountOnboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5DCAC29EE6107004B9AB4 /* AccountOnboarding.swift */; };
 		2FF53D8D2A8729D600042B76 /* Stanford360Standard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF53D8C2A8729D600042B76 /* Stanford360Standard.swift */; };
-		459A2CA32D6FD9DF00D429E9 /* Stanford360StandardHydration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459A2CA22D6FD9DB00D429E9 /* Stanford360StandardHydration.swift */; };
 		45E038232D503C0F009D07E2 /* HydrationTrackerViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E038222D503BFA009D07E2 /* HydrationTrackerViewTests.swift */; };
+		4D2965D82D7A8084000664B4 /* SpeziLLM in Frameworks */ = {isa = PBXBuildFile; productRef = 4D2965D72D7A8084000664B4 /* SpeziLLM */; };
+		4D2965DA2D7A8084000664B4 /* SpeziLLMFog in Frameworks */ = {isa = PBXBuildFile; productRef = 4D2965D92D7A8084000664B4 /* SpeziLLMFog */; };
+		4D2965DC2D7A8084000664B4 /* SpeziLLMLocal in Frameworks */ = {isa = PBXBuildFile; productRef = 4D2965DB2D7A8084000664B4 /* SpeziLLMLocal */; };
+		4D2965DE2D7A8084000664B4 /* SpeziLLMLocalDownload in Frameworks */ = {isa = PBXBuildFile; productRef = 4D2965DD2D7A8084000664B4 /* SpeziLLMLocalDownload */; };
+		4D2965E02D7A8084000664B4 /* SpeziLLMOpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 4D2965DF2D7A8084000664B4 /* SpeziLLMOpenAI */; };
 		4F331D212D5C34B000CCC8AA /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 4F331D202D5C34B000CCC8AA /* FirebaseAuth */; };
 		4FA061BE2D4AF594008DE21A /* HealthKitOnFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 4FA061BD2D4AF594008DE21A /* HealthKitOnFHIR */; };
 		4FA061C02D4AF59C008DE21A /* ResearchKitOnFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 4FA061BF2D4AF59C008DE21A /* ResearchKitOnFHIR */; };
@@ -132,7 +136,6 @@
 		2FE5DC5529EDD811004B9AB4 /* SocialSupportQuestionnaire.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SocialSupportQuestionnaire.json; sourceTree = "<group>"; };
 		2FE5DCAC29EE6107004B9AB4 /* AccountOnboarding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountOnboarding.swift; sourceTree = "<group>"; };
 		2FF53D8C2A8729D600042B76 /* Stanford360Standard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stanford360Standard.swift; sourceTree = "<group>"; };
-		459A2CA22D6FD9DB00D429E9 /* Stanford360StandardHydration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stanford360StandardHydration.swift; sourceTree = "<group>"; };
 		45E038222D503BFA009D07E2 /* HydrationTrackerViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydrationTrackerViewTests.swift; sourceTree = "<group>"; };
 		4FC5EF032D78162800BFDFFD /* KidsOnboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KidsOnboarding.swift; sourceTree = "<group>"; };
 		4FCAD0582D5AAD20007324A6 /* ActivityViewUITest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewUITest.swift; sourceTree = "<group>"; };
@@ -180,23 +183,28 @@
 				A9947BF02CC131ED0068AA8A /* SpeziSchedulerUI in Frameworks */,
 				97D73D6A2AD860AD00B47FA0 /* SpeziFirebaseStorage in Frameworks */,
 				2FE5DC6729EDD894004B9AB4 /* SpeziContact in Frameworks */,
+				4D2965D82D7A8084000664B4 /* SpeziLLM in Frameworks */,
 				2FE5DC8429EDD934004B9AB4 /* SpeziQuestionnaire in Frameworks */,
 				2FB099B12A875DF100B20952 /* FirebaseFirestore in Frameworks */,
 				4F331D212D5C34B000CCC8AA /* FirebaseAuth in Frameworks */,
+				4D2965DA2D7A8084000664B4 /* SpeziLLMFog in Frameworks */,
 				A94DDFFD2CBD1190004930BD /* SpeziNotifications in Frameworks */,
 				A9D83F962B083794000D0C78 /* SpeziFirebaseAccountStorage in Frameworks */,
 				2FB099B62A875E2B00B20952 /* HealthKitOnFHIR in Frameworks */,
 				56E7083B2BB06F6F00B08F0A /* SwiftPackageList in Frameworks */,
 				56E708352BB06B7100B08F0A /* SpeziLicense in Frameworks */,
 				2FE5DC8A29EDD972004B9AB4 /* SpeziLocalStorage in Frameworks */,
+				4D2965DE2D7A8084000664B4 /* SpeziLLMLocalDownload in Frameworks */,
 				2FE5DC8C29EDD972004B9AB4 /* SpeziSecureStorage in Frameworks */,
 				2FE5DC7529EDD8E6004B9AB4 /* SpeziFirebaseAccount in Frameworks */,
+				4D2965DC2D7A8084000664B4 /* SpeziLLMLocal in Frameworks */,
 				9739A0C62AD7B5730084BEA5 /* FirebaseStorage in Frameworks */,
 				2FE5DC7229EDD8D3004B9AB4 /* SpeziHealthKit in Frameworks */,
 				2F49B7762980407C00BCB272 /* Spezi in Frameworks */,
 				2FE5DC8F29EDD980004B9AB4 /* SpeziViews in Frameworks */,
 				2F3D4ABC2A4E7C290068FB2F /* SpeziScheduler in Frameworks */,
 				2FBD738C2A3BD150004228E7 /* SpeziScheduler in Frameworks */,
+				4D2965E02D7A8084000664B4 /* SpeziLLMOpenAI in Frameworks */,
 				2FE5DC7929EDD8E6004B9AB4 /* SpeziFirestore in Frameworks */,
 				2FE5DC7729EDD8E6004B9AB4 /* SpeziFirebaseConfiguration in Frameworks */,
 			);
@@ -326,7 +334,6 @@
 				653A2550283387FE005D4D48 /* Stanford360.swift */,
 				2F5E32BC297E05EA003432F8 /* Stanford360Delegate.swift */,
 				2FF53D8C2A8729D600042B76 /* Stanford360Standard.swift */,
-				459A2CA22D6FD9DB00D429E9 /* Stanford360StandardHydration.swift */,
 				2F4E23822989D51F0013F3D9 /* Stanford360TestingSetup.swift */,
 				A9720E412ABB68B300872D23 /* Account */,
 				2FE5DC2729EDD38D004B9AB4 /* Contacts */,
@@ -453,6 +460,11 @@
 				A94DDFFC2CBD1190004930BD /* SpeziNotifications */,
 				A9947BEF2CC131ED0068AA8A /* SpeziSchedulerUI */,
 				4F331D202D5C34B000CCC8AA /* FirebaseAuth */,
+				4D2965D72D7A8084000664B4 /* SpeziLLM */,
+				4D2965D92D7A8084000664B4 /* SpeziLLMFog */,
+				4D2965DB2D7A8084000664B4 /* SpeziLLMLocal */,
+				4D2965DD2D7A8084000664B4 /* SpeziLLMLocalDownload */,
+				4D2965DF2D7A8084000664B4 /* SpeziLLMOpenAI */,
 			);
 			productName = Stanford360;
 			productReference = 653A254D283387FE005D4D48 /* Stanford360.app */;
@@ -557,6 +569,8 @@
 				2F66D20D2BB723180010D555 /* XCRemoteSwiftPackageReference "SwiftLint" */,
 				A945FCD32C9C6BFA00B9EBC7 /* XCRemoteSwiftPackageReference "ResearchKitOnFHIR" */,
 				A94DDFFB2CBD1190004930BD /* XCRemoteSwiftPackageReference "SpeziNotifications" */,
+				4DD4BE2A2D79C04F00B5FFC0 /* XCRemoteSwiftPackageReference "llama.cpp" */,
+				4D2965D62D7A8084000664B4 /* XCRemoteSwiftPackageReference "SpeziLLM" */,
 			);
 			productRefGroup = 653A254E283387FE005D4D48 /* Products */;
 			projectDirPath = "";
@@ -632,7 +646,6 @@
 				2F5E32BD297E05EA003432F8 /* Stanford360Delegate.swift in Sources */,
 				2FE5DC5229EDD7FA004B9AB4 /* Stanford360Scheduler.swift in Sources */,
 				A9FE7AD02AA39BAB0077B045 /* AccountSheet.swift in Sources */,
-				459A2CA32D6FD9DF00D429E9 /* Stanford360StandardHydration.swift in Sources */,
 				653A2551283387FE005D4D48 /* Stanford360.swift in Sources */,
 				2FE5DC3629EDD7CA004B9AB4 /* HealthKitPermissions.swift in Sources */,
 				C15C640A2D75CFF700979C62 /* LogWeightView.swift in Sources */,
@@ -1285,6 +1298,22 @@
 				minimumVersion = 0.3.5;
 			};
 		};
+		4D2965D62D7A8084000664B4 /* XCRemoteSwiftPackageReference "SpeziLLM" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/StanfordSpezi/SpeziLLM.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.2;
+			};
+		};
+		4DD4BE2A2D79C04F00B5FFC0 /* XCRemoteSwiftPackageReference "llama.cpp" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/StanfordBDHG/llama.cpp.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.1;
+			};
+		};
 		5661551B2AB8384200209B80 /* XCRemoteSwiftPackageReference "swift-package-list" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/FelixHerrmann/swift-package-list";
@@ -1416,6 +1445,31 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2FE5DC9A29EDD9EF004B9AB4 /* XCRemoteSwiftPackageReference "XCTHealthKit" */;
 			productName = XCTHealthKit;
+		};
+		4D2965D72D7A8084000664B4 /* SpeziLLM */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4D2965D62D7A8084000664B4 /* XCRemoteSwiftPackageReference "SpeziLLM" */;
+			productName = SpeziLLM;
+		};
+		4D2965D92D7A8084000664B4 /* SpeziLLMFog */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4D2965D62D7A8084000664B4 /* XCRemoteSwiftPackageReference "SpeziLLM" */;
+			productName = SpeziLLMFog;
+		};
+		4D2965DB2D7A8084000664B4 /* SpeziLLMLocal */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4D2965D62D7A8084000664B4 /* XCRemoteSwiftPackageReference "SpeziLLM" */;
+			productName = SpeziLLMLocal;
+		};
+		4D2965DD2D7A8084000664B4 /* SpeziLLMLocalDownload */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4D2965D62D7A8084000664B4 /* XCRemoteSwiftPackageReference "SpeziLLM" */;
+			productName = SpeziLLMLocalDownload;
+		};
+		4D2965DF2D7A8084000664B4 /* SpeziLLMOpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4D2965D62D7A8084000664B4 /* XCRemoteSwiftPackageReference "SpeziLLM" */;
+			productName = SpeziLLMOpenAI;
 		};
 		4F331D202D5C34B000CCC8AA /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;

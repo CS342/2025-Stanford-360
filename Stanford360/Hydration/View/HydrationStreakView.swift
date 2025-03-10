@@ -35,7 +35,7 @@ struct HydrationStreakView: View {
                 .padding(.horizontal, 8)
                 .background(
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(Color.orange.opacity(0.2))
+                        .fill(Color.white)
                         .shadow(radius: 1)
                 )
                 .transition(.scale)

@@ -12,49 +12,16 @@ import SpeziScheduler
 import SpeziViews
 import UserNotifications
 
-@Observable
-final class ActivityScheduler: Module, DefaultInitializable, EnvironmentAccessible {
-	@Dependency(Scheduler.self) @ObservationIgnored private var scheduler
-	
-	@MainActor var viewState: ViewState = .idle
-	
-	private let belowHalfActivity5PMNotificationTaskID = "below-half-activity-5pm-notif"
-	private let halfActivity5PMNotificationTaskID = "half-activity-5pm-notif"
-	private let fullActivity5PMNotificationTaskID = "full-activity-5pm-notif"
-	private let halfActivity8PMNotificationTaskID = "half-activity-8pm-notif"
-	private let halfActivityImmediateNotificationTaskID = "half-activity-immediate-notif"
-	private let fullActivityImmediateNotificationTaskID = "full-activity-immediate-notif"
-	
-	private let scheduleDaily5PM: Schedule = .daily(hour: 17, minute: 0, startingAt: .today)
-	private let scheduleDaily8PM: Schedule = .daily(hour: 20, minute: 0, startingAt: .today)
-	
-	private let dateRange1Day: Range<Date> = Date()..<Date().addingTimeInterval(60 * 60 * 24 * 1)
-	
-	init() {}
-	
-	func configure() {
-		// Schedules a notification every day at 5 PM encouraging the user to complete their 60 minutes of activity
-		scheduleNotification(
-			taskId: belowHalfActivity5PMNotificationTaskID,
-			title: "Let's get moving!",
-			instructions: "Don't forget your 60 minutes of daily activity!",
-			schedule: scheduleDaily5PM
-		)
-	}
-	
+extension Stanford360Scheduler {
 	@MainActor
-	func scheduleNotification(
-		taskId: String,
-		title: String.LocalizationValue,
-		instructions: String.LocalizationValue,
-		schedule: Schedule
-	) {
+	func configureActivityScheduler() {
+		// Schedules a notification every day at 5 PM encouraging the user to complete their 60 minutes of activity
 		do {
 			try scheduler.createOrUpdateTask(
-				id: taskId,
-				title: title,
-				instructions: instructions,
-				schedule: schedule,
+				id: belowHalfActivity5PMNotificationTaskID,
+				title: "🏃 Let's get moving!",
+				instructions: "Don't forget your 60 minutes of daily activity!",
+				schedule: .daily(hour: 17, minute: 0, startingAt: .today),
 				scheduleNotifications: true
 			)
 		} catch {
@@ -62,86 +29,118 @@ final class ActivityScheduler: Module, DefaultInitializable, EnvironmentAccessib
 		}
 	}
 	
+	/// "delete" notification occurence of belowHalfActivity5PMNotificationTaskID by marking it complete such that it doesn't fire
 	@MainActor
-	func clearNotification(taskIds: [String], for timeRange: Range<Date>) {
+	func deleteNotificationOccurence(taskIds: [String]) {
 		do {
-			let scheduledTasksToClear = try scheduler.queryTasks(
-				for: timeRange,
+			let events = try scheduler.queryEvents(
+				for: dateRange1Day,
 				predicate: #Predicate { taskIds.contains($0.id) }
 			)
 			
-			try scheduler.deleteTasks(scheduledTasksToClear)
+			for event in events {
+				event.complete()
+			}
 		} catch {
-			print("There was an error querying or deleting tasks: \(error)")
+			viewState = .error(AnyLocalizedError(error: error, defaultErrorDescription: "Failed to retrieve scheduled event."))
 		}
 	}
 	
 	@MainActor
-	func clearOutdatedNotifications() {
-		clearNotification(
-			taskIds: [belowHalfActivity5PMNotificationTaskID, halfActivity5PMNotificationTaskID, halfActivity8PMNotificationTaskID],
-			for: dateRange1Day
-		)
+	func handleOnLoggedBefore5PM(_ surpassed30Minutes: Bool, _ surpassed60Minutes: Bool) {
+		if surpassed30Minutes || surpassed60Minutes {
+			deleteNotificationOccurence(taskIds: [belowHalfActivity5PMNotificationTaskID])
+		}
+		
+		guard let five5PM = Calendar.current.date(from: DateComponents(hour: 17, minute: 0)) else {
+			return
+		}
+		
+		// schedule notification occurence of halfActivity5PMNotificationTaskID
+		if surpassed30Minutes {
+			do {
+				try scheduler.createOrUpdateTask(
+					id: halfActivity5PMNotificationTaskID,
+					title: "🏃 Keep Going!",
+					instructions: "You're halfway to your 60 minute activity goal!",
+					schedule: .once(at: five5PM),
+					scheduleNotifications: true
+				)
+			} catch {
+				viewState = .error(AnyLocalizedError(error: error, defaultErrorDescription: "Failed to create or update scheduled tasks."))
+			}
+		}
+		
+		// schedule notification occurence of fullActivity5PMNotificationTaskID
+		if surpassed60Minutes {
+			do {
+				try scheduler.createOrUpdateTask(
+					id: fullActivity5PMNotificationTaskID,
+					title: "🎉 Congrats!",
+					instructions: "You've completed 60 minutes of activity!",
+					schedule: .once(at: five5PM),
+					scheduleNotifications: true
+				)
+			} catch {
+				viewState = .error(AnyLocalizedError(error: error, defaultErrorDescription: "Failed to create or update scheduled tasks."))
+			}
+		}
 	}
 	
 	@MainActor
-	func scheduleHalfwayNotifications(schedule: Schedule, newActivityMinutes: Int) {
-		scheduleNotification(
-			taskId: halfActivity5PMNotificationTaskID,
-			title: "Keep going!",
-			instructions: "You're halfway there!",
-			schedule: schedule
-		)
-		scheduleNotification(
-			taskId: halfActivity8PMNotificationTaskID,
-			title: "Almost done!",
-			instructions: "You have \(60 - newActivityMinutes) minutes of activity remaining!",
-			schedule: scheduleDaily8PM
-		)
+	func handleOnLoggedAtOrAfter5PM(_ surpassed30Minutes: Bool, _ surpassed60Minutes: Bool) {
+		let potentialEventIDs = [
+			belowHalfActivity5PMNotificationTaskID,
+			halfActivity5PMNotificationTaskID,
+			fullActivity5PMNotificationTaskID
+		]
+		
+		deleteNotificationOccurence(taskIds: potentialEventIDs)
+		
+		// schedule notification occurence of halfActivity5PMNotificationTaskID
+		if surpassed30Minutes {
+			do {
+				try scheduler.createOrUpdateTask(
+					id: halfActivityImmediateNotificationTaskID,
+					title: "🏃 Keep Going!",
+					instructions: "You're halfway to your 60 minute activity goal!",
+					schedule: .once(at: Calendar.current.date(byAdding: .second, value: 1, to: .now) ?? Date()),
+					scheduleNotifications: true
+				)
+			} catch {
+				viewState = .error(AnyLocalizedError(error: error, defaultErrorDescription: "Failed to create or update scheduled tasks."))
+			}
+		}
+		
+		// schedule notification occurence of fullActivity5PMNotificationTaskID
+		if surpassed60Minutes {
+			do {
+				try scheduler.createOrUpdateTask(
+					id: fullActivityImmediateNotificationTaskID,
+					title: "🎉 Congrats!",
+					instructions: "You've completed 60 minutes of activity!",
+					schedule: .once(at: Calendar.current.date(byAdding: .second, value: 1, to: .now) ?? Date()),
+					scheduleNotifications: true
+				)
+			} catch {
+				viewState = .error(AnyLocalizedError(error: error, defaultErrorDescription: "Failed to create or update scheduled tasks."))
+			}
+		}
 	}
-	
-	@MainActor
-	func scheduleCompletionNotification(taskId: String, schedule: Schedule) {
-		scheduleNotification(
-			taskId: taskId,
-			title: "Congrats!",
-			instructions: "You've completed 60 minutes of activity!",
-			schedule: schedule
-		)
-	}
-	
 	
 	@MainActor
 	func handleNotificationsOnLoggedActivity(prevActivityMinutes: Int, newActivityMinutes: Int) async {
 		let now = Date()
 		let calendar = Calendar.current
 		let hour = calendar.component(.hour, from: now)
-		let scheduleImmediate: Schedule = .once(at: now)
-		let justReached30Minutes = prevActivityMinutes < 30 && newActivityMinutes >= 30
-		let justReached60Minutes = prevActivityMinutes < 60 && newActivityMinutes >= 60
+		
+		let surpassed30Minutes = prevActivityMinutes < 30 && newActivityMinutes >= 30
+		let surpassed60Minutes = prevActivityMinutes < 60 && newActivityMinutes >= 60
 		
 		if hour < 17 { // Before 5 PM
-			if justReached30Minutes && newActivityMinutes < 60 {
-				clearNotification(taskIds: [belowHalfActivity5PMNotificationTaskID], for: dateRange1Day)
-				scheduleHalfwayNotifications(schedule: scheduleDaily5PM, newActivityMinutes: newActivityMinutes)
-			}
-			if justReached60Minutes {
-				clearOutdatedNotifications()
-				scheduleCompletionNotification(taskId: fullActivity5PMNotificationTaskID, schedule: scheduleDaily5PM)
-			}
-		} else if hour >= 17 { // After 5 PM
-			clearOutdatedNotifications()
-			if justReached30Minutes && newActivityMinutes < 60 {
-				scheduleNotification(
-					taskId: halfActivityImmediateNotificationTaskID,
-					title: "Keep going!",
-					instructions: "You're halfway there!",
-					schedule: scheduleImmediate
-				)
-			}
-			if justReached60Minutes {
-				scheduleCompletionNotification(taskId: fullActivityImmediateNotificationTaskID, schedule: scheduleImmediate)
-			}
+			handleOnLoggedBefore5PM(surpassed30Minutes, surpassed60Minutes)
+		} else { // On or after 5 PM
+			handleOnLoggedAtOrAfter5PM(surpassed30Minutes, surpassed60Minutes)
 		}
 	}
 }

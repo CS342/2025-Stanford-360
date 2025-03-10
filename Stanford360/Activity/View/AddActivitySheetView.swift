@@ -15,7 +15,7 @@ struct AddActivitySheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(Stanford360Standard.self) private var standard
     @Environment(ActivityManager.self) private var activityManager
-    @Environment(ActivityScheduler.self) var activityScheduler
+	@Environment(Stanford360Scheduler.self) var scheduler
     
     // Activity properties that can be initialized for editing
     @State private var activeMinutes: String
@@ -178,10 +178,16 @@ struct AddActivitySheet: View {
         )
 		
 		let prevActivityMinutes = activityManager.getTodayTotalMinutes()
+        let lastRecordedMilestone = activityManager.getLatestMilestone()
         activityManager.activities.append(newActivity)
 		let activityMinutes = activityManager.getTodayTotalMinutes()
         await standard.addActivityToFirestore(newActivity)
-		await activityScheduler.handleNotificationsOnLoggedActivity(prevActivityMinutes: prevActivityMinutes, newActivityMinutes: activityMinutes)
+		await scheduler.handleNotificationsOnLoggedActivity(prevActivityMinutes: prevActivityMinutes, newActivityMinutes: activityMinutes)
+        activityManager.milestoneManager.displayMilestoneMessage(
+            newTotal: Double(activityManager.getTodayTotalMinutes()),
+            lastMilestone: lastRecordedMilestone,
+            unit: "minutes of activity"
+        )
     }
     
     private func updateActivity() async {
