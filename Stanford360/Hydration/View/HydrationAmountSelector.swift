@@ -12,7 +12,7 @@ struct HydrationAmountSelector: View {
     @Binding var selectedAmount: Double?
     @Binding var errorMessage: String?
 
-    let presetAmounts: [(icon: String, amount: Double)] = [
+    private let hydrationOptions: [(icon: String, amount: Double)] = [
         (icon: "small_mug", amount: 8.0),
         (icon: "large_mug", amount: 10.0),
         (icon: "medium_mug", amount: 12.0),
@@ -22,43 +22,11 @@ struct HydrationAmountSelector: View {
     ]
 
     var body: some View {
-        let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
-
-        LazyVGrid(columns: columns, spacing: 12) {
-            ForEach(presetAmounts, id: \.amount) { item in
-                VStack(spacing: 6) {
-                    Image(item.icon)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(
-                            width: [16, 20, 32].contains(item.amount) ? 40 : 30,
-                            height: [16, 20, 32].contains(item.amount) ? 40 : 30
-                        )
-                        .clipped()
-                        .accessibilityLabel("\(Int(item.amount)) oz water")
-
-                    Text("\(Int(item.amount)) oz")
-                        .font(.headline)
-                        .foregroundColor(.primary)
-                }
-                .frame(width: 65, height: 65)
-                .padding()
-                .background(
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 12).fill(Color.white)
-                        if selectedAmount == item.amount {
-                            RoundedRectangle(cornerRadius: 12)
-                                .stroke(Color.blue, lineWidth: 3)
-                        }
-                    }
-                )
-                .shadow(radius: 2)
-                .onTapGesture {
-                    selectedAmount = item.amount
-                    errorMessage = nil
-                }
-            }
-        }
-        .padding(.horizontal)
+        SelectorView(
+            selectedAmount: $selectedAmount,
+            errorMessage: $errorMessage,
+            options: hydrationOptions,
+            unit: "oz"
+        )
     }
 }
