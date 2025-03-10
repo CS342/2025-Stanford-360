@@ -16,12 +16,6 @@
     "%lld min" : {
 
     },
-    "%lld oz" : {
-
-    },
-    "%lld oz water" : {
-
-    },
     "%lld/%lld" : {
       "localizations" : {
         "en" : {
