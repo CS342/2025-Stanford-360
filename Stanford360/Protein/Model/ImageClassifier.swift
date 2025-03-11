@@ -17,7 +17,7 @@ class ImageClassifier: ObservableObject {
     @Published var isProcessing: Bool = false
     @Published var errorMessage: String?
     
-    // MARK: - Internal Properties
+    // MARK: - Interna l Properties
     private let confidenceThreshold: Float = 0.1
     private var cancellables = Set<AnyCancellable>()
     
