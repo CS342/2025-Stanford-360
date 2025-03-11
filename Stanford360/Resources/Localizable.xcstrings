@@ -10,10 +10,23 @@
     "%lld" : {
 
     },
+    "%lld %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld %2$@"
+          }
+        }
+      }
+    },
     "%lld g" : {
 
     },
     "%lld min" : {
+
+    },
+    "%lld oz" : {
 
     },
     "%lld/%lld" : {
@@ -188,9 +201,6 @@
 
     },
     "Dashboard" : {
-
-    },
-    "Day" : {
 
     },
     "Delete" : {
@@ -448,19 +458,10 @@
     "Log your water intake" : {
 
     },
-    "Meal Recommendations" : {
-
-    },
     "Metric" : {
 
     },
     "Minutes" : {
-
-    },
-    "Month" : {
-
-    },
-    "Monthly Protein Intake" : {
 
     },
     "Move. Drink. Eat. Can you score 360 today? 🎯🏆" : {
@@ -485,7 +486,7 @@
     "No activities logged today" : {
 
     },
-    "No hydration logged today" : {
+    "No hydration logged" : {
 
     },
     "No Image Available" : {
@@ -759,9 +760,6 @@
 
     },
     "Weekly Check-In" : {
-
-    },
-    "Weekly Protein Intake" : {
 
     },
     "Weight (lbs)" : {

@@ -19,6 +19,7 @@ struct MilestoneMessageView: View {
                 .font(.headline)
                 .multilineTextAlignment(.center)
                 .lineLimit(nil)
+                .fixedSize(horizontal: false, vertical: true)
                 .padding(12)
                 .background(RoundedRectangle(cornerRadius: 10).fill(Color.white).shadow(radius: 2))
                 .transition(.scale)

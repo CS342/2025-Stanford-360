@@ -33,7 +33,7 @@ struct HydrationAddView: View {
 			
 			MilestoneMessageView(unit: "oz of water")
 				.environmentObject(hydrationManager.milestoneManager)
-				.offset(y: -90)
+				.offset(y: -150)
 			
 			// TODO() - make into reusable component to share with activity view	// swiftlint:disable:this todo
 //			HydrationControlPanel()
