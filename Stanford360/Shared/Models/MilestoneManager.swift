@@ -26,10 +26,10 @@ class MilestoneManager: ObservableObject {
 
         for milestone in stride(from: milestoneInterval, through: newTotal, by: milestoneInterval) where milestone > lastMilestone {
             if milestone == specialMilestone && lastMilestone < specialMilestone {
-                latestMessage = "🎉🎉 Amazing! You've reached \(Int(specialMilestone)) \(unit) today! Keep up the great work! 🎉🎉"
+                latestMessage = "Amazing! You've reached \(Int(specialMilestone)) \(unit) today! Keep up the great work!"
                 isSpecial = true
             } else {
-                latestMessage = "🎉 Great job! You've reached \(Int(milestone)) \(unit) today!"
+                latestMessage = "Great job! You've reached \(Int(milestone)) \(unit) today!"
                 isSpecial = false
             }
         }

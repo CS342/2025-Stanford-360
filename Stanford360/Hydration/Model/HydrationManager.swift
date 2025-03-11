@@ -49,6 +49,7 @@ class HydrationManager: Module, EnvironmentAccessible {
         return milestoneManager.getLatestMilestone(total: totalIntake)
     }
 	
+    /*
 	func triggerMotivation() -> String {
 		if getTodayTotalOunces() >= 60 {
 			return "🎉 Amazing! You've reached your daily goal of 60 ounces!"
@@ -59,6 +60,7 @@ class HydrationManager: Module, EnvironmentAccessible {
 			return "Start your hydration today and move towards your goal! 💪"
 		}
 	}
+     */
     
     func calculateStreak() -> Int {
         let calendar = Calendar.current
