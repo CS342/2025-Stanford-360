@@ -74,7 +74,7 @@ class PatientManager: Module, EnvironmentAccessible {
 			// Remove any existing HealthKit activities for today - use consistent activity type
 			let today = Calendar.current.startOfDay(for: Date())
 			activityManager.activities.removeAll { activity in
-				activity.activityType == "HealthKit Import" &&
+				activity.activityType == "Walking (HealthKit)" &&
 				Calendar.current.startOfDay(for: activity.date) == today
 			}
 			
@@ -83,7 +83,7 @@ class PatientManager: Module, EnvironmentAccessible {
 				print("Adding HealthKit activity with \(healthKitActivity.activeMinutes) minutes")
 				// Make sure we're not adding this activity to HealthKit again
 				var activityCopy = healthKitActivity
-				activityCopy.activityType = "HealthKit Import"
+				activityCopy.activityType = "Walking (HealthKit)"
 				activityManager.activities.append(activityCopy)
 				activityManager.saveToStorage()
 			} else {
