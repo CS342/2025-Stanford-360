@@ -20,9 +20,9 @@ struct HydrationControlPanel: View {
     @State var selectedAmount: Double?
     @State var streak: Int?
     
-    var todayIntake: Double {
-        hydrationManager.getTodayTotalOunces()
-    }
+//    var todayIntake: Double {
+//        hydrationManager.getTodayTotalOunces()
+//    }
 
     var body: some View {
         VStack(spacing: 10) {
@@ -38,7 +38,7 @@ struct HydrationControlPanel: View {
             .frame(maxWidth: .infinity, alignment: .leading)
                         
             errorDisplay()
-            suggestionDisplay()
+            // suggestionDisplay()
         }
         .padding(.horizontal)
     }
@@ -91,24 +91,24 @@ struct HydrationControlPanel: View {
     }
 
     // MARK: - Goal Suggestion Display
-    private func suggestionDisplay() -> some View {
-        if todayIntake < 60 {
-            return AnyView(
-                Text("You need \(String(format: "%.1f", 60 - todayIntake)) oz more to reach your goal!")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                    .accessibilityIdentifier("suggestionLabel")
-            )
-        } else {
-            return AnyView(
-                Text("🎉 Goal Reached! Stay Hydrated! 🎉")
-                    .font(.subheadline)
-                    .foregroundColor(.green)
-                    .bold()
-                    .accessibilityIdentifier("goalReachedLabel")
-            )
-        }
-    }
+//    private func suggestionDisplay() -> some View {
+//        if todayIntake < 60 {
+//            return AnyView(
+//                Text("You need \(String(format: "%.1f", 60 - todayIntake)) oz more to reach your goal!")
+//                    .font(.subheadline)
+//                    .foregroundColor(.secondary)
+//                    .accessibilityIdentifier("suggestionLabel")
+//            )
+//        } else {
+//            return AnyView(
+//                Text("🎉 Goal Reached! Stay Hydrated! 🎉")
+//                    .font(.subheadline)
+//                    .foregroundColor(.green)
+//                    .bold()
+//                    .accessibilityIdentifier("goalReachedLabel")
+//            )
+//        }
+//    }
 
     // MARK: - Log Water Intake Function
     func logWaterIntake() async {

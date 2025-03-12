@@ -45,37 +45,6 @@ struct AddMealView: View {
     @StateObject private var promptTemplate = ProteinPromptConstructor()
     @StateObject private var classifier = ImageClassifier()
     
-    
-//    var body: some View {
-//        NavigationView {
-//            ZStack {
-//                Color(UIColor.systemGroupedBackground).ignoresSafeArea()
-//                mainContent
-//            }
-//            .toolbar { ToolbarItem(placement: .navigationBarLeading) { Button("Cancel") { dismiss() } } }
-//            .overlay { if isLoading { loadingView } }
-//            .sheet(isPresented: $showingImagePicker) { imagePicker }
-//            .confirmationDialog("Choose Image Source", isPresented: $showSourceSelection, titleVisibility: .visible) {
-//                sourceSelectionButtons
-//            }
-//            .onChange(of: selectedImage) { _, newImage in
-//                classifier.image = newImage
-//                // classifier.classifyImage(newImage)
-////                if let image = newImage {
-////                    classification(image: image)
-////                } else {
-////                    print("No image selected")
-////                }
-//            }
-////            .onChange(of: highestConfidenceClassification) { _, newValue in
-////                if let classification = newValue, !classification.isEmpty {
-////                    // upate mealName according to the result，allow user to edit it
-////                    mealName = formatClassificationName(classification)
-////                }
-////            }
-//            
-//        }
-//    }
     var body: some View {
         NavigationView {
             // Use a ScrollView to make the content scrollable
