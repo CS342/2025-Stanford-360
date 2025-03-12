@@ -32,7 +32,7 @@ struct KidsOnboarding: View {
                 ),
                 OnboardingInformationView.Content(
                     icon: {
-                        Image(systemName: "questionmark.fill")
+                        Image(systemName: "questionmark")
                             .accessibilityHidden(true)
                     },
                     title: "Get Fun Suggestions 🎈",
