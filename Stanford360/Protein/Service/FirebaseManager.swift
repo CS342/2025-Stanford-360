@@ -111,7 +111,6 @@ extension Stanford360Standard {
                     }
                 }
             }
-            
             let downloadURL = try await storageRef.downloadURL()
             print("✅ Image successfully uploaded to: \(downloadURL)")
             return downloadURL.absoluteString
