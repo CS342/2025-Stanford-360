@@ -73,19 +73,19 @@ extension Stanford360Standard {
 //        return meals
 //    }
     
-//    func deleteMealByID(byID id: String) async {
-//        do {
-//            let userDocRef = try await configuration.userDocumentReference
-//            try await userDocRef
-//                .collection("meals")
-//                .document(id)
-//                .delete()
-//            
-//            print("✅ Successfully deleted meal with ID: \(id) from Firebase and local data.")
-//        } catch {
-//            print("❌ Error deleting meal from Firebase: \(error)")
-//        }
-//    }
+    func deleteMealByID(byID id: String) async {
+        do {
+            let userDocRef = try await configuration.userDocumentReference
+            try await userDocRef
+                .collection("meals")
+                .document(id)
+                .delete()
+            
+            print("✅ Successfully deleted meal with ID: \(id) from Firebase and local data.")
+        } catch {
+            print("❌ Error deleting meal from Firebase: \(error)")
+        }
+    }
     
     func uploadImageToFirebase(_ image: UIImage, imageName: String) async -> String? {
         guard let imageData = image.jpegData(compressionQuality: 0.8)
