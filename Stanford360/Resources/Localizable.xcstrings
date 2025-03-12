@@ -58,9 +58,6 @@
     "🎉 Goal Reached! Keep It Up! 🎉" : {
 
     },
-    "🎉 Goal Reached! Stay Hydrated! 🎉" : {
-
-    },
     "🏃 Keep Going!" : {
 
     },
@@ -335,6 +332,9 @@
 
     },
     "Hydration Recommendations" : {
+
+    },
+    "image" : {
 
     },
     "Image Analysis Results:" : {
@@ -839,9 +839,6 @@
           }
         }
       }
-    },
-    "You need %@ oz more to reach your goal!" : {
-
     },
     "You're halfway to your 60 minute activity goal!" : {
 
