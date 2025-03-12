@@ -97,6 +97,7 @@ struct HydrationControlPanel: View {
         let hydrationLog = HydrationLog(hydrationOunces: amount, timestamp: Date())
         hydrationManager.hydration.append(hydrationLog)
         await standard.storeHydrationLog(hydrationLog)
+        let updatedStreak = hydrationManager.streak
 
         errorMessage = nil
         streak = hydrationManager.streak
@@ -104,7 +105,8 @@ struct HydrationControlPanel: View {
         hydrationManager.milestoneManager.displayMilestoneMessage(
             newTotal: hydrationManager.getTodayTotalOunces(),
             lastMilestone: lastRecordedMilestone,
-            unit: "oz of water"
+            unit: "oz of water",
+            streak: updatedStreak
         )
         selectedAmount = nil
         intakeAmount = ""

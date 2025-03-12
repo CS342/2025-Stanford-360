@@ -27,22 +27,7 @@ class ProteinManager: Module, EnvironmentAccessible {
     
     // Streak Calculation
     var streak: Int {
-        let calendar = Calendar.current
-        var streakCount = 0
-        var currentDate = Date()
-
-        while let mealsByDate = mealsByDate[calendar.startOfDay(for: currentDate)] {
-            let totalGrams = getTotalProteinGrams(mealsByDate)
-            if totalGrams >= 60 {
-                streakCount += 1
-            } else {
-                break // Stop counting if the total minutes are not over 60
-            }
-            // Move to the previous day
-            currentDate = calendar.date(byAdding: .day, value: -1, to: currentDate) ?? currentDate
-        }
-
-        return streakCount
+        calculateStreak()
     }
     
 	init(meals: [Meal] = []) {
@@ -69,18 +54,35 @@ class ProteinManager: Module, EnvironmentAccessible {
         return milestoneManager.getLatestMilestone(total: totalIntake)
     }
 	
-    /*
-	func triggerMotivation() -> String {
-		if getTodayTotalGrams() >= 60 {
-			return "🎉 Amazing! You've reached your daily goal of 60 grams!"
-		} else if getTodayTotalGrams() > 0 {
-			let remainingGrams = 60 - getTodayTotalGrams()
-			return "Keep going! Only \(String(format: "%.f", remainingGrams)) more grams to reach today's goal! 🚀"
-		} else {
-			return "Eat your protein today and move towards your goal! 💪"
-		}
-	}
-     */
+    func calculateStreak() -> Int {
+        let calendar = Calendar.current
+        var streakCount = 0
+        var currentDate = calendar.startOfDay(for: Date())
+
+        let todayIntake = mealsByDate[currentDate]?.reduce(0) { $0 + $1.proteinGrams } ?? 0.0
+        let isTodayQualified = todayIntake >= 60
+
+        guard let previousDate = calendar.date(byAdding: .day, value: -1, to: currentDate) else {
+            return isTodayQualified ? 1 : 0
+        }
+        currentDate = previousDate
+
+        while true {
+            let dailyIntake = mealsByDate[currentDate]?.reduce(0) { $0 + $1.proteinGrams } ?? 0.0
+
+            if dailyIntake >= 60 {
+                streakCount += 1
+                guard let previousDate = calendar.date(byAdding: .day, value: -1, to: currentDate) else {
+                    break
+                }
+                currentDate = previousDate
+            } else {
+                break
+            }
+        }
+
+        return isTodayQualified ? streakCount + 1 : streakCount
+    }
 	
 	// Add a new meal to the list
 //	func addMeal(name: String, proteinGrams: Double, imageURL: String? = nil, timestamp: Date = Date()) {

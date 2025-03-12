@@ -181,12 +181,14 @@ struct AddActivitySheet: View {
         let lastRecordedMilestone = activityManager.getLatestMilestone()
         activityManager.activities.append(newActivity)
 		let activityMinutes = activityManager.getTodayTotalMinutes()
+        let updatedStreak = activityManager.streak
         await standard.addActivityToFirestore(newActivity)
 		await scheduler.handleNotificationsOnLoggedActivity(prevActivityMinutes: prevActivityMinutes, newActivityMinutes: activityMinutes)
         activityManager.milestoneManager.displayMilestoneMessage(
             newTotal: Double(activityManager.getTodayTotalMinutes()),
             lastMilestone: lastRecordedMilestone,
-            unit: "minutes of activity"
+            unit: "minutes of activity",
+            streak: updatedStreak
         )
     }
     
