@@ -13,7 +13,15 @@ import SwiftUI
 
 struct HydrationDiscoverView: View {
     var body: some View {
-        Text("Coming Soon!")
+        VStack {
+            Image("HydrationDiscover")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 350, height: 350)
+                .scaleEffect(1.3)
+                .padding()
+                .accessibilityLabel("Hydration Recommendations")
+        }
     }
 }
 

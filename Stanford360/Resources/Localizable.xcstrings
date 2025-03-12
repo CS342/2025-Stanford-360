@@ -168,9 +168,6 @@
         }
       }
     },
-    "Coming Soon!" : {
-
-    },
     "CONSENT_LOADING_ERROR" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -335,6 +332,9 @@
 
     },
     "Hydration Progress" : {
+
+    },
+    "Hydration Recommendations" : {
 
     },
     "Image Analysis Results:" : {
