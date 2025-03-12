@@ -149,6 +149,9 @@
     "Choose Image Source" : {
 
     },
+    "Click here for sport videos!" : {
+
+    },
     "clock" : {
 
     },
@@ -307,6 +310,9 @@
           }
         }
       }
+    },
+    "Hello, World!" : {
+
     },
     "HL7 FHIR" : {
       "extractionState" : "stale",
@@ -539,6 +545,9 @@
       }
     },
     "Open Settings" : {
+
+    },
+    "Opens sports video website in browser" : {
 
     },
     "pencil" : {

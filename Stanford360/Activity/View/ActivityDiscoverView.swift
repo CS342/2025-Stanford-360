@@ -21,11 +21,18 @@ struct ActivityDiscoverView: View {
                 .padding()
                 .accessibilityLabel("Activity Recommendations")
             
-            Link("Click here for sport videos!", destination: URL(string: "https://www.youtube.com/channel/UC0dS8MBi0l1sQoFjP1fmpMg/videos?view=0&sort=dd&shelf_id=0")!)
-                .font(.headline)
-                .foregroundColor(.blue)
-                .padding()
-                .accessibilityHint("Opens sports video website in browser")
+            if let videoURL = URL(string: "https://www.youtube.com/channel/UC0dS8MBi0l1sQoFjP1fmpMg/videos?view=0&sort=dd&shelf_id=0") {
+                Link("Click here for sport videos!", destination: videoURL)
+                    .font(.headline)
+                    .foregroundColor(.blue)
+                    .padding()
+                    .accessibilityHint("Opens sports video website in browser")
+            } else {
+                Text("Click here for sport videos!")
+                    .font(.headline)
+                    .foregroundColor(.gray) // Dimmed to indicate it's not clickable
+                    .padding()
+            }
         }
     }
 }
