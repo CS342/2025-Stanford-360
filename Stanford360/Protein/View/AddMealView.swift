@@ -45,78 +45,55 @@ struct AddMealView: View {
     @StateObject private var promptTemplate = ProteinPromptConstructor()
     @StateObject private var classifier = ImageClassifier()
     
-    
-//    var body: some View {
-//        NavigationView {
-//            ZStack {
-//                Color(UIColor.systemGroupedBackground).ignoresSafeArea()
-//                mainContent
-//            }
-//            .toolbar { ToolbarItem(placement: .navigationBarLeading) { Button("Cancel") { dismiss() } } }
-//            .overlay { if isLoading { loadingView } }
-//            .sheet(isPresented: $showingImagePicker) { imagePicker }
-//            .confirmationDialog("Choose Image Source", isPresented: $showSourceSelection, titleVisibility: .visible) {
-//                sourceSelectionButtons
-//            }
-//            .onChange(of: selectedImage) { _, newImage in
-//                classifier.image = newImage
-//                // classifier.classifyImage(newImage)
-////                if let image = newImage {
-////                    classification(image: image)
-////                } else {
-////                    print("No image selected")
-////                }
-//            }
-////            .onChange(of: highestConfidenceClassification) { _, newValue in
-////                if let classification = newValue, !classification.isEmpty {
-////                    // upate mealName according to the result，allow user to edit it
-////                    mealName = formatClassificationName(classification)
-////                }
-////            }
-//            
-//        }
-//    }
     var body: some View {
         NavigationView {
-            // Use a ScrollView to make the content scrollable
+            contentContainer
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button("Cancel") { dismiss() }
+                    }
+                }
+                .sheet(isPresented: $showingImagePicker) { imagePicker }
+                .confirmationDialog("Choose Image Source", isPresented: $showSourceSelection, titleVisibility: .visible) {
+                    sourceSelectionButtons
+                }
+                .onChange(of: selectedImage) { _, newImage in
+                    classifier.image = newImage
+                }
+                .onChange(of: mealName) { newMealName in
+                    handleMealNameChange(newMealName)
+                }
+                .onReceive(Publishers.keyboardHeight) { height in
+                    withAnimation(.easeOut(duration: 0.25)) {
+                        keyboardOffset = height > 0 ? height - 30 : 0 // Slight adjustment for a more natural feel
+                    }
+                }
+        }
+    }
+
+    // MARK: - Main Content Container
+    private var contentContainer: some View {
+        ZStack {
+            // Background color covers the entire screen
+            Color(UIColor.systemGroupedBackground)
+                .ignoresSafeArea()
+            
+            // Use ScrollView to contain content
             ScrollView {
-                ZStack {
-                    // Background color that ignores safe area
-                    Color(UIColor.systemGroupedBackground)
-                        .ignoresSafeArea()
-                    
-                    // Main content with padding around the edges
-                    mainContent
-                        .padding()
+                VStack {
+                    imageView
+                    classificationResultsView
+                    formFields
+                    saveButton
+                    // Add bottom space to ensure keyboard doesn't overlap content
+                    Spacer().frame(height: keyboardOffset)
                 }
-            }
-            // Add bottom padding based on the current keyboard height
-            .padding(.bottom, keyboardOffset)
-            
-            // Navigation bar items
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") { dismiss() }
-                }
-            }
-            .overlay { if isLoading { loadingView } }
-            .sheet(isPresented: $showingImagePicker) { imagePicker }
-            .confirmationDialog("Choose Image Source", isPresented: $showSourceSelection, titleVisibility: .visible) {
-                sourceSelectionButtons
+                .padding(16)
             }
             
-            // Update the classifier when a new image is selected
-            .onChange(of: selectedImage) { _, newImage in
-                classifier.image = newImage
-            }
-            .onChange(of: mealName) { newMealName in
-                handleMealNameChange(newMealName)
-            }
-            // Listen for keyboard height changes to avoid overlap
-            .onReceive(Publishers.keyboardHeight) { height in
-                withAnimation {
-                    keyboardOffset = height
-                }
+            // Ensure loading view covers the entire screen
+            if isLoading {
+                loadingView
             }
         }
     }
@@ -134,15 +111,6 @@ struct AddMealView: View {
 
 // MARK: - Main Content
 extension AddMealView {
-    var mainContent: some View {
-        VStack(spacing: 0) {
-            imageView
-            classificationResultsView
-            formFields
-            saveButton
-        }
-    }
-    
     var imageView: some View {
         ZStack {
             if let image = selectedImage {
@@ -151,6 +119,7 @@ extension AddMealView {
                     .scaledToFill()
                     .frame(height: 400)
                     .clipped()
+                    .frame(width: UIScreen.main.bounds.width * 0.9)
                     .accessibilityLabel("selected_image")
                     .overlay(alignment: .bottomTrailing) {
                         editButton.padding()
@@ -171,7 +140,7 @@ extension AddMealView {
             .accessibilityLabel("fork_background")
             .overlay {
                 VStack(spacing: 10) {
-                    Text("Please upload your meal, you are doing great!🎉🎉🎉")
+                    Text("Please upload a picture of your meal, you are doing great!🎉🎉🎉")
                         .font(.headline)
                         .foregroundColor(.white)
                         .padding()
@@ -288,6 +257,7 @@ extension AddMealView {
             inputField(title: "Meal Name", text: $mealName)
             inputField(title: "Protein Amount (g)", text: $proteinAmount, keyboardType: .decimalPad)
         }
+        .frame(width: UIScreen.main.bounds.width * 0.9)
         .padding()
     }
     
@@ -307,6 +277,7 @@ extension AddMealView {
                     RoundedRectangle(cornerRadius: 16)
                         .fill(isValidInput ? Color.blue : Color.gray)
                 )
+                .frame(width: UIScreen.main.bounds.width * 0.9)
                 .padding()
         }
         .disabled(!isValidInput)
