@@ -38,9 +38,9 @@ struct HydrationControlPanel: View {
             .frame(maxWidth: .infinity, alignment: .leading)
                         
             errorDisplay()
-            suggestionDisplay()
         }
         .padding(.horizontal)
+        .offset(y: -50)
     }
 
     // MARK: - Log Button
