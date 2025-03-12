@@ -136,7 +136,7 @@
                     image
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(height: 250)
+                        .frame(height: 400)
                         .clipped()
                 case .failure:
                     placeholderImage
