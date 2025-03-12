@@ -33,7 +33,7 @@ struct DashboardTodayView: View {
 						title: "Hydration",
 						progress: CGFloat(hydrationManager.getTodayTotalOunces()),
 						color: .hydrationColor,
-						streak: hydrationManager.streak2
+						streak: hydrationManager.streak
 					)
 					
 					ProgressCard(

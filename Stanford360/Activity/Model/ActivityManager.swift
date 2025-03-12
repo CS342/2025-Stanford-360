@@ -75,7 +75,8 @@ class ActivityManager: Module, EnvironmentAccessible {
         let totalIntake = Double(getTodayTotalMinutes())
         return milestoneManager.getLatestMilestone(total: totalIntake)
     }
-       
+    
+    /*
     func triggerMotivation() -> String {
         if getTodayTotalMinutes() >= 60 {
             return "🎉 Amazing! You've reached your daily goal of 60 minutes!"
