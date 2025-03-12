@@ -51,8 +51,8 @@ struct AddMealView: View {
             ScrollView {
                 ZStack {
                     // Background color that ignores safe area
-                    Color(UIColor.systemGroupedBackground)
-                        .ignoresSafeArea()
+//                    Color(UIColor.systemGroupedBackground)
+//                        .ignoresSafeArea()
                     
                     // Main content with padding around the edges
                     mainContent
