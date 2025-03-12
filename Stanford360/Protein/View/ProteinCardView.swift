@@ -12,6 +12,9 @@
 import SwiftUI
 
 struct ProteinCardView: View {
+	@Environment(Stanford360Standard.self) private var standard
+	@Environment(ProteinManager.self) private var proteinManager
+	
 	let meal: Meal
 	
 	var body: some View {
@@ -34,6 +37,18 @@ struct ProteinCardView: View {
 		.background(Color.cardBackground)
 		.cornerRadius(15)
 		.shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 4)
+		.swipeActions(edge: .trailing, allowsFullSwipe: true) {
+			Button(role: .destructive) {
+				Task {
+					await standard.deleteMealByID(byID: meal.id ?? "")
+					var updatedMeals = proteinManager.meals
+					updatedMeals.removeAll { $0.id == meal.id }
+					proteinManager.meals = updatedMeals
+				}
+			} label: {
+				Label("Delete", systemImage: "trash")
+			}
+		}
 	}
 }
 
