@@ -53,10 +53,18 @@ class HydrationManager: Module, EnvironmentAccessible {
         let calendar = Calendar.current
         var streakCount = 0
         var currentDate = calendar.startOfDay(for: Date())
-        
+
+        let todayIntake = hydrationByDate[currentDate]?.reduce(0) { $0 + $1.hydrationOunces } ?? 0.0
+        let isTodayQualified = todayIntake >= 60
+
+        guard let previousDate = calendar.date(byAdding: .day, value: -1, to: currentDate) else {
+            return isTodayQualified ? 1 : 0
+        }
+        currentDate = previousDate
+
         while true {
             let dailyIntake = hydrationByDate[currentDate]?.reduce(0) { $0 + $1.hydrationOunces } ?? 0.0
-            
+
             if dailyIntake >= 60 {
                 streakCount += 1
                 guard let previousDate = calendar.date(byAdding: .day, value: -1, to: currentDate) else {
@@ -67,7 +75,8 @@ class HydrationManager: Module, EnvironmentAccessible {
                 break
             }
         }
-        return streakCount
+
+        return isTodayQualified ? streakCount + 1 : streakCount
     }
     
     func recallLastIntake() {
