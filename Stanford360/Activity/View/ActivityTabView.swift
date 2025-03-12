@@ -24,6 +24,10 @@ struct ActivityTabView: View {
 				ActivityDiscoverView().tag(TrackerSection.discover)
 			}
 			.tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            
+            if selectedTrackerSection == .add {
+                ActivityControlPanel()
+            }
 		}
     }
 }

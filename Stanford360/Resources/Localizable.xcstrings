@@ -112,6 +112,9 @@
     "Activity" : {
 
     },
+    "Activity Date" : {
+
+    },
     "Activity Minutes" : {
 
     },
@@ -121,7 +124,19 @@
     "Activity Recommendations" : {
 
     },
+    "Activity Saved" : {
+
+    },
     "Activity Time" : {
+
+    },
+    "Activity Type" : {
+
+    },
+    "Add Activity" : {
+
+    },
+    "Add button with plus symbol" : {
 
     },
     "Add Your Activity! 🎯" : {
@@ -153,6 +168,9 @@
 
     },
     "Choose Image Source" : {
+
+    },
+    "Click here for sport videos!" : {
 
     },
     "clock" : {
@@ -204,6 +222,9 @@
 
     },
     "Dashboard" : {
+
+    },
+    "Date" : {
 
     },
     "Delete" : {
@@ -547,6 +568,9 @@
     "Open Settings" : {
 
     },
+    "Opens sports video website in browser" : {
+
+    },
     "pencil" : {
 
     },
@@ -562,6 +586,9 @@
       }
     },
     "Please select a date and time that isn't in the future." : {
+
+    },
+    "Please select a date that isn't in the future." : {
 
     },
     "Please upload your meal, you are doing great!🎉🎉🎉" : {
@@ -858,6 +885,9 @@
           }
         }
       }
+    },
+    "Your activity has been recorded successfully!" : {
+
     }
   },
   "version" : "1.0"

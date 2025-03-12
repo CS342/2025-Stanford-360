@@ -87,15 +87,4 @@ class ActivityManager: Module, EnvironmentAccessible {
             return "Start your activity today and move towards your goal! 💪"
         }
     }
-     */
-    
-    func saveToStorage() {
-        do {
-            let data = try JSONEncoder().encode(activities)
-            UserDefaults.standard.set(data, forKey: "activities")
-            print("[ActivityManager] [saveToStorage] Successfully saved activities to UserDefaults")
-        } catch {
-            print("[ActivityManager] [saveToStorage] Error ❌ : \(error)")
-        }
-    }
 }
