@@ -413,13 +413,13 @@ extension AddMealView {
         var meal = Meal(name: mealName, proteinGrams: Double(proteinAmount) ?? 0)
         let lastRecordedMilestone = proteinManager.getLatestMilestone()
         
-//        if let image = selectedImage {
-//            if let imageURL = await standard.uploadImageToFirebase(image, imageName: meal.id ?? UUID().uuidString) {
-//                meal.imageURL = imageURL
-//            } else {
-//                return
-//            }
-//        }
+        if let image = selectedImage {
+            if let imageURL = await standard.uploadImageToFirebase(image, imageName: meal.id ?? UUID().uuidString) {
+                meal.imageURL = imageURL
+            } else {
+                return
+            }
+        }
         
 		proteinManager.meals.append(meal)
         await standard.storeMeal(meal/*, selectedImage: selectedImage*/)

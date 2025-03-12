@@ -87,30 +87,33 @@ extension Stanford360Standard {
 //        }
 //    }
     
-//    func uploadImageToFirebase(_ image: UIImage, imageName: String) async -> String? {
-//        guard let imageData = image.jpegData(compressionQuality: 0.8)
-//        else {
-//            return nil
-//        }
-//        let uniqueImageName = "\(UUID().uuidString)_\(imageName)"
-//        let storageRef = Storage.storage().reference().child("meal_images/\(uniqueImageName).jpg")
-//        
-//        do {
-//            try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
-//                storageRef.putData(imageData, metadata: nil) { _, error in
-//                    if let error = error {
-//                        continuation.resume(throwing: error)
-//                    } else {
-//                        continuation.resume(returning: ())
-//                    }
-//                }
-//            }
-//            let downloadURL = try await storageRef.downloadURL()
-//            print("✅ Image successfully uploaded to: \(downloadURL)")
-//            return downloadURL.absoluteString
-//        } catch {
-//            print("❌ Error uploading image: \(error)")
-//            return nil
-//        }
-//    }
+    func uploadImageToFirebase(_ image: UIImage, imageName: String) async -> String? {
+        guard let imageData = image.jpegData(compressionQuality: 0.8)
+        else {
+            return nil
+        }
+        let uniqueImageName = "\(UUID().uuidString)_\(imageName)"
+        
+        
+        do {
+            let storageRef = try await configuration.userBucketReference.child("\(uniqueImageName).jpg")
+            try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+                storageRef.putData(imageData, metadata: nil) { _, error in
+                    if let error = error {
+                        continuation.resume(throwing: error)
+                    } else {
+                        continuation.resume(returning: ())
+                    }
+                }
+            }
+            let downloadURL = try await storageRef.downloadURL()
+            print("✅ Image successfully uploaded to: \(downloadURL)")
+            return downloadURL.absoluteString
+        } catch {
+            print("❌ Error uploading image: \(error)")
+            return nil
+        }
+    }
 }
+
+extension StorageReference: @unchecked @retroactive Sendable {}
