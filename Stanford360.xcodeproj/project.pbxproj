@@ -167,6 +167,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		4DB472D62D80459F005E895E /* ProteinTest */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ProteinTest; sourceTree = "<group>"; };
 		4F8EA0B92D680A4400A94137 /* Activity */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Activity; sourceTree = "<group>"; };
 		4FF18DDD2D5FAB5E00E13832 /* ActivityTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ActivityTests; sourceTree = "<group>"; };
 		C1C1E6432D6E9A25007D38F0 /* Dashboard */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Dashboard; sourceTree = "<group>"; };
@@ -354,6 +355,7 @@
 			isa = PBXGroup;
 			children = (
 				45E2EB9C2D7F05910097C339 /* HydrationManagerTests.swift */,
+				4DB472D62D80459F005E895E /* ProteinTest */,
 				4FF18DDD2D5FAB5E00E13832 /* ActivityTests */,
 				653A256128338800005D4D48 /* Stanford360Tests.swift */,
 			);
@@ -488,6 +490,7 @@
 				653A255F28338800005D4D48 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
+				4DB472D62D80459F005E895E /* ProteinTest */,
 				4FF18DDD2D5FAB5E00E13832 /* ActivityTests */,
 			);
 			name = Stanford360Tests;

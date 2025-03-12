@@ -489,16 +489,16 @@
         }
       }
     },
-    "No activities logged today" : {
+    "No activities logged" : {
 
     },
-    "No hydration logged today" : {
+    "No hydration logged" : {
 
     },
     "No Image Available" : {
 
     },
-    "No meals logged today" : {
+    "No meals logged" : {
 
     },
     "No tasks" : {
@@ -696,6 +696,9 @@
 
     },
     "Task completed for day %lld" : {
+
+    },
+    "The Llama3 8B model will be downloaded" : {
 
     },
     "The Spezi Framework" : {

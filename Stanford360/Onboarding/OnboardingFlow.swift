@@ -41,7 +41,7 @@ struct OnboardingFlow: View {
             // Welcome()
             // InterestingModules()
             KidsOnboarding() // New onboarding view for kids
-            
+            LLMLocalOnboardingDownloadView()
             if !FeatureFlags.disableFirebase {
                 AccountOnboarding()
             }
