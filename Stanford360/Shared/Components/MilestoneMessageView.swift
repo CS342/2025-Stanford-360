@@ -7,22 +7,26 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct MilestoneMessageView: View {
     @EnvironmentObject var milestoneManager: MilestoneManager
     let unit: String
-
+    
     var body: some View {
         if let message = milestoneManager.milestoneMessage {
-            Text(message)
-                .foregroundColor(milestoneManager.isSpecialMilestone ? .orange : .blue)
-                .font(.headline)
-                .multilineTextAlignment(.center)
-                .lineLimit(nil)
-                .padding(12)
-                .background(RoundedRectangle(cornerRadius: 10).fill(Color.white).shadow(radius: 2))
-                .transition(.scale)
-                .accessibilityIdentifier("\(unit)MilestoneMessageLabel")
+            ZStack {
+                ConfettiView(isSpecial: milestoneManager.isSpecialMilestone)
+
+                MilestoneContentView(
+                    message: message,
+                    isSpecialMilestone: milestoneManager.isSpecialMilestone
+                )
+                .frame(maxWidth: 300)
+            }
+            .transition(.scale)
+            .animation(.spring(response: 0.5, dampingFraction: 0.6), value: milestoneManager.milestoneMessage)
+            .accessibilityIdentifier("\(unit)MilestoneMessageLabel")
         } else {
             EmptyView()
         }

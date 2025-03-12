@@ -69,6 +69,7 @@ class ProteinManager: Module, EnvironmentAccessible {
         return milestoneManager.getLatestMilestone(total: totalIntake)
     }
 	
+    /*
 	func triggerMotivation() -> String {
 		if getTodayTotalGrams() >= 60 {
 			return "🎉 Amazing! You've reached your daily goal of 60 grams!"
@@ -79,6 +80,7 @@ class ProteinManager: Module, EnvironmentAccessible {
 			return "Eat your protein today and move towards your goal! 💪"
 		}
 	}
+     */
 	
 	// Add a new meal to the list
 //	func addMeal(name: String, proteinGrams: Double, imageURL: String? = nil, timestamp: Date = Date()) {

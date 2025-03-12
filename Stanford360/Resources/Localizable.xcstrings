@@ -55,6 +55,9 @@
     "🎉 Congrats!" : {
 
     },
+    "🎉 Goal Reached! Keep It Up! 🎉" : {
+
+    },
     "🎉 Goal Reached! Stay Hydrated! 🎉" : {
 
     },
@@ -99,6 +102,9 @@
           }
         }
       }
+    },
+    "Achievement Star" : {
+
     },
     "Activities must be logged manually" : {
 
@@ -161,9 +167,6 @@
           }
         }
       }
-    },
-    "Coming Soon!" : {
-
     },
     "CONSENT_LOADING_ERROR" : {
       "extractionState" : "stale",
@@ -331,8 +334,7 @@
     "Hydration Progress" : {
 
     },
-    "image" : {
-
+    "Hydration Recommendations" : {
     },
     "Image Analysis Results:" : {
 
@@ -695,6 +697,9 @@
     "Task completed for day %lld" : {
 
     },
+    "The Llama3 8B model will be downloaded" : {
+
+    },
     "The Spezi Framework" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -823,6 +828,16 @@
     },
     "You haven't logged any water intake in the last 4 hours. Drink up!" : {
 
+    },
+    "You need %@ %@ more to reach your goal!" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You need %1$@ %2$@ more to reach your goal!"
+          }
+        }
+      }
     },
     "You need %@ oz more to reach your goal!" : {
 
