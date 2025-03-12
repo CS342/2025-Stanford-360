@@ -24,7 +24,28 @@ class HydrationManager: Module, EnvironmentAccessible {
     }
     
     var streak: Int {
-        calculateStreak()
+        let calendar = Calendar.current
+        var streakCount = 0
+        var currentDate = calendar.date(byAdding: .day, value: -1, to: Date()) ?? Date()
+
+        let todayIntake = getTotalHydrationOunces(hydrationByDate[calendar.startOfDay(for: Date())] ?? [])
+        let isTodayQualified = todayIntake >= 60
+
+        while true {
+            let dailyIntake = getTotalHydrationOunces(hydrationByDate[calendar.startOfDay(for: currentDate)] ?? [])
+
+            if dailyIntake >= 60 {
+                streakCount += 1
+                guard let previousDate = calendar.date(byAdding: .day, value: -1, to: currentDate) else {
+                    break
+                }
+                currentDate = previousDate
+            } else {
+                break
+            }
+        }
+
+        return isTodayQualified ? streakCount + 1 : streakCount
     }
     
     init(hydration: [HydrationLog] = []) {
@@ -47,36 +68,6 @@ class HydrationManager: Module, EnvironmentAccessible {
     func getLatestMilestone() -> Double {
         let totalIntake = getTodayTotalOunces()
         return milestoneManager.getLatestMilestone(total: totalIntake)
-    }
-    
-    func calculateStreak() -> Int {
-        let calendar = Calendar.current
-        var streakCount = 0
-        var currentDate = calendar.startOfDay(for: Date())
-
-        let todayIntake = hydrationByDate[currentDate]?.reduce(0) { $0 + $1.hydrationOunces } ?? 0.0
-        let isTodayQualified = todayIntake >= 60
-
-        guard let previousDate = calendar.date(byAdding: .day, value: -1, to: currentDate) else {
-            return isTodayQualified ? 1 : 0
-        }
-        currentDate = previousDate
-
-        while true {
-            let dailyIntake = hydrationByDate[currentDate]?.reduce(0) { $0 + $1.hydrationOunces } ?? 0.0
-
-            if dailyIntake >= 60 {
-                streakCount += 1
-                guard let previousDate = calendar.date(byAdding: .day, value: -1, to: currentDate) else {
-                    break
-                }
-                currentDate = previousDate
-            } else {
-                break
-            }
-        }
-
-        return isTodayQualified ? streakCount + 1 : streakCount
     }
     
     func recallLastIntake() {
