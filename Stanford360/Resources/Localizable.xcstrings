@@ -58,9 +58,6 @@
     "🎉 Goal Reached! Keep It Up! 🎉" : {
 
     },
-    "🎉 Goal Reached! Stay Hydrated! 🎉" : {
-
-    },
     "🏃 Keep Going!" : {
 
     },
@@ -335,6 +332,9 @@
 
     },
     "Hydration Recommendations" : {
+    },
+    "image" : {
+
     },
     "Image Analysis Results:" : {
 
@@ -826,9 +826,6 @@
     "When did you do it?" : {
 
     },
-    "You haven't logged any water intake in the last 4 hours. Drink up!" : {
-
-    },
     "You need %@ %@ more to reach your goal!" : {
       "localizations" : {
         "en" : {
@@ -838,9 +835,6 @@
           }
         }
       }
-    },
-    "You need %@ oz more to reach your goal!" : {
-
     },
     "You're halfway to your 60 minute activity goal!" : {
 
