@@ -14,44 +14,48 @@ import SwiftUI
 struct ProteinHistoryView: View {
 	@Environment(ProteinManager.self) private var proteinManager
 	
-    var body: some View {
-		let meals = proteinManager.meals
-		let reverseSortedMeals = proteinManager.reverseSortMealsByDate(meals)
+	var body: some View {
+		let mealsByDate = proteinManager.mealsByDate
+		let dates = mealsByDate.keys.sorted(by: >)
 		
-		if meals.isEmpty {
-				// todo - decompose into "empty state" component
-				List {
-					Text("No meals logged today")
-						.foregroundColor(.gray)
-						.padding()
-				}
-				.listStyle(PlainListStyle())
+		if proteinManager.meals.isEmpty {
+			// todo - decompose into "empty state" component
+			List {
+				Text("No meals logged")
+					.foregroundColor(.gray)
+					.padding()
+			}
+			.listStyle(PlainListStyle())
 		} else {
 			List {
-				ForEach(reverseSortedMeals) { meal in
-					NavigationLink(destination: MealDetailView(meal: meal)) {
-						ProteinCardView(meal: meal)
-					}
-					.simultaneousGesture(
-						DragGesture(minimumDistance: 5)
-							.onChanged { value in
-								let isHorizontalDrag = abs(value.translation.width) > abs(value.translation.height)
-								let isQuickSwipe = abs(value.translation.width) < 20
-								
-								// If it's a quick, short horizontal swipe, let it through
-								// as it's likely attempting to access the swipe actions
-								if isHorizontalDrag && !isQuickSwipe {
-									// Consume the gesture to prevent TabView swiping
-								}
+				ForEach(dates, id: \.self) { date in
+					Section(header: Text(date.formattedRelative())) {
+						ForEach(proteinManager.reverseSortMealsByDate(mealsByDate[date] ?? [])) { meal in
+							NavigationLink(destination: MealDetailView(meal: meal)) {
+								ProteinCardView(meal: meal)
 							}
-					)
+							.simultaneousGesture(
+								DragGesture(minimumDistance: 5)
+									.onChanged { value in
+										let isHorizontalDrag = abs(value.translation.width) > abs(value.translation.height)
+										let isQuickSwipe = abs(value.translation.width) < 20
+										
+									// If it's a quick, short horizontal swipe, let it through
+										// as it's likely attempting to access the swipe actions
+										if isHorizontalDrag && !isQuickSwipe {
+											// Consume the gesture to prevent TabView swiping
+										}
+									}
+							)
+						}
+					}
 				}
 			}
 			.listStyle(PlainListStyle())
 		}
-    }
+	}
 }
 
 #Preview {
-    ProteinHistoryView()
+	ProteinHistoryView()
 }
