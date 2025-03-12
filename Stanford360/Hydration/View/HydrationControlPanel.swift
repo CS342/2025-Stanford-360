@@ -19,10 +19,6 @@ struct HydrationControlPanel: View {
     @State var isSpecialMilestone: Bool = false
     @State var selectedAmount: Double?
     @State var streak: Int?
-    
-    var todayIntake: Double {
-        hydrationManager.getTodayTotalOunces()
-    }
 
     var body: some View {
         VStack(spacing: 10) {
@@ -87,26 +83,6 @@ struct HydrationControlPanel: View {
                     .font(.subheadline)
                     .accessibilityIdentifier("errorMessageLabel")
             }
-        }
-    }
-
-    // MARK: - Goal Suggestion Display
-    private func suggestionDisplay() -> some View {
-        if todayIntake < 60 {
-            return AnyView(
-                Text("You need \(String(format: "%.1f", 60 - todayIntake)) oz more to reach your goal!")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                    .accessibilityIdentifier("suggestionLabel")
-            )
-        } else {
-            return AnyView(
-                Text("🎉 Goal Reached! Stay Hydrated! 🎉")
-                    .font(.subheadline)
-                    .foregroundColor(.green)
-                    .bold()
-                    .accessibilityIdentifier("goalReachedLabel")
-            )
         }
     }
 
