@@ -15,7 +15,7 @@ struct AddActivitySheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(Stanford360Standard.self) private var standard
     @Environment(ActivityManager.self) private var activityManager
-	@Environment(Stanford360Scheduler.self) var scheduler
+    @Environment(Stanford360Scheduler.self) var scheduler
     
     // Activity properties that can be initialized for editing
     @State private var activeMinutes: String
@@ -26,12 +26,6 @@ struct AddActivitySheet: View {
     // For editing, we need the original activity ID
     private var activityId: String?
     private var isEditing: Bool
-    
-    let activityTypes = [
-        "Walking 🚶‍♂️", "Running 🏃‍♂️", "Swimming 🏊‍♂️",
-        "Dancing 💃", "Basketball 🏀", "Soccer ⚽️",
-        "Cycling 🚲", "Other 🌟"
-    ]
     
     var body: some View {
         NavigationStack {
@@ -85,15 +79,23 @@ struct AddActivitySheet: View {
         VStack(alignment: .leading) {
             Text("What did you do?")
                 .font(.headline)
-            
-            Picker("Activity", selection: $selectedActivity) {
-                ForEach(activityTypes, id: \.self) { activity in
-                    Text(activity)
+
+            let activities = [
+                ("Walking", "figure.walk"),
+                ("Running", "figure.run"),
+                ("Dancing", "figure.dance"),
+                ("Sports", "soccerball"),
+                ("PE", "person.3"),
+                ("Other", "questionmark")
+            ]
+
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                ForEach(activities, id: \.0) { activity in
+                    ActivityButtonView(activityName: activity.0, iconName: activity.1, selectedActivity: $selectedActivity)
                 }
             }
-            .pickerStyle(.wheel)
+            .padding(.horizontal)
         }
-        .padding()
     }
     
     private var minutesInputSection: some View {
@@ -155,10 +157,10 @@ struct AddActivitySheet: View {
         self.activityId = activity.id
         self.isEditing = true
     }
-	
-	private func getStepsFromMinutes(_ minutes: Int) -> Int {
-		minutes * 100
-	}
+    
+    private func getStepsFromMinutes(_ minutes: Int) -> Int {
+        minutes * 100
+    }
     
     private func saveNewActivity() async {
         // Validate date isn't in the future
@@ -168,7 +170,7 @@ struct AddActivitySheet: View {
         }
         
         let minutes = Int(activeMinutes) ?? 0
-		let estimatedSteps = getStepsFromMinutes(minutes)
+        let estimatedSteps = getStepsFromMinutes(minutes)
         
         let newActivity = Activity(
             date: selectedDate,
@@ -176,13 +178,13 @@ struct AddActivitySheet: View {
             activeMinutes: minutes,
             activityType: selectedActivity
         )
-		
-		let prevActivityMinutes = activityManager.getTodayTotalMinutes()
+        
+        let prevActivityMinutes = activityManager.getTodayTotalMinutes()
         let lastRecordedMilestone = activityManager.getLatestMilestone()
         activityManager.activities.append(newActivity)
-		let activityMinutes = activityManager.getTodayTotalMinutes()
+        let activityMinutes = activityManager.getTodayTotalMinutes()
         await standard.addActivityToFirestore(newActivity)
-		await scheduler.handleNotificationsOnLoggedActivity(prevActivityMinutes: prevActivityMinutes, newActivityMinutes: activityMinutes)
+        await scheduler.handleNotificationsOnLoggedActivity(prevActivityMinutes: prevActivityMinutes, newActivityMinutes: activityMinutes)
         activityManager.milestoneManager.displayMilestoneMessage(
             newTotal: Double(activityManager.getTodayTotalMinutes()),
             lastMilestone: lastRecordedMilestone,
