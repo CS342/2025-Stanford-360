@@ -85,7 +85,6 @@ class PatientManager: Module, EnvironmentAccessible {
 				var activityCopy = healthKitActivity
 				activityCopy.activityType = "Walking (HealthKit)"
 				activityManager.activities.append(activityCopy)
-				activityManager.saveToStorage()
 			} else {
 				print("No significant HealthKit activity found for today")
 			}
