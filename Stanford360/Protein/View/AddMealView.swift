@@ -45,7 +45,6 @@ struct AddMealView: View {
     @StateObject private var promptTemplate = ProteinPromptConstructor()
     @StateObject private var classifier = ImageClassifier()
     
-    
     var body: some View {
         NavigationView {
             // Use a ScrollView to make the content scrollable
