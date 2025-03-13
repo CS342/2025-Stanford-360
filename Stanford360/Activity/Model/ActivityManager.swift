@@ -30,24 +30,29 @@ class ActivityManager: Module, EnvironmentAccessible {
 		return activitiesByDate
 	}
 
-    // Streak Calculation
     var streak: Int {
         let calendar = Calendar.current
         var streakCount = 0
-        var currentDate = Date()
+        var currentDate = calendar.date(byAdding: .day, value: -1, to: Date()) ?? Date()
 
-        while let activitiesForDate = activitiesByDate[calendar.startOfDay(for: currentDate)] {
-            let totalMinutes = getTotalActivityMinutes(activitiesForDate)
-            if totalMinutes >= 60 {
+        let todayIntake = getTotalActivityMinutes(activitiesByDate[calendar.startOfDay(for: Date())] ?? [])
+        let isTodayQualified = todayIntake >= 60
+
+        while true {
+            let dailyIntake = getTotalActivityMinutes(activitiesByDate[calendar.startOfDay(for: currentDate)] ?? [])
+
+            if dailyIntake >= 60 {
                 streakCount += 1
+                guard let previousDate = calendar.date(byAdding: .day, value: -1, to: currentDate) else {
+                    break
+                }
+                currentDate = previousDate
             } else {
-                break // Stop counting if the total minutes are not over 60
+                break
             }
-            // Move to the previous day
-            currentDate = calendar.date(byAdding: .day, value: -1, to: currentDate) ?? currentDate
         }
 
-        return streakCount
+        return isTodayQualified ? streakCount + 1 : streakCount
     }
     
     // MARK: - Initialization
@@ -75,19 +80,6 @@ class ActivityManager: Module, EnvironmentAccessible {
         let totalIntake = Double(getTodayTotalMinutes())
         return milestoneManager.getLatestMilestone(total: totalIntake)
     }
-    
-    /*
-    func triggerMotivation() -> String {
-        if getTodayTotalMinutes() >= 60 {
-            return "🎉 Amazing! You've reached your daily goal of 60 minutes!"
-        } else if getTodayTotalMinutes() > 0 {
-            let remainingMinutes = 60 - getTodayTotalMinutes()
-            return "Keep going! Only \(remainingMinutes) more minutes to reach today's goal! 🚀"
-        } else {
-            return "Start your activity today and move towards your goal! 💪"
-        }
-    }
-     */
     
     func saveToStorage() {
         do {

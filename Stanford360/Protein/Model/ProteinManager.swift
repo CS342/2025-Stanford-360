@@ -25,24 +25,29 @@ class ProteinManager: Module, EnvironmentAccessible {
 	}
 	
     
-    // Streak Calculation
     var streak: Int {
         let calendar = Calendar.current
         var streakCount = 0
-        var currentDate = Date()
+        var currentDate = calendar.date(byAdding: .day, value: -1, to: Date()) ?? Date()
 
-        while let mealsByDate = mealsByDate[calendar.startOfDay(for: currentDate)] {
-            let totalGrams = getTotalProteinGrams(mealsByDate)
-            if totalGrams >= 60 {
+        let todayIntake = getTotalProteinGrams(mealsByDate[calendar.startOfDay(for: Date())] ?? [])
+        let isTodayQualified = todayIntake >= 60
+
+        while true {
+            let dailyIntake = getTotalProteinGrams(mealsByDate[calendar.startOfDay(for: currentDate)] ?? [])
+
+            if dailyIntake >= 60 {
                 streakCount += 1
+                guard let previousDate = calendar.date(byAdding: .day, value: -1, to: currentDate) else {
+                    break
+                }
+                currentDate = previousDate
             } else {
-                break // Stop counting if the total minutes are not over 60
+                break
             }
-            // Move to the previous day
-            currentDate = calendar.date(byAdding: .day, value: -1, to: currentDate) ?? currentDate
         }
 
-        return streakCount
+        return isTodayQualified ? streakCount + 1 : streakCount
     }
     
 	init(meals: [Meal] = []) {
@@ -68,20 +73,7 @@ class ProteinManager: Module, EnvironmentAccessible {
         let totalIntake = getTodayTotalGrams()
         return milestoneManager.getLatestMilestone(total: totalIntake)
     }
-	
-    /*
-	func triggerMotivation() -> String {
-		if getTodayTotalGrams() >= 60 {
-			return "🎉 Amazing! You've reached your daily goal of 60 grams!"
-		} else if getTodayTotalGrams() > 0 {
-			let remainingGrams = 60 - getTodayTotalGrams()
-			return "Keep going! Only \(String(format: "%.f", remainingGrams)) more grams to reach today's goal! 🚀"
-		} else {
-			return "Eat your protein today and move towards your goal! 💪"
-		}
-	}
-     */
-	
+  
 	// Add a new meal to the list
 //	func addMeal(name: String, proteinGrams: Double, imageURL: String? = nil, timestamp: Date = Date()) {
 //		let newMeal = Meal(name: name, proteinGrams: proteinGrams, imageURL: imageURL, timestamp: timestamp)

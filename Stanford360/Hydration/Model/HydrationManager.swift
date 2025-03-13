@@ -24,7 +24,28 @@ class HydrationManager: Module, EnvironmentAccessible {
     }
     
     var streak: Int {
-        calculateStreak()
+        let calendar = Calendar.current
+        var streakCount = 0
+        var currentDate = calendar.date(byAdding: .day, value: -1, to: Date()) ?? Date()
+
+        let todayIntake = getTotalHydrationOunces(hydrationByDate[calendar.startOfDay(for: Date())] ?? [])
+        let isTodayQualified = todayIntake >= 60
+
+        while true {
+            let dailyIntake = getTotalHydrationOunces(hydrationByDate[calendar.startOfDay(for: currentDate)] ?? [])
+
+            if dailyIntake >= 60 {
+                streakCount += 1
+                guard let previousDate = calendar.date(byAdding: .day, value: -1, to: currentDate) else {
+                    break
+                }
+                currentDate = previousDate
+            } else {
+                break
+            }
+        }
+
+        return isTodayQualified ? streakCount + 1 : streakCount
     }
     
     init(hydration: [HydrationLog] = []) {
@@ -47,40 +68,6 @@ class HydrationManager: Module, EnvironmentAccessible {
     func getLatestMilestone() -> Double {
         let totalIntake = getTodayTotalOunces()
         return milestoneManager.getLatestMilestone(total: totalIntake)
-    }
-	
-    /*
-	func triggerMotivation() -> String {
-		if getTodayTotalOunces() >= 60 {
-			return "🎉 Amazing! You've reached your daily goal of 60 ounces!"
-		} else if getTodayTotalOunces() > 0 {
-			let remainingOunces = 60 - getTodayTotalOunces()
-			return "Keep going! Only \(Int(remainingOunces)) more ounces to reach today's goal! 🚀"
-		} else {
-			return "Start your hydration today and move towards your goal! 💪"
-		}
-	}
-     */
-    
-    func calculateStreak() -> Int {
-        let calendar = Calendar.current
-        var streakCount = 0
-        var currentDate = calendar.startOfDay(for: Date())
-        
-        while true {
-            let dailyIntake = hydrationByDate[currentDate]?.reduce(0) { $0 + $1.hydrationOunces } ?? 0.0
-            
-            if dailyIntake >= 60 {
-                streakCount += 1
-                guard let previousDate = calendar.date(byAdding: .day, value: -1, to: currentDate) else {
-                    break
-                }
-                currentDate = previousDate
-            } else {
-                break
-            }
-        }
-        return streakCount
     }
     
     func recallLastIntake() {
