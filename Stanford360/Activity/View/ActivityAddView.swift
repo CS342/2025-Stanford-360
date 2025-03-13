@@ -12,17 +12,13 @@
 import SwiftUI
 
 struct ActivityAddView: View {
-	@Environment(ActivityManager.self) private var activityManager
-    @Environment(Stanford360Standard.self) private var standard
-    @Environment(Stanford360Scheduler.self) var scheduler
+    @Environment(ActivityManager.self) private var activityManager
     
     // Activity properties that can be initialized for editing
     @State private var activeMinutes: String
     @State private var selectedActivity: String
     @State private var selectedDate: Date
-    @State private var showingDateError = false
     @State private var showingAddActivity = false
-    private var activityId: String?
 	
     var body: some View {
         ZStack {
@@ -62,18 +58,6 @@ struct ActivityAddView: View {
         }
     }
     
-    private var saveButtonView: some View {
-        ActionButton(
-            title: "Save My Activity! 🌟",
-            action: {
-                Task {
-                    await saveNewActivity()
-                }
-            },
-            isDisabled: activeMinutes.isEmpty
-        )
-    }
-    
     // MARK: - Initializers
     init(selectedActivity: String = "Walking", activeMinutes: String = "", selectedDate: Date = Date()) {
         self._selectedActivity = State(initialValue: selectedActivity)
@@ -81,40 +65,7 @@ struct ActivityAddView: View {
         self._selectedDate = State(initialValue: selectedDate)
         self.activityId = nil
     }
-    
-    init(activity: Activity) {
-        self._activeMinutes = State(initialValue: "\(activity.activeMinutes)")
-        self._selectedActivity = State(initialValue: activity.activityType)
-        self._selectedDate = State(initialValue: activity.date)
-        self.activityId = activity.id
-    }
-    
-    private func saveNewActivity() async {
-        let minutes = Int(activeMinutes) ?? 0
-        let estimatedSteps = activityManager.getStepsFromMinutes(minutes)
-        
-        let newActivity = Activity(
-            date: Date(),
-            steps: estimatedSteps,
-            activeMinutes: minutes,
-            activityType: selectedActivity
-        )
-        
-        let prevActivityMinutes = activityManager.getTodayTotalMinutes()
-        let lastRecordedMilestone = activityManager.getLatestMilestone()
-        activityManager.activities.append(newActivity)
-        let activityMinutes = activityManager.getTodayTotalMinutes()
-	let updatedStreak = activityManager.streak
-        await standard.addActivityToFirestore(newActivity)
-        // await scheduler.handleNotificationsOnLoggedActivity(prevActivityMinutes: prevActivityMinutes, newActivityMinutes: activityMinutes)
-        activityManager.milestoneManager.displayMilestoneMessage(
-            newTotal: Double(activityManager.getTodayTotalMinutes()),
-            lastMilestone: lastRecordedMilestone,
-            unit: "minutes of activity",
-            streak: updatedStreak
-        )
-    }
-    
+
     func saveNewActivityButton(showingAddActivity: Binding<Bool>) -> some View {
         SaveActivityButton(
             showingAddActivity: showingAddActivity,
