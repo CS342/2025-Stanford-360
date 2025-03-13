@@ -1,3 +1,4 @@
+// periphery:ignore:all
 //
 // This source file is part of the Stanford 360 based on the Stanford Spezi Template Application project
 //

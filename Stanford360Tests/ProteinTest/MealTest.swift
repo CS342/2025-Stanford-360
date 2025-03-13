@@ -1,3 +1,4 @@
+// periphery:ignore:all
 //
 //  MealTest.swift
 //  Stanford360

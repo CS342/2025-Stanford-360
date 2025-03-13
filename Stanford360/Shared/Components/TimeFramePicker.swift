@@ -18,7 +18,7 @@ struct TimeFramePicker: View {
 		Picker("Time Frame", selection: $selectedTimeFrame) {
 			Text("Today").tag(TimeFrame.today)
 			Text("This Week").tag(TimeFrame.week)
-			Text("This Month").tag(TimeFrame.month)
+//			Text("This Month").tag(TimeFrame.month)
 		}
 		.pickerStyle(SegmentedPickerStyle())
 		.padding(.horizontal)

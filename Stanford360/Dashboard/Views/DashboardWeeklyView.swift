@@ -12,8 +12,22 @@
 import SwiftUI
 
 struct DashboardWeeklyView: View {
+	@State var showPDFExportSheet: Bool = false
+	@State var size: CGSize?
+	
     var body: some View {
-		DashboardChartView(timeFrame: .week)
+		VStack {
+			HStack {
+				Spacer()
+				ExportPDFButton(showingSheet: $showPDFExportSheet)
+					.padding(.trailing, 20)
+			}
+			
+			DashboardChartView(timeFrame: .week)
+		}
+		.sheet(isPresented: $showPDFExportSheet) {
+			ExportPDFSheet()
+		}
     }
 }
 
