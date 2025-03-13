@@ -30,7 +30,7 @@ struct ActivityTabView: View {
 
 #Preview {
 	@Previewable @State var standard = Stanford360Standard()
-	@Previewable @State var activityManager = ActivityManager(activities: activitiesData)
+	@Previewable @State var activityManager = ActivityManager()
 	
     ActivityTabView()
 		.environment(standard)

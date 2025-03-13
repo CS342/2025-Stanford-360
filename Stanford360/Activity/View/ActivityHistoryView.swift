@@ -56,7 +56,7 @@ struct ActivityHistoryView: View {
 
 #Preview {
 	@Previewable @State var standard = Stanford360Standard()
-	@Previewable @State var activityManager = ActivityManager(activities: activitiesData)
+	@Previewable @State var activityManager = ActivityManager()
 	ActivityHistoryView()
 		.environment(standard)
 		.environment(activityManager)

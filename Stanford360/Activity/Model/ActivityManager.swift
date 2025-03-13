@@ -80,7 +80,11 @@ class ActivityManager: Module, EnvironmentAccessible {
         let totalIntake = Double(getTodayTotalMinutes())
         return milestoneManager.getLatestMilestone(total: totalIntake)
     }
-    
+
+    func getStepsFromMinutes(_ minutes: Int) -> Int {
+        minutes * 100
+    }
+
     func saveToStorage() {
         do {
             let data = try JSONEncoder().encode(activities)

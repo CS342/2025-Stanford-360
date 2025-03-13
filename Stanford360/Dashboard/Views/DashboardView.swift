@@ -37,7 +37,7 @@ struct DashboardView: View {
 		weight: Measurement(value: 0, unit: .pounds)
 	))
 	
-	@Previewable @State var activityManager = ActivityManager(activities: activitiesData)
+	@Previewable @State var activityManager = ActivityManager()
 	
 	@Previewable @State var hydrationManager = HydrationManager()
 	
