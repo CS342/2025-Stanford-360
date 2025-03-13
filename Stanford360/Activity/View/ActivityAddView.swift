@@ -104,6 +104,7 @@ struct ActivityAddView: View {
         let lastRecordedMilestone = activityManager.getLatestMilestone()
         activityManager.activities.append(newActivity)
         let activityMinutes = activityManager.getTodayTotalMinutes()
+	let updatedStreak = activityManager.streak
         await standard.addActivityToFirestore(newActivity)
         await scheduler.handleNotificationsOnLoggedActivity(prevActivityMinutes: prevActivityMinutes, newActivityMinutes: activityMinutes)
         activityManager.milestoneManager.displayMilestoneMessage(
