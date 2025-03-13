@@ -29,25 +29,39 @@ struct AddActivitySheet: View {
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 25) {
-                headerView
-                activityPickerSection
-                datePickerSection
-                minutesInputSection
-                saveButton
-                Spacer()
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Cancel") { dismiss() }
+            mainContentView
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button("Cancel") { dismiss() }
+                    }
                 }
-            }
-            .padding()
-            .alert("Invalid Date", isPresented: $showingDateError) {
-                Button("OK", role: .cancel) { }
-            } message: {
-                Text("Please select a date and time that isn't in the future.")
-            }
+                .padding()
+                .alert("Invalid Date", isPresented: $showingDateError) {
+                    Button("OK", role: .cancel) { }
+                } message: {
+                    Text("Please select a date and time that isn't in the future.")
+                }
+        }
+    }
+    
+    // MARK: - Content Views
+    private var mainContentView: some View {
+        VStack(spacing: 25) {
+//            headerView
+//            ActivityPickerView(selectedActivity: $selectedActivity)
+            DatePickerView(
+                selectedDate: $selectedDate,
+                title: "When did you do it?",
+                dateRange: ...Date(),
+                displayComponents: [.date]
+            )
+            MinutesInputView(
+                minutes: $activeMinutes,
+                title: "How many minutes?",
+                goalText: "Goal: 60 minutes per day"
+            )
+            saveButtonView
+            Spacer()
         }
     }
     
@@ -58,90 +72,25 @@ struct AddActivitySheet: View {
             .padding(.top)
     }
     
-    private var datePickerSection: some View {
-        VStack(alignment: .leading) {
-            Text("When did you do it?")
-                .font(.headline)
-            
-            DatePicker(
-                "Activity Time",
-                selection: $selectedDate,
-                in: ...Date(),  // Restricts selection to past dates
-                displayedComponents: [.date, .hourAndMinute]
-            )
-            .datePickerStyle(.compact)
-            .padding(.vertical, 5)
-        }
-        .padding()
-    }
-    
-    private var activityPickerSection: some View {
-        VStack(alignment: .leading) {
-            Text("What did you do?")
-                .font(.headline)
-
-            let activities = [
-                ("Walking", "figure.walk"),
-                ("Running", "figure.run"),
-                ("Dancing", "figure.dance"),
-                ("Sports", "soccerball"),
-                ("PE", "person.3"),
-                ("Other", "questionmark")
-            ]
-
-            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
-                ForEach(activities, id: \.0) { activity in
-                    ActivityButtonView(activityName: activity.0, iconName: activity.1, selectedActivity: $selectedActivity)
+    private var saveButtonView: some View {
+        ActionButton(
+            title: isEditing ? "Update Activity! 🔄" : "Save My Activity! 🌟",
+            action: {
+                Task {
+                    if isEditing {
+                        await updateActivity()
+                    } else {
+                        await saveNewActivity()
+                    }
                 }
-            }
-            .padding(.horizontal)
-        }
+                dismiss()
+            },
+            isDisabled: activeMinutes.isEmpty
+        )
     }
     
-    private var minutesInputSection: some View {
-        VStack(alignment: .leading) {
-            Text("How many minutes?")
-                .font(.headline)
-            
-            TextField("Minutes", text: $activeMinutes)
-                .textFieldStyle(.roundedBorder)
-                .keyboardType(.numberPad)
-                .font(.title3)
-            
-            Text("Goal: 60 minutes per day")
-                .font(.caption)
-                .foregroundColor(.gray)
-        }
-        .padding()
-    }
-    
-    private var saveButton: some View {
-        Button {
-            Task {
-                if isEditing {
-                    await updateActivity()
-                } else {
-                    await saveNewActivity()
-                }
-            }
-            dismiss()
-        } label: {
-            Text(isEditing ? "Update Activity! 🔄" : "Save My Activity! 🌟")
-                .font(.title3.bold())
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(Color.blue)
-                )
-        }
-        .disabled(activeMinutes.isEmpty)
-        .padding()
-    }
-
-    // Initializer to accept pre-filled values when creating a new activity
-    init(selectedActivity: String = "Walking 🚶‍♂️", activeMinutes: String = "", selectedDate: Date = Date()) {
+    // MARK: - Initializers
+    init(selectedActivity: String = "Walking", activeMinutes: String = "", selectedDate: Date = Date()) {
         self._selectedActivity = State(initialValue: selectedActivity)
         self._activeMinutes = State(initialValue: activeMinutes)
         self._selectedDate = State(initialValue: selectedDate)
@@ -149,7 +98,6 @@ struct AddActivitySheet: View {
         self.isEditing = false
     }
     
-    // Initializer for editing an existing activity
     init(activity: Activity) {
         self._activeMinutes = State(initialValue: "\(activity.activeMinutes)")
         self._selectedActivity = State(initialValue: activity.activityType)
@@ -158,10 +106,7 @@ struct AddActivitySheet: View {
         self.isEditing = true
     }
     
-    private func getStepsFromMinutes(_ minutes: Int) -> Int {
-        minutes * 100
-    }
-    
+    // MARK: - Helper Methods
     private func saveNewActivity() async {
         // Validate date isn't in the future
         guard selectedDate <= Date() else {
@@ -170,7 +115,7 @@ struct AddActivitySheet: View {
         }
         
         let minutes = Int(activeMinutes) ?? 0
-        let estimatedSteps = getStepsFromMinutes(minutes)
+        let estimatedSteps = activityManager.getStepsFromMinutes(minutes)
         
         let newActivity = Activity(
             date: selectedDate,
@@ -219,11 +164,10 @@ struct AddActivitySheet: View {
             updatedActivities[index] = updatedActivity
             activityManager.activities = updatedActivities
         }
-//        activityManager.activities.editActivity(updatedActivity)
     }
 }
 
-// Preview for adding a new activity
+// MARK: - Previews
 #Preview("Add New Activity") {
     AddActivitySheet()
         .environment(ActivityManager())
@@ -231,13 +175,12 @@ struct AddActivitySheet: View {
         .environment(Stanford360Standard())
 }
 
-// Preview for editing an existing activity
 #Preview("Edit Activity") {
     let sampleActivity = Activity(
         date: Date(),
         steps: 5000,
         activeMinutes: 45,
-        activityType: "Running 🏃‍♂️",
+        activityType: "Running",
         id: "sample-id"
     )
     

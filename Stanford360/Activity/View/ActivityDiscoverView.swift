@@ -22,7 +22,7 @@ struct ActivityDiscoverView: View {
                 .accessibilityLabel("Activity Recommendations")
             
             if let videoURL = URL(string: "https://www.youtube.com/channel/UC0dS8MBi0l1sQoFjP1fmpMg/videos?view=0&sort=dd&shelf_id=0") {
-                Link("Click here for sport videos!", destination: videoURL)
+                Link("Click here for videos with activity ideas!", destination: videoURL)
                     .font(.headline)
                     .foregroundColor(.blue)
                     .padding()

@@ -76,6 +76,10 @@ class ActivityManager: Module, EnvironmentAccessible {
         return milestoneManager.getLatestMilestone(total: totalIntake)
     }
     
+    func getStepsFromMinutes(_ minutes: Int) -> Int {
+        minutes * 100
+    }
+    
     /*
     func triggerMotivation() -> String {
         if getTodayTotalMinutes() >= 60 {
