@@ -258,17 +258,6 @@ struct SaveActivityButton: View {
             .accessibilityLabel("Save your activity")
         }
     }
-    
-    private func errorDisplay() -> some View {
-        Group {
-            if let errorMessage = errorMessage {
-                Text(errorMessage)
-                    .foregroundColor(.red)
-                    .font(.subheadline)
-                    .accessibilityIdentifier("activityErrorMessage")
-            }
-        }
-    }
 }
 
 // MARK: - ActivityComponentsView
