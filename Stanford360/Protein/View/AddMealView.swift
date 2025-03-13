@@ -22,7 +22,7 @@ struct AddMealView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(Stanford360Standard.self) private var standard
     @Environment(ProteinManager.self) private var proteinManager
-    @Environment(LLMRunner.self) var runner
+    // @Environment(LLMRunner.self) var runner
     
     // LLM runner state for protein
     // Original state variables
@@ -42,7 +42,7 @@ struct AddMealView: View {
     @State private var classificationOptions: [String] = []
     @State private var isProcessing: Bool = false
     @State private var errorMessage: String?
-    @StateObject private var promptTemplate = ProteinPromptConstructor()
+    // @StateObject private var promptTemplate = ProteinPromptConstructor()
     @StateObject private var classifier = ImageClassifier()
     
     var body: some View {
@@ -60,9 +60,9 @@ struct AddMealView: View {
                 .onChange(of: selectedImage) { _, newImage in
                     classifier.image = newImage
                 }
-                .onChange(of: mealName) { newMealName in
-                    handleMealNameChange(newMealName)
-                }
+//                .onChange(of: mealName) { newMealName in
+//                    handleMealNameChange(newMealName)
+//                }
                 .onReceive(Publishers.keyboardHeight) { height in
                     withAnimation(.easeOut(duration: 0.25)) {
                         keyboardOffset = height > 0 ? height - 30 : 0 // Slight adjustment for a more natural feel
@@ -98,15 +98,15 @@ struct AddMealView: View {
         }
     }
     
-    func handleMealNameChange(_ newMealName: String) {
-        if !newMealName.isEmpty {
-            Task {
-                await getMealProtein(meal: newMealName)
-            }
-        } else {
-            proteinAmount = ""
-        }
-    }
+//    func handleMealNameChange(_ newMealName: String) {
+//        if !newMealName.isEmpty {
+//            Task {
+//                await getMealProtein(meal: newMealName)
+//            }
+//        } else {
+//            proteinAmount = ""
+//        }
+//    }
 }
 
 // MARK: - Main Content
@@ -344,37 +344,36 @@ extension AddMealView {
     }
 }
 
-extension AddMealView {
-    func getMealProtein(meal: String) async {
-        await MainActor.run {
-            self.proteinAmount = ""
-        }
-        let prompt = promptTemplate.constructPrompt(mealName: meal)
-        let llmSession: LLMLocalSession = runner(
-            with: LLMLocalSchema(
-                model: .llama3_8B_4bit,
-                parameters: .init(
-                    systemPrompt: prompt
-                )
-            )
-        )
-//        let llmSession: LLMLocalSession = runner(
-//            with: LLMLocalSchema(
-//                model: .llama3_8B_4bit
+// extension AddMealView {
+//    func getMealProtein(meal: String) async {
+//        await MainActor.run {
+//            self.proteinAmount = ""
+//        }
+//        let prompt = promptTemplate.constructPrompt(mealName: meal)
+//        
+//        let llmSchema = LLMLocalSchema(
+//            // model: .custom(id: <#T##String#>),
+//            model: .llama3_2_1B_4bit,
+//            parameters: .init(
+//                systemPrompt: prompt
 //            )
 //        )
-        do {
-            for try await token in try await llmSession.generate() {
-                await MainActor.run {
-                    self.proteinAmount.append(token)
-                }
-            }
-            print("Protein extracted is ", proteinAmount)
-        } catch {
-            print("Error generating protein: \(error)")
-        }
-    }
-}
+//        let llmSession = runner(with: llmSchema)
+//        var output = ""
+//        
+//        do {
+//            for try await token in try await llmSession.generate() {
+//                output.append(token)
+//            }
+//            await MainActor.run {
+//                self.proteinAmount = output
+//            }
+//            print("Protein extracted is ", proteinAmount)
+//        } catch {
+//            print("Error generating protein: \(error)")
+//        }
+//    }
+// }
 
 
 extension AddMealView {

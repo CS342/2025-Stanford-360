@@ -70,6 +70,12 @@
     "📝 Weekly Check-In" : {
 
     },
+    "0" : {
+
+    },
+    "60" : {
+
+    },
     "ACCOUNT_SETUP_DESCRIPTION" : {
       "localizations" : {
         "en" : {
@@ -109,6 +115,12 @@
     "Activity" : {
 
     },
+    "Activity Components" : {
+
+    },
+    "Activity Date" : {
+
+    },
     "Activity Minutes" : {
 
     },
@@ -116,9 +128,6 @@
 
     },
     "Activity Recommendations" : {
-
-    },
-    "Activity Time" : {
 
     },
     "Add Your Activity! 🎯" : {
@@ -150,6 +159,12 @@
 
     },
     "Choose Image Source" : {
+
+    },
+    "Click here for sport videos!" : {
+
+    },
+    "Click here for videos with activity ideas!" : {
 
     },
     "clock" : {
@@ -245,9 +260,6 @@
     "Goal" : {
 
     },
-    "Goal: 60 minutes per day" : {
-
-    },
     "Good Morning!" : {
 
     },
@@ -318,9 +330,6 @@
           }
         }
       }
-    },
-    "How many minutes?" : {
-
     },
     "Hydration" : {
 
@@ -467,9 +476,6 @@
     "Metric" : {
 
     },
-    "Minutes" : {
-
-    },
     "Move. Drink. Eat. Can you score 360 today? 🎯🏆" : {
 
     },
@@ -547,6 +553,9 @@
     "Open Settings" : {
 
     },
+    "Opens sports video website in browser" : {
+
+    },
     "pencil" : {
 
     },
@@ -604,6 +613,9 @@
 
     },
     "Save My Activity! 🌟" : {
+
+    },
+    "Save your activity" : {
 
     },
     "Schedule" : {
@@ -701,9 +713,6 @@
     "Task completed for day %lld" : {
 
     },
-    "The Llama3 8B model will be downloaded" : {
-
-    },
     "The Spezi Framework" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -755,9 +764,6 @@
           }
         }
       }
-    },
-    "Update Activity! 🔄" : {
-
     },
     "View" : {
 
@@ -826,12 +832,6 @@
           }
         }
       }
-    },
-    "What did you do?" : {
-
-    },
-    "When did you do it?" : {
-
     },
     "You need %@ %@ more to reach your goal!" : {
       "localizations" : {
