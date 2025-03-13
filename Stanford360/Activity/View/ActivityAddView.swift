@@ -109,7 +109,8 @@ struct ActivityAddView: View {
         activityManager.milestoneManager.displayMilestoneMessage(
             newTotal: Double(activityManager.getTodayTotalMinutes()),
             lastMilestone: lastRecordedMilestone,
-            unit: "minutes of activity"
+            unit: "minutes of activity",
+	    streak: updatedStreak
         )
     }
     
