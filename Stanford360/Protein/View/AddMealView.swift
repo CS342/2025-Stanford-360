@@ -350,24 +350,23 @@ extension AddMealView {
             self.proteinAmount = ""
         }
         let prompt = promptTemplate.constructPrompt(mealName: meal)
-        let llmSession: LLMLocalSession = runner(
-            with: LLMLocalSchema(
-                model: .llama3_8B_4bit,
-                parameters: .init(
-                    systemPrompt: prompt
-                )
+        
+        let llmSchema = LLMLocalSchema(
+            // model: .custom(id: <#T##String#>),
+            model: .llama3_2_1B_4bit,
+            parameters: .init(
+                systemPrompt: prompt
             )
         )
-//        let llmSession: LLMLocalSession = runner(
-//            with: LLMLocalSchema(
-//                model: .llama3_8B_4bit
-//            )
-//        )
+        let llmSession = runner(with: llmSchema)
+        var output = ""
+        
         do {
             for try await token in try await llmSession.generate() {
-                await MainActor.run {
-                    self.proteinAmount.append(token)
-                }
+                output.append(token)
+            }
+            await MainActor.run {
+                self.proteinAmount = output
             }
             print("Protein extracted is ", proteinAmount)
         } catch {
