@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    " for videos with activity ideas" : {
-
-    },
     "/ 60" : {
 
     },
@@ -164,10 +161,10 @@
     "Choose Image Source" : {
 
     },
-    "Click " : {
+    "Click here for sport videos!" : {
 
     },
-    "Click HERE for videos with activity ideas" : {
+    "Click here for videos with activity ideas!" : {
 
     },
     "clock" : {
@@ -323,9 +320,6 @@
         }
       }
     },
-    "HERE" : {
-
-    },
     "HL7 FHIR" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -347,18 +341,6 @@
 
     },
     "Hydration Recommendations" : {
-
-    },
-    "image" : {
-
-    },
-    "image" : {
-
-    },
-    "image" : {
-
-    },
-    "image" : {
 
     },
     "image" : {
@@ -728,9 +710,6 @@
     "Task completed for day %lld" : {
 
     },
-    "The Llama3 1B model will be downloaded" : {
-
-    },
     "The Spezi Framework" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -847,15 +826,6 @@
           }
         }
       }
-    },
-    "You haven't logged any water intake in the last 4 hours. Drink up!" : {
-    
-    },
-    "What did you do?" : {
-
-    },
-    "When did you do it?" : {
-
     },
     "You need %@ %@ more to reach your goal!" : {
       "localizations" : {
