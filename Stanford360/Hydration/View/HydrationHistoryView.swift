@@ -24,6 +24,7 @@ struct HydrationHistoryView: View {
 				Text("No hydration logged")
 					.foregroundColor(.gray)
 					.padding()
+                    .accessibilityIdentifier("noHydrationLogs")
 			}
 			.listStyle(PlainListStyle())
 		} else {

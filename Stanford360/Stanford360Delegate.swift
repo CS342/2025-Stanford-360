@@ -49,7 +49,7 @@ class Stanford360Delegate: SpeziAppDelegate {
 				}
 			}
 			
-			if HKHealthStore.isHealthDataAvailable() {
+			if HKHealthStore.isHealthDataAvailable() && !FeatureFlags.disableHealthKit {
 				healthKit
 			}
             
