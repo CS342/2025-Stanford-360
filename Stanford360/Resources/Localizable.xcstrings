@@ -335,7 +335,16 @@
 
     },
     "image" : {
+    
+    },
+    "image" : {
 
+    },
+    "image" : {
+
+    },
+    "image" : {
+    
     },
     "Image Analysis Results:" : {
 
@@ -825,9 +834,6 @@
 
     },
     "When did you do it?" : {
-
-    },
-    "You haven't logged any water intake in the last 4 hours. Drink up!" : {
 
     },
     "You need %@ %@ more to reach your goal!" : {
