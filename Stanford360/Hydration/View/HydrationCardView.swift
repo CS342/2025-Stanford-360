@@ -11,7 +11,6 @@
 
 import SwiftUI
 
-// TODO - align with dashboard cards + add swipe actions	// swiftlint:disable:this todo
 struct HydrationCardView: View {
 	let hydrationLog: HydrationLog
 
@@ -22,7 +21,6 @@ struct HydrationCardView: View {
 			
 			Spacer()
 			
-			// Minutes with emphasis
 			Text("\(Int(hydrationLog.hydrationOunces)) oz")
 				.font(.title3)
 				.foregroundStyle(.blue)
@@ -31,6 +29,7 @@ struct HydrationCardView: View {
 		.background(Color.cardBackground)
 		.cornerRadius(15)
 		.shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 4)
+        .accessibilityIdentifier("hydrationLogEntry")
     }
 }
 
