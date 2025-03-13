@@ -332,10 +332,6 @@
 
     },
     "Hydration Recommendations" : {
-
-    },
-    "image" : {
-
     },
     "image" : {
 
@@ -707,7 +703,7 @@
     "Task completed for day %lld" : {
 
     },
-    "The Llama3 1B model will be downloaded" : {
+    "The Llama3 8B model will be downloaded" : {
 
     },
     "The Spezi Framework" : {

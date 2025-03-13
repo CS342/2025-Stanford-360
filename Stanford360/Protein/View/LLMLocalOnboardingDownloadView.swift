@@ -23,8 +23,8 @@ struct LLMLocalOnboardingDownloadView: View {
 
     var body: some View {
         LLMLocalDownloadView(
-            model: .llama3_2_1B_4bit,
-            downloadDescription: "The Llama3 1B model will be downloaded"
+            model: .llama3_8B_4bit,
+            downloadDescription: "The Llama3 8B model will be downloaded"
         ) {
             onboardingNavigationPath.nextStep()
         }
