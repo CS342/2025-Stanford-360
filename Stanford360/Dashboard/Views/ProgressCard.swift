@@ -14,6 +14,7 @@ import SwiftUI
 struct ProgressCard: View {
 	let title: String
 	let progress: CGFloat
+	let unit: String
 	let color: Color
 	let streak: Int?
 	
@@ -42,7 +43,7 @@ struct ProgressCard: View {
 						.font(.system(size: 22, weight: .bold))
 						.foregroundColor(color)
 					
-					Text("/ 60")
+					Text("/ 60 \(unit)")
 						.font(.system(size: 22))
 						.foregroundColor(.textTertiary)
 				}
@@ -56,9 +57,10 @@ struct ProgressCard: View {
 		.shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 4)
 	}
     
-    init(title: String, progress: CGFloat, color: Color, streak: Int? = nil) {
+	init(title: String, progress: CGFloat, unit: String, color: Color, streak: Int? = nil) {
         self.title = title
         self.progress = progress
+		self.unit = unit
         self.color = color
         self.streak = streak
     }
@@ -68,6 +70,7 @@ struct ProgressCard: View {
 	ProgressCard(
 		title: "Activity",
 		progress: 10,
+		unit: "min",
 		color: .red,
 		streak: 5
 	)

@@ -19,7 +19,7 @@ func goalLine() -> some ChartContent {
 	)
 	.foregroundStyle(.red)
 	.lineStyle(StrokeStyle(lineWidth: 1, dash: [5]))
-	.annotation(position: .trailing) {
+	.annotation(position: .leading) {
 		Text("Goal")
 			.font(.caption)
 			.foregroundStyle(.red)

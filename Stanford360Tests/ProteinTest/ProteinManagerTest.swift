@@ -1,3 +1,4 @@
+// periphery:ignore:all
 //
 //  ProteinManagerTest.swift
 //  Stanford360

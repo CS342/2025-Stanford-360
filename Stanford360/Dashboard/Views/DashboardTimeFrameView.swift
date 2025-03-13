@@ -23,8 +23,8 @@ struct DashboardTimeFrameView: View {
 					.tag(TimeFrame.today)
 				DashboardWeeklyView()
 					.tag(TimeFrame.week)
-				DashboardMonthlyView()
-					.tag(TimeFrame.month)
+//				DashboardMonthlyView()
+//					.tag(TimeFrame.month)
 			}
 			.tabViewStyle(PageTabViewStyle())
 		}

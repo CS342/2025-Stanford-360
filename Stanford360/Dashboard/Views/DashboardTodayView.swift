@@ -25,6 +25,7 @@ struct DashboardTodayView: View {
 					ProgressCard(
 						title: "Activity",
 						progress: CGFloat(activityManager.getTodayTotalMinutes()),
+						unit: "min",
 						color: .activityColor,
 						streak: activityManager.streak
 					)
@@ -32,6 +33,7 @@ struct DashboardTodayView: View {
 					ProgressCard(
 						title: "Hydration",
 						progress: CGFloat(hydrationManager.getTodayTotalOunces()),
+						unit: "oz",
 						color: .hydrationColor,
 						streak: hydrationManager.streak
 					)
@@ -39,6 +41,7 @@ struct DashboardTodayView: View {
 					ProgressCard(
 						title: "Protein",
 						progress: CGFloat(proteinManager.getTodayTotalGrams()),
+						unit: "g",
 						color: .proteinColor,
 						streak: proteinManager.streak
 					)
