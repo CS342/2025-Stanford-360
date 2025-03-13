@@ -86,6 +86,7 @@
 		C15624902D6D6E6E00298CEB /* InfiniteDayTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C156248F2D6D6E6E00298CEB /* InfiniteDayTimelineView.swift */; };
 		C15C64082D75CF8500979C62 /* LogWeightSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15C64072D75CF8500979C62 /* LogWeightSheet.swift */; };
 		C15C640A2D75CFF700979C62 /* LogWeightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15C64092D75CFF700979C62 /* LogWeightView.swift */; };
+		C18772D72D82A57D004967EC /* TPPDF in Frameworks */ = {isa = PBXBuildFile; productRef = C18772D62D82A57D004967EC /* TPPDF */; };
 		C1CF13CF2D6D72C40057BC77 /* DailyScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CF13CE2D6D72C40057BC77 /* DailyScheduleView.swift */; };
 		C1CF13DA2D6D76BE0057BC77 /* ScheduleTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CF13D92D6D76BE0057BC77 /* ScheduleTask.swift */; };
 		C1CF13E72D6D7CF20057BC77 /* TaskStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CF13E62D6D7CF20057BC77 /* TaskStore.swift */; };
@@ -195,6 +196,7 @@
 				2FB099B62A875E2B00B20952 /* HealthKitOnFHIR in Frameworks */,
 				56E7083B2BB06F6F00B08F0A /* SwiftPackageList in Frameworks */,
 				56E708352BB06B7100B08F0A /* SpeziLicense in Frameworks */,
+				C18772D72D82A57D004967EC /* TPPDF in Frameworks */,
 				2FE5DC8A29EDD972004B9AB4 /* SpeziLocalStorage in Frameworks */,
 				4D2965DE2D7A8084000664B4 /* SpeziLLMLocalDownload in Frameworks */,
 				2FE5DC8C29EDD972004B9AB4 /* SpeziSecureStorage in Frameworks */,
@@ -469,6 +471,7 @@
 				4D2965DB2D7A8084000664B4 /* SpeziLLMLocal */,
 				4D2965DD2D7A8084000664B4 /* SpeziLLMLocalDownload */,
 				4D2965DF2D7A8084000664B4 /* SpeziLLMOpenAI */,
+				C18772D62D82A57D004967EC /* TPPDF */,
 			);
 			productName = Stanford360;
 			productReference = 653A254D283387FE005D4D48 /* Stanford360.app */;
@@ -577,6 +580,7 @@
 				A94DDFFB2CBD1190004930BD /* XCRemoteSwiftPackageReference "SpeziNotifications" */,
 				4DD4BE2A2D79C04F00B5FFC0 /* XCRemoteSwiftPackageReference "llama.cpp" */,
 				4D2965D62D7A8084000664B4 /* XCRemoteSwiftPackageReference "SpeziLLM" */,
+				C18772D22D82A401004967EC /* XCRemoteSwiftPackageReference "TPPDF" */,
 			);
 			productRefGroup = 653A254E283387FE005D4D48 /* Products */;
 			projectDirPath = "";
@@ -1360,6 +1364,14 @@
 				minimumVersion = 1.0.2;
 			};
 		};
+		C18772D22D82A401004967EC /* XCRemoteSwiftPackageReference "TPPDF" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/techprimate/TPPDF";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.6.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1556,6 +1568,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2F66D20D2BB723180010D555 /* XCRemoteSwiftPackageReference "SwiftLint" */;
 			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
+		C18772D62D82A57D004967EC /* TPPDF */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C18772D22D82A401004967EC /* XCRemoteSwiftPackageReference "TPPDF" */;
+			productName = TPPDF;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

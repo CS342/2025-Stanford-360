@@ -38,6 +38,39 @@ let activitiesData = [
 	)
 ]
 
+let hydrationData = [
+	HydrationLog(
+		hydrationOunces: 32,
+		timestamp: Date.now,
+		id: ""
+	),
+	HydrationLog(
+		hydrationOunces: 8,
+		timestamp: Date.now,
+		id: ""
+	),
+	HydrationLog(
+		hydrationOunces: 10,
+		timestamp: Date.now,
+		id: ""
+	),
+	HydrationLog(
+		hydrationOunces: 64,
+		timestamp: Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date(),
+		id: ""
+	),
+	HydrationLog(
+		hydrationOunces: 78,
+		timestamp: Calendar.current.date(byAdding: .day, value: -2, to: Date()) ?? Date(),
+		id: ""
+	),
+	HydrationLog(
+		hydrationOunces: 48,
+		timestamp: Calendar.current.date(byAdding: .day, value: -3, to: Date()) ?? Date(),
+		id: ""
+	)
+]
+
 let mealsData = [
 	Meal(
 		name: "Fish",

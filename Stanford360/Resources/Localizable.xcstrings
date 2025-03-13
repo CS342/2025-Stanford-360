@@ -1,7 +1,7 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "/ 60" : {
+    "/ 60 %@" : {
 
     },
     "%.f" : {
@@ -332,11 +332,6 @@
 
     },
     "Hydration Recommendations" : {
-    },
-    "image" : {
-
-    },
-    "image" : {
 
     },
     "image" : {
@@ -624,6 +619,9 @@
     "selected_image" : {
 
     },
+    "Share" : {
+
+    },
     "Social Support Questionnaire" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -720,9 +718,6 @@
     "This day doesn't have any scheduled tasks." : {
 
     },
-    "This Month" : {
-
-    },
     "This type of event is currently unsupported. Please contact the developer of this app." : {
       "localizations" : {
         "en" : {
@@ -765,6 +760,12 @@
 
     },
     "View" : {
+
+    },
+    "View as PDF" : {
+
+    },
+    "View as PDF Button" : {
 
     },
     "Water" : {
