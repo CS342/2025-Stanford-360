@@ -37,6 +37,10 @@ The App consists of four main screens.
 ### Hydration
 The central focus is a progress ring that visually represents the user's current water intake. Below, users can quickly log their hydration using preset portion buttons, each featuring clear icons for different drink sizes. A "Log Water Intake" button ensures seamless entry, while a reset button allows users to easily correct accidental logs. Any additions or deletions will be saved to or removed from Firestore, ensuring that hydration data is securely stored and synchronized across devices. Changes will also automatically update the corresponding card in the History View, maintaining real-time accuracy in tracking.
 
+<img src="https://github.com/user-attachments/assets/386052d2-c30d-4c04-a642-8c8dd73ffb24#gh-light-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/991e1ca4-d702-482f-bf7b-53737a38e857#gh-dark-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/d5f7f580-c4aa-4859-ae89-3756ee9c8799#gh-light-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/2d1bc9ea-1b64-4107-a858-d22f55784fde#gh-dark-mode-only" width="25%">
 
 ### Protein
 
