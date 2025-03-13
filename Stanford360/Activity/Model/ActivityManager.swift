@@ -30,9 +30,29 @@ class ActivityManager: Module, EnvironmentAccessible {
 		return activitiesByDate
 	}
 
-    // Streak Calculation
     var streak: Int {
-        calculateStreak()
+        let calendar = Calendar.current
+        var streakCount = 0
+        var currentDate = calendar.date(byAdding: .day, value: -1, to: Date()) ?? Date()
+
+        let todayIntake = getTotalActivityMinutes(activitiesByDate[calendar.startOfDay(for: Date())] ?? [])
+        let isTodayQualified = todayIntake >= 60
+
+        while true {
+            let dailyIntake = getTotalActivityMinutes(activitiesByDate[calendar.startOfDay(for: currentDate)] ?? [])
+
+            if dailyIntake >= 60 {
+                streakCount += 1
+                guard let previousDate = calendar.date(byAdding: .day, value: -1, to: currentDate) else {
+                    break
+                }
+                currentDate = previousDate
+            } else {
+                break
+            }
+        }
+
+        return isTodayQualified ? streakCount + 1 : streakCount
     }
     
     // MARK: - Initialization
@@ -59,36 +79,6 @@ class ActivityManager: Module, EnvironmentAccessible {
     func getLatestMilestone() -> Double {
         let totalIntake = Double(getTodayTotalMinutes())
         return milestoneManager.getLatestMilestone(total: totalIntake)
-    }
-    
-    func calculateStreak() -> Int {
-        let calendar = Calendar.current
-        var streakCount = 0
-        var currentDate = calendar.startOfDay(for: Date())
-
-        let todayIntake = activitiesByDate[currentDate]?.reduce(0) { $0 + $1.activeMinutes } ?? 0
-        let isTodayQualified = todayIntake >= 60
-
-        guard let previousDate = calendar.date(byAdding: .day, value: -1, to: currentDate) else {
-            return isTodayQualified ? 1 : 0
-        }
-        currentDate = previousDate
-
-        while true {
-            let dailyIntake = activitiesByDate[currentDate]?.reduce(0) { $0 + $1.activeMinutes } ?? 0
-
-            if dailyIntake >= 60 {
-                streakCount += 1
-                guard let previousDate = calendar.date(byAdding: .day, value: -1, to: currentDate) else {
-                    break
-                }
-                currentDate = previousDate
-            } else {
-                break
-            }
-        }
-
-        return isTodayQualified ? streakCount + 1 : streakCount
     }
     
     func saveToStorage() {
