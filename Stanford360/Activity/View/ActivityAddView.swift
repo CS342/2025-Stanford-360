@@ -107,10 +107,10 @@ struct ActivityAddView: View {
         await standard.addActivityToFirestore(newActivity)
         await scheduler.handleNotificationsOnLoggedActivity(prevActivityMinutes: prevActivityMinutes, newActivityMinutes: activityMinutes)
         activityManager.milestoneManager.displayMilestoneMessage(
-            newTotal: Double(activityManager.getTodayTotalMinutes()),
-            lastMilestone: lastRecordedMilestone,
-            unit: "minutes of activity",
-	    streak: updatedStreak
+		newTotal: Double(activityManager.getTodayTotalMinutes()),
+		lastMilestone: lastRecordedMilestone,
+		unit: "minutes of activity",
+		streak: updatedStreak
         )
     }
     
