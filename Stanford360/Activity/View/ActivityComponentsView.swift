@@ -151,9 +151,9 @@ struct MinutesInputView: View {
     var goalText: String = "Goal: 60 minutes per day"
     @State private var sliderValue: Double = 0
     
-    // Convert slider value to minutes in 5-minute increments
+    // Convert slider value to minutes in 10-minute increments
     private var sliderMinutes: Int {
-        Int(sliderValue) * 5
+        Int(sliderValue) * 10
     }
     
     var body: some View {
@@ -162,25 +162,21 @@ struct MinutesInputView: View {
             HStack {
                 Text(title)
                     .font(.headline)
-                
                 Spacer()
-                
                 Text("\(sliderMinutes) min")
                     .font(.headline)
                     .foregroundColor(.blue)
             }
             
-            // Simple slider with 5-minute increments
+            // Simple slider with 10-minute increments
             HStack {
                 Text("0")
                     .font(.caption)
                     .foregroundColor(.gray)
-                
-                Slider(value: $sliderValue, in: 0...12, step: 1)
+                Slider(value: $sliderValue, in: 0...6, step: 1)
                     .onChange(of: sliderValue) { _, _ in
                         minutes = "\(sliderMinutes)"
                     }
-                
                 Text("60")
                     .font(.caption)
                     .foregroundColor(.gray)
@@ -194,9 +190,9 @@ struct MinutesInputView: View {
         }
         .padding()
         .onAppear {
-            // Initialize slider from existing minutes value
+            // Initialize slider from existing minutes value if not empty
             if let minutesInt = Int(minutes) {
-                sliderValue = Double(min(minutesInt, 60)) / 5
+                sliderValue = Double(min(minutesInt, 60)) / 10
             }
         }
     }
