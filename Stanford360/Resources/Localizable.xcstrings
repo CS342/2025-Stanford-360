@@ -347,6 +347,14 @@
 
     },
     "Hydration Recommendations" : {
+    },
+    "image" : {
+
+    },
+    "image" : {
+
+    },
+    "image" : {
 
     },
     "image" : {
@@ -837,6 +845,12 @@
       }
     },
     "You haven't logged any water intake in the last 4 hours. Drink up!" : {
+    
+    },
+    "What did you do?" : {
+
+    },
+    "When did you do it?" : {
 
     },
     "You need %@ %@ more to reach your goal!" : {

@@ -18,6 +18,7 @@ class MilestoneManager: ObservableObject {
         newTotal: Double,
         lastMilestone: Double,
         unit: String,
+        streak: Int,
         milestoneInterval: Double = 20,
         specialMilestone: Double = 60
     ) -> (message: String?, isSpecial: Bool) {
@@ -26,7 +27,7 @@ class MilestoneManager: ObservableObject {
 
         for milestone in stride(from: milestoneInterval, through: newTotal, by: milestoneInterval) where milestone > lastMilestone {
             if milestone == specialMilestone && lastMilestone < specialMilestone {
-                latestMessage = "Amazing! You've reached \(Int(specialMilestone)) \(unit) today! Keep up the great work!"
+                latestMessage = "Amazing! You've reached \(Int(specialMilestone)) \(unit) today! \(streak) days in a row! Keep it going!"
                 isSpecial = true
             } else {
                 latestMessage = "Great job! You've reached \(Int(milestone)) \(unit) today!"
@@ -42,6 +43,7 @@ class MilestoneManager: ObservableObject {
         newTotal: Double,
         lastMilestone: Double,
         unit: String,
+        streak: Int,
         milestoneInterval: Double = 20,
         specialMilestone: Double = 60
     ) {
@@ -49,6 +51,7 @@ class MilestoneManager: ObservableObject {
             newTotal: newTotal,
             lastMilestone: lastMilestone,
             unit: unit,
+            streak: streak,
             milestoneInterval: milestoneInterval,
             specialMilestone: specialMilestone
         )

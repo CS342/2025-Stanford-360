@@ -393,11 +393,13 @@ extension AddMealView {
         }
         
 		proteinManager.meals.append(meal)
+        let updatedStreak = proteinManager.streak
         await standard.storeMeal(meal/*, selectedImage: selectedImage*/)
         proteinManager.milestoneManager.displayMilestoneMessage(
                 newTotal: proteinManager.getTodayTotalGrams(),
                 lastMilestone: lastRecordedMilestone,
-                unit: "grams of protein"
+                unit: "grams of protein",
+                streak: updatedStreak
             )
     }
 }

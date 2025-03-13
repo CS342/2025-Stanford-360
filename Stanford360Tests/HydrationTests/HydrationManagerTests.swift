@@ -70,14 +70,36 @@ final class HydrationManagerTests: XCTestCase {
         }
 
         hydrationManager.hydration = [
-            HydrationLog(hydrationOunces: 60, timestamp: today),
+            HydrationLog(hydrationOunces: 30, timestamp: today),
             HydrationLog(hydrationOunces: 60, timestamp: yesterday),
-            HydrationLog(hydrationOunces: 30, timestamp: twoDaysAgo)
+            HydrationLog(hydrationOunces: 60, timestamp: twoDaysAgo)
         ]
         
         XCTAssertEqual(hydrationManager.streak, 2, "Streak should be 2 as the third day is below 60 oz.")
     }
-    
+
+    func testStreakResetsOnSkippedDays() {
+        guard let hydrationManager else {
+            XCTFail("HydrationManager not initialized")
+            return
+        }
+
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+
+        guard let twoDaysAgo = calendar.date(byAdding: .day, value: -2, to: today) else {
+            XCTFail("Failed to compute past dates.")
+            return
+        }
+
+        hydrationManager.hydration = [
+            HydrationLog(hydrationOunces: 60, timestamp: today),
+            HydrationLog(hydrationOunces: 60, timestamp: twoDaysAgo) // Skipped yesterday
+        ]
+        
+        XCTAssertEqual(hydrationManager.streak, 1, "Streak should reset due to a skipped day.")
+    }
+
     // Test Latest Milestone Calculation
     func testGetLatestMilestone() {
         guard let hydrationManager else {

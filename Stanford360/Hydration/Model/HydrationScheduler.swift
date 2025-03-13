@@ -19,7 +19,7 @@ extension Stanford360Scheduler {
             try scheduler.createOrUpdateTask(
                 id: "hydration-reminder",
                 title: "💧 Stay Hydrated!",
-                instructions: "You haven't logged any water intake in the last 4 hours. Drink up!",
+                instructions: "It's been a while since you last logged water. Time to hydrate!",
                 category: Task.Category(rawValue: "Hydration"),
                 schedule: .daily(hour: 7, minute: 0, startingAt: .today), // First reminder at 7 AM
                 scheduleNotifications: true
