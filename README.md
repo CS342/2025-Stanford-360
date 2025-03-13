@@ -33,6 +33,7 @@ The App consists of four main screens.
 ### Dashboard
 
 ### Activity
+The Activity module in Stanford 360 features a progress ring that tracks daily physical activity, aiming for 60 minutes. Users can log activities like Walking, Running, and Sports by selecting a date and entering active minutes. Logged activities sync with Firestore, HealthKit, and local storage. HealthKit integration converts steps into active minutes (100 steps/min), with a warning if disconnected.
 
 ### Hydration
 The central focus is a progress ring that visually represents the user's current water intake. Below, users can quickly log their hydration using preset portion buttons, each featuring clear icons for different drink sizes. A "Log Water Intake" button ensures seamless entry, while a reset button allows users to easily correct accidental logs. Any additions or deletions will be saved to or removed from Firestore, ensuring that hydration data is securely stored and synchronized across devices. Changes will also automatically update the corresponding card in the History View, maintaining real-time accuracy in tracking.
@@ -43,14 +44,36 @@ The central focus is a progress ring that visually represents the user's current
 <img src="https://github.com/user-attachments/assets/2d1bc9ea-1b64-4107-a858-d22f55784fde#gh-dark-mode-only" width="25%">
 
 ### Protein
+The protein module designed to help users monitor their daily protein intake through interactive charts, milestone feedback, and AI-powered meal recognition. The app provides a visual representation of daily protein intake, displaying it through a chart and sending milestone notifications every time the intake reaches 20 grams, offering positive reinforcement to encourage healthy eating habits. Users can log their meals using two entry methods: manual entry, where they input food items and specify protein content, and picture-based entry, where they upload meal images. The backend processes these images by concurrently sending requests to two models to identify the meal name, while SpeziLLM analyzes the meal’s protein content and automatically fills in the intake data. Additionally, the app enables users to store and retrieve meal images and intake records, allowing them to track their nutrition history in detail. Future enhancements include integrating additional food databases for improved accuracy and providing personalized nutrition insights based on dietary patterns.
+
 
 In addition to the specific features of each screen, we also provide essential functionalities that enhance the overall app experience and ensure seamless integration across all features.
 
 ### History
+The History feature allows users to track their complete past records for Protein, Activity, and Hydration, displayed in a card view organized by date. Users can access History separately from each view screen (Protein, Activity, and Hydration) via the top tab bar.
 
 ### Discover
+The Discover feature provides suggestions and educational insights for Protein, Activity, and Hydration, helping users make informed choices and build healthier habits.
+
+<img src="https://github.com/user-attachments/assets/878d0105-7219-4129-8392-a4e94034780a#gh-light-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/70d4ddb9-caf7-4b0c-be64-f6d4c721b55e#gh-dark-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/0fcefe4a-0af9-4d3f-b8aa-dffa73aefc89#gh-light-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/119fc31b-780c-4529-8b7c-79f4a0a95b7d#gh-dark-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/881d95ef-0e9b-4dc9-b385-9c850dfbac1d#gh-light-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/79bc6d15-ffb4-4671-913d-0d176dcb428e#gh-dark-mode-only" width="25%">
+
 
 ### Milestone/Goal
+The Milestone/Goal feature provides real-time progress updates and encouragement across the Protein, Activity, and Hydration views.
+#### Goal Tracking
+A goal check text is displayed in the center of each view. Before reaching 60, it will show the remaining amount needed to reach the 60-unit goal. Upon reaching 60, the text updates to display a congratulatory message.
+#### Milestone Tracking
+Every 20-unit increment triggers a milestone message to encourage progress. Upon reaching 60 units, a special milestone message appears, celebrating the achievement along with the current streak day.
+
+<img src="https://github.com/user-attachments/assets/fba07491-de2f-4417-8944-1c3d4f91bc92#gh-light-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/17d529d2-be3f-4d0e-a045-4d37b2d96be6#gh-dark-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/3cbe03ce-9485-4e91-8aaa-a26297ee33d2#gh-light-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/3a9962df-ebe9-40a8-9cf7-99717e870e9d#gh-dark-mode-only" width="25%">
 
 ### Notification
 
