@@ -112,7 +112,7 @@ extension LineMark {
 }
 
 #Preview {
-	@Previewable @State var activityManager = ActivityManager(activities: activitiesData)
+	@Previewable @State var activityManager = ActivityManager()
 	@Previewable @State var proteinManager = ProteinManager(meals: mealsData)
 	
 	DashboardChart(timeFrame: .month)

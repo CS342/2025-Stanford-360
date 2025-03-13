@@ -31,8 +31,6 @@ struct ActivityView: View {
 					
 					ActivityTabView()
 				}
-				
-				buttons
 			}
 			.toolbar {
 				Toolbar(presentingAccount: $presentingAccount, title: "My Activity 👟")
@@ -52,22 +50,7 @@ struct ActivityView: View {
 			}
 		}
 	}
-	
-	private var buttons: some View {
-		ZStack {
-			HStack {
-				Spacer()
-				IconButton(
-					showingAddItem: $showingAddActivity,
-					imageName: "plus.circle.fill",
-					imageAccessibilityLabel: "Add Activity Button",
-					color: .blue
-				)
-				.padding(.trailing, 10)
-			}
-		}
-	}
-	
+		
 	// Extracted health kit warning banner
 	private var healthKitWarningBanner: some View {
 		VStack {
