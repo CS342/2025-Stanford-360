@@ -46,6 +46,14 @@ The central focus is a progress ring that visually represents the user's current
 ### Protein
 The protein module designed to help users monitor their daily protein intake through interactive charts, milestone feedback, and AI-powered meal recognition. The app provides a visual representation of daily protein intake, displaying it through a chart and sending milestone notifications every time the intake reaches 20 grams, offering positive reinforcement to encourage healthy eating habits. Users can log their meals using two entry methods: manual entry, where they input food items and specify protein content, and picture-based entry, where they upload meal images. The backend processes these images by concurrently sending requests to two models to identify the meal name, while SpeziLLM analyzes the meal’s protein content and automatically fills in the intake data. Additionally, the app enables users to store and retrieve meal images and intake records, allowing them to track their nutrition history in detail. Future enhancements include integrating additional food databases for improved accuracy and providing personalized nutrition insights based on dietary patterns.
 
+<img src="https://github.com/user-attachments/assets/1cee00ac-0791-4e98-aa4f-eb5aa431aa43#gh-light-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/9baedd9e-f2cd-4e5e-abb9-87e9fba618fa#gh-dark-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/caf88f14-f049-4c91-9141-28ee3c227ccc#gh-dark-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/bafd39fe-d6c9-4cf1-815d-be36655ca002#gh-light-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/2b77d8aa-ebd2-4bf4-9be5-352a94fa3517#gh-light-mode-only" width="25%">
+
+
+
 
 In addition to the specific features of each screen, we also provide essential functionalities that enhance the overall app experience and ensure seamless integration across all features.
 
