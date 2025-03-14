@@ -15,171 +15,84 @@ SPDX-License-Identifier: MIT
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14740611.svg)](https://doi.org/10.5281/zenodo.14740611)
 
 
-This repository contains the Stanford 360 application. 
-
-Stanford 360 is an app that helps children undergoing bariatric surgery follow the 60/60/60 rule to adopt new lifestyle habits. It helps the patients keep track of their physical activity, protein and hydration intake. It is gamified, helps children keep track of their streaks and look at weekly and monthly overviews. It also provides recommendations for activities and meals.
-
+This repository contains the Stanford 360 application.
 Stanford 360 is using the [Spezi](https://github.com/StanfordSpezi/Spezi) ecosystem and builds on top of the [Stanford Spezi Template Application](https://github.com/StanfordSpezi/SpeziTemplateApplication).
 
-<!-- 
- -->
+> [!TIP]
+> Do you want to test the Stanford 360 application on your device? [You can downloard it on TestFlight](https://testflight.apple.com/join/s8p84whp).
 
 ## Overview
+This app is designed to support pediatric patients undergoing metabolic and bariatric surgery by promoting long-term lifestyle changes through the 60-60-60 rule (60 oz of water, 60 g of protein, and 60 minutes of physical activity daily). The app enables physical activity tracking, hydration and protein intake logging, and data visualization, with motivational feedback and reminders to encourage adherence. Unlike traditional weight-loss apps, this tool focuses on behavioral reinforcement rather than weight tracking, using [FHIR-based](https://github.com/StanfordSpezi/SpeziFHIR) cloud storage ([Firebase](https://github.com/StanfordSpezi/SpeziFirebase)) and integrating [SpeziHealthKit](https://github.com/StanfordSpezi/SpeziHealthKit) for automated data collection. The goal is to improve compliance, enhance patient outcomes, and provide healthcare providers with insightful visualized data.
 
-The application has 4 main views: a dashboard, activity tracking, hydration tracking, and meals tracking. It is fully integrated with Firebase and connected to HealthKit. It also sends reminders and notifications.
+## Stanford 360 Features
 
-> [!TIP]
-> Want to test Stanford 360 on your device? [Download it on TestFlight](https://testflight.apple.com/join/s8p84whp).
+*Provide a comprehensive description of your application, including figures showing the application. You can learn more on how to structure a README in the [Stanford Spezi Documentation Guide](https://swiftpackageindex.com/stanfordspezi/spezi/documentation/spezi/documentation-guide)*
 
-## Modules Documentation
+The App consists of four main screens.
 
-<details open>
-<summary><b>Activity Module</b></summary>
+### Dashboard
 
-The Activity module in Stanford 360 provides comprehensive physical activity tracking with HealthKit integration. Here is how it works:
-1. First tab: Activity Logging:
-    (a) The app first shows a ring with their current progress for the day. The goal is to reach 60 minutes of activity.
-    (b) It enables the user to input activities: Walking, Running, Dancing, Sports, PE, other. Then, the user needs to select a date and a number of active minutes. Then, the activity gets saved into the history and get stored on Firestore, HealthKit, and locally. 
-    (c) The app also uses HealthKit step counter to update the activity on the app, converting steps into active minutes.
-    (d) The app ensures that the date is in the past.
-    (e) Every 20min of activity, the user gets a motivation message.
-    (f) Once the user reaches 60 min, a congratulatory message appears.
-    (g) The user receives a notification in the morning at 7am and in the afternoon (after class) at 5pm that reflects their progress and motivated them.
-    (h) If the user's app is not connected to HealthKit, we show a warning message to let them know that no activity from HealthKit will be imported.
-    (i) Whenever the user reached 60min, their streak is updated on the dashboard. The streak reflects the number of consecutive days they reached their goal of 60 min of activity, starting today and going backwards.
-2. History:
-    (a) Here, we keep track of the history of logged activity, from latest to oldest. We show the activity type and number of minutes. We categorize them per date.
-    (b) We enable editing and deleting of activities with swiping right and left, respectively. 
-    (c) If the activity is deleted, it gets deleted from Firestore.
-    (d) If the activity gets edited, an "editing" sheet pops up to edit the activity.
-3. Recommendation:
-    (a) We provide a table with activity recommendations and a link to Youtube videos for other activities ideas.
+### Activity
+The Activity module in Stanford 360 features a progress ring that tracks daily physical activity, aiming for 60 minutes. Users can log activities like Walking, Running, and Sports by selecting a date and entering active minutes. Logged activities sync with Firestore, HealthKit, and local storage. HealthKit integration converts steps into active minutes (100 steps/min), with a warning if disconnected.
 
-<!-- ![Activity Module Screenshot](https://raw.githubusercontent.com/CS342/2025-Stanford-360/main/Documentation/Images/ActivityModule.png#gh-light-mode-only)
-![Activity Module Screenshot](https://raw.githubusercontent.com/CS342/2025-Stanford-360/main/Documentation/Images/ActivityModule~dark.png#gh-dark-mode-only) -->
+### Hydration
+The central focus is a progress ring that visually represents the user's current water intake. Below, users can quickly log their hydration using preset portion buttons, each featuring clear icons for different drink sizes. A "Log Water Intake" button ensures seamless entry, while a reset button allows users to easily correct accidental logs. Any additions or deletions will be saved to or removed from Firestore, ensuring that hydration data is securely stored and synchronized across devices. Changes will also automatically update the corresponding card in the History View, maintaining real-time accuracy in tracking.
 
-<details>
-<summary>Technical Notes</summary>
+<img src="https://github.com/user-attachments/assets/386052d2-c30d-4c04-a642-8c8dd73ffb24#gh-light-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/991e1ca4-d702-482f-bf7b-53737a38e857#gh-dark-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/d5f7f580-c4aa-4859-ae89-3756ee9c8799#gh-light-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/2d1bc9ea-1b64-4107-a858-d22f55784fde#gh-dark-mode-only" width="25%">
 
-- Uses Swift concurrency (async/await) for asynchronous operations
-- HealthKit integration is optional; the app functions fully without it
-- Activities use a consistent formula of 100 steps per minute for estimation
-- User-facing dates use relative formatting for improved readability
-- Uses environment objects for dependency injection
+### Protein
+The protein module designed to help users monitor their daily protein intake through interactive charts, milestone feedback, and AI-powered meal recognition. The app provides a visual representation of daily protein intake, displaying it through a chart and sending milestone notifications every time the intake reaches 20 grams, offering positive reinforcement to encourage healthy eating habits. Users can log their meals using two entry methods: manual entry, where they input food items and specify protein content, and picture-based entry, where they upload meal images. The backend processes these images by concurrently sending requests to two models to identify the meal name, while SpeziLLM analyzes the meal’s protein content and automatically fills in the intake data. Additionally, the app enables users to store and retrieve meal images and intake records, allowing them to track their nutrition history in detail. Future enhancements include integrating additional food databases for improved accuracy and providing personalized nutrition insights based on dietary patterns.
 
-</details>
+<img src="https://github.com/user-attachments/assets/1cee00ac-0791-4e98-aa4f-eb5aa431aa43#gh-light-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/9baedd9e-f2cd-4e5e-abb9-87e9fba618fa#gh-dark-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/caf88f14-f049-4c91-9141-28ee3c227ccc#gh-dark-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/bafd39fe-d6c9-4cf1-815d-be36655ca002#gh-light-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/2b77d8aa-ebd2-4bf4-9be5-352a94fa3517#gh-light-mode-only" width="25%">
 
-</details>
 
-<details>
-<summary><b>Hydration Module</b></summary>
 
-> [!NOTE]
-> Documentation for the Hydration module is under development and will be added in a future update.
 
-</details>
+In addition to the specific features of each screen, we also provide essential functionalities that enhance the overall app experience and ensure seamless integration across all features.
 
-<details>
-<summary><b>Protein Module</b></summary>
+### History
+The History feature allows users to track their complete past records for Protein, Activity, and Hydration, displayed in a card view organized by date. Users can access History separately from each view screen (Protein, Activity, and Hydration) via the top tab bar.
 
-> [!NOTE]
-> Documentation for the Protein module is under development and will be added in a future update.
+### Discover
+The Discover feature provides suggestions and educational insights for Protein, Activity, and Hydration, helping users make informed choices and build healthier habits.
 
-</details>
+<img src="https://github.com/user-attachments/assets/878d0105-7219-4129-8392-a4e94034780a#gh-light-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/70d4ddb9-caf7-4b0c-be64-f6d4c721b55e#gh-dark-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/0fcefe4a-0af9-4d3f-b8aa-dffa73aefc89#gh-light-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/119fc31b-780c-4529-8b7c-79f4a0a95b7d#gh-dark-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/881d95ef-0e9b-4dc9-b385-9c850dfbac1d#gh-light-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/79bc6d15-ffb4-4671-913d-0d176dcb428e#gh-dark-mode-only" width="25%">
 
-<details>
-<summary><b>Dashboard</b></summary>
 
-> [!NOTE]
-> Documentation for the Dashboard module is under development and will be added in a future update.
+### Milestone/Goal
+The Milestone/Goal feature provides real-time progress updates and encouragement across the Protein, Activity, and Hydration views.
+#### Goal Tracking
+A goal check text is displayed in the center of each view. Before reaching 60, it will show the remaining amount needed to reach the 60-unit goal. Upon reaching 60, the text updates to display a congratulatory message.
+#### Milestone Tracking
+Every 20-unit increment triggers a milestone message to encourage progress. Upon reaching 60 units, a special milestone message appears, celebrating the achievement along with the current streak day.
 
-</details>
+<img src="https://github.com/user-attachments/assets/fba07491-de2f-4417-8944-1c3d4f91bc92#gh-light-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/17d529d2-be3f-4d0e-a045-4d37b2d96be6#gh-dark-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/3cbe03ce-9485-4e91-8aaa-a26297ee33d2#gh-light-mode-only" width="25%">
+<img src="https://github.com/user-attachments/assets/3a9962df-ebe9-40a8-9cf7-99717e870e9d#gh-dark-mode-only" width="25%">
 
-<details>
-<summary><b>Profile Management</b></summary>
+### Notification
 
-> [!NOTE]
-> Documentation for the Profile Management module is under development and will be added in a future update.
+> [!NOTE]  
+> Do you want to learn more about the Stanford Spezi Template Application and how to use, extend, and modify this application? Check out the [Stanford Spezi Template Application documentation](https://stanfordspezi.github.io/SpeziTemplateApplication)
 
-</details>
-
-## Common Components
-
-<details>
-<summary><b>UI Components</b></summary>
-
-> [!NOTE]
-> Documentation for UI Components is under development and will be added in a future update.
-
-</details>
-
-<details>
-<summary><b>Notification System</b></summary>
-
-> [!NOTE]
-> Documentation for the Notification System is under development and will be added in a future update.
-
-</details>
-
-<details>
-<summary><b>HealthKit Integration</b></summary>
-
-> [!NOTE]
-> Documentation for HealthKit Integration is under development and will be added in a future update.
-
-</details>
-
-<details>
-<summary><b>Firebase Integration</b></summary>
-
-> [!NOTE]
-> Documentation for Firebase Integration is under development and will be added in a future update.
-
-</details>
-
-## Getting Started
-
-<details>
-<summary>Installation and Setup</summary>
-
-### Prerequisites
-
-- Xcode 15.0 or later
-- iOS 17.0 or later
-- macOS 14.0 or later (for development)
-- [CocoaPods](https://cocoapods.org/) for dependency management
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/CS342/2025-Stanford-360.git
-   cd 2025-Stanford-360
-   ```
-
-2. Install dependencies:
-   ```bash
-   pod install
-   ```
-
-3. Open the workspace:
-   ```bash
-   open Stanford360.xcworkspace
-   ```
-
-4. Configure Firebase:
-   - Add your `GoogleService-Info.plist` to the project
-   - Update Firebase configuration in `Stanford360App.swift`
-
-5. Build and run the application in Xcode
-
-</details>
+## Setup instructions
 
 ## Contributing
 
-We collaborated equitably throughout the 10 weeks, working closely together and supporting each other on our respective tasks. While each team member had their own responsibilities, most features resulted from our collective efforts, making it challenging to attribute any specific feature to a single individual. However, here is the breakdown of each of our tasks and responsibilities:
-
-Elsa worked on the Activity module. She worked on connecting the app to HealthKit and Firestore. She also worked on weekly and monthly charts that were later integrated into the dashboard. She also wrote the onboarding page.
+Contributions to this project are welcome. Please make sure to read the [contribution guidelines](https://github.com/StanfordSpezi/.github/blob/main/CONTRIBUTING.md) and the [contributor covenant code of conduct](https://github.com/StanfordSpezi/.github/blob/main/CODE_OF_CONDUCT.md) first.
 
 
 ## License
