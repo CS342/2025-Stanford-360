@@ -127,7 +127,6 @@ struct AddActivitySheet: View {
         let prevActivityMinutes = activityManager.getTodayTotalMinutes()
         let lastRecordedMilestone = activityManager.getLatestMilestone()
         activityManager.activities.append(newActivity)
-      
         let activityMinutes = activityManager.getTodayTotalMinutes()
         let updatedStreak = activityManager.streak
         await standard.addActivityToFirestore(newActivity)

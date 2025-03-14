@@ -18,7 +18,6 @@ struct HydrationControlPanel: View {
     @State var milestoneMessage: String?
     @State var isSpecialMilestone: Bool = false
     @State var selectedAmount: Double?
-    @State var streak: Int?
 
     var body: some View {
         VStack(spacing: 10) {
@@ -100,7 +99,6 @@ struct HydrationControlPanel: View {
         let updatedStreak = hydrationManager.streak
 
         errorMessage = nil
-        streak = hydrationManager.streak
         await scheduler.rescheduleHydrationNotifications()
         hydrationManager.milestoneManager.displayMilestoneMessage(
             newTotal: hydrationManager.getTodayTotalOunces(),
