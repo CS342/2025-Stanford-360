@@ -20,82 +20,72 @@ struct DashboardChart: View {
 	
 	var timeFrame: TimeFrame
 	
-	private var filteredActivities: [Date] {
+	private var dates: [Date] {
 		let (startDate, endDate) = timeFrame.dateRange()
-		return Array(activityManager.activitiesByDate.keys)
-			.filter { date in
-				date >= startDate && date <= endDate
-			}
-			.sorted()
-	}
-	
-	private var filteredHydration: [Date] {
-		let (startDate, endDate) = timeFrame.dateRange()
-		return Array(hydrationManager.hydrationByDate.keys)
-			.filter { date in
-				date >= startDate && date <= endDate
-			}
-			.sorted()
-	}
-	
-	private var filteredMeals: [Date] {
-		let (startDate, endDate) = timeFrame.dateRange()
-		return Array(proteinManager.mealsByDate.keys)
-			.filter { date in
-				date >= startDate && date <= endDate
-			}
-			.sorted()
+		var dates: [Date] = []
+		let calendar = Calendar.current
+		var currentDate = calendar.startOfDay(for: startDate)
+		
+		while currentDate <= endDate {
+			dates.append(currentDate)
+			currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate) ?? Date()
+		}
+		
+		return dates
 	}
 	
 	var body: some View {
 		Chart {
-			ForEach(filteredActivities, id: \.self) { date in
-				if let activities = activityManager.activitiesByDate[date] {
-					LineMark(
-						x: .value("Week", date),
-						y: .value("Activity Minutes", activityManager.getTotalActivityMinutes(activities)),
-						series: .value("Metric", "Activity")
-					)
-					.applyChartStyle(color: Color.activityColor)
-				}
-			}
-			
-			ForEach(filteredHydration, id: \.self) { date in
-				if let hydration = hydrationManager.hydrationByDate[date] {
-					LineMark(
-						x: .value("Week", date),
-						y: .value("Hydration Ounces", hydrationManager.getTotalHydrationOunces(hydration)),
-						series: .value("Metric", "Hydration")
-					)
-					.applyChartStyle(color: Color.hydrationColor)
-				}
-			}
-			
-			ForEach(filteredMeals, id: \.self) { date in
-				if let meals = proteinManager.mealsByDate[date] {
-					LineMark(
-						x: .value("Week", date),
-						y: .value("Protein Grams", proteinManager.getTotalProteinGrams(meals)),
-						series: .value("Metric", "Protein")
-					)
-					.applyChartStyle(color: Color.proteinColor)
-				}
+			ForEach(dates, id: \.self) { date in
+				let activities = getActivities(from: date)
+				LineMark(
+					x: .value("Week", date),
+					y: .value("Activity Minutes", activityManager.getTotalActivityMinutes(activities)),
+					series: .value("Metric", "Activity")
+				)
+				.applyChartStyle(color: Color.activityColor)
+				
+				let hydration = getHydration(from: date)
+				LineMark(
+					x: .value("Week", date),
+					y: .value("Hydration Ounces", hydrationManager.getTotalHydrationOunces(hydration)),
+					series: .value("Metric", "Hydration")
+				)
+				.applyChartStyle(color: Color.hydrationColor)
+				
+				let meals = getMeals(from: date)
+				LineMark(
+					x: .value("Week", date),
+					y: .value("Protein Grams", proteinManager.getTotalProteinGrams(meals)),
+					series: .value("Metric", "Protein")
+				)
+				.applyChartStyle(color: Color.proteinColor)
 			}
 			
 			goalLine()
 		}
 		.frame(height: 300)
-		.padding()
+		.padding(.leading, 40)
+		.padding(.trailing, 10)
 		.chartXAxis {
-			AxisMarks(values: .automatic) { value in
+			AxisMarks(values: .stride(by: .day)) { value in
 				if let date = value.as(Date.self) {
-					AxisValueLabel {
-						Text(date, format: .dateTime.month().day())
-					}
+					AxisValueLabel(date.formatted(.dateTime.weekday(.abbreviated)))
 				}
 			}
 		}
-		.chartXScale(domain: timeFrame.dateRange().start...timeFrame.dateRange().end)
+	}
+	
+	private func getActivities(from date: Date) -> [Activity] {
+		activityManager.activitiesByDate[date] ?? []
+	}
+	
+	private func getHydration(from date: Date) -> [HydrationLog] {
+		hydrationManager.hydrationByDate[date] ?? []
+	}
+	
+	private func getMeals(from date: Date) -> [Meal] {
+		proteinManager.mealsByDate[date] ?? []
 	}
 }
 
@@ -106,16 +96,18 @@ extension LineMark {
 			.symbol {
 				Circle()
 					.fill(color)
-					.frame(width: 8, height: 8)
+					.frame(width: 5, height: 5)
 			}
 	}
 }
 
 #Preview {
 	@Previewable @State var activityManager = ActivityManager(activities: activitiesData)
+	@Previewable @State var hydrationManager = HydrationManager(hydration: hydrationData)
 	@Previewable @State var proteinManager = ProteinManager(meals: mealsData)
 	
-	DashboardChart(timeFrame: .month)
+	DashboardChart(timeFrame: .week)
 		.environment(activityManager)
+		.environment(hydrationManager)
 		.environment(proteinManager)
 }

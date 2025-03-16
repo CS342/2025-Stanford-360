@@ -11,22 +11,22 @@
 // SPDX-License-Identifier: MIT
 //
 
-import SpeziLLM
-import SpeziLLMLocal
-import SpeziLLMLocalDownload
-import SpeziOnboarding
-import SwiftUI
-
-struct LLMLocalOnboardingDownloadView: View {
-    @Environment(OnboardingNavigationPath.self) private var onboardingNavigationPath
-
-
-    var body: some View {
-        LLMLocalDownloadView(
-            model: .llama3_8B_4bit,
-            downloadDescription: "The Llama3 8B model will be downloaded"
-        ) {
-            onboardingNavigationPath.nextStep()
-        }
-    }
-}
+// import SpeziLLM
+// import SpeziLLMLocal
+// import SpeziLLMLocalDownload
+// import SpeziOnboarding
+// import SwiftUI
+//
+// struct LLMLocalOnboardingDownloadView: View {
+//    @Environment(OnboardingNavigationPath.self) private var onboardingNavigationPath
+//
+//
+//    var body: some View {
+//        LLMLocalDownloadView(
+//            model: .llama3_2_1B_4bit,
+//            downloadDescription: "The Llama3 1B model will be downloaded"
+//        ) {
+//            onboardingNavigationPath.nextStep()
+//        }
+//    }
+// }

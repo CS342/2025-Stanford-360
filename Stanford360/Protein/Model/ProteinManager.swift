@@ -73,7 +73,7 @@ class ProteinManager: Module, EnvironmentAccessible {
         let totalIntake = getTodayTotalGrams()
         return milestoneManager.getLatestMilestone(total: totalIntake)
     }
-	
+  
 	// Add a new meal to the list
 //	func addMeal(name: String, proteinGrams: Double, imageURL: String? = nil, timestamp: Date = Date()) {
 //		let newMeal = Meal(name: name, proteinGrams: proteinGrams, imageURL: imageURL, timestamp: timestamp)

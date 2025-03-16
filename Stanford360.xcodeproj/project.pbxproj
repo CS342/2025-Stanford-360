@@ -50,6 +50,7 @@
 		2FE5DCB129EE6107004B9AB4 /* AccountOnboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5DCAC29EE6107004B9AB4 /* AccountOnboarding.swift */; };
 		2FF53D8D2A8729D600042B76 /* Stanford360Standard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF53D8C2A8729D600042B76 /* Stanford360Standard.swift */; };
 		45E2F1172D82619E0097C339 /* MilestoneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E2F1162D8261980097C339 /* MilestoneTests.swift */; };
+		45E038232D503C0F009D07E2 /* HydrationViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E038222D503BFA009D07E2 /* HydrationViewTests.swift */; };
 		4D2965D82D7A8084000664B4 /* SpeziLLM in Frameworks */ = {isa = PBXBuildFile; productRef = 4D2965D72D7A8084000664B4 /* SpeziLLM */; };
 		4D2965DA2D7A8084000664B4 /* SpeziLLMFog in Frameworks */ = {isa = PBXBuildFile; productRef = 4D2965D92D7A8084000664B4 /* SpeziLLMFog */; };
 		4D2965DC2D7A8084000664B4 /* SpeziLLMLocal in Frameworks */ = {isa = PBXBuildFile; productRef = 4D2965DB2D7A8084000664B4 /* SpeziLLMLocal */; };
@@ -86,6 +87,7 @@
 		C15624902D6D6E6E00298CEB /* InfiniteDayTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C156248F2D6D6E6E00298CEB /* InfiniteDayTimelineView.swift */; };
 		C15C64082D75CF8500979C62 /* LogWeightSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15C64072D75CF8500979C62 /* LogWeightSheet.swift */; };
 		C15C640A2D75CFF700979C62 /* LogWeightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15C64092D75CFF700979C62 /* LogWeightView.swift */; };
+		C18772D72D82A57D004967EC /* TPPDF in Frameworks */ = {isa = PBXBuildFile; productRef = C18772D62D82A57D004967EC /* TPPDF */; };
 		C1CF13CF2D6D72C40057BC77 /* DailyScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CF13CE2D6D72C40057BC77 /* DailyScheduleView.swift */; };
 		C1CF13DA2D6D76BE0057BC77 /* ScheduleTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CF13D92D6D76BE0057BC77 /* ScheduleTask.swift */; };
 		C1CF13E72D6D7CF20057BC77 /* TaskStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CF13E62D6D7CF20057BC77 /* TaskStore.swift */; };
@@ -137,6 +139,7 @@
 		2FE5DCAC29EE6107004B9AB4 /* AccountOnboarding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountOnboarding.swift; sourceTree = "<group>"; };
 		2FF53D8C2A8729D600042B76 /* Stanford360Standard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stanford360Standard.swift; sourceTree = "<group>"; };
 		45E2F1162D8261980097C339 /* MilestoneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneTests.swift; sourceTree = "<group>"; };
+		45E038222D503BFA009D07E2 /* HydrationViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydrationViewTests.swift; sourceTree = "<group>"; };
 		4FC5EF032D78162800BFDFFD /* KidsOnboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KidsOnboarding.swift; sourceTree = "<group>"; };
 		4FCAD0582D5AAD20007324A6 /* ActivityViewUITest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewUITest.swift; sourceTree = "<group>"; };
 		5680DD3D2AB8CD84004E6D4A /* ContributionsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributionsTest.swift; sourceTree = "<group>"; };
@@ -196,6 +199,7 @@
 				2FB099B62A875E2B00B20952 /* HealthKitOnFHIR in Frameworks */,
 				56E7083B2BB06F6F00B08F0A /* SwiftPackageList in Frameworks */,
 				56E708352BB06B7100B08F0A /* SpeziLicense in Frameworks */,
+				C18772D72D82A57D004967EC /* TPPDF in Frameworks */,
 				2FE5DC8A29EDD972004B9AB4 /* SpeziLocalStorage in Frameworks */,
 				4D2965DE2D7A8084000664B4 /* SpeziLLMLocalDownload in Frameworks */,
 				2FE5DC8C29EDD972004B9AB4 /* SpeziSecureStorage in Frameworks */,
@@ -471,6 +475,7 @@
 				4D2965DB2D7A8084000664B4 /* SpeziLLMLocal */,
 				4D2965DD2D7A8084000664B4 /* SpeziLLMLocalDownload */,
 				4D2965DF2D7A8084000664B4 /* SpeziLLMOpenAI */,
+				C18772D62D82A57D004967EC /* TPPDF */,
 			);
 			productName = Stanford360;
 			productReference = 653A254D283387FE005D4D48 /* Stanford360.app */;
@@ -582,6 +587,7 @@
 				A94DDFFB2CBD1190004930BD /* XCRemoteSwiftPackageReference "SpeziNotifications" */,
 				4DD4BE2A2D79C04F00B5FFC0 /* XCRemoteSwiftPackageReference "llama.cpp" */,
 				4D2965D62D7A8084000664B4 /* XCRemoteSwiftPackageReference "SpeziLLM" */,
+				C18772D22D82A401004967EC /* XCRemoteSwiftPackageReference "TPPDF" */,
 			);
 			productRefGroup = 653A254E283387FE005D4D48 /* Products */;
 			projectDirPath = "";
@@ -1365,6 +1371,14 @@
 				minimumVersion = 1.0.2;
 			};
 		};
+		C18772D22D82A401004967EC /* XCRemoteSwiftPackageReference "TPPDF" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/techprimate/TPPDF";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.6.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1561,6 +1575,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2F66D20D2BB723180010D555 /* XCRemoteSwiftPackageReference "SwiftLint" */;
 			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
+		C18772D62D82A57D004967EC /* TPPDF */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C18772D22D82A401004967EC /* XCRemoteSwiftPackageReference "TPPDF" */;
+			productName = TPPDF;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
