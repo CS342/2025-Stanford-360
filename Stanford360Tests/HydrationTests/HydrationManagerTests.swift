@@ -77,7 +77,7 @@ final class HydrationManagerTests: XCTestCase {
         
         XCTAssertEqual(hydrationManager.streak, 2, "Streak should be 2 as the third day is below 60 oz.")
     }
-
+  
     func testStreakResetsOnSkippedDays() {
         guard let hydrationManager else {
             XCTFail("HydrationManager not initialized")

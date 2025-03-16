@@ -49,6 +49,7 @@
 		2FE5DC9C29EDD9EF004B9AB4 /* XCTHealthKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE5DC9B29EDD9EF004B9AB4 /* XCTHealthKit */; };
 		2FE5DCB129EE6107004B9AB4 /* AccountOnboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5DCAC29EE6107004B9AB4 /* AccountOnboarding.swift */; };
 		2FF53D8D2A8729D600042B76 /* Stanford360Standard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF53D8C2A8729D600042B76 /* Stanford360Standard.swift */; };
+		45E2F1172D82619E0097C339 /* MilestoneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E2F1162D8261980097C339 /* MilestoneTests.swift */; };
 		45E038232D503C0F009D07E2 /* HydrationViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E038222D503BFA009D07E2 /* HydrationViewTests.swift */; };
 		4D2965D82D7A8084000664B4 /* SpeziLLM in Frameworks */ = {isa = PBXBuildFile; productRef = 4D2965D72D7A8084000664B4 /* SpeziLLM */; };
 		4D2965DA2D7A8084000664B4 /* SpeziLLMFog in Frameworks */ = {isa = PBXBuildFile; productRef = 4D2965D92D7A8084000664B4 /* SpeziLLMFog */; };
@@ -137,6 +138,7 @@
 		2FE5DC5529EDD811004B9AB4 /* SocialSupportQuestionnaire.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SocialSupportQuestionnaire.json; sourceTree = "<group>"; };
 		2FE5DCAC29EE6107004B9AB4 /* AccountOnboarding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountOnboarding.swift; sourceTree = "<group>"; };
 		2FF53D8C2A8729D600042B76 /* Stanford360Standard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stanford360Standard.swift; sourceTree = "<group>"; };
+		45E2F1162D8261980097C339 /* MilestoneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneTests.swift; sourceTree = "<group>"; };
 		45E038222D503BFA009D07E2 /* HydrationViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydrationViewTests.swift; sourceTree = "<group>"; };
 		4FC5EF032D78162800BFDFFD /* KidsOnboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KidsOnboarding.swift; sourceTree = "<group>"; };
 		4FCAD0582D5AAD20007324A6 /* ActivityViewUITest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewUITest.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		45E2F0FC2D82132B0097C339 /* HydrationTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = HydrationTests; sourceTree = "<group>"; };
+		45E2F12D2D8291E30097C339 /* HydrationUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = HydrationUITests; sourceTree = "<group>"; };
 		4DB472D62D80459F005E895E /* ProteinTest */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ProteinTest; sourceTree = "<group>"; };
 		4F8EA0B92D680A4400A94137 /* Activity */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Activity; sourceTree = "<group>"; };
 		4FF18DDD2D5FAB5E00E13832 /* ActivityTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ActivityTests; sourceTree = "<group>"; };
@@ -355,6 +358,7 @@
 		653A256028338800005D4D48 /* Stanford360Tests */ = {
 			isa = PBXGroup;
 			children = (
+				45E2F1162D8261980097C339 /* MilestoneTests.swift */,
 				45E2F0FC2D82132B0097C339 /* HydrationTests */,
 				4DB472D62D80459F005E895E /* ProteinTest */,
 				4FF18DDD2D5FAB5E00E13832 /* ActivityTests */,
@@ -366,7 +370,7 @@
 		653A256A28338800005D4D48 /* Stanford360UITests */ = {
 			isa = PBXGroup;
 			children = (
-				45E038222D503BFA009D07E2 /* HydrationViewTests.swift */,
+				45E2F12D2D8291E30097C339 /* HydrationUITests */,
 				2F4E237D2989A2FE0013F3D9 /* OnboardingTests.swift */,
 				653A256B28338800005D4D48 /* SchedulerTests.swift */,
 				2F4E23862989DB360013F3D9 /* ContactsTests.swift */,
@@ -514,6 +518,9 @@
 			dependencies = (
 				A9E1D3482C67B0A700CED217 /* PBXTargetDependency */,
 				653A256928338800005D4D48 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				45E2F12D2D8291E30097C339 /* HydrationUITests */,
 			);
 			name = Stanford360UITests;
 			packageProductDependencies = (
@@ -670,6 +677,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				653A256228338800005D4D48 /* Stanford360Tests.swift in Sources */,
+				45E2F1172D82619E0097C339 /* MilestoneTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -678,7 +686,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5680DD3E2AB8CD84004E6D4A /* ContributionsTest.swift in Sources */,
-				45E038232D503C0F009D07E2 /* HydrationViewTests.swift in Sources */,
 				2F4E23872989DB360013F3D9 /* ContactsTests.swift in Sources */,
 				2F4E237E2989A2FE0013F3D9 /* OnboardingTests.swift in Sources */,
 				653A256C28338800005D4D48 /* SchedulerTests.swift in Sources */,
