@@ -17,18 +17,6 @@ extension Stanford360Standard {
             return
         }
 
-//        var updatedMeal = meal
-//
-//        // If an image is selected, upload the image and get its download URL
-//        if let image = selectedImage {
-//            if let imageURL = await uploadImageToFirebase(image, imageName: meal.name) {
-//                updatedMeal.imageURL = imageURL
-//                print("✅ Image URL uploaded: \(imageURL)")
-//            } else {
-//                print("❌ Failed to upload image.")
-//            }
-//        }
-
         // store the Meal to Firestore
         do {
             let docRef = try await configuration.userDocumentReference
