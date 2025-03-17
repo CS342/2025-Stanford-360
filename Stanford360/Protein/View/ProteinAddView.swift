@@ -44,19 +44,6 @@ struct ProteinAddView: View {
                 .offset(y: -250)
         }
     }
-	
-    /*
-	private var motivationText: some View {
-		Text(proteinManager.triggerMotivation())
-			.font(.headline)
-			.foregroundColor(.blue)
-			.padding()
-			.background(
-				RoundedRectangle(cornerRadius: 15)
-					.fill(Color.blue.opacity(0.1))
-			)
-	}
-     */
 }
 
 #Preview {

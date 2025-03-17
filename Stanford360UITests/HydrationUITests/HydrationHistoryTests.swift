@@ -44,7 +44,6 @@ final class HydrationHistoryViewTests: XCTestCase {
         app.staticTexts["20 oz"].tap()
         logButton.tap()
         
-        // let historyButton = app.buttons["History"]
         historyButton.tap()
         
         let hydrationLogEntry = app.staticTexts["hydrationLogEntry"]

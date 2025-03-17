@@ -833,12 +833,6 @@
         }
       }
     },
-    "What did you do?" : {
-
-    },
-    "When did you do it?" : {
-
-    },
     "You need %@ %@ more to reach your goal!" : {
       "localizations" : {
         "en" : {
