@@ -15,7 +15,7 @@ struct AddActivitySheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(Stanford360Standard.self) private var standard
     @Environment(ActivityManager.self) private var activityManager
-    @Environment(Stanford360Scheduler.self) var scheduler
+//    @Environment(Stanford360Scheduler.self) var scheduler
     
     // Activity properties that can be initialized for editing
     @State private var activeMinutes: String
@@ -63,13 +63,6 @@ struct AddActivitySheet: View {
             saveButtonView
             Spacer()
         }
-    }
-    
-    private var headerView: some View {
-        Text(isEditing ? "Edit Your Activity! 📝" : "Add Your Activity! 🎯")
-            .font(.title)
-            .bold()
-            .padding(.top)
     }
     
     private var saveButtonView: some View {
@@ -124,14 +117,14 @@ struct AddActivitySheet: View {
             activityType: selectedActivity
         )
         
-        let prevActivityMinutes = activityManager.getTodayTotalMinutes()
+//        let prevActivityMinutes = activityManager.getTodayTotalMinutes()
         let lastRecordedMilestone = activityManager.getLatestMilestone()
         activityManager.activities.append(newActivity)
       
-        let activityMinutes = activityManager.getTodayTotalMinutes()
+//        let activityMinutes = activityManager.getTodayTotalMinutes()
         let updatedStreak = activityManager.streak
         await standard.addActivityToFirestore(newActivity)
-        await scheduler.handleNotificationsOnLoggedActivity(prevActivityMinutes: prevActivityMinutes, newActivityMinutes: activityMinutes)
+//        await scheduler.handleNotificationsOnLoggedActivity(prevActivityMinutes: prevActivityMinutes, newActivityMinutes: activityMinutes)
         activityManager.milestoneManager.displayMilestoneMessage(
             newTotal: Double(activityManager.getTodayTotalMinutes()),
             lastMilestone: lastRecordedMilestone,

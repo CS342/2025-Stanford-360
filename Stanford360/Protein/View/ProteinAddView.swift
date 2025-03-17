@@ -30,7 +30,7 @@ struct ProteinAddView: View {
                     iconSize: 13,
                     showProgressTextInCenter: true
                 )
-                .frame(maxHeight: 210)
+                .frame(height: 210)
                 .padding(.top, 30)
                 
                 Text.goalMessage(current: proteinManager.getTodayTotalGrams(), goal: 60, unit: "g")
