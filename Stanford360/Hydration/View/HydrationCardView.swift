@@ -17,13 +17,14 @@ struct HydrationCardView: View {
 	var body: some View {
 		HStack {
 			Text("Water")
-				.font(.title3.bold())
+				.font(.system(size: 20))
+				.foregroundColor(.textSecondary)
 			
 			Spacer()
 			
 			Text("\(Int(hydrationLog.hydrationOunces)) oz")
-				.font(.title3)
-				.foregroundStyle(.blue)
+				.font(.system(size: 20))
+				.foregroundColor(Color.hydrationColor)
 		}
 		.padding(16)
 		.background(Color.cardBackground)

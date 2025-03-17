@@ -27,11 +27,16 @@ final class Stanford360Scheduler: Module, DefaultInitializable, EnvironmentAcces
 	internal let sundayWeightNotificationTaskID = "sunday-weight-notification"
 	
 	internal let belowHalfActivity5PMNotificationTaskID = "below-half-activity-5pm-notif"
+	// periphery:ignore
 	internal let halfActivity5PMNotificationTaskID = "half-activity-5pm-notif"
+	// periphery:ignore
 	internal let fullActivity5PMNotificationTaskID = "full-activity-5pm-notif"
+	// periphery:ignore
 	internal let halfActivityImmediateNotificationTaskID = "half-activity-immediate-notif"
+	// periphery:ignore
 	internal let fullActivityImmediateNotificationTaskID = "full-activity-immediate-notif"
 		
+	// periphery:ignore
 	internal let dateRange1Day: Range<Date> = Date()..<Date().addingTimeInterval(60 * 60 * 24 * 1)
 
     init() {}
