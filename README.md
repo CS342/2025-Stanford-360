@@ -31,16 +31,26 @@ This app is designed to support pediatric patients undergoing metabolic and bari
 The App consists of four main screens.
 
 ### Dashboard
+The Dashboard module in Stanford 360 is a centralized view for users to see their daily progress in following the 60-60-60 rule. It features the progress rings from all views alongside individual progress bars and streaks per 60-60-60. The dashboard also features their adherence to the 60-60-60 rule in a weekly graph and the ability to export and share these data visualizations as a PDF.
+
+<table>
+  <tr>
+    <td><img width="250" alt="Screenshot 2025-03-17 at 4 33 19 AM" src="https://github.com/user-attachments/assets/311b7a68-daaf-439b-bee2-fa6317bad813" /></td>
+    <td><img width="250" alt="Screenshot 2025-03-17 at 4 33 27 AM" src="https://github.com/user-attachments/assets/7e1bcac1-b858-4a89-9687-3fcf7955dbb8" /></td>
+    <td><img width="250" alt="Screenshot 2025-03-17 at 4 33 31 AM" src="https://github.com/user-attachments/assets/7a5df0d9-fc78-4ea7-8d80-6cb00d846aad" /></td>
+    <td><img width="250" alt="Screenshot 2025-03-17 at 4 33 35 AM" src="https://github.com/user-attachments/assets/b4d0e515-9913-4dc3-bdb7-c7044be17428" /></td>
+  </tr>
+</table>
 
 ### Activity
 The Activity module in Stanford 360 features a progress ring that tracks daily physical activity, aiming for 60 minutes. Users can log activities like Walking, Running, and Sports by selecting a date and entering active minutes. Logged activities sync with Firestore, HealthKit, and local storage. HealthKit integration converts steps into active minutes (100 steps/min), with a warning if disconnected.
 
 <table>
   <tr>
-    <td><img src="https://github.com/user-attachments/assets/018c545c-1b34-420d-85e2-f8b3f9856c6b#gh-light-mode-only" width="250"></td>
-    <td><img src="https://github.com/user-attachments/assets/29efa538-c3f0-465e-9096-3637dfd44647#gh-dark-mode-only" width="250"></td>
-    <td><img src="https://github.com/user-attachments/assets/d100c139-fc57-49ee-bf81-15c1d3974e2c#gh-light-mode-only" width="250"></td>
-    <td><img src="https://github.com/user-attachments/assets/cd801be2-c51b-49f3-aafd-25398df0ad54#gh-dark-mode-only" width="250"></td>
+    <td><img width="250" alt="Screenshot 2025-03-17 at 4 33 53 AM" src="https://github.com/user-attachments/assets/4366f084-d0c1-4f2b-8516-1c678ca80301" />
+</td>
+    <td><img width="250" alt="Screenshot 2025-03-17 at 4 34 50 AM" src="https://github.com/user-attachments/assets/0cb6b336-592f-4315-9170-8017ee828954" />
+</td>
   </tr>
 </table>
 
@@ -49,10 +59,8 @@ The central focus is a progress ring that visually represents the user's current
 
 <table>
   <tr>
-    <td><img src="https://github.com/user-attachments/assets/386052d2-c30d-4c04-a642-8c8dd73ffb24#gh-light-mode-only" width="250"></td>
-    <td><img src="https://github.com/user-attachments/assets/991e1ca4-d702-482f-bf7b-53737a38e857#gh-dark-mode-only" width="250"></td>
-    <td><img src="https://github.com/user-attachments/assets/d5f7f580-c4aa-4859-ae89-3756ee9c8799#gh-light-mode-only" width="250"></td>
-    <td><img src="https://github.com/user-attachments/assets/2d1bc9ea-1b64-4107-a858-d22f55784fde#gh-dark-mode-only" width="250"></td>
+    <td><img width="250" alt="Screenshot 2025-03-17 at 4 34 03 AM" src="https://github.com/user-attachments/assets/542015d2-0aea-48d3-8f22-08c1e4dffd40" />
+</td>
   </tr>
 </table>
 
@@ -61,10 +69,12 @@ The protein module designed to help users monitor their daily protein intake thr
 
 <table>
   <tr>
-    <td><img src="https://github.com/user-attachments/assets/1abee39f-5b83-43c7-8758-e54b45eb69ea#gh-light-mode-only" width="250"></td>
-    <td><img src="https://github.com/user-attachments/assets/8bc09404-7496-4f7c-9955-2e525599907e#gh-dark-mode-only" width="250"></td>
-    <td><img src="https://github.com/user-attachments/assets/ec7b8ac7-2a08-4216-a5d8-3f0261b46644#gh-light-mode-only" width="250"></td>
-    <td><img src="https://github.com/user-attachments/assets/caf88f14-f049-4c91-9141-28ee3c227ccc#gh-dark-mode-only" width="250"></td>
+    <td><img width="250" alt="Screenshot 2025-03-17 at 4 34 12 AM" src="https://github.com/user-attachments/assets/46d2a200-f03b-43ec-82ec-e0c0e97eac47" />
+</td>
+    <td><img width="250" alt="Screenshot 2025-03-17 at 4 34 28 AM" src="https://github.com/user-attachments/assets/06481a61-bae2-47de-9561-5cf14302ceb5" />
+</td>
+    <td><img width="250" alt="Screenshot 2025-03-17 at 4 35 17 AM" src="https://github.com/user-attachments/assets/d736f4d5-4b21-4090-8e9e-9ea736ef66cb" />
+</td>
   </tr>
 </table>
 
@@ -72,6 +82,18 @@ In addition to the specific features of each screen, we also provide essential f
 
 ### History
 The History feature allows users to track their complete past records for Protein, Activity, and Hydration, displayed in a card view organized by date. Users can access History separately from each view screen (Protein, Activity, and Hydration) via the top tab bar.
+
+<table>
+  <tr>
+    <td><img width="250" alt="Screenshot 2025-03-17 at 4 33 56 AM" src="https://github.com/user-attachments/assets/00eea4c1-a4f4-4596-9659-f8b50c75e141" />
+</td>
+    <td><img width="250" alt="Screenshot 2025-03-17 at 4 34 06 AM" src="https://github.com/user-attachments/assets/8952bf93-0b5a-47dd-bfa7-a65bf00f4d37" />
+</td>
+    <td><img width="250" alt="Screenshot 2025-03-17 at 4 34 14 AM" src="https://github.com/user-attachments/assets/6f1984df-29ac-48cb-9682-f7d209a50110" />
+</td>
+    
+  </tr>
+</table>
 
 ### Discover
 The Discover feature provides suggestions and educational insights for Protein, Activity, and Hydration, helping users make informed choices and build healthier habits.
@@ -87,12 +109,12 @@ The Discover feature provides suggestions and educational insights for Protein, 
   </tr>
 </table>
 
-
-
 ### Milestone/Goal
 The Milestone/Goal feature provides real-time progress updates and encouragement across the Protein, Activity, and Hydration views.
+
 #### Goal Tracking
 A goal check text is displayed in the center of each view. Before reaching 60, it will show the remaining amount needed to reach the 60-unit goal. Upon reaching 60, the text updates to display a congratulatory message.
+
 #### Milestone Tracking
 Every 20-unit increment triggers a milestone message to encourage progress. Upon reaching 60 units, a special milestone message appears, celebrating the achievement along with the current streak day.
 
@@ -105,7 +127,17 @@ Every 20-unit increment triggers a milestone message to encourage progress. Upon
   </tr>
 </table>
 
-### Notification
+### Notifications
+
+### Account View
+The Account View featured in the navigation toolbar of each view allows users to log their weight.
+
+<table>
+  <tr>
+    <td><img width="250" alt="Screenshot 2025-03-17 at 4 33 43 AM" src="https://github.com/user-attachments/assets/f9f7c784-7189-450b-9040-57649f97fe03" /></td>
+    <td><img width="250" alt="Screenshot 2025-03-17 at 4 33 46 AM" src="https://github.com/user-attachments/assets/181b5a8b-9296-40a6-a154-8a543a3f9420" /></td>
+  </tr>
+</table>
 
 > [!NOTE]  
 > Do you want to learn more about the Stanford Spezi Template Application and how to use, extend, and modify this application? Check out the [Stanford Spezi Template Application documentation](https://stanfordspezi.github.io/SpeziTemplateApplication)
