@@ -29,6 +29,7 @@ extension Stanford360Scheduler {
 		}
 	}
 	
+	// periphery:ignore
 	/// "delete" notification occurence of belowHalfActivity5PMNotificationTaskID by marking it complete such that it doesn't fire
 	@MainActor
 	func deleteNotificationOccurence(taskIds: [String]) {
@@ -46,6 +47,7 @@ extension Stanford360Scheduler {
 		}
 	}
 	
+	// periphery:ignore
 	@MainActor
 	func handleOnLoggedBefore5PM(_ surpassed30Minutes: Bool, _ surpassed60Minutes: Bool) {
 		if surpassed30Minutes || surpassed60Minutes {
@@ -87,6 +89,7 @@ extension Stanford360Scheduler {
 		}
 	}
 	
+	// periphery:ignore
 	@MainActor
 	func handleOnLoggedAtOrAfter5PM(_ surpassed30Minutes: Bool, _ surpassed60Minutes: Bool) {
 		let potentialEventIDs = [
@@ -128,6 +131,7 @@ extension Stanford360Scheduler {
 		}
 	}
 	
+	// periphery:ignore
 	@MainActor
 	func handleNotificationsOnLoggedActivity(prevActivityMinutes: Int, newActivityMinutes: Int) async {
 		let now = Date()

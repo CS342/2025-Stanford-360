@@ -50,7 +50,6 @@
 		2FE5DCB129EE6107004B9AB4 /* AccountOnboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5DCAC29EE6107004B9AB4 /* AccountOnboarding.swift */; };
 		2FF53D8D2A8729D600042B76 /* Stanford360Standard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF53D8C2A8729D600042B76 /* Stanford360Standard.swift */; };
 		45E2F1172D82619E0097C339 /* MilestoneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E2F1162D8261980097C339 /* MilestoneTests.swift */; };
-		45E038232D503C0F009D07E2 /* HydrationViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E038222D503BFA009D07E2 /* HydrationViewTests.swift */; };
 		4D2965D82D7A8084000664B4 /* SpeziLLM in Frameworks */ = {isa = PBXBuildFile; productRef = 4D2965D72D7A8084000664B4 /* SpeziLLM */; };
 		4D2965DA2D7A8084000664B4 /* SpeziLLMFog in Frameworks */ = {isa = PBXBuildFile; productRef = 4D2965D92D7A8084000664B4 /* SpeziLLMFog */; };
 		4D2965DC2D7A8084000664B4 /* SpeziLLMLocal in Frameworks */ = {isa = PBXBuildFile; productRef = 4D2965DB2D7A8084000664B4 /* SpeziLLMLocal */; };
@@ -139,7 +138,6 @@
 		2FE5DCAC29EE6107004B9AB4 /* AccountOnboarding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountOnboarding.swift; sourceTree = "<group>"; };
 		2FF53D8C2A8729D600042B76 /* Stanford360Standard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stanford360Standard.swift; sourceTree = "<group>"; };
 		45E2F1162D8261980097C339 /* MilestoneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneTests.swift; sourceTree = "<group>"; };
-		45E038222D503BFA009D07E2 /* HydrationViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydrationViewTests.swift; sourceTree = "<group>"; };
 		4FC5EF032D78162800BFDFFD /* KidsOnboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KidsOnboarding.swift; sourceTree = "<group>"; };
 		4FCAD0582D5AAD20007324A6 /* ActivityViewUITest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewUITest.swift; sourceTree = "<group>"; };
 		5680DD3D2AB8CD84004E6D4A /* ContributionsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributionsTest.swift; sourceTree = "<group>"; };

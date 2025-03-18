@@ -39,6 +39,7 @@ extension Stanford360Standard {
         }
     }
     
+	// periphery:ignore
     func deleteMealByID(byID id: String) async {
         do {
             let userDocRef = try await configuration.userDocumentReference
