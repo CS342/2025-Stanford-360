@@ -218,13 +218,7 @@
     "Dashboard" : {
 
     },
-    "Delete" : {
-
-    },
     "Don't forget your 60 minutes of daily activity!" : {
-
-    },
-    "Edit" : {
 
     },
     "Edit Your Activity! 📝" : {
@@ -464,13 +458,7 @@
         }
       }
     },
-    "Log Water Intake" : {
-
-    },
     "Log Weight" : {
-
-    },
-    "Log your water intake" : {
 
     },
     "Metric" : {
@@ -615,6 +603,9 @@
     "Save My Activity! 🌟" : {
 
     },
+    "Save My Water! 🌟" : {
+
+    },
     "Save your activity" : {
 
     },
@@ -755,6 +746,9 @@
     "Tracker Section" : {
 
     },
+    "Undo last activity log" : {
+
+    },
     "Unsupported Event" : {
       "localizations" : {
         "en" : {
@@ -832,12 +826,6 @@
           }
         }
       }
-    },
-    "What did you do?" : {
-
-    },
-    "When did you do it?" : {
-
     },
     "You need %@ %@ more to reach your goal!" : {
       "localizations" : {
