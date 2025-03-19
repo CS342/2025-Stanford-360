@@ -14,18 +14,23 @@ import SwiftUI
 struct ActivityTabView: View {
 	@State private var selectedTrackerSection: TrackerSection = .add
 	
-    var body: some View {
+	var body: some View {
 		VStack {
 			TrackerSegmentedPicker(selectedTrackerSection: $selectedTrackerSection)
 			
-			TabView(selection: $selectedTrackerSection) {
-				ActivityAddView().tag(TrackerSection.add)
-				ActivityHistoryView().tag(TrackerSection.history)
-				ActivityDiscoverView().tag(TrackerSection.discover)
+			Group {
+				switch selectedTrackerSection {
+				case .add:
+					ActivityAddView()
+				case .history:
+					ActivityHistoryView()
+				case .discover:
+					ActivityDiscoverView()
+				}
 			}
-			.tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
 		}
-    }
+		.frame(maxHeight: .infinity, alignment: .top)
+	}
 }
 
 #Preview {

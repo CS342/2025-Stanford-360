@@ -130,9 +130,6 @@
     "Activity Recommendations" : {
 
     },
-    "Add Your Activity! 🎯" : {
-
-    },
     "All Tasks" : {
 
     },
@@ -218,10 +215,13 @@
     "Dashboard" : {
 
     },
+    "Delete" : {
+
+    },
     "Don't forget your 60 minutes of daily activity!" : {
 
     },
-    "Edit Your Activity! 📝" : {
+    "Edit" : {
 
     },
     "Enable HealthKit in Settings to auto-track steps, or log activities manually." : {
