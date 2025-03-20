@@ -65,9 +65,10 @@ class Stanford360Delegate: SpeziAppDelegate {
 			ProteinManager()
 			HealthKitManager()
 			PatientManager()
-      LLMRunner {
-          LLMLocalPlatform()
-      }
+            
+          LLMRunner {
+              LLMLocalPlatform()
+          }
 		}
 	}
 	
