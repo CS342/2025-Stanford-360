@@ -16,29 +16,25 @@ struct ActivityCardView: View {
     @Environment(Stanford360Standard.self) private var standard
     @State private var showingAddActivitySheet = false
     @State private var isPerformingAction = false
-
+    
     var body: some View {
         HStack {
             // Activity Type with Emoji
             Text(activity.activityType)
-                .font(.title3.bold())
+                .font(.system(size: 20))
+                .foregroundColor(.textSecondary)
             
             Spacer()
             
             // Minutes with emphasis
             Text("\(activity.activeMinutes) min")
-                .font(.title3)
-                .foregroundStyle(.blue)
+                .font(.system(size: 20))
+                .foregroundColor(Color.activityColor)
         }
-        // .background(
-        //     RoundedRectangle(cornerRadius: 12)
-        //         .fill(Color.white)
-        //         .shadow(radius: 2)
-        // )
         .padding(16)
-		.background(Color.cardBackground)
-		.cornerRadius(15)
-		.shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 4)
+        .background(Color.cardBackground)
+        .cornerRadius(15)
+        .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 4)
         .swipeActions(edge: .leading, allowsFullSwipe: true) {
             Button {
                 showingAddActivitySheet = true

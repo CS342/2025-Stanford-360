@@ -50,7 +50,7 @@ struct HydrationControlPanel: View {
                 await logWaterIntake()
             }
         }) {
-            Text("Log Water Intake")
+            Text("Save My Water! 🌟")
                 .fontWeight(.bold)
                 .frame(maxWidth: .infinity)
                 .padding()
@@ -70,7 +70,7 @@ struct HydrationControlPanel: View {
         }
         .padding(.horizontal)
         .accessibilityIdentifier("logWaterIntakeButton")
-        .accessibilityLabel("Log your water intake")
+        .accessibilityLabel("Save My Water! 🌟")
     }
 
     // MARK: - Error Display

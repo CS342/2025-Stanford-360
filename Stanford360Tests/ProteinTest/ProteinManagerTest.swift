@@ -57,12 +57,4 @@ final class ProteinManagerTests: XCTestCase {
         let manager = ProteinManager(meals: [meal1, meal2, meal3])
         XCTAssertEqual(manager.streak, 2, "Streak should be 2 days")
     }
-    
-//    func testTriggerMotivation() {
-//        let meal1 = Meal(name: "Omelette", proteinGrams: 40, imageURL: "", timestamp: Date(), id: "11")
-//        let manager = ProteinManager(meals: [meal1])
-//        let motivationMessage = manager.triggerMotivation()
-//        
-//        XCTAssertTrue(motivationMessage.contains("Keep going"), "Message should encourage the user to reach 60g")
-//    }
 }

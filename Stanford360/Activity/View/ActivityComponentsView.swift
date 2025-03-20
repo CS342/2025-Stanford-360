@@ -83,43 +83,6 @@ struct ActivityPickerView: View {
     }
 }
 
-// MARK: - ActivityButtonView
-struct ActivityButtonView: View {
-    let activityName: String
-    let iconName: String
-    @Binding var selectedActivity: String
-    
-    var body: some View {
-        VStack(spacing: 6) {
-            Image(systemName: iconName)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 40, height: 40)
-                .foregroundColor(.blue) // Change color as needed
-                .accessibilityLabel(activityName)
-
-            Text(activityName)
-                .font(.subheadline)
-                .foregroundColor(.primary)
-        }
-        .frame(width: 65, height: 65)
-        .padding()
-        .background(
-            ZStack {
-                RoundedRectangle(cornerRadius: 12).fill(Color.white)
-                if selectedActivity == activityName {
-                    RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.blue, lineWidth: 3)
-                }
-            }
-        )
-        .shadow(radius: 2)
-        .onTapGesture {
-            selectedActivity = activityName
-        }
-    }
-}
-
 // MARK: - DatePickerView
 struct DatePickerView: View {
     @Binding var selectedDate: Date
@@ -225,9 +188,6 @@ struct ActionButton: View {
 
 struct SaveActivityButton: View {
     @Binding var showingAddActivity: Bool
-    var selectedActivity: String?
-    var minutes: String?
-    @State private var errorMessage: String?
     
     var body: some View {
         VStack(spacing: 10) {

@@ -30,7 +30,7 @@ struct ProteinAddView: View {
                     iconSize: 13,
                     showProgressTextInCenter: true
                 )
-                .frame(maxHeight: 210)
+                .frame(height: 210)
                 .padding(.top, 30)
                 
                 Text.goalMessage(current: proteinManager.getTodayTotalGrams(), goal: 60, unit: "g")
@@ -44,19 +44,6 @@ struct ProteinAddView: View {
                 .offset(y: -250)
         }
     }
-	
-    /*
-	private var motivationText: some View {
-		Text(proteinManager.triggerMotivation())
-			.font(.headline)
-			.foregroundColor(.blue)
-			.padding()
-			.background(
-				RoundedRectangle(cornerRadius: 15)
-					.fill(Color.blue.opacity(0.1))
-			)
-	}
-     */
 }
 
 #Preview {
