@@ -331,6 +331,7 @@ extension AddMealView {
                 .foregroundColor(.secondary)
             TextField("Enter \(title.lowercased())", text: text)
                 .keyboardType(keyboardType)
+                .accessibilityIdentifier(title == "Meal Name" ? "mealNameField" : "proteinField")
                 .padding()
                 .background(
                     RoundedRectangle(cornerRadius: 12)

@@ -33,6 +33,7 @@ struct ProteinHistoryView: View {
 						ForEach(proteinManager.reverseSortMealsByDate(mealsByDate[date] ?? [])) { meal in
 							NavigationLink(destination: MealDetailView(meal: meal)) {
 								ProteinCardView(meal: meal)
+                                    .accessibilityIdentifier("mealLogEntry")
 							}
 							.listRowSeparator(.hidden)
 						}
