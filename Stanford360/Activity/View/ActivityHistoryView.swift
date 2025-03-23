@@ -32,19 +32,7 @@ struct ActivityHistoryView: View {
 					Section(header: Text(date.formattedRelative())) {
 						ForEach(activityManager.reverseSortActivitiesByDate(activitiesByDate[date] ?? [])) { activity in
 							ActivityCardView(activity: activity)
-								.simultaneousGesture(
-									DragGesture(minimumDistance: 5)
-										.onChanged { value in
-											let isHorizontalDrag = abs(value.translation.width) > abs(value.translation.height)
-											let isQuickSwipe = abs(value.translation.width) < 20
-											
-											// If it's a quick, short horizontal swipe, let it through
-											// as it's likely attempting to access the swipe actions
-											if isHorizontalDrag && !isQuickSwipe {
-												// Consume the gesture to prevent TabView swiping
-											}
-										}
-								)
+								.listRowSeparator(.hidden)
 						}
 					}
 				}

@@ -85,17 +85,6 @@ class ActivityManager: Module, EnvironmentAccessible {
         minutes * 100
     }
     
-    func triggerMotivation() -> String {
-        if getTodayTotalMinutes() >= 60 {
-            return "🎉 Amazing! You've reached your daily goal of 60 minutes!"
-        } else if getTodayTotalMinutes() > 0 {
-            let remainingMinutes = 60 - getTodayTotalMinutes()
-            return "Keep going! Only \(remainingMinutes) more minutes to reach today's goal! 🚀"
-        } else {
-            return "Start your activity today and move towards your goal! 💪"
-        }
-    }
-    
     func saveToStorage() {
         do {
             let data = try JSONEncoder().encode(activities)

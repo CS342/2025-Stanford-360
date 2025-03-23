@@ -8,7 +8,7 @@
 import XCTest
 
 final class MilestoneManagerTests: XCTestCase {
-    var milestoneManager: MilestoneManager?  // ✅ Correct Optional Syntax
+    var milestoneManager: MilestoneManager?
 
     override func setUp() {
         super.setUp()
