@@ -40,21 +40,15 @@ struct ActivityAddView: View {
 				Text.goalMessage(current: Double(activityManager.getTodayTotalMinutes()), goal: 60, unit: "min")
 					.padding(.top, 10)
 
-				Spacer()
-				
-				VStack {
-					// Activity input components
-					ActivityPickerView(selectedActivity: $selectedActivity)
-						.padding()
-					
-					HStack {
-						saveNewActivityButton(showingAddActivity: $showingAddActivity)
-						
-						ActivityRecallButton()
-						.offset(x: -10)
-					}
+				// Activity input components
+				ActivityPickerView(selectedActivity: $selectedActivity)
+					.padding(.top, 20)
+
+				HStack {
+					saveNewActivityButton(showingAddActivity: $showingAddActivity)
+
+					ActivityRecallButton()
 				}
-				.padding(.bottom, 30)
 			}
 			.padding(.horizontal)
 			
