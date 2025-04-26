@@ -102,16 +102,17 @@ extension Stanford360Scheduler {
 	@MainActor
 	func maybeClearNotifications(loggedWeightTimestamp: Date) {
 		let weekday = Calendar.current.component(.weekday, from: loggedWeightTimestamp)
-		
+        let saturdayID = saturdayWeightNotificationTaskID
+        let sundayID = sundayWeightNotificationTaskID
+        
 		// if the user logged weight saturday or sunday, clear notifications
 		if weekday == 7 || weekday == 1 {
 			do {
                 // at most, need the next 2 days
-				let scheduledTasksToClear = try
-                scheduler.queryTasks(
+				let scheduledTasksToClear = try scheduler.queryTasks(
                     for: Date()..<Date().addingTimeInterval(60 * 60 * 24 * 2),
-                    predicate: #Predicate { $0.id == saturdayWeightNotificationTaskID ||
-                        $0.id == sundayWeightNotificationTaskID
+                    predicate: #Predicate { $0.id == saturdayID ||
+                        $0.id == sundayID
                     }
 				)
 				
