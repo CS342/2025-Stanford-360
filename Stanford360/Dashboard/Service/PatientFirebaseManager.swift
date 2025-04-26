@@ -102,10 +102,6 @@ extension Stanford360Standard {
 				try doc.data(as: Activity.self)
 			}
 			
-			//			hydration = try hydrationSnapshot.documents.compactMap { doc in
-			//				try doc.data(as: HydrationLog.self)
-			//			}
-			
 			// Process hydration logs with error handling for different formats
 			hydration = await processHydrationLogsDuringMigration(hydrationSnapshot: hydrationSnapshot)
 			

@@ -37,7 +37,6 @@ struct ProteinAddView: View {
                     .padding(.top, 10)
                 
                 Spacer()
-                // TODO - add meal logging interface to add view  // swiftlint:disable:this todo
             }
             MilestoneMessageView(unit: "grams of protein")
                 .environmentObject(proteinManager.milestoneManager)

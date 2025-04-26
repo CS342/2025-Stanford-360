@@ -345,38 +345,6 @@ extension AddMealView {
     }
 }
 
-// extension AddMealView {
-//    func getMealProtein(meal: String) async {
-//        await MainActor.run {
-//            self.proteinAmount = ""
-//        }
-//        let prompt = promptTemplate.constructPrompt(mealName: meal)
-//        
-//        let llmSchema = LLMLocalSchema(
-//            // model: .custom(id: <#T##String#>),
-//            model: .llama3_2_1B_4bit,
-//            parameters: .init(
-//                systemPrompt: prompt
-//            )
-//        )
-//        let llmSession = runner(with: llmSchema)
-//        var output = ""
-//        
-//        do {
-//            for try await token in try await llmSession.generate() {
-//                output.append(token)
-//            }
-//            await MainActor.run {
-//                self.proteinAmount = output
-//            }
-//            print("Protein extracted is ", proteinAmount)
-//        } catch {
-//            print("Error generating protein: \(error)")
-//        }
-//    }
-// }
-
-
 extension AddMealView {
     func saveMeal() async {
         isLoading = true

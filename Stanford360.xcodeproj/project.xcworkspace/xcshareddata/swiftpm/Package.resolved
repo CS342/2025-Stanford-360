@@ -429,8 +429,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/FelixHerrmann/swift-package-list",
       "state" : {
-        "revision" : "5e954ec39ce2374ff28a38224fd4e6bba7c57cdc",
-        "version" : "4.4.2"
+        "revision" : "5153e3246195215e2d2402e7ffa5ae6ec6e3fc5f",
+        "version" : "4.7.2"
       }
     },
     {
