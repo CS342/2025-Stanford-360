@@ -13,7 +13,6 @@ import SpeziViews
 import class ModelsR4.Questionnaire
 import class ModelsR4.QuestionnaireResponse
 
-
 @Observable
 final class Stanford360Scheduler: Module, DefaultInitializable, EnvironmentAccessible {
     @Dependency(Scheduler.self) @ObservationIgnored internal var scheduler
@@ -48,7 +47,6 @@ final class Stanford360Scheduler: Module, DefaultInitializable, EnvironmentAcces
 		configureHydrationScheduler()
     }
 }
-
 
 extension Task.Context {
     @Property(coding: .json) var questionnaire: Questionnaire?

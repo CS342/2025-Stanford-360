@@ -11,7 +11,6 @@ import SpeziAccount
 import SpeziContact
 import SwiftUI
 
-
 /// Displays the contacts for the Stanford 360.
 struct Contacts: View {
     let contacts = [

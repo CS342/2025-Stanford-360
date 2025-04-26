@@ -25,16 +25,11 @@
 		2FC3439229EE634B002D773C /* ConsentDocument.md in Resources */ = {isa = PBXBuildFile; fileRef = 2FE5DC2C29EDD78E004B9AB4 /* ConsentDocument.md */; };
 		2FC975A82978F11A00BA99FE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC975A72978F11A00BA99FE /* HomeView.swift */; };
 		2FE5DC2629EDD38A004B9AB4 /* Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5DC2529EDD38A004B9AB4 /* Contacts.swift */; };
-		2FE5DC3529EDD7CA004B9AB4 /* Consent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5DC2F29EDD7CA004B9AB4 /* Consent.swift */; };
 		2FE5DC3629EDD7CA004B9AB4 /* HealthKitPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5DC3029EDD7CA004B9AB4 /* HealthKitPermissions.swift */; };
 		2FE5DC3729EDD7CA004B9AB4 /* OnboardingFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5DC3129EDD7CA004B9AB4 /* OnboardingFlow.swift */; };
-		2FE5DC3829EDD7CA004B9AB4 /* InterestingModules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5DC3229EDD7CA004B9AB4 /* InterestingModules.swift */; };
-		2FE5DC3A29EDD7CA004B9AB4 /* Welcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5DC3429EDD7CA004B9AB4 /* Welcome.swift */; };
 		2FE5DC4029EDD7EE004B9AB4 /* FeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5DC3E29EDD7ED004B9AB4 /* FeatureFlags.swift */; };
 		2FE5DC4129EDD7EE004B9AB4 /* StorageKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5DC3F29EDD7EE004B9AB4 /* StorageKeys.swift */; };
-		2FE5DC4E29EDD7FA004B9AB4 /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5DC4829EDD7FA004B9AB4 /* ScheduleView.swift */; };
 		2FE5DC5229EDD7FA004B9AB4 /* Stanford360Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5DC4C29EDD7FA004B9AB4 /* Stanford360Scheduler.swift */; };
-		2FE5DC5329EDD7FA004B9AB4 /* Bundle+Questionnaire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5DC4D29EDD7FA004B9AB4 /* Bundle+Questionnaire.swift */; };
 		2FE5DC6429EDD883004B9AB4 /* SpeziAccount in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE5DC6329EDD883004B9AB4 /* SpeziAccount */; };
 		2FE5DC6729EDD894004B9AB4 /* SpeziContact in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE5DC6629EDD894004B9AB4 /* SpeziContact */; };
 		2FE5DC7229EDD8D3004B9AB4 /* SpeziHealthKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE5DC7129EDD8D3004B9AB4 /* SpeziHealthKit */; };
@@ -67,6 +62,7 @@
 		653A255528338800005D4D48 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 653A255428338800005D4D48 /* Assets.xcassets */; };
 		653A256228338800005D4D48 /* Stanford360Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653A256128338800005D4D48 /* Stanford360Tests.swift */; };
 		653A256C28338800005D4D48 /* SchedulerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653A256B28338800005D4D48 /* SchedulerTests.swift */; };
+		6C89EFB92DBD096200ED5CEC /* unused.rb in Resources */ = {isa = PBXBuildFile; fileRef = 6C89EFB82DBD096200ED5CEC /* unused.rb */; };
 		9733CFC62A8066DE001B7ABC /* SpeziOnboarding in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE5DC8029EDD91D004B9AB4 /* SpeziOnboarding */; };
 		9739A0C62AD7B5730084BEA5 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 9739A0C52AD7B5730084BEA5 /* FirebaseStorage */; };
 		97D73D6A2AD860AD00B47FA0 /* SpeziFirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 97D73D692AD860AD00B47FA0 /* SpeziFirebaseStorage */; };
@@ -83,7 +79,6 @@
 		C13ED86B2D656A0400033A55 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13ED8692D656A0400033A55 /* FeedView.swift */; };
 		C14F7E202D7704AE00916AAE /* AppNavigationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14F7E1F2D7704AE00916AAE /* AppNavigationState.swift */; };
 		C156248A2D6D6D9300298CEB /* DayTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15624892D6D6D9300298CEB /* DayTimelineView.swift */; };
-		C15624902D6D6E6E00298CEB /* InfiniteDayTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C156248F2D6D6E6E00298CEB /* InfiniteDayTimelineView.swift */; };
 		C15C64082D75CF8500979C62 /* LogWeightSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15C64072D75CF8500979C62 /* LogWeightSheet.swift */; };
 		C15C640A2D75CFF700979C62 /* LogWeightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15C64092D75CFF700979C62 /* LogWeightView.swift */; };
 		C18772D72D82A57D004967EC /* TPPDF in Frameworks */ = {isa = PBXBuildFile; productRef = C18772D62D82A57D004967EC /* TPPDF */; };
@@ -124,16 +119,11 @@
 		2FE5DC2529EDD38A004B9AB4 /* Contacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contacts.swift; sourceTree = "<group>"; };
 		2FE5DC2A29EDD78D004B9AB4 /* AppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon.png; sourceTree = "<group>"; };
 		2FE5DC2C29EDD78E004B9AB4 /* ConsentDocument.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ConsentDocument.md; sourceTree = "<group>"; };
-		2FE5DC2F29EDD7CA004B9AB4 /* Consent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Consent.swift; sourceTree = "<group>"; };
 		2FE5DC3029EDD7CA004B9AB4 /* HealthKitPermissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthKitPermissions.swift; sourceTree = "<group>"; };
 		2FE5DC3129EDD7CA004B9AB4 /* OnboardingFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingFlow.swift; sourceTree = "<group>"; };
-		2FE5DC3229EDD7CA004B9AB4 /* InterestingModules.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterestingModules.swift; sourceTree = "<group>"; };
-		2FE5DC3429EDD7CA004B9AB4 /* Welcome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Welcome.swift; sourceTree = "<group>"; };
 		2FE5DC3E29EDD7ED004B9AB4 /* FeatureFlags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureFlags.swift; sourceTree = "<group>"; };
 		2FE5DC3F29EDD7EE004B9AB4 /* StorageKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageKeys.swift; sourceTree = "<group>"; };
-		2FE5DC4829EDD7FA004B9AB4 /* ScheduleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		2FE5DC4C29EDD7FA004B9AB4 /* Stanford360Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stanford360Scheduler.swift; sourceTree = "<group>"; };
-		2FE5DC4D29EDD7FA004B9AB4 /* Bundle+Questionnaire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+Questionnaire.swift"; sourceTree = "<group>"; };
 		2FE5DC5529EDD811004B9AB4 /* SocialSupportQuestionnaire.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SocialSupportQuestionnaire.json; sourceTree = "<group>"; };
 		2FE5DCAC29EE6107004B9AB4 /* AccountOnboarding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountOnboarding.swift; sourceTree = "<group>"; };
 		2FF53D8C2A8729D600042B76 /* Stanford360Standard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stanford360Standard.swift; sourceTree = "<group>"; };
@@ -149,6 +139,7 @@
 		653A256728338800005D4D48 /* Stanford360UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Stanford360UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		653A256B28338800005D4D48 /* SchedulerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulerTests.swift; sourceTree = "<group>"; };
 		653A258928339462005D4D48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6C89EFB82DBD096200ED5CEC /* unused.rb */ = {isa = PBXFileReference; lastKnownFileType = text.script.ruby; path = unused.rb; sourceTree = "<group>"; };
 		A9720E422ABB68CC00872D23 /* AccountSetupHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSetupHeader.swift; sourceTree = "<group>"; };
 		A98FF2B02CD131F500DFC949 /* EventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventView.swift; sourceTree = "<group>"; };
 		A9A3DCC72C75CB9A00FC9B69 /* FirebaseConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseConfiguration.swift; sourceTree = "<group>"; };
@@ -157,7 +148,6 @@
 		C13ED8692D656A0400033A55 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		C14F7E1F2D7704AE00916AAE /* AppNavigationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationState.swift; sourceTree = "<group>"; };
 		C15624892D6D6D9300298CEB /* DayTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTimelineView.swift; sourceTree = "<group>"; };
-		C156248F2D6D6E6E00298CEB /* InfiniteDayTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfiniteDayTimelineView.swift; sourceTree = "<group>"; };
 		C15C64072D75CF8500979C62 /* LogWeightSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogWeightSheet.swift; sourceTree = "<group>"; };
 		C15C64092D75CFF700979C62 /* LogWeightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogWeightView.swift; sourceTree = "<group>"; };
 		C1CF13CE2D6D72C40057BC77 /* DailyScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyScheduleView.swift; sourceTree = "<group>"; };
@@ -262,10 +252,7 @@
 			isa = PBXGroup;
 			children = (
 				2FE5DC3129EDD7CA004B9AB4 /* OnboardingFlow.swift */,
-				2FE5DC3429EDD7CA004B9AB4 /* Welcome.swift */,
-				2FE5DC3229EDD7CA004B9AB4 /* InterestingModules.swift */,
 				2FE5DCAC29EE6107004B9AB4 /* AccountOnboarding.swift */,
-				2FE5DC2F29EDD7CA004B9AB4 /* Consent.swift */,
 				2FE5DC3029EDD7CA004B9AB4 /* HealthKitPermissions.swift */,
 				2F65B44D2A3B8B0600A36932 /* NotificationPermissions.swift */,
 				4FC5EF032D78162800BFDFFD /* KidsOnboarding.swift */,
@@ -288,8 +275,6 @@
 		2FE5DC3B29EDD7D0004B9AB4 /* Schedule */ = {
 			isa = PBXGroup;
 			children = (
-				2FE5DC4D29EDD7FA004B9AB4 /* Bundle+Questionnaire.swift */,
-				2FE5DC4829EDD7FA004B9AB4 /* ScheduleView.swift */,
 				A98FF2B02CD131F500DFC949 /* EventView.swift */,
 				2FE5DC4C29EDD7FA004B9AB4 /* Stanford360Scheduler.swift */,
 			);
@@ -330,26 +315,27 @@
 		653A254F283387FE005D4D48 /* Stanford360 */ = {
 			isa = PBXGroup;
 			children = (
-				C1C1EAA42D73BB87007D38F0 /* Shared */,
-				C1C1E6432D6E9A25007D38F0 /* Dashboard */,
-				C13ED86A2D656A0400033A55 /* Feed */,
-				4F8EA0B92D680A4400A94137 /* Activity */,
-				C1EFB0682D52FA2C008A6669 /* Protein */,
-				C1EFB0572D52F8E8008A6669 /* Hydration */,
+				6C89EFB82DBD096200ED5CEC /* unused.rb */,
+				C14F7E1F2D7704AE00916AAE /* AppNavigationState.swift */,
 				2FC975A72978F11A00BA99FE /* HomeView.swift */,
 				653A2550283387FE005D4D48 /* Stanford360.swift */,
 				2F5E32BC297E05EA003432F8 /* Stanford360Delegate.swift */,
 				2FF53D8C2A8729D600042B76 /* Stanford360Standard.swift */,
 				2F4E23822989D51F0013F3D9 /* Stanford360TestingSetup.swift */,
 				A9720E412ABB68B300872D23 /* Account */,
+				4F8EA0B92D680A4400A94137 /* Activity */,
 				2FE5DC2729EDD38D004B9AB4 /* Contacts */,
+				C1C1E6432D6E9A25007D38F0 /* Dashboard */,
+				C13ED86A2D656A0400033A55 /* Feed */,
 				A9A3DCC62C75CB8D00FC9B69 /* Firestore */,
+				C1EFB0572D52F8E8008A6669 /* Hydration */,
 				2FE5DC2829EDD398004B9AB4 /* Onboarding */,
+				C1EFB0682D52FA2C008A6669 /* Protein */,
 				2FE5DC2D29EDD792004B9AB4 /* Resources */,
 				2FE5DC3B29EDD7D0004B9AB4 /* Schedule */,
+				C1C1EAA42D73BB87007D38F0 /* Shared */,
 				2FE5DC3C29EDD7DA004B9AB4 /* SharedContext */,
 				2FC9759D2978E30800BA99FE /* Supporting Files */,
-				C14F7E1F2D7704AE00916AAE /* AppNavigationState.swift */,
 			);
 			path = Stanford360;
 			sourceTree = "<group>";
@@ -412,7 +398,6 @@
 			children = (
 				C13ED8692D656A0400033A55 /* FeedView.swift */,
 				C15624892D6D6D9300298CEB /* DayTimelineView.swift */,
-				C156248F2D6D6E6E00298CEB /* InfiniteDayTimelineView.swift */,
 				C1CF13CE2D6D72C40057BC77 /* DailyScheduleView.swift */,
 				C1CF13D92D6D76BE0057BC77 /* ScheduleTask.swift */,
 				C1CF13E62D6D7CF20057BC77 /* TaskStore.swift */,
@@ -610,6 +595,7 @@
 				2FC3439129EE6349002D773C /* AppIcon.png in Resources */,
 				653A255528338800005D4D48 /* Assets.xcassets in Resources */,
 				2FC3439029EE6346002D773C /* SocialSupportQuestionnaire.json in Resources */,
+				6C89EFB92DBD096200ED5CEC /* unused.rb in Resources */,
 				2FA0BFED2ACC977500E0EF83 /* Localizable.xcstrings in Resources */,
 				2F6025CB29BBE70F0045459E /* GoogleService-Info.plist in Resources */,
 			);
@@ -638,11 +624,7 @@
 			files = (
 				2FE5DC4129EDD7EE004B9AB4 /* StorageKeys.swift in Sources */,
 				2FE5DCB129EE6107004B9AB4 /* AccountOnboarding.swift in Sources */,
-				2FE5DC3A29EDD7CA004B9AB4 /* Welcome.swift in Sources */,
-				2FE5DC3829EDD7CA004B9AB4 /* InterestingModules.swift in Sources */,
-				2FE5DC3529EDD7CA004B9AB4 /* Consent.swift in Sources */,
 				2FC975A82978F11A00BA99FE /* HomeView.swift in Sources */,
-				2FE5DC4E29EDD7FA004B9AB4 /* ScheduleView.swift in Sources */,
 				A9DFE8A92ABE551400428242 /* AccountButton.swift in Sources */,
 				C15C64082D75CF8500979C62 /* LogWeightSheet.swift in Sources */,
 				A9A3DCC82C75CBBD00FC9B69 /* FirebaseConfiguration.swift in Sources */,
@@ -656,11 +638,9 @@
 				A9720E432ABB68CC00872D23 /* AccountSetupHeader.swift in Sources */,
 				2FE5DC4029EDD7EE004B9AB4 /* FeatureFlags.swift in Sources */,
 				2F4E23832989D51F0013F3D9 /* Stanford360TestingSetup.swift in Sources */,
-				C15624902D6D6E6E00298CEB /* InfiniteDayTimelineView.swift in Sources */,
 				A98FF2B12CD131F500DFC949 /* EventView.swift in Sources */,
 				C1CF13E72D6D7CF20057BC77 /* TaskStore.swift in Sources */,
 				C1CF13CF2D6D72C40057BC77 /* DailyScheduleView.swift in Sources */,
-				2FE5DC5329EDD7FA004B9AB4 /* Bundle+Questionnaire.swift in Sources */,
 				2F5E32BD297E05EA003432F8 /* Stanford360Delegate.swift in Sources */,
 				2FE5DC5229EDD7FA004B9AB4 /* Stanford360Scheduler.swift in Sources */,
 				A9FE7AD02AA39BAB0077B045 /* AccountSheet.swift in Sources */,
@@ -1337,7 +1317,7 @@
 			repositoryURL = "https://github.com/FelixHerrmann/swift-package-list";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 4.1.0;
+				minimumVersion = 4.7.2;
 			};
 		};
 		56E708332BB06B7100B08F0A /* XCRemoteSwiftPackageReference "SpeziLicense" */ = {

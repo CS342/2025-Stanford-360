@@ -106,9 +106,13 @@ extension Stanford360Scheduler {
 		// if the user logged weight saturday or sunday, clear notifications
 		if weekday == 7 || weekday == 1 {
 			do {
-				let scheduledTasksToClear = try scheduler.queryTasks(
-					for: Date()..<Date().addingTimeInterval(60 * 60 * 24 * 2), // at most, need the next 2 days
-					predicate: #Predicate { $0.id == saturdayWeightNotificationTaskID || $0.id == sundayWeightNotificationTaskID }
+                // at most, need the next 2 days
+				let scheduledTasksToClear = try
+                scheduler.queryTasks(
+                    for: Date()..<Date().addingTimeInterval(60 * 60 * 24 * 2),
+                    predicate: #Predicate { $0.id == saturdayWeightNotificationTaskID ||
+                        $0.id == sundayWeightNotificationTaskID
+                    }
 				)
 				
 				try scheduler.deleteTasks(scheduledTasksToClear)

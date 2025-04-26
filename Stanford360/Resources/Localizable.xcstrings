@@ -610,6 +610,7 @@
 
     },
     "Schedule" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -669,6 +670,7 @@
       }
     },
     "Start Questionnaire" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
